@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.sourceforge.net/">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>
+    	<wicket:message key="application.browser_title">
+    		[User Management]
+		</wicket:message>
+	</title>
+  </head>
+  <body>
+	<p>
+		<table width="100%" style="border-style: none">
+			<tr>
+				<td style="text-align: left">
+					<img src="images/logo.gif" style="background-color: white"/>
+				</td>
+				<td style="text-align: left">
+					<div>
+						<wicket:message key="application.title">
+							[User Management]
+						</wicket:message>
+					</div>
+				</td>
+				<td width="80px" style="text-align: right">
+				</td>
+			</tr>
+		</table>
+	</p>
+    <p>
+    <!-- 
+		<form wicket:id="signInForm">
+			<table>
+				<tr>
+					<td align="right"><wicket:message key="login.username" /></td>
+					<td>
+						<input wicket:id="username" type="text" size="15"/>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><wicket:message key="login.password" /></td>
+					<td>
+						<input wicket:id="password" type="password" size="15"/>
+					</td>
+				</tr>
+				<tr wicket:id="rememberMeRow">
+					<td></td>
+					<td> 
+						<input wicket:id="rememberMe" type="checkbox" />
+						<wicket:message key="login.remember_me" />
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input wicket:id="submit" type="submit" name="submit" wicket:message="value:login.submit" />
+						<input type="reset" value="Reset" wicket:message="value:login.reset" />
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<p>
+							<div wicket:id="login-message-label" key="login-message-label"/>
+						</p>
+					</td>
+				</tr>
+			</table>
+		</form>
+		 -->
+		 <div wicket:id="signInPanel" />
+	</p>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+org\dcm4chee\usr\dao\UserAccessBean.class
+org\dcm4chee\usr\model\Role.class
+org\dcm4chee\usr\util\JNDIUtils.class
+org\dcm4chee\usr\model\AETGroup.class
+org\dcm4chee\usr\dao\UserAccess.class
+org\dcm4chee\usr\model\Group.class

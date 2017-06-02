@@ -1,0 +1,55 @@
+/*
+	UserManagement CSS
+*/
+
+table.userlist {}
+table.userlist th {background: #99bbaa; border-color: #666;}
+table.userlist tr.even {background: #aaccbb;}
+table.userlist tr.odd {background: #99bbaa;}
+table.userlist td.centered {align: center;}
+table.userlist td.form {width: 150px;}
+
+div.userlist-input-desc {
+	border: none;
+	text-align: left;
+	height: 20;
+}
+div.userlist-input-value {
+	border: 1px solid;
+	float: left;
+	text-align: right;
+	margin: 0 6;
+	height: 20;
+}
+div.userlist-input-button {
+	background: none #aaaaaa;
+	padding: 5 0 0 0;
+	height: 30;
+	text-align: left;
+}
+
+form.add-user {width: 33%;}
+form.add-user tr.input {
+	background: #99bbaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+form.add-user tr.submit {
+	background: none #aaaaaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+
+form.add-role {width: 150px;}
+
+form.change-password {}
+form.change-password tr.input {
+	background: #99bbaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+form.change-password tr.submit {
+	background: none #aaaaaa;
+	padding: 1 0 0 0;
+	height: 30;
+}

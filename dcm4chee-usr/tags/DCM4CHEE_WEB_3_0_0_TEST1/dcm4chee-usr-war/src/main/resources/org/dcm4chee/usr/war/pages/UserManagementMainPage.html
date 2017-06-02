@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:wicket="http://wicket.apache.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	    <title>
+	    	<wicket:message key="application.browser_title">
+	    		[User Management]
+			</wicket:message>
+		</title>
+	</head>
+	<body>
+		<div wicket:id="window" />
+		<p>
+			<table width="100%" style="border-style: none">
+				<tr>
+					<td style="text-align: left">
+						<img src="images/logo.gif" style="background-color: white"/>
+					</td>
+					<td style="text-align: left">
+						<div>						
+						<wicket:message key="application.title">
+							[User Management]
+						</wicket:message>
+						</div>
+					</td>
+					<td width="140px" style="text-align: right">
+						<a wicket:id="change-my-password-link" href="#">
+							<wicket:message key="application.change_password">
+								[Change password]
+							</wicket:message>
+						</a>
+					</td>
+					<td width="50px" style="text-align: right">
+						<a wicket:id="logout-link" href="#">
+							<wicket:message key="application.logout">
+								[Log out]
+							</wicket:message>
+						</a>
+					</td>
+				</tr>
+			</table>
+		</p>
+		<div wicket:id="userListPanel"></div>
+	</body>
+</html>	

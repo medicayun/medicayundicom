@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:wicket="http://wicket.apache.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+	<wicket:panel>
+		<div wicket:id="change-password-window" />
+		<div wicket:id="confirmation-window" />
+		<p>
+			<button wicket:id="toggle-user-form-link" >
+				<img wicket:id="toggle-form-image-user" alt="New user" />
+				<span wicket:id="userlist.add-user-form.title" />
+			</button>
+			<form wicket:id="add-user-form" class="add-user">
+				 <table>
+				 	<tr class="input">
+				 		<td>
+							<div class="userlist-input-desc">
+								<span wicket:id="new-username-label" />
+							</div>
+						</td>
+						<td>
+							<div class="userlist-input-value">
+								<input wicket:id="userlist.add-user-form.username.input" type="text" size="15" autocomplete="off" />
+							</div>
+						</td>
+					</tr>
+				 	<tr class="input">
+				 		<td>
+							<div class="userlist-input-desc">
+								<span wicket:id="password-label-1" />
+							</div>
+						</td>
+						<td>
+							<div class="userlist-input-value">
+								<input wicket:id="userlist.add-user-form.password_1.input" type="password" size="15" autocomplete="off" />
+							</div>
+						</td>
+					</tr>
+				 	<tr class="input">
+				 		<td>
+							<div class="userlist-input-desc">
+								<span wicket:id="password-label-2" />
+							</div>
+						</td>
+						<td>
+							<div class="userlist-input-value">
+								<input wicket:id="userlist.add-user-form.password_2.input" type="password" size="15" autocomplete="off" />
+							</div>
+						</td>
+					</tr>
+					<tr class="submit">
+						<td>
+						</td>
+						<td>
+							<input wicket:id="add-user-submit" type="submit" wicket:message="value:userlist.add-user-form.save" />
+						</td>
+					</tr>
+				</table>
+			</form>
+		</p>
+		<br />
+		<table class="userlist">
+		  <thead>
+		    <tr>
+				<th>
+					<wicket:message key="userlist.table.userid_title">
+						[User ID]
+					</wicket:message>
+				</th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th wicket:id="role-headers"></th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr wicket:id="role-rows">
+				<td wicket:id="userID">
+		      		[User ID]
+		      	</td>		  
+				<td class="centered">
+					<a wicket:id="change-password-link" href="#">
+						<img wicket:id="img-change-password" />
+					</a>
+		      	</td>
+				<td class="centered">
+					<a wicket:id="remove-user-link" href="#">
+						<img wicket:id="img-delete" />
+					</a>
+		      	</td>
+				<td class="form">
+					<a wicket:id="toggle-role-form-link" href="#">
+						<img wicket:id="toggle-form-image-role" src="images/plus.gif" />
+					</a>
+					<form wicket:id="add-role-form" class="add-role">
+						<div wicket:id="new-rolename-label" class="userlist-input-desc" />
+						<input wicket:id="userlist.add-role-form.rolename.input" class="userlist-input-value" type="text" size="15" />
+						<div class="userlist-input-button">
+							<input wicket:id="add-role-submit" type="submit" wicket:message="value:userlist.add-role-form.submit" />
+						</div>
+					</form>
+		      	</td>
+	 	  	  	<td wicket:id="role-dividers" class="centered"">
+					<input wicket:id="role-checkbox" class="input-userlist" type="checkbox" />
+	 	  	  	</td>
+		    </tr>
+		  </tbody>
+		</table>
+		</wicket:panel>
+	</body>
+</html>	

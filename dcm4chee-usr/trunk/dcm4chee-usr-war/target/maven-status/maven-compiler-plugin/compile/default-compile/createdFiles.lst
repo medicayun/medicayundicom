@@ -1,0 +1,9 @@
+org\dcm4chee\usr\war\common\InternalErrorPage$1.class
+org\dcm4chee\usr\war\pages\UserManagementMainPage.class
+org\dcm4chee\usr\war\common\InternalErrorPage.class
+org\dcm4chee\usr\war\common\AccessDeniedPage$1.class
+org\dcm4chee\usr\war\WicketApplication.class
+org\dcm4chee\usr\war\common\AccessDeniedPage.class
+org\dcm4chee\usr\war\common\PageExpiredErrorPage$1.class
+org\dcm4chee\usr\war\common\PageExpiredErrorPage.class
+org\dcm4chee\usr\war\pages\LoginPage.class

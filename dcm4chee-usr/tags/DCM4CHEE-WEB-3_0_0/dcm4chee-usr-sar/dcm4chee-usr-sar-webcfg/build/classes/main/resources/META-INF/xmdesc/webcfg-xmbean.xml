@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<!--  Version $Revision:$ $Date:$ -->
+<mbean>
+      <description><![CDATA[<b>Web3 Configuration Service</b>
+		]]> </description>
+
+    <descriptors>
+       <persistence persistPolicy="OnUpdate"/>
+       <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+    </descriptors>
+
+    <class>org.dcm4chee.web.service.webcfg.WebCfgService</class>
+
+    <constructor>
+         <description>The default constructor</description>
+         <name>WebCfgService</name>
+    </constructor>
+
+   <attribute access="read-write"
+      getMethod="getWebConfigPath"
+      setMethod="setWebConfigPath">
+      <description><![CDATA[
+        Configuration Path for web specific config files.<br/>
+        A relative path name is resolved relative to archive-install-directory/server/default/.]]>
+      </description>
+      <name>WebConfigPath</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="conf/dcm4chee-web3"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getLoginAllowedRolename"
+      setMethod="setLoginAllowedRolename">
+      <description><![CDATA[Rolename for which login is allowed.
+      ]]></description>
+      <name>loginAllowedRolename</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LoginAllowed"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStudyPermissionsAllRolename"
+      setMethod="setStudyPermissionsAllRolename">
+      <description><![CDATA[Rolename who can manage all study permissions.
+      ]]></description>
+      <name>studyPermissionsAllRolename</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="StudyPermissionsAll"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStudyPermissionsOwnRolename"
+      setMethod="setStudyPermissionsOwnRolename">
+      <description><![CDATA[Rolename who can manage own study permissions.
+      ]]></description>
+      <name>studyPermissionsOwnRolename</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="StudyPermissionsOwn"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRolesMappingFilename"
+      setMethod="setRolesMappingFilename">
+      <description><![CDATA[Filename path for the roles mapping file (JSON format).<br/>
+      		A relative path name is resolved relative to <i>archive-install-directory</i>/server/default/.
+      ]]></description>
+      <name>rolesMappingFilename</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="conf/dcm4chee-web3/rolesMapping-roles.json"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isManageUsers"
+      setMethod="setManageUsers">
+      <description><![CDATA[Manage users in the web application.
+      ]]></description>
+      <name>manageUsers</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isUseStudyPermissions"
+      setMethod="setUseStudyPermissions">
+      <description><![CDATA[Let the web users manage study permissions using the web interface.
+      ]]></description>
+      <name>useStudyPermissions</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isWebStudyPermissions"
+      setMethod="setWebStudyPermissions">
+      <description><![CDATA[Apply the study permissions to the web application features.
+      ]]></description>
+      <name>webStudyPermissions</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRoot"
+      setMethod="setRoot">
+      <description><![CDATA[Name of the root user.
+      ]]></description>
+      <name>root</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="admin"/>
+      </descriptors>
+    </attribute>
+   
+   &defaultAttributes;
+   
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
