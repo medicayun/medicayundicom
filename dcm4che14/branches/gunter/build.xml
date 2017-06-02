@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project-module [ <!ENTITY config SYSTEM "file:./config.xml"> ]>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  Copyright (c) 1998-2000 by Jason Dillon <jason@planet57.com>          -->
+<!--  Copyright (c) 2001 by TIANI MEDGRAPH AG <gunter.zeilinger@tiani.com>  -->
+<!--                                                                        -->
+<!--  This file is part of dcm4che; a DICOM implementation in Java.         -->
+<!--                                                                        -->
+<!--  This library is free software; you can redistribute it and/or modify  -->
+<!--  it under the terms of the GNU Lesser General Public License as        -->
+<!--  published by the Free Software Foundation; either version 2 of the    -->
+<!--  License, or (at your option) any later version.                       -->
+<!--                                                                        -->
+<!--  This library is distributed in the hope that it will be useful, but   -->
+<!--  WITHOUT ANY WARRANTY; without even the implied warranty of            -->
+<!--  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     -->
+<!--  Lesser General Public License for more details.                       -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: build.xml 3451 2002-04-07 20:39:37Z gunterze $ -->
+
+<project default="main">
+
+  <!-- ================================================================== -->
+  <!-- Basic module configuration                                         -->
+  <!-- ================================================================== -->
+
+  <!--
+     |  Give users a chance to use a different Buildmagic.
+    -->
+  <property file="${user.home}/.buildmagic.properties"/>
+
+  <!-- 
+     |  Load Buildmagic Ant extentions. 
+    -->
+  <property name="planet57.buildmagic.root" value="${basedir}/../tools/planet57/buildmagic"/>
+  <property name="planet57.buildmagic.lib" value="${planet57.buildmagic.root}/lib"/>
+  <path id="planet57.buildmagic.classpath">
+    <fileset dir="${planet57.buildmagic.lib}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+  <taskdef name="taskdef" classname="planet57.tools.buildmagic.task.Taskdef"
+	   classpathref="planet57.buildmagic.classpath"/>
+  <taskdef classpathref="planet57.buildmagic.classpath"
+	   resource="planet57/tools/buildmagic/task/autoload.properties"/>
+
+  <!--
+     |  Setup the basic module roots.
+     |
+     |  module.root     - Should be the directory this file is in
+     |  project.root    - Where the project root directory is
+     |  project.config  - Where the project configuration files live
+   -->
+  <property name="module.root" value="${basedir}"/>
+  <property name="project.root">
+    <findroot basedir="." suffix="build/build.xml"/>
+  </property>
+  <property name="project.config" value="${project.root}/build"/>
+
+  <!-- 
+     |  Include user, project and module property overrides.
+     |
+     |  override.properties     - Used rarely (ignore)
+     |  .buildmagic.properties  - Provide Buildmagic specific properties
+     |  .ant.properties         - Ant properties
+     |  local.properties        - User local module properties
+     |  config.properties       - Used rarely (ignore)
+    -->
+  <property file="${project.config}/override.properties"/>
+  <property file="${module.root}/override.properties"/>
+  <property file="${user.home}/.buildmagic.properties"/>
+  <property file="${user.home}/.ant.properties"/>
+  <property file="${module.root}/local.properties"/>
+  <property file="${project.config}/local.properties"/>
+  <property file="${module.root}/config.properties"/>
+  <property file="${moudle.parent.config}/config.properties"/>
+
+  <!-- 
+     |  Setup the basic environment for a source module.
+     |
+     |  module.source    - The module source root
+     |  module.output    - The root where build output will be placed
+     |  module.build     - Where released files will be placed
+     |  module.release   - Where released files will be placed
+     |  tools.root       - Where to build support tools live
+     |  thirdparty.root  - Where to thirdparty libraries live
+    -->
+  <property name="module.source" value="${module.root}/src"/>
+  <property name="module.output" value="${module.root}/output"/>
+  <property name="module.build" value="${module.output}"/>
+  <property name="module.release" value="${module.output}"/>
+  <property name="tools.root" value="${project.root}/tools"/>
+  <property name="thirdparty.root" value="${project.root}/thirdparty"/>
+
+  <!-- 
+     |  Load project configuration.
+     |
+     |  config.xml  - Define most configuration elements here (required).
+    -->
+  &config;
+
+  
+  <!-- ================================================================== -->
+  <!-- Initialize, Configure and Bootstrap the build system               -->
+  <!-- ================================================================== -->
+
+  <!-- 
+     |  Bootstrap all required extensions.
+     |
+     |  Build local Ant extensions here if they are required.
+     |
+     |  This target will not run once the bootstraped-already is set.
+    -->
+  <target name="bootstrap" 
+	  depends="bootstrap-init" 
+	  unless="bootstraped-already">
+    <property name="bootstraped-already" value="true"/>
+  </target>
+
+  <!-- Fail if the required bootstrapping dependencies are missing -->
+  <target name="bootstrap-init" 
+	  depends="bootstrap-check" 
+	  unless="have-bootstrap-dependencies-already">
+    <echo>Missing some or all of the required dependencies.</echo>
+    <fail message="Can not continue."/>
+  </target>
+
+  <!-- Check for required libraries -->
+  <target name="bootstrap-check" unless="bootstraped-already">
+    <!-- Check for required extensions here -->
+    <property name="have-bootstrap-dependencies-already" value="true"/>
+  </target>
+
+  <!-- 
+     |  Configure the module build system.
+     |
+     |  o Updates/installs example files if they exist
+     |  o Invokes the 'configure-hook' target, which should be defined in 
+     |    config.xml.
+     |
+     |  This target will not run once the configured-already property is set.
+    -->
+  <target name="configure" 
+	  unless="configured-already"
+	  description="Configure the module build system.">
+    <property name="module.examples" value="${module.root}/etc"/>
+    <property name="module.examples.extension" value="-example"/>
+    <copy todir="${module.root}" filtering="yes">
+      <fileset dir="${module.examples}/">
+         <include name="**/*${module.examples.extension}"/>
+      </fileset>
+      <mapper type="glob" from="*${module.examples.extension}" to="*"/>
+    </copy>
+
+    <antcall target="configure-hook"/>
+    <property name="configured-already" value="true"/>
+  </target>
+
+  <!-- Disable execution of the configure target -->
+  <target name="disable-configure">
+    <property name="configured-already" value="true"/>
+  </target>
+
+  <!-- 
+     |  Initialize the build system.
+     |
+     |  o Sets the timestamp and build.number properties
+     |  o Installs property defaults
+     |  o Displays some module information
+     |  o Invokes to 'init-hook' target which should be defined in config.xml
+     |  o Resolves properties for psuedo late-binding
+     |  o Installs filters for each property
+     |
+     |  This target will not run once the initialized-already property is set.
+    -->
+  <target name="init" 
+	  depends="configure, bootstrap" 
+	  unless="initialized-already">
+    <tstamp>
+      <format property="build.number" pattern="yyyyMMddHHmm"/>
+    </tstamp>
+    <property name="build.id" value="${build.number}"/>
+    <property resource="planet57/tools/buildmagic/common.properties"/>
+    <property resource="planet57/tools/buildmagic/task.properties"/>
+    <moduleinfo/>
+    <call target="init-hook" unless="bypass-init-hook"/>
+    <resolver force="${buildmagic.resolveproperties.force}"/>
+    <propertyfilter all="${buildmagic.propertyfilter.all}"/>
+    <property name="initialized-already" value="true"/>
+  </target>
+
+  <!-- Disable execution of the init target -->
+  <target name="disable-init">
+    <property name="initialized-already" value="true"/>
+  </target>
+
+  <!-- Disable execution of the init-hook target -->
+  <target name="disable-init-hook">
+    <property name="bypass-init-hook" value="true"/>
+  </target>
+
+
+  <!-- ================================================================== -->
+  <!-- Compile                                                            -->
+  <!-- ================================================================== -->
+
+  <!-- 
+     |  Compile everything.
+     |
+     |  This target should depend on other compile-* targets for each 
+     |  different type of compile that needs to be performed, short of
+     |  documentation compiles.
+    -->
+  <target name="compile" 
+	  depends="compile-xslt,compile-classes,compile-demo"
+	  description="Compile all source files."/>
+
+  <!-- Generate source from XML -->
+  <target name="compile-xslt" depends="init">
+    <style processor="trax"
+        style="${source.etc}/Tags.xsl"
+        in="${source.etc}/dictionary.xml"
+        out="${source.java}/org/dcm4che/dict/Tags.java"
+    />
+
+    <style processor="trax"
+        style="${source.etc}/VRMap.xsl"
+        in="${source.etc}/dictionary.xml"
+        out="${source.java}/org/dcm4che/dict/VRMap.java"
+    />
+
+    <style processor="trax"
+        style="${source.etc}/UIDs.xsl"
+        in="${source.etc}/dictionary.xml"
+        out="${source.java}/org/dcm4che/dict/UIDs.java"
+    />
+  </target>
+  
+  <!-- Compile all class files -->
+  <target name="compile-classes" depends="compile-xslt">
+    <!-- property name="cp" refid="javac.classpath"/ -->
+    <!-- echo message="Classpath is ${cp}"/ -->
+    
+    <mkdir dir="${build.classes}"/>
+    <javac destdir="${build.classes}"
+           optimize="${javac.optimize}"
+	   target="${javac.target}"
+           debug="${javac.debug}"
+	   depend="${javac.depend}"
+	   verbose="${javac.verbose}"
+	   deprecation="${javac.deprecation}"
+	   includeAntRuntime="${javac.include.ant.runtime}"
+	   includeJavaRuntime="${javac.include.java.runtime}"
+	   failonerror="${javac.fail.onerror}">
+       <src path="${source.java}"/>
+       <classpath refid="javac.classpath"/>
+       <include name="${javac.includes}"/>
+       <exclude name="${javac.excludes}"/>
+    </javac>
+  </target>
+
+  <!-- Compile all class files -->
+  <target name="compile-demo" depends="compile-classes">
+    <!-- property name="cp" refid="javac.classpath"/ -->
+    <!-- echo message="Classpath is ${cp}"/ -->
+    
+    <mkdir dir="${build.classes}"/>
+    <javac destdir="${build.classes}"
+           optimize="${javac.optimize}"
+	   target="${javac.target}"
+           debug="${javac.debug}"
+	   depend="${javac.depend}"
+	   verbose="${javac.verbose}"
+	   deprecation="${javac.deprecation}"
+	   includeAntRuntime="${javac.include.ant.runtime}"
+	   includeJavaRuntime="${javac.include.java.runtime}"
+	   failonerror="${javac.fail.onerror}">
+       <src path="${source.demo}/data"/>
+       <src path="${source.demo}/imageio"/>
+       <src path="${source.demo}/imgdisp"/>
+       <src path="${source.demo}/media"/>
+       <classpath refid="javac.classpath"/>
+       <include name="${javac.includes}"/>
+       <exclude name="${javac.excludes}"/>
+    </javac>
+  </target>
+  
+  <!-- ================================================================== -->
+  <!-- Build Jars                                                         -->
+  <!-- ================================================================== -->
+
+  <!-- 
+     |  Build all jar files.
+    -->
+  <target name="jars" depends="compile" description="Builds all jar files.">
+    <mkdir dir="${build.jars}"/>
+    <mkdir dir="${build.jars}/demo"/>
+
+    <!-- Build dcm4che.jar -->
+    <copy todir="${module.build}" filtering="yes"
+          file="${source.etc}/dcm4che.mf"/>
+    <jar jarfile="${build.jars}/dcm4che.jar"
+         manifest="${module.build}/dcm4che.mf">
+      <fileset dir="${source.res}">
+        <exclude name="**/#*"/>
+        <exclude name="**/.*"/>
+        <exclude name="**/*~"/>
+        <exclude name="**/CVS/**"/>
+      </fileset>
+      <fileset dir="${build.classes}">
+        <include name="org/**"/>
+        <include name="tiani/**"/>
+      </fileset>
+    </jar>
+
+    <!-- Build dcm2xml.jar -->
+    <jar jarfile="${build.jars}/demo/dcm2xml.jar"
+         manifest="${source.demo}/data/dcm2xml.mf">
+      <fileset dir="${source.demo}/data">
+        <include name="resources/Xml2Txt.xsl"/>
+      </fileset>
+      <fileset dir="${build.classes}">
+        <include name="Dcm2Xml.class"/>
+      </fileset>
+    </jar>
+
+    <!-- Build xml2dcm.jar -->
+    <jar jarfile="${build.jars}/demo/xml2dcm.jar"
+         manifest="${source.demo}/data/xml2dcm.mf"
+         basedir="${build.classes}"
+         includes="Xml2Dcm.class"/>
+
+    <!-- Build dcmdir.jar -->
+    <jar jarfile="${build.jars}/demo/dcmdir.jar"
+         manifest="${source.demo}/media/dcmdir.mf">
+      <fileset dir="${source.demo}/media">
+        <include name="resources/DirBuilderPref.xml"/>
+        <include name="resources/DcmDir.xsl"/>
+      </fileset>
+      <fileset dir="${build.classes}">
+        <include name="DcmDir.class"/>
+      </fileset>
+    </jar>
+
+    <!-- Build imgdump.jar -->
+    <jar jarfile="${build.jars}/demo/imgdump.jar"
+         manifest="${source.demo}/imageio/imgdump.mf"
+         basedir="${build.classes}"
+         includes="ImageDumper.class"/>
+
+    <!-- Build imgflip.jar -->
+    <jar jarfile="${build.jars}/demo/imgflip.jar"
+         manifest="${source.demo}/imageio/imgflip.mf"
+         basedir="${build.classes}"
+         includes="ImageFlipper.class"/>
+
+    <!-- Build imgread.jar -->
+    <jar jarfile="${build.jars}/demo/imgread.jar"
+         manifest="${source.demo}/imageio/imgread.mf">
+      <fileset dir="${build.classes}">
+        <include name="ImageReadParamDemo.class"/>
+        <include name="ImagePanel.class"/>
+        <include name="ReadParamPanel.class"/>
+        <include name="ReadThread.class"/>
+      </fileset>
+    </jar>
+
+    <!-- Build imgdisp.jar -->
+    <jar jarfile="${build.jars}/demo/imgdisp.jar"
+         manifest="${source.demo}/imgdisp/imgdisp.mf">
+      <fileset dir="${source.demo}/imgdisp">
+        <include name="resources/**"/>
+        <exclude name="**/#*"/>
+        <exclude name="**/.*"/>
+        <exclude name="**/*~"/>
+        <exclude name="**/CVS/**"/>
+      </fileset>
+      <fileset dir="${build.classes}">
+        <include name="ImageBox*.class"/>
+        <include name="ImageDisplay*.class"/>
+        <include name="ImageDisplayApplet.class"/>
+        <include name="ToolBarButton.class"/>
+      </fileset>
+    </jar>
+  </target>
+
+
+  <!-- ================================================================== -->
+  <!-- Build documents                                                    -->
+  <!-- ================================================================== -->
+
+  <!-- 
+     |  Create all generated documenation.
+     |
+     |  This target should depend on other docs-* targets for each 
+     |  different type of docuementation that is to be generated.
+    -->
+  <target name="docs" depends="docs-api"
+	  description="Builds all documentation."/>
+
+  <!-- Javadocs is an exception, but provide a docs-api to conform. -->
+  <target name="docs-api" depends="javadocs"/>
+
+  <!-- 
+     |  Check if we need to build javadocs 
+     |
+     |  Javadocs will only be generated if one or more .java source files
+     |  is newer than the generated index.html.
+    -->
+  <target name="javadocs-check" depends="init">
+    <!-- if index.html is newer than the sources we are up to date -->
+    <uptodate property="javadoc-generated-already"
+	      targetfile="${build.api}/index.html">
+      <srcfiles dir="${source.java}" includes="**/*.java"/>
+    </uptodate>
+
+    <!-- create the directory here to prevent install/release from failing -->
+    <mkdir dir="${build.api}"/>
+  </target>	      
+
+  <!-- Generate Javadoc if we are out of date -->
+  <target name="javadocs" 
+	  depends="javadocs-check" 
+	  unless="javadoc-generated-already">
+    <javadoc packagenames="${javadoc.packages}"
+             sourcepath="${source.java}"
+             destdir="${build.api}"
+             classpathref="javadoc.classpath"
+             windowtitle="${javadoc.windowtitle}"
+	     splitindex="${javadoc.splitindex}"
+             doctitle="${javadoc.doctitle}"
+             author="${javadoc.author}"
+             version="${javadoc.version}"
+             public="${javadoc.public}"
+             package="${javadoc.package}"
+             protected="${javadoc.protected}"
+             private="${javadoc.private}"
+             encoding="${javadoc.encoding}"
+             use="${javadoc.use}"
+	     verbose="${javadoc.verbose}"> 
+      <!-- <group title="???" packages="*"/> -->
+    </javadoc>
+  </target>
+
+
+  <!-- ================================================================== -->
+  <!-- Builds a release distribution.                                     -->
+  <!-- ================================================================== -->
+
+  <target name="release" depends="most"
+	  description="Builds a release distribution.">
+    <!-- Copy the generated libraries (lib) -->
+    <mkdir dir="${release.lib}"/>
+    <copy todir="${release.lib}" filtering="no">
+      <fileset dir="${build.jars}">
+         <include name="*.jar"/>
+      </fileset>
+    </copy>
+
+    <!-- Copy the needed third party libraries (lib) -->
+    <copy todir="${release.demo}" filtering="no"
+          file="${gnu.getopt.lib}/getopt.jar" />
+    <copy todir="${release.demo}" filtering="no">
+      <fileset dir="${build.jars}/demo">
+         <include name="*.jar"/>
+      </fileset>
+    </copy>
+          
+    <!-- Zip source (lib) -->
+    <zip zipfile="${release.root}/src.zip">
+      <fileset dir="${source.java}">
+        <include name="**/*.java"/>
+        <include name="**/*.ser"/>
+      </fileset>
+    </zip>
+          
+    <!-- Copy example source -->
+    <mkdir dir="${release.demo}"/>
+    <copy todir="${release.demo}" filtering="no">
+      <fileset dir="${source.demo}">
+         <include name="**/*.java"/>
+         <include name="**/*.xsl"/>
+      </fileset>
+    </copy>
+    <!-- Out-commented Copy the generated javadocs
+    <mkdir dir="${release.module.api}"/>
+    <copy todir="${release.module.api}" filtering="no">
+      <fileset dir="${build.api}">
+         <include name="**/*"/>
+      </fileset>
+    </copy>
+    -->
+  </target>
+
+  <target name="release-archive-prepare" depends="release">
+    <mkdir dir="${module.release}"/>
+    <property name="release.archive.basename"
+	      value="${module.release}/${release.id}"/>
+  </target>
+
+  <target name="release-zip" depends="release-archive-prepare"
+	  description="Builds a ZIP release distribution.">
+    <zip zipfile="${release.archive.basename}.zip">
+      <fileset dir="${module.release}">
+        <include name="${release.id}/**"/>
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="release-tar" depends="release-archive-prepare"
+	  description="Builds a TAR release distribution.">
+    <tar tarfile="${release.archive.basename}.tar" longfile="gnu"
+	 basedir="${module.release}"
+	 includes="${release.id}/**">
+    </tar>
+  </target>
+
+  <target name="release-tgz" depends="release-tar"
+	  description="Builds a TAR-GZIP release distribution.">
+    <gzip src="${release.archive.basename}.tar"
+	  zipfile="${release.archive.basename}.tgz"/>
+  </target>
+
+  <target name="release-all" depends="release-zip, release-tgz"
+	  description="Builds a distribution for each archive type."/>
+
+
+  <!-- ================================================================== -->
+  <!-- Run tests                                                          -->
+  <!-- ================================================================== -->
+
+  <target name="tests" depends="tests-junit"
+	  description="Execute all tests."/>
+
+  <target name="tests-junit" depends="jars">
+    <mkdir dir="${build.reports}"/>
+    <junit dir="${module.output}"
+	   printsummary="${junit.printsummary}" 
+	   haltonerror="${junit.haltonerror}" 
+	   haltonfailure="${junit.haltonfailure}" 
+	   fork="${junit.fork}"
+	   timeout="${junit.timeout}"
+	   jvm="${junit.jvm}">
+
+      <!-- junit.jvm.options must have a valid value -->
+      <jvmarg value="${junit.jvm.options}"/>
+      <sysproperty key="jbosstest.deploy.dir" file="${build.jars}"/>
+
+      <classpath>
+        <pathelement location="${build.classes}"/>
+        <path refid="javac.classpath"/>
+        <path refid="apache.ant.classpath"/>
+        <path refid="apache.ant.ext.classpath"/>
+      </classpath>
+
+      <formatter type="${junit.formatter.type}"
+		 usefile="${junit.formatter.usefile}"/>
+
+      <batchtest todir="${build.reports}"
+		 haltonerror="${junit.batchtest.haltonerror}" 
+		 haltonfailure="${junit.batchtest.haltonfailure}" 
+		 fork="${junit.batchtest.fork}">
+
+        <fileset dir="${build.classes}">
+          <include name="**/Test*.class"/>
+          <include name="**/*Test.class"/>
+          <include name="**/AllJUnitTests.class"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+
+  <!-- ================================================================== -->
+  <!-- Cleans up generated stuff                                          -->
+  <!-- ================================================================== -->
+
+  <!-- Clean up all build output -->
+  <target name="clean" depends="disable-configure, disable-init-hook, init"
+	  description="Cleans up most generated files.">
+    <delete dir="${module.build}"/>
+    <delete dir="${module.release}"/>
+    <delete dir="${module.output}"/>
+  </target>
+
+  <!-- Clean up all generated files -->
+  <target name="clobber" depends="clean"
+	  description="Cleans up all generated files.">
+    <!-- Clean up configure generated files -->
+    <delete file="${module.root}/local.properties" quiet="true"/>
+  </target>
+
+
+  <!-- ================================================================== -->
+  <!-- Other Targets                                                      -->
+  <!-- ================================================================== -->
+
+  <target name="help">
+    <projecthelp>
+      <header><![CDATA[
+  The ${module.Name} module.
+]]></header>
+      <footer><![CDATA[
+    -projecthelp for all targets
+    -help for full options
+]]></footer>
+    </projecthelp>
+  </target>
+
+  <target name="main" depends="most"
+	  description="Executes the default target (most)."/>
+    
+  <target name="all" depends="jars, docs"
+	  description="Builds everything."/>
+
+  <target name="most" depends="jars"
+	  description="Builds almost everything."/>
+
+  <target name="min" depends="compile"
+	  description="Builds a minimal subset."/>
+
+</project>

@@ -1,0 +1,195 @@
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  Copyright (c) 1998-2000 by Jason Dillon <jason@planet57.com>          -->
+<!--  Copyright (c) 2001 by TIANI MEDGRAPH AG <gunter.zeilinger@tiani.com>  -->
+<!--                                                                        -->
+<!--  This file is part of dcm4che; a DICOM implementation in Java.         -->
+<!--                                                                        -->
+<!--  This library is free software; you can redistribute it and/or modify  -->
+<!--  it under the terms of the GNU Lesser General Public License as        -->
+<!--  published by the Free Software Foundation; either version 2 of the    -->
+<!--  License, or (at your option) any later version.                       -->
+<!--                                                                        -->
+<!--  This library is distributed in the hope that it will be useful, but   -->
+<!--  WITHOUT ANY WARRANTY; without even the implied warranty of            -->
+<!--  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     -->
+<!--  Lesser General Public License for more details.                       -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: config.xml 3451 2002-04-07 20:39:37Z gunterze $ -->
+
+  <!-- ================================================================== -->
+  <!-- Module Setup                                                       -->
+  <!-- ================================================================== -->
+
+  <!-- Module name(s) & version -->
+  <property name="module.name" value="dcm4che"/>
+  <property name="module.Name" value="Dcm4che"/>
+  <property name="module.version" value="1.0"/>
+
+
+  <!-- ================================================================== -->
+  <!-- Tool Setup                                                         -->
+  <!-- ================================================================== -->
+
+  <!-- Apache Ant and Optional Tasks -->
+  <property name="apache.ant.root" value="${tools.root}/apache/ant"/>
+  <property name="apache.ant.lib" value="${apache.ant.root}/lib"/>
+  <property name="apache.ant.lib.ext" value="${apache.ant.lib}/ext"/>
+  <path id="apache.ant.classpath">
+    <fileset dir="${apache.ant.lib}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+  <path id="apache.ant.ext.classpath">
+    <fileset dir="${apache.ant.lib.ext}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+
+  <!-- ================================================================== -->
+  <!-- Library Setup                                                      -->
+  <!-- ================================================================== -->
+
+  <!-- Java GNU getopt 1.0.8 -->
+  <property name="gnu.getopt.root" value="${thirdparty.root}/gnu/getopt"/>
+  <property name="gnu.getopt.lib" value="${gnu.getopt.root}/lib"/>
+  <path id="gnu.getopt.classpath">
+    <pathelement path="${gnu.getopt.lib}/getopt.jar"/>
+  </path>
+  
+  <!-- JUnit -->
+  <property name="junit.junit.root" value="${thirdparty.root}/junit/junit"/>
+  <property name="junit.junit.lib" value="${junit.junit.root}/lib"/>
+  <path id="junit.junit.classpath">
+    <pathelement path="${junit.junit.lib}/junit.jar"/>
+  </path>
+
+  <!-- JDicom -->
+  <property name="tiani.jdicom.root" value="${thirdparty.root}/tiani/jdicom"/>
+  <property name="tiani.jdicom.lib" value="${tiani.jdicom.root}/lib"/>
+
+  <!-- The combined library classpath -->
+  <path id="library.classpath">
+    <path refid="gnu.getopt.classpath"/>
+    <path refid="junit.junit.classpath"/>
+  </path>
+
+  <!-- ================================================================== -->
+  <!-- Dependent Module Setup                                             -->
+  <!-- ================================================================== -->
+ 
+  <!-- 
+     |  Dependent module paths should not use fileset expansion as that 
+     |  will throw an exception if the directory does not exist.  Use
+     |  a require task from the init-hook target to notify users when
+     |  a library from a dependent module does not exist.
+    -->
+
+  <!-- dcm4che -->
+  <property name="dcm4che.dcm4che.root"
+            value="${project.root}/dcm4che/output"/>
+  <property name="dcm4che.dcm4che.lib"
+            value="${dcm4che.dcm4che.root}/lib"/>
+  <path id="dcm4che.dcm4che.classpath">
+    <pathelement path="${dcm4che.dcm4che.lib}/dcm4che.jar"/>
+  </path>
+
+  <!-- The combined depedant module classpath -->
+  <path id="dependentmodule.classpath">
+    <path refid="dcm4che.dcm4che.classpath"/>
+  </path>
+
+
+  <!-- ================================================================== -->
+  <!-- Task Setup                                                         -->
+  <!-- ================================================================== -->
+
+  <!-- The combined thirdparty classpath -->
+  <path id="thirdparty.classpath">
+    <path refid="library.classpath"/>
+    <path refid="dependentmodule.classpath"/>
+  </path>
+
+  <!-- This module is based on Java 1.4 -->
+  <property name="javac.target" value="1.4"/>
+
+  <!-- classpath and local.classpath must have a value using with a path -->
+  <property name="classpath" value=""/>
+  <property name="local.classpath" value=""/>
+
+  <!-- The classpath required to build classes. -->
+  <path id="javac.classpath">
+    <pathelement path="${classpath}"/>
+    <pathelement path="${local.classpath}"/>
+    <path refid="thirdparty.classpath"/>
+  </path>
+
+  <!-- Packages to include when generating api documentation -->
+  <property name="javadoc.packages" value="org.dcm4che.*"/>
+
+  <!-- The classpath required to build javadocs. -->
+  <path id="javadoc.classpath">
+    <path refid="javac.classpath"/>
+  </path>
+
+  <!-- Override JUnit defaults -->
+  <property name="junit.timeout" value="240000"/> <!-- 4 minutes -->
+  <property name="junit.batchtest.todir" value="${build.reports}"/>
+  <property name="junit.jvm.options" value="-client"/>
+  <path id="junit.task.classpath">
+    <path refid="apache.ant.ext.classpath"/>
+    <path refid="junit.junit.classpath"/>
+  </path>
+
+  <!-- Where source files live -->
+  <property name="source.bin" value="${module.source}/bin"/>
+  <property name="source.conf" value="${module.source}/conf"/>
+  <property name="source.java" value="${module.source}/main"/>
+  <property name="source.demo" value="${module.source}/demo"/>
+  <property name="source.res" value="${module.source}/res"/>
+  <property name="source.etc" value="${module.source}/etc"/>
+
+  <!-- Where build generated files will go -->
+  <property name="build.classes" value="${module.build}/classes"/>
+  <property name="build.jars" value="${module.build}/lib"/>
+  <property name="build.api" value="${module.build}/api"/>
+  <property name="build.reports" value="${module.build}/reports"/>
+
+  <!-- Where release generated files will go -->
+  <property name="release.id" value="${module.name}-${module.version}-${build.id}"/>
+  <property name="release.root" value="${module.release}/${release.id}"/>
+
+  <property name="release.bin" value="${release.root}/bin"/>
+  <property name="release.conf" value="${release.root}/conf"/>
+  <property name="release.lib" value="${release.root}/lib"/>
+
+  <!-- Documentation and demo -->
+  <property name="release.docs" value="${release.root}/docs"/>
+  <property name="release.demo" value="${release.root}/demo"/>
+  <property name="release.api" value="${release.docs}/api"/>
+  <property name="release.module.docs" value="${release.docs}/${module.name}"/>
+  <property name="release.module.api" value="${release.api}/${module.name}"/>
+
+
+  <!-- ================================================================== -->
+  <!-- Initialization & Configure Hooks                                   --> 
+  <!-- ================================================================== -->
+
+  <!-- Executed at the end of the 'configure' target -->
+  <target name="configure-hook">
+    <!-- Execute custom configuration tasks here. -->
+  </target>
+
+  <!-- Executed at the end of the 'init' target -->
+  <target name="init-hook">
+    <!-- Execute custom initialization tasks here. -->
+    <require message="Build module dcm4che first!"
+             file="${dcm4che.dcm4che.lib}/dcm4che.jar"/>
+    <!-- for now disable this
+    <taskdef name="junit" classpathref="junit.task.classpath"
+	     classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
+    -->
+  </target>
