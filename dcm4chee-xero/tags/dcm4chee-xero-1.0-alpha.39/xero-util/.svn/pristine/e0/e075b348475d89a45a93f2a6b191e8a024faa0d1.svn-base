@@ -1,0 +1,52 @@
+<html>
+  <head><title>Pipe And Filter Framework Based on Xero MetaData</title></head>
+<body>
+  <h1>Pipe And Filter Framework Based on Xero MetaData</h1>
+  <p>This package contains a pipe and filter framework designed to allow servlets to use a variety of filter components
+  to generate the overall servlet response.  It is possible to use the filter for other mechanisms, as it isn't at all
+  tied to the servlet framework, but is a fully general framework.</p>
+
+<h2>Declaration of a Filter & Pipe</h2>
+<p>A filter can be declared in the meta-data just by declaring an instance of a class implementing Filter, while
+a filter chain/pipe can be declared by declaring a FilterList.  The order of the items is by the priority of the
+items, the default being 0.  Items less than zero aren't called at all, while the highest priority items are called 
+first (and do their work last typically, because they don't usually do much work until the filter returns.)  For example:
+<pre>
+source=${class:org.dcm4chee.xero.metadata.filter.FilterList}
+source.studySearch=${class:org.dcm4chee.xero.search.study.StudySearch}
+source.searchCondition=${class:org.dcm4chee.xero.search.study.StudySearchConditionParser}
+source.searchCondition=-1
+source.gsps=${class:org.dcm4chee.xero.search.filter.GspsDiscover}
+source.gsps.priority=100
+ </pre>
+ declares 4 filters, gsps, searchCondition, studySearch and the parent filter, source.  gsps is called first, followed
+ by studySearch.  searchCondition is only called explicitly, by name if required.</p>
+ 
+<h2>Calling a Filter or Pipe</h2>
+<p>A single filter can be called just by calling the filter method, assuming it calls no other filters.  However,
+to call a filter that uses the rest of the pipe requires getting the filterItem relevant to that object - this contains
+the information about the other filters and the ordering/setup of the filters.  The design is that filters themself 
+have no knowledge of organization/setup of other filters - they are single piece components.  They can call either
+a named filter or the next filter, but not a specific instance.  To call a filter with a filter item, use something like:
+<pre>
+MetaDataBean mdb = mdb.get("source");
+FilterList&lt;?> filter = (FilterList&lt;?>) mdb.getValue();
+FilterItem&lt;MyType> fi = new FilterItem(mdb);
+Object value = fi.callFilter(params);
+Object namedValue = filter.getNamedChild("searchCondition").callFilter(params);
+</pre>
+The value assignment gets created from child elements of the filter list, while the namedValue gets called
+from the specific named child, in this case a StudySearchConditionParser.  The named children do NOT need to return
+the same type, while the un-named children do need to return the same type.  Note that the first callFilter will 
+call all children, AND may call the next element in the list, whereas the named child will only call the specific
+named children.  In general, these aren't distinct, as one only calls the first and only top element in a list,
+but if the top has multiple elements and you want to only call the named sub-element, then use:
+Object value = fi.getFirstChild().callFilter(params) instead.
+</p>
+
+<h2>Pre-Existing Filters</h2>
+<p>See the class lists for more details, but there exist filters that perform memory caching as part of the base set
+of filters {@see MemoryCacheFilter}.</p>
+
+</body>
+</html>

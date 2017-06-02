@@ -1,0 +1,10 @@
+<headers 
+  xmlns:m="http://www.dcm4che.org/xero/metadata/model" 
+  m:studyColumns="${class:org.dcm4chee.xero.model.XmlModel}"
+  m:studyColumns.resource="studyColumns.xml"
+>
+  
+  <header name="Patient Name" var="PatientName" />
+  <header name="Patient ID" var="PatientID" />
+    
+</headers>

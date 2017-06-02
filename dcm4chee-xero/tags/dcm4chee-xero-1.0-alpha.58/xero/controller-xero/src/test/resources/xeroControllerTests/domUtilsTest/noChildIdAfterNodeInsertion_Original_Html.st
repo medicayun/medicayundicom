@@ -1,0 +1,13 @@
+$dtd()$
+<html>
+<body>
+<div id="A" someAttr0="attr0Value">
+<div id="Aa">
+</div>
+<noIdNode0 someAttr0="attr0Value">
+</noIdNode0>
+<div id="Ab">
+</div>
+</div>
+</body>
+</html>

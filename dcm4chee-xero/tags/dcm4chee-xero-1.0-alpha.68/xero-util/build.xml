@@ -1,0 +1,29 @@
+<project name="xero-util" default="install">
+  <property name="version.ownVersion" value="true" />
+  <property name="version.increment" value="745" />
+
+  <property file="build.properties" />
+  <property name="baseAntDefns" value="../xero-util/baseBuild.xml" />
+  <property name="version.tags" value="https://dcm4che.svn.sourceforge.net/svnroot/dcm4che/dcm4chee/xero/${version.parent.tagdir}" />
+
+  <import file="${baseAntDefns}" />
+
+  <!-- Recursively calls "childCall" on all child elements -->
+  <target name="recurseChildrenAll">
+     <ant dir="stringtemplate" target="${childCall}" inheritAll="false" antfile="build-util.xml">
+      <propertyset refid="childProperties" />
+     </ant>
+     <ant dir="metadata" target="${childCall}"  inheritAll="false">
+      <propertyset refid="childProperties" />
+     </ant>
+     <ant dir="util-jar" target="${childCall}"  inheritAll="false">
+      <propertyset refid="childProperties" />
+     </ant>
+     <ant dir="rhino-access" target="${childCall}"  inheritAll="false">
+      <propertyset refid="childProperties" />
+     </ant>
+  </target>
+
+
+</project>
+

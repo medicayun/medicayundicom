@@ -1,0 +1,18 @@
+group groupFile;
+
+groupTemplate() ::= <<
+The group template.
+>>
+
+useMap() ::= <<
+a=<groupMap.a>
+one=<groupMap.one>
+other default=<groupMap.other>
+>>
+
+groupMap ::= [
+   "a":"eh",
+   "one":"1",
+   default:"def"
+]
+

@@ -1,0 +1,94 @@
+<?xml version="1.0" ?>
+<!DOCTYPE web-app PUBLIC 
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd">
+ 
+<web-app>
+         
+   <filter>
+      <filter-name>TimeFilter</filter-name>
+      <filter-class>org.dcm4chee.xero.servlet.TimeFilter</filter-class>
+   </filter>
+
+   <filter-mapping>
+      <filter-name>TimeFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
+   
+   <servlet>
+      <servlet-name>Xero Servlet</servlet-name>
+      <servlet-class>org.dcm4chee.xero.metadata.servlet.MetaDataServlet</servlet-class>
+      <init-param>
+	      <param-name>metaData</param-name>
+    	  <param-value>xero.metadata</param-value>
+      </init-param>
+      <init-param>
+      	<param-name>filter</param-name>
+      	<param-value>controller</param-value>
+      </init-param>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   
+   <servlet>
+      <servlet-name>Xero Filter JS Servlet</servlet-name>
+      <servlet-class>org.dcm4chee.xero.metadata.servlet.MetaDataServlet</servlet-class>
+      <init-param>
+	      <param-name>metaData</param-name>
+    	  <param-value>xero.metadata</param-value>
+      </init-param>
+      <init-param>
+	      <param-name>filter</param-name>
+    	  <param-value>jscontroller</param-value>
+      </init-param>
+      <load-on-startup>1</load-on-startup>      
+   </servlet>
+   
+   <servlet-mapping>
+      <servlet-name>Xero Filter JS Servlet</servlet-name>
+   	  <url-pattern>*.jst</url-pattern>
+   </servlet-mapping>
+
+   <servlet-mapping>
+      <servlet-name>Xero Servlet</servlet-name>
+      <url-pattern>/xero</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>Xero Servlet</servlet-name>
+      <url-pattern>/index.html</url-pattern>
+   </servlet-mapping>
+
+   <security-constraint>
+     <display-name>Xero Security Constraint</display-name>
+     <web-resource-collection>
+       <web-resource-name>dispatcher</web-resource-name>
+       <description>Only allows users with the role WebUser to access Xero.</description>
+       <url-pattern>/xero</url-pattern>
+       <url-pattern>/index.html</url-pattern>
+       <http-method>GET</http-method>
+       <http-method>POST</http-method>
+     </web-resource-collection>
+     <auth-constraint>
+       <role-name>WebUser</role-name>
+     </auth-constraint>
+   </security-constraint>
+   
+   <login-config>
+      <auth-method>FORM</auth-method>
+      <realm-name>web-console</realm-name>
+      <form-login-config>
+	      <form-login-page>/login.jsp</form-login-page>
+	      <form-error-page>/error.jsp</form-error-page>
+	  </form-login-config>
+   </login-config>
+
+   <security-role>
+      <role-name>WebUser</role-name>
+   </security-role>
+   <security-role>
+      <role-name>Doctor</role-name>
+   </security-role>
+   <security-role>
+      <role-name>WebAdmin</role-name>
+   </security-role>
+   
+</web-app>      

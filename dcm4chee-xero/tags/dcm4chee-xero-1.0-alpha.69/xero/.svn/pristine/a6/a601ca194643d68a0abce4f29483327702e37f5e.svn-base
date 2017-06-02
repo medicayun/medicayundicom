@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Xero View Templates</title>
+</head>
+<body>
+  <h1>Xero View Templates</h1>
+  <p>Contains the general view templates that define the visual appearance of Xero.  </p>
+  
+  <h2>html</h2>
+  <p>The html templates handle standard HTML macros to display things like menus, tables etc.</p>
+  
+  <h2>ie</h2>
+  <p>The ie extensions of the html templates modify standard templates to handle ie specific changes.</p>
+  
+  <h2>nojs</h2>
+  <p>The nojs extensions of the html templates modify the support to enable better javascript disabled
+  versions of the html.  Both of ie and nojs can be combined for ie disabled javascript browser display.</p>
+  
+  <h2>series</h2>
+  <p>The series templates handle display of the series tray and selection.</p>
+  
+  <h1>Static Data Files</h1>
+  <p>There are some number of static data files used to define things that are currently static, but may
+  in the future have additional behaviour or the ability to change the data based on preferences, site setup etc.
+  </p>
+  
+</body>
+</html>

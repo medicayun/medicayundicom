@@ -1,0 +1,7 @@
+<project name="rhino-access" default="install">
+  <!-- Include build.properties first as it over-rides default.properties   -->
+  <property file="build.properties" />
+  <property name="baseAntDefns" value="../../xero-util/baseBuild.xml" />
+  <import file="${baseAntDefns}" />
+</project>
+

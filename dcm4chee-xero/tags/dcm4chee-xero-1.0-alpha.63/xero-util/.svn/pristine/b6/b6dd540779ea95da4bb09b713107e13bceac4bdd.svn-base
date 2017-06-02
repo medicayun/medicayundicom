@@ -1,0 +1,30 @@
+<html>
+  <head><title>MetaData Pipe-Filter to Servlet Response</title></head>
+<body>
+  <h1>MetaData Pipe-Filter to Servlet Response</h1>
+  <p>The MetaData pipe-filter to servlet mechanism allows a single servlet class to have pluggable/extendible values
+  that use a pipe & filter mechanism.  You might wonder why straight Servlet FilterChains aren't used, but such chains
+  are highly servlet specific and only allow passing of data as servlet parameters, and returning of data as streams.
+  This makes it inconvenient for image manipulation frameworks as a significant amount of the total work is just in 
+  moving data around, and being able to pass/return images directly is of signicant benefit.  This is also true to
+  a lesser degree for generating/returning XML and other types of streams.  Finally, other uses can be made of the 
+  same caches used for the servlets if other types of responses are required.
+  </p>
+  
+  <h2>Basic design</h2>
+  <p>The basic design of the meta-data servlet is a servlet that has a pluggable Filter that returns a 
+  ServletRequestItem.  That servlet request item knows how to render the final page/response for the servlet, but
+  the filter stage itself should do most or all of the initial lookup of the data for the servlet response item.  
+  This design allows most filters to just return whatever data type they need, but still allows a customization of
+  the overall return type and/or error returns if required, as well as using more information about the actual response
+  or setting information such as expiry and content encoding in the response types.</p>
+  
+  <h2>Basic MetaDataServlet Configuration</h2>
+  <p>{@see MetaDataServlet} for details on how to declare a meta-data servlet.</p>
+  
+  <h2>Support For MetaData Servlets</h2>
+  <p>Some existing classes exist in both this package and in xero-util that support meta-data servlet responses - 
+  {@see JaxbFilter} in this package and StringTemplateFilter in the util-xero template package.</p>
+  
+</body>
+</html>

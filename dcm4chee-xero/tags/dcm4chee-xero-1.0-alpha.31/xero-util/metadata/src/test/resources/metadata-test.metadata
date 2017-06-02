@@ -1,0 +1,11 @@
+metaDataProvider.xml=${class:org.dcm4chee.xero.metadata.XmlMetaDataProvider}
+# URL of this file
+metaDataProvider.xml.propertyFile=metadata-test.metadata
+# Only look for meta-data entered into root meta-data metadata.
+metaDataProvider.xml.rootXml=http://www.dcm4che.org/xero/metadata
+metaDataProvider.xml.suffix=.xhtml
+
+
+metaDataProvider.property=${class:org.dcm4chee.xero.metadata.PropertyProvider}
+metaDataProvider.property.prefix=prefix.metadata
+metaDataProvider.property.regular=regular.metadata

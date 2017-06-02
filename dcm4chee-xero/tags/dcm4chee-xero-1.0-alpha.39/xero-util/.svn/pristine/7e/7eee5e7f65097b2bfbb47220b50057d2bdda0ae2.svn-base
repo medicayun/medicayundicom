@@ -1,0 +1,14 @@
+
+
+
+#### List test
+
+TestList.a=a
+TestList.b=b
+TestList.c=c
+
+#### Exclude an item from a secondary list that inherits from the primary list.
+TestInheritList.a=#{null}
+
+
+

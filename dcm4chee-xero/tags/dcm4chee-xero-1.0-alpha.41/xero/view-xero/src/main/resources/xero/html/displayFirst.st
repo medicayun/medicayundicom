@@ -1,0 +1,1 @@
+$if(row.xmlFirst)$$row.(var);format="xml"$$endif$

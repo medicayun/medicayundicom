@@ -1,0 +1,34 @@
+<html>
+<head><title>MetaData Package Documentation</title></head>
+<body>
+<h1>Core MetaData classes and declaring/using metadata values</h1>
+
+<p>This package contains the core implementation of the Xero MetaData framework.  See the overview for overall information
+on the design.  Mostly this package just contains the core implementation in {@see MetaDataBean} and the various
+providers to allow inheritance of values, null values, configuration etc.  The class list is relative descriptive
+for this package.</p>
+
+<h2>Providing MetaData</h2>
+ <p>It is possible to add additional meta-data information from various sources.  Just implementing the MetaDataProvider 
+ interface and then declaring an instance in the meta-data itself will allow extensions of the metadata.  For example:
+ <pre>
+metaDataProvider.property=${class:org.dcm4chee.xero.metadata.PropertyProvider}
+metaDataProvider.property.model=xero-model.metadata
+</pre>
+declares another meta-data provider to load information from xero-model.metadata.</p>
+
+<h3>Existing MetaData Providers</h3>
+<p>See the individual class pages for documentation on how to use these.</p>
+<pre>
+{@see org.dcm4chee.xero.metadata.PropertyProvider}
+{@see org.dcm4chee.xero.metadata.XmlMetaDataProvider}
+</pre>
+ 
+ <h2>Providing Values</h2>
+ <p>It is possible to add new creator type values to the map by extending the ValueProvider interface.  The design for this is
+ that it gets a URL inside ${...} and the URL base name identifies the ValueProvider.  There are already providers for
+ ref, class, instance and null.  The provider can register additional child meta-data, and can pre-compute values which
+ are then provided to create the final value.  This allows lazy class creation with the class name looked up initially.</p>
+
+</body>
+</html>

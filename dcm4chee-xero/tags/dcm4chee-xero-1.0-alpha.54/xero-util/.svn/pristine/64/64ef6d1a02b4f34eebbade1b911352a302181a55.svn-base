@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="main/java/|main/resources/|test/resources/|test/java/" kind="src" path="src"/>
+	<classpathentry kind="src" path="mvnsrc/main/resources"/>
+	<classpathentry kind="src" output="target/test-classes" path="mvnsrc/test/java"/>
+	<classpathentry kind="src" path="mvnsrc/test/resources"/>
+	<classpathentry kind="src" path="doc/i18n"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

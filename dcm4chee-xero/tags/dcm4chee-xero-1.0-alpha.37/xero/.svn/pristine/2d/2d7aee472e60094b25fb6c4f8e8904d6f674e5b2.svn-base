@@ -1,0 +1,76 @@
+# This is the default internationalization property file
+
+Title=DCM4CHE Xero
+Language=English
+AE=AE
+
+Study=Study
+Series=Series
+Image=Image
+
+Find=Find
+ClearFind=Clear Find
+Display=Display
+
+PatientName=Patient Name
+PatientID=Patient ID
+StudyID=Study ID
+AccessionNumber=Acc No.
+StudyDescription=Study Description
+Modality=Modality
+StudyDateTimeF=Study Date
+Logout=Logout
+NoPatient=No Patient
+Of=of
+RotateRight=Rotate Right
+RotateLeft=Rotate Left
+FlipHorizontal=Flip Horizontal
+PatientSex=Sex
+PatientBirthDate=Birth Date
+InstanceAvailability=Availability
+
+SpatReset=Reset Transform
+ZoomReset=Reset Zoom
+WLReset=WL Reset
+
+WindowLevel=Window Level (Brightness)
+WLInvert=Window Level Reset
+Magnify=Magnify
+TrueSize=True Size
+Zoom=Zoom
+ZoomIn=Zoom In
+ZoomOut=Zoom Out
+
+ShowReport=Report Only
+ShowReportAndImages=Report and Images
+ShowImages=Images Only
+
+SEX_M=Male
+SEX_F=Female
+SEX_O=Other
+SEX_U=Unknown
+
+Layout4x2=4x2 Layout
+Layout2x2=2x2 Layout
+Layout2x1=2x1 Layout
+Layout1x1=1x1 Layout
+
+PR=Presentation
+IO=Dental
+SR=Report
+OT=Test
+KO=Key Images
+AU=Audio
+ECG=ECG
+
+Today=Today
+SinceYesterday=Since Yesterday
+Yesterday=Yesterday
+Last7days=Last 7 Days
+Last4weeks=Last 4 Weeks
+ThisMonth=This Month
+LastMonth=Last Month
+ThisYear=This Year
+LastYear=Last Year
+SinceLastYear=Since Last Year
+Last10Years=Last 10 Years

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>org.dcm4chee.xero</groupId>
+   <artifactId>xero</artifactId>
+   <packaging>pom</packaging>
+   <version>0.8-SNAPSHOT</version>
+   <name>Xero</name>
+   <description>Core Xero GUI MVC Components</description>
+   <url>http://www.dcm4che.org/xero</url>
+
+   <scm>
+      <developerConnection>scm:svn:https://dcm4che.svn.sourceforge.net/svnroot/dcm4che/dcm4chee/xero/trunk</developerConnection>
+   </scm>
+
+   <modules>
+      <module>model-xero</module>
+      <module>view-xero</module>
+      <module>controller-xero</module>
+      <module>xero-war</module>
+  </modules>
+
+  <dependencies>
+     <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-api</artifactId>
+       <version>1.1.0</version>
+       <type>jar</type>
+     </dependency>
+     <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-log4j12</artifactId>
+       <version>1.1.0</version>
+       <type>jar</type>
+     </dependency>
+     <dependency>
+       <groupId>log4j</groupId>
+       <artifactId>log4j</artifactId>
+       <version>1.2.13</version>
+       <scope>provided</scope>
+     </dependency>
+     <dependency>
+       <groupId>org.testng</groupId>
+       <artifactId>testng</artifactId>
+       <version>5.1</version>
+       <classifier>jdk15</classifier>
+       <scope>test</scope>
+     </dependency>
+   </dependencies>
+
+   <build>
+     <plugins>
+       <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-ejb-plugin</artifactId>
+         <configuration>
+           <ejbVersion>3.0</ejbVersion>
+         </configuration>
+       </plugin>
+  
+       <plugin>
+         <artifactId>maven-compiler-plugin</artifactId>
+         <configuration>
+           <source>1.6</source>
+           <target>1.6</target>
+         </configuration>
+      </plugin>
+
+      <plugin>
+         <artifactId>maven-release-plugin</artifactId>
+         <configuration>
+            <tagBase>https://dcm4che.svn.sourceforge.net/svnroot/dcm4che/dcm4chee/xero/tags</tagBase>
+         </configuration>
+      </plugin>
+
+     </plugins>
+   </build>
+
+   <repositories>
+     <repository>
+	<id>maven2-repository.dev.java.net</id>
+	<name>Java.net Repository for Maven</name>
+	<url>http://download.java.net/maven/2/</url>
+	<layout>default</layout>
+     </repository>
+     <repository>
+	<id>b.maven2-repository.dev.java.net</id>
+	<name>Java.net Repository for Maven 1</name>
+	<url>http://download.java.net/maven/1/</url>
+	<layout>legacy</layout>
+    </repository>
+    <repository>
+      <id>repository.jboss.org</id>
+      <name>JBoss Repository</name>
+      <url>http://repository.jboss.org/maven2</url>
+    </repository>
+  <repository>
+    <id>dcm4che</id>
+    <name>Dcm4che repository</name>
+    <url>http://www.dcm4che.org/maven2/</url>
+  </repository>
+ </repositories>
+
+ <profiles>
+   <profile>
+      <id>HAP Deploy</id>
+      <activation>
+         <property><name>env.hapDeploy</name></property>
+      </activation>
+      <distributionManagement>
+        <repository>
+          <id>HAP</id>
+          <name>Agfa HAP</name>
+	  <url>scp://maven-repository.agfahealthcare.com/maven-repository</url>
+        </repository>
+      </distributionManagement>
+   </profile>
+ </profiles>
+
+ <distributionManagement>
+    <repository>
+       <id>dcm4che</id>
+       <name>Dcm4che maven2</name>
+       <url>scp://www.dcm4che.org:443/home/maven2</url>
+    </repository>
+ </distributionManagement>
+
+</project>

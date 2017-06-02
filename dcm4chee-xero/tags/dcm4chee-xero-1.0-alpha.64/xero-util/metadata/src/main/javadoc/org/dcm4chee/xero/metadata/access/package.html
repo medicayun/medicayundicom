@@ -1,0 +1,50 @@
+<html>
+  <head><title>MetaData Access Helper Classes</title></head>
+<body>
+   <h1>MetaData Access As Map/List</h1>
+   <p>The access package provides classes that allow different types of access to MetaData - as a Map, as a list of 
+   a specific element type, or as a list of elements of a specific child name, as well as from a Map return from a 
+   filter item.</p>
+   
+   <p>The meta-data information is intended to be easily accessed.  To that purpose, there are a couple of access 
+ mechanisms designed, in the package {@see org.dcm4chee.xero.metadata.access}.  The first, direct access is through the MetaDataBean object itself.  This is an implementation
+ of map, where all child elements are also meta-data objects.  To get the VALUE of an element, use the getValue
+ call.  Other mechanisms include a map interface to the values, and an injection mechanism.</p>
+ 
+ <h3>Map Access to Values</h3>
+ <p>A simple map mechanism allows access to the values for a single level of meta-data.  This mechanism is the 
+ {@see org.dcm4chee.xero.metadata.access.MapWithDefaults}
+ See the Javadocs for that class for more details.  This is the recommended access for non-Java values.  It is easy
+ to create multi-level values by declaring child-instances of {@see org.dcm4chee.xero.metadata.access.MapWithDefaults}.  An example use is shown below.
+ </p>
+ 
+ <pre>
+ model=${class:org.dcm4chee.xero.metadata.MapWithDefaults}
+ model.a=5
+ model.b=B
+ model.subMap=${class:org.dcm4chee.xero.metadata.MapWithDefaults}
+ </pre>
+ 
+ <p>The above property file definition would create a model that has a child model accessed as "subMap", and the parent model would have 2 other elements,
+ a,b with values 5 and B respectively.</p>
+ 
+ <h3>List Access To Values</h3>
+ <p>Many objects require a set of list objects.  Two types of lists can be accessed - direct lists of the child
+ elements, and a list of the child elements value for a specific element.  For instance, different areas may want to declare
+ a script, a stylesheet and some templates to include.  They should be grouped together, so a list of child elements
+ of given names is used, something like:
+ <pre>
+ model.scripts=${class:org.dcm4chee.xero.metadata.list.ValueList}
+ model.scripts.childElement=script
+ model.area1.script=area1.js
+ model.area1.style=area1.css
+ model.area2.script=area2.js
+ model.area3.style=area3.css
+ </pre>
+ 
+ <p><b>TODO</b> Modify the code to extract the setting of the child element in the metadata itself.</p>
+ <p>The above code would declare a list name scripts that would contain sibling elements from the metadata,
+ for all siblings with a script child element.  The list would contain the VALUES, not the metadata names.</p>
+ 
+</body>
+</html>

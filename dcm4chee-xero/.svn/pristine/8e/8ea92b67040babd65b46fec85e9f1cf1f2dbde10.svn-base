@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.dcm4chee.xero</groupId>
+    <artifactId>dcm4jboss-xero</artifactId>
+    <version>0.8-SNAPSHOT</version>
+  </parent>
+  <groupId>org.dcm4chee.xero</groupId>
+  <artifactId>installer</artifactId>
+  <name>Xero OSS Distribution</name>
+  <packaging>pom</packaging>
+
+  <build>
+    <finalName>dcm4jboss-xero-${version}</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>src/main/assembly/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>    
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.dcm4chee.xero</groupId>
+      <artifactId>wado2-war</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.dcm4chee.xero</groupId>
+      <artifactId>xero-war</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>batik</groupId>
+      <artifactId>batik-transcoder</artifactId>
+      <version>1.6-1</version>
+    </dependency>
+  </dependencies>
+</project>

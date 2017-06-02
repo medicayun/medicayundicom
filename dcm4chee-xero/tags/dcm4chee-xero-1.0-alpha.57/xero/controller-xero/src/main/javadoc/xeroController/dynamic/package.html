@@ -1,0 +1,44 @@
+<html>
+<head><title>Overview of Xero Dynamic Controller Design</title></head>
+<body>
+<h1>Xero Dynamic Controller Design</h1>
+<h2>Zoom</h2>
+<p>
+All of the current zoom operations are considered dynamic and they are handled by the XeroController.zoomChange
+method.  The single step zoom in and out buttons always zoom relative to the center of the image port.
+The wheel mouse zoom is more sophisticated as it zooms the image but maintains the image point under
+the mouse pointer.
+</p>
+<p>
+To achieve the wheel mouse zoom functionality, the image point under the mouse prior to the zoom is calculated.
+Then a zoom rectangle is calculated as if the image were zoomed relative to the center of its port.   The image 
+point under the mouse pointer in this zoom rectangle is then captured.  The difference in mouse pointer positions
+is taken and added to the zoom rectangle to obtain the zoom rectangle to be applied.
+</p>
+<p>
+For SVG images, the screen CTM matrix is used to calculate the mouse point in the two zoom rectangles.
+For VML images, the mouse points are obtained using the code in XeroController.getDocPtInVmlImage. 
+</p>
+<h2>Pan</h2>
+<p>
+The code for panning is found in the PanController object in the zoom.st file.  The PanController object is
+contained in the XeroContoller's Zoom_dragImage instance variable.
+</p>
+<p>
+When the user has finished panning the PanController.end method is invoked that adjusts the image's zoom rectangle
+to apply the final pan destination.  For IE, Chrome and Safari, the image can only be panned by dragging on the actual image (and not
+just anywhere in the image port as with FireFox and Opera).  As such, the PanController.end method ensures that the image
+is never panned completely out of the port.  
+<p>
+For images that are zoomed in, the top and left image edges cannot be panned to a
+position greater than the image port's center.  Likewise, the bottom and right image edges cannot be panned to a position
+less than the image port's center.
+</p>
+<p>
+For images that are zoomed out, the PanController ensures that the image mid-point is never panned outside the original
+(zoom-to-fit) image rectangle.  The computation to ensure that the mid-point is never panned outside the image port was
+considered to be more complex and expensive than actually worth (i.e. just need to ensure that the image can always be
+panned).
+</p>
+</body>
+</html>

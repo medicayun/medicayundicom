@@ -1,0 +1,31 @@
+
+        versions.dcm4chee-xero=1.0-rc.27
+     
+        versions.xero-util=1.0-rc.720
+     
+        versions.stringtemplate=3.2.720
+     
+        versions.metadata=1.0-rc.720
+     
+        versions.util-jar=1.0-rc.720
+     
+        versions.rhino-access=1.0-rc.720
+     
+        versions.xero-wado=1.0-rc.707
+     
+        versions.wado-xero=1.0-rc.707
+     
+        versions.wado2-war=1.0-rc.707
+     
+        versions.xero=1.0-rc.424
+     
+        versions.model-xero=1.0-rc.424
+     
+        versions.view-xero=1.0-rc.424
+     
+        versions.controller-xero=1.0-rc.424
+     
+        versions.xero-war=1.0-rc.424
+     
+        versions.installer=1.0-rc.27
+     

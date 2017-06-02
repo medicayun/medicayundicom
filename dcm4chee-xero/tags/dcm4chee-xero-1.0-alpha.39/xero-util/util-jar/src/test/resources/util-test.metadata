@@ -1,0 +1,20 @@
+# xero-util test metadata to ensure the various objects are correcltly created/can be used.
+
+model.templateGroup=${class:org.dcm4chee.xero.template.AutoStringTemplateGroup}
+model.templateGroup.refreshInterval=5
+model.templateGroup.groupNames=utilTestTemplates,testSuper,groupFile.stg
+model.templateGroup.attributeRenderersName=js
+model.view=simpleMacro
+model.errorView=errorMacro
+
+model.templates=${class:org.dcm4chee.xero.template.AllTemplatesMap}
+model.templates.allTemplatesMapTest=allTemplatesMapTest
+
+controller=${class:org.dcm4chee.xero.metadata.filter.FilterList}
+controller.stringTemplateFilter=${class:org.dcm4chee.xero.template.StringTemplateFilter}
+controller.stringTemplateFilter.defaultView=simpleMacro
+controller.stringTemplateFilter.defaultGroup=${class:org.dcm4chee.xero.template.AutoStringTemplateGroup}
+controller.stringTemplateFilter.defaultGroup.groupNames=utilTestTemplates,testSuper
+controller.model=${class:org.dcm4chee.xero.metadata.filter.FilterList}
+controller.model.priority=-1
+

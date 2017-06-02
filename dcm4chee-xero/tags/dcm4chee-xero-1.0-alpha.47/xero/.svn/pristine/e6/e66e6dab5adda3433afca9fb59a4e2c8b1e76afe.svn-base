@@ -1,0 +1,1 @@
+<a href="nojs?action=displayStudy&patientID=$row.PatientID$&studyUID=$row.studyUID$">$row.(var)$</a>

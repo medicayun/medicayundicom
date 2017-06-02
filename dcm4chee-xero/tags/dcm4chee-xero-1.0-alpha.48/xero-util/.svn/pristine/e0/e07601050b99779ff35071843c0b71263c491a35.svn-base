@@ -1,0 +1,16 @@
+<html>
+  <head><title>String Template Servlet and JavaScript Support</title></head>
+<body>
+  <h1>String Template Servlet and JavaScript Support</h1>
+  <p>This package contains a simple servlet that can be configured in the web.xml to use a specific string template
+  group (possibly hierarchical), and model.  Then, the JSTemplateServlet extends this to add a secondary string
+  template group to be used as the model, and the jstemplate as the group.  This second servlet serves a JavaScript
+  page that has a JavaScript implementation of the specied string template.   This implementation is just generated
+  by running the templates in jstemplate over the string template group itself that one wants to form the model of.
+  There are a few more details such as having a map of the templates to include, but basically the design is fairly
+  simple.  As well, the actual templates are in JSON notation, so it is easy to add another template request that
+  would extend the set of available templates - this would be useful for fast loading of the initial view followed by
+  an extended load of additional views.</p>
+  
+</body>
+</html>

@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>xero</artifactId>
+    <groupId>org.dcm4chee.xero</groupId>
+    <version>0.8-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.dcm4chee.xero</groupId>
+  <artifactId>model-xero</artifactId>
+  <name>Internal Xero Model</name>
+  <description>Contains the default internal model for Xero - this contains
+  parts such as the XmlModel object and uses of that object.</description>
+  <profiles>
+    <profile>
+      <id>devDeploy</id>
+      <activation>
+        <property>
+          <name>env.developmentServer</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>ViewCopy</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <echo>Copying model to ${developmentServer} xero</echo>
+                    <copy todir="${developmentServer}/server/default/deploy/xero.war/WEB-INF/classes" preserveLastModified="true">
+                      <fileset dir="src/main/resources" includes="**/*" />
+                    </copy>
+                  </tasks>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  <dependencies>
+    <dependency>
+      <groupId>rhino</groupId>
+      <artifactId>js</artifactId>
+      <version>1.7R1</version>
+      <scope>provided</scope>
+    </dependency>   
+    <dependency>
+      <groupId>org.dcm4chee.xero</groupId>
+      <artifactId>metadata</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.dcm4chee.xero</groupId>
+      <artifactId>util-jar</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.dcm4chee.xero</groupId>
+      <artifactId>rhino-access</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.dcm4chee.xero</groupId>
+      <artifactId>stringtemplate</artifactId>
+      <version>3.2.0-XERO-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>

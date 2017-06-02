@@ -1,0 +1,1 @@
+<style id="customStyle">Some style info</style>

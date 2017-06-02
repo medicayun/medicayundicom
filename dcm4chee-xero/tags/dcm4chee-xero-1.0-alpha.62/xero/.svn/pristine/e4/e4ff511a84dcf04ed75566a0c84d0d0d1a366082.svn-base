@@ -1,0 +1,39 @@
+<html>
+<head><title>Overview of Xero Controller Design</title></head>
+<body>
+<h1>Xero Controller Design</h1>
+
+<p>The controller for Xero has these responsibilities:</p>
+<ol>
+<li>Deciding on what action to take for a given user request (including initial requests)</li>
+<li>Validating parameters in the user request</li>
+<li>Causing the appropriate controller action to be invoked on the given parameters/user session</li>
+<li>Updating the views that have been modified by the actions (for server side rendering, this is the single, current view being returned)</li>
+</ol>
+
+<p>
+However, these actions can occur on either the client or server side in 4 different ways.  A client controller operation 
+occurs when the user performs some action that can be handled entirely client side such as image navigation.  A server 
+controller operation occurs when the client is limited in capability and the client cannot perform the requested 
+operation.  In that case, the server performs the action on behalf of the client.  A server session update occurs when 
+a client side action has occurred that stores information in the users session context, eg for replication or 
+multi-window display.   Finally, an interactive client controller is one where the client JavaScript directly updates 
+the displayed HTML as part of the control operation, instead of going through the standard model/view.  This would be 
+done for operations such as window levelling in order to have the highest performance changes occur without the overhead 
+of templating.  The choice of which controller to use is based on the context/type of event – initial display uses a 
+server side controller, while the others are all initiated client side and are chosen based on the user action.
+</p>
+
+<h2>Adding new JavaScript controller scripts</h2>
+<p>The JavaScript controller components are added much like the model components are added, by declaring a 
+new stringtemplate containing the JavaScript to render.  For example:
+<pre>
+model.xeroControllers.patientController=patientController
+</pre>
+The intention of this is to allow adding/removing all or part of the controllers for different purposes.
+In specific, this is used to add/remove controllers for the no JavaScript and display tab only controller 
+designs.
+</p>
+
+</body>
+</html>

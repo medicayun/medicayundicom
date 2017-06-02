@@ -1,0 +1,393 @@
+<results xmlns:m="http://www.dcm4che.org/xero/metadata/model" 
+  m:search="${class:org.dcm4chee.xero.model.XmlModel}"
+  m:search.resource="studyRows.xml"
+  xmlns="http://www.dcm4chee.org/xero/search/study/" 
+  xmlns:ns2="http://www.w3.org/1999/xlink" 
+  xmlns:ns3="http://www.w3.org/2000/svg"
+> 
+
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="HAND^FRACTURE" PatientIdentifier="14" PatientID="14" PatientBirthDate="1964-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020130.153748.588081" StudyID="74573" StudyDescription="RX HAND LEFT" StudyDateTime="2002-01-30T15:40:50.000-05:00" ReferringPhysicianName="A^C" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="94573">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020117.85150.574114" StudyDescription="RX HAND LEFT" StudyDateTime="2002-01-17T08:42:45.000-05:00" ReferringPhysicianName="A^C" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="90536">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20011213.83815.542134" StudyDescription="RX HAND LEFT" StudyDateTime="2001-12-13T08:36:30.000-05:00" ReferringPhysicianName="A^C" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="81586">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20011106.101348.405824" StudyID="50993" StudyDescription="RX HAND LEFT" StudyDateTime="2001-11-06T12:58:09.000-05:00" ReferringPhysicianName="A^C" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="70993">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="CHEST" PatientIdentifier="31" PatientID="31" PatientBirthDate="1931-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020130.82914.587007" StudyID="74315" StudyDescription="RX THORAX F/P" StudyDateTime="2002-01-30T09:08:23.000-05:00" ReferringPhysicianName="C^F" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="94315">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020204.170355.593018" StudyDescription="RX BOBBY" StudyDateTime="2002-02-04T17:02:03.000-05:00" ReferringPhysicianName="C^F" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="96090">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="ENTEROCLYSMA" PatientIdentifier="21" PatientID="21" PatientBirthDate="1920-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020129.92834.585708" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-29T09:57:48.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="93989">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020201.84355.589901" StudyDescription="RX ABDOMEN" StudyDateTime="2002-02-01T11:09:32.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="95125">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020206.120431.595346" StudyDescription="RX ABDOMEN" StudyDateTime="2002-02-06T13:29:56.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="96756">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020129.81953.585520" StudyDescription="RX ENTEROCLYSMA" StudyDateTime="2002-01-29T10:01:24.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="6" NumberOfStudyRelatedInstances="6" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="93749">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="ABDOMINAL^CLOSURE" PatientIdentifier="51" PatientID="51" PatientBirthDate="1928-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020121.144502.577622" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-21T16:37:15.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="91706">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020120.114135.576571" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-20T11:40:25.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="91305">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020118.80225.575244" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-18T09:14:53.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="90849">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020107.80045.562425" StudyID="67064" StudyDescription="RX THORAX F/P" StudyDateTime="2002-01-07T08:24:50.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="87064">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020114.111835.570311" StudyID="69503" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-14T14:53:41.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="89503">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020113.93345.569387" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-13T10:31:55.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="89210">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020123.83838.579855" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-23T13:19:18.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="92273">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020117.120040.574488" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-17T16:08:54.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="90666">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020110.74623.566666" StudyDescription="RX ENTEROCLYSMA" StudyDateTime="2002-01-10T12:12:12.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="6" NumberOfStudyRelatedInstances="6" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="88344">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020109.110043.565579" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-09T12:45:54.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="88092">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020103.92631.559871" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-03T09:31:23.000-05:00" ReferringPhysicianName="D^W" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="86305">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010830.82046.149764" StudyID="33257" StudyDescription="RX THORAX F/P" StudyDateTime="2001-08-30T09:32:15.000-04:00" ReferringPhysicianName="D^G" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="53257">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="LUXATION" PatientIdentifier="93" PatientID="93" PatientBirthDate="1931-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020116.133723.573465" StudyDescription="RX SHOULDER LEFT" StudyDateTime="2002-01-16T13:34:50.000-05:00" ReferringPhysicianName="B^M" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="90366">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020116.121235.573346" StudyDescription="RX UPPERARM LEFT" StudyDateTime="2002-01-16T12:27:42.000-05:00" ReferringPhysicianName="B^M" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="90334">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020124.143224.582050" StudyDescription="RX SHOULDER LEFT" StudyDateTime="2002-01-24T14:34:05.000-05:00" ReferringPhysicianName="B^M" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="92869">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="CALCANEUS^FRACTURE" PatientIdentifier="39" PatientID="39" PatientBirthDate="1988-06-07T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020315.193422.1712030" StudyDescription="RX FOOT" StudyDateTime="2002-03-15T19:47:27.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="3" NumberOfStudyRelatedInstances="3" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="9948305">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020315.193424.1712032" StudyDescription="RX CALC" StudyDateTime="2002-03-15T19:45:02.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="1948307">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="MT5^FRACTURE JUVENILE" PatientIdentifier="83" PatientID="83" PatientBirthDate="1990-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020207.90331.596219" StudyID="77010" StudyDescription="RX HAND RIGHT" StudyDateTime="2002-02-07T08:52:53.000-05:00" ReferringPhysicianName="A^C" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="97010">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020201.93523.589982" StudyID="75172" StudyDescription="RX HAND RIGHT" StudyDateTime="2002-02-01T09:24:24.000-05:00" ReferringPhysicianName="G^M" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="95172">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="LUMBAR SPINE^MODALITY RECONSTRUCTED IMAGES" PatientIdentifier="94" PatientID="94" PatientBirthDate="1978-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020204.84517.591896" StudyDescription="RX LWZ" StudyDateTime="2002-02-04T08:56:31.000-05:00" ReferringPhysicianName="B^D" NumberOfStudyRelatedSeries="3" NumberOfStudyRelatedInstances="3" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="95755">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="CLAUDATIO^INTERMITTENS" PatientIdentifier="29" PatientID="29" PatientBirthDate="1938-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020204.82923.591837" StudyDescription="RX SKELET ANGIO" StudyDateTime="2002-02-04T09:07:20.000-05:00" ReferringPhysicianName="P^P" NumberOfStudyRelatedSeries="5" NumberOfStudyRelatedInstances="5" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="95720">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="GALBLADDER" PatientIdentifier="16" PatientID="16" PatientBirthDate="1956-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020104.121032.560991" StudyDescription="RX ABDOMEN" StudyDateTime="2002-01-04T12:18:21.000-05:00" ReferringPhysicianName="V^O" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="86698">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="VASCULAIR^TRAUMA^ARM" PatientIdentifier="59" PatientID="59" PatientBirthDate="1918-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020204.75218.591792" StudyDescription="RX SKELET ANGIO" StudyDateTime="2002-02-04T09:30:23.000-05:00" ReferringPhysicianName="P^P" NumberOfStudyRelatedSeries="5" NumberOfStudyRelatedInstances="5" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="95686">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="KNEE^FRACTURE" PatientIdentifier="3" PatientID="3" PatientBirthDate="1984-07-29T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020310.160828.1677781" StudyDescription="RX KNEE" StudyDateTime="2002-03-10T17:21:01.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="4" NumberOfStudyRelatedInstances="4" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="9539634">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="MP 3&amp;4^FRACTURE IN PLASTER" PatientIdentifier="85" PatientID="85" PatientBirthDate="1960-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020117.94817.574225" StudyID="70575" StudyDescription="RX HAND RIGHT" StudyDateTime="2002-01-17T09:40:35.000-05:00" ReferringPhysicianName="A^C" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="90575">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="UROLOGY" PatientIdentifier="60" PatientID="60" PatientBirthDate="1966-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020129.191700.586885" StudyDescription="RX NSE/BSE" StudyDateTime="2002-01-29T19:14:28.000-05:00" ReferringPhysicianName="M^F" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="94246">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020108.75343.563790" StudyDescription="RX IVP" StudyDateTime="2002-01-08T08:35:46.000-05:00" ReferringPhysicianName="M^F" NumberOfStudyRelatedSeries="14" NumberOfStudyRelatedInstances="15" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="47576">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="STONE" PatientIdentifier="65" PatientID="65" PatientBirthDate="1953-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020128.145347.584810" StudyDescription="RX IVP" StudyDateTime="2002-01-29T11:30:02.000-05:00" ReferringPhysicianName="V^A" NumberOfStudyRelatedSeries="9" NumberOfStudyRelatedInstances="9" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="93767">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020128.110551.584437" StudyDescription="RX NSE/BSE" StudyDateTime="2002-01-28T11:07:09.000-05:00" ReferringPhysicianName="V^A" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="93617">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="PELVIMETRIE" PatientIdentifier="72" PatientID="72" PatientBirthDate="1967-06-07T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020307.85135.1663267" StudyDescription="RX PELVIS" StudyDateTime="2002-03-07T10:12:56.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="4735893">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="LEUKEMIA" PatientIdentifier="99" PatientID="99" PatientBirthDate="1930-07-22T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20010725.145530.576033" StudyDescription="RX THORAX" StudyDateTime="2001-07-26T11:06:58.000-04:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="4654241">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20010809.183645.642482" StudyDescription="RX THORAX" StudyDateTime="2001-08-10T11:50:43.000-04:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="6672446">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="SUBCAPITAL^HUMERUS^FRACTURE" PatientIdentifier="63" PatientID="63" PatientBirthDate="1957-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010802.93138.123016" StudyDescription="RX UPPER ARM RIGHT" StudyDateTime="2001-08-02T09:58:39.000-04:00" ReferringPhysicianName="V^R" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="46314">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010802.93136.123015" StudyDescription="RX SHOULDER" StudyDateTime="2001-08-02T09:54:06.000-04:00" ReferringPhysicianName="V^R" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="46313">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010712.104324.96266" StudyDescription="RX UPPER ARM RIGHT" StudyDateTime="2001-07-12T11:04:34.000-04:00" ReferringPhysicianName="A^C" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="40194">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010712.104323.96265" StudyDescription="RX SHOULDER" StudyDateTime="2001-07-12T11:06:21.000-04:00" ReferringPhysicianName="A^C" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="40192">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010618.151313.70281" StudyDescription="RX SHOULDER" StudyDateTime="2001-06-18T15:29:03.000-04:00" ReferringPhysicianName="V^R" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="33546">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010615.125632.68402" StudyDescription="RX DWZ" StudyDateTime="2001-06-15T13:25:39.000-04:00" ReferringPhysicianName="V^R" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="32981">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010615.125630.68401" StudyDescription="RX CWZ" StudyDateTime="2001-06-15T13:24:58.000-04:00" ReferringPhysicianName="V^R" NumberOfStudyRelatedSeries="3" NumberOfStudyRelatedInstances="3" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="32980">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010612.124639.63858" StudyID="11899" StudyDescription="RX UPPER ARM RIGHT" StudyDateTime="2001-06-12T13:16:39.000-04:00" ReferringPhysicianName="G^L" NumberOfStudyRelatedSeries="3" NumberOfStudyRelatedInstances="3" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="31899">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010611.180501.62713" StudyDescription="RX UPPER ARM RIGHT" StudyDateTime="2001-06-11T18:24:14.000-04:00" ReferringPhysicianName="D^H" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="31569">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010611.180500.62711" StudyID="11566" StudyDescription="RX SHOULDER" StudyDateTime="2001-06-11T18:08:07.000-04:00" ReferringPhysicianName="D^H" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="31566">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010611.180458.62710" StudyDescription="RX THORAX FACE" StudyDateTime="2001-06-11T18:18:12.000-04:00" ReferringPhysicianName="D^H" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="31565">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010705.100908.88228" StudyDescription="RX SHOULDER" StudyDateTime="2001-07-05T10:31:08.000-04:00" ReferringPhysicianName="V^R" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="38643">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010705.100908.88227" StudyDescription="RX UPPER ARM RIGHT" StudyDateTime="2001-07-05T10:35:11.000-04:00" ReferringPhysicianName="V^R" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="38642">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010628.102533.80528" StudyDescription="RX UPPER ARM RIGHT" StudyDateTime="2001-06-28T10:46:06.000-04:00" ReferringPhysicianName="V^R" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="36626">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20010628.102532.80527" StudyDescription="RX SHOULDER" StudyDateTime="2001-06-28T10:45:18.000-04:00" ReferringPhysicianName="V^R" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="36625">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="ARTRITIS" PatientIdentifier="46" PatientID="46" PatientBirthDate="1962-06-02T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020220.111707.1586531" StudyDescription="RX HAND" StudyDateTime="2002-02-20T12:12:32.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="3916733">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020220.111722.1586533" StudyDescription="RX FOOT" StudyDateTime="2002-02-20T12:15:07.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="4916735">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="FRACTURE^CAPUT^RADII" PatientIdentifier="18" PatientID="18" PatientBirthDate="1962-11-04T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020222.150058.1600812" StudyDescription="RX ELBOW" StudyDateTime="2002-02-22T16:10:26.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="3910828">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020215.100712.1562577" StudyDescription="RX ELBOW" StudyDateTime="2002-02-15T10:20:38.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="2910708">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="RIB^META" PatientIdentifier="70" PatientID="70" PatientBirthDate="1954-01-02T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020306.164145.1661301" StudyDescription="RX RIB" StudyDateTime="2002-03-06T17:21:16.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="3" NumberOfStudyRelatedInstances="3" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="2935391">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="HNP^LUMBAL" PatientIdentifier="9" PatientID="9" PatientBirthDate="1960-11-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020111.82536.1377555" StudyDescription="RX LWZ" StudyDateTime="2002-01-11T08:58:01.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="4" NumberOfStudyRelatedInstances="4" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="2865052">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="HEMITHORAX" PatientIdentifier="12" PatientID="12" PatientBirthDate="1948-08-21T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20011106.131729.1060750" StudyDescription="RX THORAX" StudyDateTime="2001-11-07T09:54:13.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="2784255">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20011023.153302.997600" StudyID="10242001" StudyDescription="RX THORAX" StudyDateTime="2001-10-24T11:26:50.000-04:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="1767947">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20011107.152433.1069116" StudyDescription="RX THORAX" StudyDateTime="2001-11-08T08:52:55.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="4786154">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="DISCUS^DEGENERATION" PatientIdentifier="26" PatientID="26" PatientBirthDate="1961-08-22T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020211.111539.1537607" StudyDescription="RX DWZ" StudyDateTime="2002-02-13T10:30:26.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="1904970">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="COX^ARTHROSIS" PatientIdentifier="28" PatientID="28" PatientBirthDate="1933-04-30T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020326.144149.1762024" StudyDescription="RX PELVIS" StudyDateTime="2002-03-26T15:40:09.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="1893238">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="RUPTURE^ANKLE^LIGAMENT" PatientIdentifier="69" PatientID="69" PatientBirthDate="1980-10-27T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20010614.75435.392065" StudyDescription="RX ANKLE" StudyDateTime="2001-06-14T08:34:35.000-04:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="1589153">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CARDIOPAT" PatientIdentifier="37" PatientID="37" PatientBirthDate="1950-12-02T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.10.232.222.161.20010717.165737.1390" StudyID="5554895889" StudyDescription="RX THORAX" StudyDateTime="2001-11-05T16:56:51.000-05:00" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="5654540">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="ADC_8OD_12RLOGE_SKULL" PatientIdentifier="img8_ID" PatientID="img8_ID" PatientBirthDate="1996-09-16T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.633923.633919980331.6339063417" StudyID="std_img8" StudyDescription="SKULL" StudyDateTime="1997-09-26T00:00:08.000-04:00" ReferringPhysicianName="ADC_SQA" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="Acc_nr_8">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="ADC_8OD_12RLOGE_KNEE" PatientIdentifier="840509M003" PatientID="840509M003" PatientBirthDate="1984-05-09T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.99.2156448797.26889.962880290.0" StudyDescription="KNEE" StudyDateTime="2000-07-06T12:35:31.000-04:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="G-1959114">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="ADC_8OD_12RLOGE_CHEST" PatientIdentifier="img3_ID" PatientID="img3_ID" PatientBirthDate="1996-09-16T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.633915.633919980330.6339135103" StudyID="std_img3" StudyDescription="CHEST" StudyDateTime="1997-09-26T00:00:03.000-04:00" ReferringPhysicianName="ADC_SQA" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="Acc_nr_3">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="CHEST^PUNCTURE" PatientIdentifier="30" PatientID="30" PatientBirthDate="1959-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020102.90449.558696" StudyID="65976" StudyDescription="RX THORAX FACE" StudyDateTime="2002-01-02T11:24:42.000-05:00" ReferringPhysicianName="C^H" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="85976">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020103.83325.559772" StudyDescription="RX THORAX F/P" StudyDateTime="2002-01-03T10:20:17.000-05:00" ReferringPhysicianName="C^H" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="86268">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020103.90913.559832" StudyDescription="RX RIB" StudyDateTime="2002-01-03T10:23:04.000-05:00" ReferringPhysicianName="C^H" NumberOfStudyRelatedSeries="3" NumberOfStudyRelatedInstances="3" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="86298">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020103.93034.559877" StudyID="66308" StudyDescription="RX THORAX F/P" StudyDateTime="2002-01-14T14:03:59.000-05:00" ReferringPhysicianName="P^P" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="86308">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="HIP" PatientIdentifier="10" PatientID="10" PatientBirthDate="1964-02-16T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.10.206.11.19.20000208.162212.340424" StudyID="a36669" StudyDescription="RT. HIP 3 VIEWS" StudyDateTime="2000-02-08T16:39:57.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="3" NumberOfStudyRelatedInstances="3" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="456765">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.10.206.11.19.19990622.155931.190655" StudyID="a28059" StudyDescription="RT. HIP 3 VIEWS" StudyDateTime="1999-06-22T16:10:15.000-04:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="3" NumberOfStudyRelatedInstances="3" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="456765">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="PAGET" PatientIdentifier="75" PatientID="75" PatientBirthDate="1932-06-18T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020311.150206.1682989" StudyDescription="RX LWZ" StudyDateTime="2002-03-12T11:19:25.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="7940984">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="SPONDYLDISCITIS^C6-C7" PatientIdentifier="66" PatientID="66" PatientBirthDate="1932-12-29T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020304.174054.1647751" StudyDescription="RX SHOULDER" StudyDateTime="2002-03-04T18:12:50.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="4" NumberOfStudyRelatedInstances="4" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="7932190">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020304.174053.1647750" StudyDescription="RX CDWZ" StudyDateTime="2002-03-04T18:10:31.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="5" NumberOfStudyRelatedInstances="5" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="6932189">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020307.171956.1668391" StudyDescription="RX CWZ" StudyDateTime="2002-03-08T09:15:06.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="6137065">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="OS^SCAPHOID" PatientIdentifier="77" PatientID="77" PatientBirthDate="1934-08-20T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020207.155123.1524400" StudyDescription="RX SCAPH" StudyDateTime="2002-02-07T16:08:00.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="6901496">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020207.155123.1524399" StudyDescription="RX WRIST" StudyDateTime="2002-02-07T16:05:44.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="5901495">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="DISCITIS" PatientIdentifier="27" PatientID="27" PatientBirthDate="1933-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20011006.145828.187140" StudyDescription="RX LWZ" StudyDateTime="2001-10-06T15:24:35.000-04:00" ReferringPhysicianName="J^R" NumberOfStudyRelatedSeries="3" NumberOfStudyRelatedInstances="3" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="62366">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="BECHTEREW^&amp;^CROHN" PatientIdentifier="42" PatientID="42" PatientBirthDate="1969-07-29T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20011123.144339.1152299" StudyDescription="RX CWZ" StudyDateTime="2001-11-23T16:07:03.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="5807558">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20011123.144340.1152301" StudyDescription="RX LWZ" StudyDateTime="2001-11-23T16:03:35.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="6807560">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="HUMERUS^FRACTURE" PatientIdentifier="8" PatientID="8" PatientBirthDate="1916-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20020103.84435.559805" StudyDescription="RX UPPER ARM RIGHT" StudyDateTime="2002-01-03T08:50:43.000-05:00" ReferringPhysicianName="V^R" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="86283">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CALCANEUS^EXOSTOSIS" PatientIdentifier="40" PatientID="40" PatientBirthDate="1936-07-02T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020214.101642.1557201" StudyDescription="RX ANKLE" StudyDateTime="2002-02-14T14:23:11.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="7909418">
+</study>
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020214.101822.1557232" StudyDescription="RX CALC" StudyDateTime="2002-02-14T14:16:41.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="8909427">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="HEADACHE^AND^DYSPNOE" PatientIdentifier="13" PatientID="13" PatientBirthDate="1944-01-01T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.128.5.1.74.20011126.84111.525541" StudyDescription="RX THORAX F/P" StudyDateTime="2001-11-26T08:44:42.000-05:00" ReferringPhysicianName="V^M" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="76493">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="KNEE^SKITRAUMA" PatientIdentifier="100" PatientID="100" PatientBirthDate="1953-09-16T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020212.90209.1543383" StudyDescription="RX KNEE" StudyDateTime="2002-02-12T09:15:36.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="5" NumberOfStudyRelatedInstances="5" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="4906232">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="OSTEOPOROSIS" PatientIdentifier="76" PatientID="76" PatientBirthDate="1909-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020327.135834.1767697" StudyDescription="RX LWZ" StudyDateTime="2002-03-27T15:09:56.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="3762318">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="LUMBAL^METAS" PatientIdentifier="95" PatientID="95" PatientBirthDate="1930-12-17T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20020215.173805.1566414" StudyDescription="RX LWZ" StudyDateTime="2002-02-15T18:11:27.000-05:00" ReferringPhysicianName="UNKNOWN" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="4911798">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="Labels" PatientIdentifier="GSPS_TST_06" PatientID="GSPS_TST_06" PatientBirthDate="1950-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.341058140.62250.56652.40005.62579.38044.20276" StudyID="14" StudyDescription="Lower Extremities" StudyDateTime="2006-02-01T13:35:47.000-05:00" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="PR,CR" InstanceAvailability="ONLINE">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="To narrow window" PatientIdentifier="GSPS_TST_10" PatientID="GSPS_TST_10" PatientBirthDate="1950-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.2413360672.6344.63811.42833.58438.37961.46489" StudyID="193" StudyDescription="Lower Extremities" StudyDateTime="2006-02-01T17:04:40.000-05:00" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="PR,CR" InstanceAvailability="ONLINE">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="Calibrated Measurements" PatientIdentifier="GSPS_TST_05" PatientID="GSPS_TST_05" PatientBirthDate="1950-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.13284607509.40431.25932.45247.58394.35738.15829" StudyID="16" StudyDescription="Lower Extremities" StudyDateTime="2006-02-01T12:03:24.000-05:00" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="PR,CR" InstanceAvailability="ONLINE">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientName="Annotations" PatientIdentifier="GSPS_TST_07" PatientID="GSPS_TST_07" PatientBirthDate="1950-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.1622737864.7824.44866.49044.12965.26887.52477" StudyID="7" StudyDescription="Lower Extremities" StudyDateTime="2006-02-01T16:15:47.000-05:00" NumberOfStudyRelatedSeries="4" NumberOfStudyRelatedInstances="4" ModalitiesInStudy="PR,CR" InstanceAvailability="ONLINE">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="Shutters" PatientIdentifier="GSPS_TST_09" PatientID="GSPS_TST_09" PatientBirthDate="1950-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.11689002706.7719.16964.43652.3851.34664.40155" StudyID="47" StudyDescription="Lower Extremities" StudyDateTime="2006-02-01T16:52:20.000-05:00" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="PR,CR" InstanceAvailability="ONLINE">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="Manual collimation" PatientIdentifier="GSPS_TST_08" PatientID="GSPS_TST_08" PatientBirthDate="1950-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.1142787722.21922.8774.37245.16191.18902.26105" StudyID="35" StudyDescription="Lower Extremities" StudyDateTime="2006-02-01T16:37:43.000-05:00" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="PR,CR" InstanceAvailability="ONLINE">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="Zoom &amp; Roam" PatientIdentifier="GSPS_TST_01" PatientID="GSPS_TST_01" PatientBirthDate="1950-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.11542406801.11404.4678.36743.31592.32318.6041" StudyID="141" StudyDescription="Lower Extremities" StudyDateTime="2006-02-01T10:31:23.000-05:00" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="PR,CR" InstanceAvailability="ONLINE">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="Flip &amp; Rotate" PatientIdentifier="GSPS_TST_02" PatientID="GSPS_TST_02" PatientBirthDate="1950-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.14007301719.9837.21827.35716.8919.28568.32703" StudyID="118" StudyDescription="Lower Extremities" StudyDateTime="2006-02-01T11:23:41.000-05:00" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="PR,CR" InstanceAvailability="ONLINE">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="Invert polarity" PatientIdentifier="GSPS_TST_03" PatientID="GSPS_TST_03" PatientBirthDate="1950-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.3986101900.12342.43332.48142.5776.35130.38216" StudyID="133" StudyDescription="Lower Extremities" StudyDateTime="2006-02-01T11:36:43.000-05:00" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="PR,CR" InstanceAvailability="ONLINE">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="O" PatientName="Measurements" PatientIdentifier="GSPS_TST_04" PatientID="GSPS_TST_04" PatientBirthDate="1950-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.3397280790.5920.5958.46806.31175.60662.4011" StudyID="111" StudyDescription="Lower Extremities" StudyDateTime="2006-02-01T11:48:55.000-05:00" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="PR,CR" InstanceAvailability="ONLINE">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="TANAKA^HANAKO" PatientIdentifier="FUJI00001" PatientID="FUJI00001" PatientBirthDate="1925-08-24T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.392.200036.9125.0.198811291108.7" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="FUJI95701">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="KOBAYASHI^MOMOE" PatientIdentifier="FUJI00006" PatientID="FUJI00006" PatientBirthDate="1979-04-08T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.392.200036.9125.0.199212251200.28" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="FUJI95706">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="NAGASHIMA^TAKANORI" PatientIdentifier="FUJI00014" PatientID="FUJI00014" PatientBirthDate="1950-04-03T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.392.200036.9125.0.199302241758.16" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="FUJI95714">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="ITO^TOSHIAKI" PatientIdentifier="FUJI00007" PatientID="FUJI00007" PatientBirthDate="1913-03-24T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.392.200036.9125.0.199402091242.1" NumberOfStudyRelatedSeries="1" NumberOfStudyRelatedInstances="1" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="FUJI95707">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR FATTY BREAST" PatientIdentifier="P00000019" PatientID="P00000019" PatientBirthDate="1958-09-22T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.192.168.75.195.20030127.172421.1000" StudyID="RIS 2329086" StudyDescription="Diagnostic" StudyDateTime="2003-01-27T15:32:05.000-05:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="4" NumberOfStudyRelatedInstances="4" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="A0000002080">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR FIBRODENSE" PatientIdentifier="P00000018" PatientID="P00000018" PatientBirthDate="1970-09-22T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20030127.142314.3216297" StudyID="RIS 23290864457" StudyDescription="Diagnostic" StudyDateTime="2003-01-27T15:32:05.000-05:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="5" NumberOfStudyRelatedInstances="5" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="A0000002074">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="M" PatientName="CR M2 MAMMO MALE" PatientIdentifier="P00000016" PatientID="P00000016" PatientBirthDate="1951-02-12T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20040714.84237.6061904" StudyDescription="Diagnostic" StudyDateTime="2004-08-24T11:19:48.000-04:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="RIS 3015582">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR M2 PATIENT A" PatientIdentifier="73919003" PatientID="73919003" PatientBirthDate="1929-05-20T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20040902.93038.6325850" StudyID="1234" StudyDescription="Diagnostic" StudyDateTime="2004-11-08T10:30:40.000-05:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="4" NumberOfStudyRelatedInstances="4" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="RIS 3077163">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR M2 PATIENT C" PatientIdentifier="P00000023" PatientID="P00000023" PatientBirthDate="1962-10-20T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.67.66.5.20040823.100853.879854" StudyDescription="Diagnostic" StudyDateTime="2004-08-26T16:02:58.000-04:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="4" NumberOfStudyRelatedInstances="4" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="8467711">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR M2 PATIENT D" PatientIdentifier="760862" PatientID="760862" PatientBirthDate="1935-08-31T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.89.2.73.132.20040812.123651.1528497" StudyDescription="Diagnostic" StudyDateTime="2004-11-07T13:31:31.000-05:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="4" NumberOfStudyRelatedInstances="4" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="1209339">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR M2 PATIENT E" PatientIdentifier="77650612" PatientID="77650612" PatientBirthDate="1964-09-25T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20040830.84316.6302683" StudyDescription="Diagnostic" StudyDateTime="2004-08-30T10:15:00.000-04:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="3" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="RIS 3072172">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR M2 PATIENT F" PatientIdentifier="2004716912291251" PatientID="2004716912291251" PatientBirthDate="1938-05-31T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.63392004716.63399129.633962.63391" StudyDescription="Diagnostic" StudyDateTime="2004-07-16T09:12:29.000-04:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="4" NumberOfStudyRelatedInstances="4" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="2004716912291251">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR MAMMO LUMPECTOMY" PatientIdentifier="P00000021" PatientID="P00000021" PatientBirthDate="1927-08-27T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.99.2198360022.11329.1014024009.9" StudyDescription="Diagnostic" StudyDateTime="2002-01-21T16:04:27.000-05:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="A0000002086">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR MAMMO LUMPECTOMY CASE 2" PatientIdentifier="P00000004" PatientID="P00000004" PatientBirthDate="1937-11-09T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.193.190.36.23.20010620.160933.424254" StudyDescription="Diagnostic" StudyDateTime="2002-01-16T13:49:39.000-05:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="A0000002031">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR MAMMO PATIENT H" PatientIdentifier="P00000014" PatientID="P00000014" PatientBirthDate="1964-01-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.99.2157903262.780.1069688901.0" StudyID="517" StudyDescription="Diagnostic" StudyDateTime="2004-11-08T15:41:23.000-05:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="A0000002066">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR MAMMO PATIENT I" PatientIdentifier="P00000020" PatientID="P00000020" PatientBirthDate="1964-04-01T00:00:00.000-05:00">
+<study xsi:type="studyBean" studyUID="1.2.124.113532.192.168.20.196.20021124.161932.1203" StudyDescription="Diagnostic" StudyDateTime="2002-06-19T10:00:42.000-04:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="A0000002084">
+</study>
+</patient>
+<patient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="patientBean" PatientSex="F" PatientName="CR VACUUM BIOPSY" PatientIdentifier="P00000009" PatientID="P00000009" PatientBirthDate="1943-03-01T00:00:00.000-04:00">
+<study xsi:type="studyBean" studyUID="1.3.51.0.7.633916.633920020116.6339155549" StudyDescription="Diagnostic" StudyDateTime="2002-01-16T15:55:49.000-05:00" ReferringPhysicianName="Dr. Montgomery" NumberOfStudyRelatedSeries="2" NumberOfStudyRelatedInstances="2" ModalitiesInStudy="CR" InstanceAvailability="ONLINE" AccessionNumber="A0000002061">
+</study>
+</patient>
+</results>

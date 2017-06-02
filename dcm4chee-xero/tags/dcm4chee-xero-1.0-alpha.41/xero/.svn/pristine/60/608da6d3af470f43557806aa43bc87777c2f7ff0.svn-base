@@ -1,0 +1,62 @@
+# This file contains property mappings relevant to THEME type information.
+# It may reference custom images, language files, css files etc, which can be added 
+# to an existing Xero system to change the look and feel.
+
+# In general, these are accessed as theme.PROPERTY_NAME where theme is a map,
+# but PROPERTY_NAME is a single generic value, not dot-nested value.
+# Also, in general, i18n mapped items are mapped as theme.(i18n+".icon") for example for an
+# icon name.
+
+# It is also perfectly acceptable to just change the underlying files in the deploy directory 
+# if an entirely new version is being created.
+
+# Default language pack
+themeName=Default Theme
+theme=theme
+defaultI18n=i18n
+defaultLanguage=en
+
+AllResetIcon=icon/wlReset.gif
+PrevIcon=icon/prev.gif
+NextIcon=icon/next.gif
+PrevDisabledIcon=icon/prevDisabled.gif
+NextDisabledIcon=icon/nextDisabled.gif
+RotateRightIcon=icon/rotateRight.gif
+RotateLeftIcon=icon/rotateLeft.gif
+FlipHorizontalIcon=icon/flip.gif
+ZoomResetIcon=icon/zoomReset.gif
+MagnifyIcon=icon/magnify.gif
+SpatResetIcon=icon/spatReset.gif
+WLResetIcon=icon/wlReset.gif
+WLInvertIcon=icon/wlInvert.gif
+TrueSizeIcon=icon/trueSize.gif
+ZoomIcon=icon/zoomPan.gif
+ZoomInIcon=icon/zoomIn.gif
+ZoomOutIcon=icon/zoomOut.gif
+WindowLevelIcon=icon/wl.gif
+CompareStudyIcon=icon/compareStudy.gif
+CloseIcon=icon/close.gif
+loginImage=loginImage.jpg
+KOSelectorIcon=icon/ko_single_applied.gif
+PRSelectorIcon=icon/pr_single_applied.gif
+KOMultiSelectorIcon=icon/ko_multi_applied.gif
+PRMultiSelectorIcon=icon/pr_multi_applied.gif
+ReportOnlyIcon=icon/reportOnly.gif
+NearlineIcon=icon/nearline.gif
+OfflineIcon=icon/offline.gif
+MenuIcon=icon/menu.gif
+
+ShowReportAndImagesIcon=icon/showReportAndImages.gif
+ShowImagesIcon=icon/showImages.gif
+ShowReportIcon=icon/showReport.gif
+
+Layout4x2Icon=icon/layout4x2.gif
+Layout2x2Icon=icon/layout2x2.gif
+Layout2x1Icon=icon/layout2x1.gif
+Layout1x1Icon=icon/layout1x1.gif
+KeyObjectsIcon=icon/key.gif
+
+ReportTemplate=srhtml
+
+InitialTab=Find
+TabStyle=html/tabs

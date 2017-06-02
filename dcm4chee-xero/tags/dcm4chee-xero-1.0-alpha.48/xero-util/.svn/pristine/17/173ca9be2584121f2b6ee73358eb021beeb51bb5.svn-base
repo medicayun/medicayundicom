@@ -1,0 +1,8 @@
+<!-- This file defines some further elements to directory nested children -->
+<!--  Defines 3 prefixes to further add meta-data - m, fromXml and alt -->
+<test 
+  xmlns:x="http://www.dcm4che.org/xero"
+  xmlns:m="http://www.dcm4che.org/xero/metadata/nested" 
+  >
+   <x:v m:nested="Nested">nested.nested=Nested</x:v>
+</test>

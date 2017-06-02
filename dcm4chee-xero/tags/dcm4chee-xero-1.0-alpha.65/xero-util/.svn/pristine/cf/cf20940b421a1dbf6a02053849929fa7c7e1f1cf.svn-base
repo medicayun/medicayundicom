@@ -1,0 +1,1 @@
+$if(a)$Has A$endif$

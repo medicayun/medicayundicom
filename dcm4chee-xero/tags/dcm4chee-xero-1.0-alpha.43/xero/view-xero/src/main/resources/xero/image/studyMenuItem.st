@@ -1,0 +1,1 @@
+$it.ModalitiesInStudy;format="xml"$ | $it.StudyDescription;format="xml"$ | $it.AccessionNumber;format="xml"$ | $it.StudyDateF;format="xml"$

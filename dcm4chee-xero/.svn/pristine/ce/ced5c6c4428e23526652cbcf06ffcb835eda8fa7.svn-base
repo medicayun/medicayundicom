@@ -1,0 +1,37 @@
+<project name="dcm4chee-xero" default="install">
+  <!-- Include build.properties first as it over-rides default.properties   -->
+  <property file="build.properties" />
+  <property name="baseAntDefns" value="xero-util/baseBuild.xml" />
+  <property name="version.ownVersion" value="true" />
+  <property name="version.increment" value="35" />
+  <property name="version.base" value="1.0-rc" />
+  <property name="version.parent.tagdir" value="tags" />
+  <property name="version.tags" value="https://dcm4che.svn.sourceforge.net/svnroot/dcm4che/dcm4chee/dcm4chee-xero/${version.parent.tagdir}" />
+  <property name="toplevel" value="true" />
+
+  <import file="${baseAntDefns}" />
+
+  <!-- Recursively calls "childCall" on all child elements -->
+  <target name="recurseChildrenAll">
+     <ant dir="xero-util" target="${childCall}" inheritAll="false">
+      <propertyset refid="childProperties" />
+     </ant>
+     <ant dir="wado2" target="${childCall}" inheritAll="false">
+      <propertyset refid="childProperties" />
+     </ant>
+     <ant dir="xero" target="${childCall}" inheritAll="false">
+      <propertyset refid="childProperties" />
+     </ant>
+     <ant dir="installer" target="${childCall}" inheritAll="false">
+      <propertyset refid="childProperties" />
+     </ant>
+  </target>
+
+  <target name="install">
+     <exec executable="${mvn}" failonerror="true">
+        <arg line="install" />
+     </exec>
+     <ant dir="installer" target="install" inheritAll="false"/>
+  </target>
+
+</project>

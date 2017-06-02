@@ -1,0 +1,11 @@
+<html>
+  <head><title>Overview of Rhino Access Library</title></head>
+<body>
+<h1>Rhino Access Library</h1>
+<p>The Rhino access library is intented to be used to provide easy access to and from
+Rhino based JavaScript classes.  This includes access to Rhino classes as though they were
+maps, simple call methods to get at Rhino methods, and various classes to allow the
+general Rhino environment to look more like a browser, and to enable it to run within
+a servlet environment.</p>
+
+</body></html>

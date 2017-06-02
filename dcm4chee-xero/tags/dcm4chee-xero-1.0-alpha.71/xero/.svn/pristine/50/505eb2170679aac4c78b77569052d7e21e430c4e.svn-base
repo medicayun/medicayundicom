@@ -1,0 +1,1 @@
+<li style="float:right;" title="$i18n.(layout.tooltip)$"><img id="$layout.id$" src="$i18n.(layout.icon)$?v=$version$" onclick="controller.studyCompare('$layout.id$')"/></li>

@@ -1,0 +1,13 @@
+# Include view path related objects
+metaDataProvider.test=${class:org.dcm4chee.xero.metadata.XmlMetaDataProvider}
+metaDataProvider.test.priority=35
+metaDataProvider.test.propertyFile=test-view.metadata
+metaDataProvider.test.rootXml=http://www.dcm4che.org/xero/metadata
+metaDataProvider.test.suffix=.xml
+
+# Include parent view path related objects
+metaDataProvider.view=${class:org.dcm4chee.xero.metadata.XmlMetaDataProvider}
+metaDataProvider.view.priority=25
+metaDataProvider.view.propertyFile=xero-view.metadata
+metaDataProvider.view.rootXml=http://www.dcm4che.org/xero/metadata
+metaDataProvider.view.suffix=.xml

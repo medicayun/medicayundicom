@@ -1,0 +1,350 @@
+<project>
+  <!-- Must have a version for every POM file release - although it
+   can just set default versions that apply to anything not otherwise
+   versioned.
+   -->
+  <!-- These properties can be over-ridden in build.properties to enable
+       a build to succeed.
+  -->
+  <property name="mvn" value="mvn.bat" />
+  <property name="svn" value="svn" />
+  <property name="bc" value="bc" />
+  <property name="release.profiles" value="" />
+
+  <!-- Inherit from the parent the version information, if any -->
+  <property name="version.parent.base" value="1.0" />
+
+  <property name="version.base" value="${version.parent.base}" />
+  <property name="version.parent.increment" value="INTERNAL" />
+  <property name="version.increment" value="${version.parent.increment}" />
+
+  <property name="integration.cdp" location="cdp-integration" />
+  <property name="integration.server" value="wtlswbw02" />
+  <property name="integration.path" value="${integration.cdp}/server-setup/${integration.server}" />
+  <property name="integration" location="${integration.path}/server.properties" />
+  <property name="integration.server.service" value="DCM4CHEE Image Archive" />
+
+  <!-- JMeter properties -->
+  <property name="jmeterhome" location="${integration.cdp}/jmeter" />
+  
+  <property name="jmeter.user.classpath" value="" />
+  <property name="jmeter.failureproperty" value="" />
+  <property name="jmeter.user.properties" value="${integration.cdp}/jmeter/bin/user.properties" />
+  <property name="jmeter.beanshell.init.file" value="" />
+  <property name="jmeter.beanshell.sampler.init" value="" />
+  <property name="jmeter.beanshell.assertion.init" value="" />
+
+  <property name="testPackage" value="cdp-integration" />
+
+  <!-- Define various integration test properties, useful for setting up servers for automated testing. -->
+  <property name="userPasswordPropertyFile" value="../../server-setup/test-users.properties" />
+  <property name="dicomObjectsPropertyFile" value="../../server-setup/test-objects.properties" />
+
+  <!-- Compound properties -->
+  <property name="version.version" value="${version.base}.${version.increment}" />
+  <propertyset id="childProperties">
+     <propertyref prefix="version.parent" />
+     <propertyref prefix="serverDir" />
+     <propertyref name="version.releaseProperties" />
+     <propertyref name="integration.server" />
+     <propertyref name="integration.cdp" />
+  </propertyset>
+
+  <target name="install" description="Perform a Maven Install">
+     <exec executable="${mvn}" failonerror="true">
+	<env key="MAVEN_OPTS" value="-Xmx512m" />
+        <arg line="${release.profiles} install" />
+     </exec>
+  </target>
+
+  <target name="deploy" description="Perfrom a Maven Deploy">
+     <exec executable="${mvn}" failonerror="true">
+        <arg line="${release.profiles} deploy" />
+     </exec>
+  </target>
+
+  <target name="clean" description="Perfrom a Maven Clean">
+     <exec executable="${mvn}" failonerror="true">
+        <arg line="${release.profiles} clean" />
+     </exec>
+  </target>
+
+  <!-- Recursively calls "childCall" on all child elements -->
+  <target name="recurseChildrenAll">
+  </target>
+
+  <target name="recurseChildren">
+     <antcall target="recurseChildrenAll" inheritAll="false">
+        <param name="version.parent.base" value="${version.base}" />
+        <param name="version.parent.increment" value="${version.increment}" />
+        <param name="childCall" value="${childCall}" />
+        <param name="version.releaseProperties" value="../${version.releaseProperties}" />
+        <param name="integration.server" value="${integration.server}" />
+        <param name="integration.cdp" value="${integration.cdp}" />
+        <param name="integration" value="${integration}" />
+     </antcall>
+  </target>
+
+  <target name="echoVersion" description="Echo all the project names/versions.">
+     <echo message="The version of ${ant.project.name} is ${version.version}" />
+     <antcall target="recurseChildren">
+        <param name="childCall" value="echoVersion" />
+     </antcall>
+  </target>
+
+  <target name="nextVersion" description="Figure out, and set the 'next' version." if="version.ownVersion">
+     <script language="JavaScript">
+        project.setProperty("version.next",""+(1+parseInt(project.getProperty("version.increment"))));
+     </script>
+     <echo message="The next version of ${ant.project.name} is ${version.base}.${version.next}" />
+     <replace file="build.xml" 
+        token="&lt;property name=&quot;version.increment&quot; value=&quot;${version.increment}&quot; />" 
+        value="&lt;property name=&quot;version.increment&quot; value=&quot;${version.next}&quot; />" 
+     />
+  </target>
+
+  <!-- Erase the release properties if this is being run at the top level -->
+  <target name="initReleaseProperties" unless="version.releaseProperties">     
+     <delete file="release.properties" quiet="true"/>
+     <property name="version.releaseProperties" value="release.properties" />
+  </target>
+  
+  <target name="updateLocalPomVersions">
+     <property file="${version.releaseProperties}" />
+     <script language="JavaScript"><![CDATA[
+        var fr = new java.io.FileReader(basedir+"/pom.xml");
+        var inp = new java.io.LineNumberReader(fr);
+        var fw = new java.io.FileWriter(basedir+"/pom.xml.tmp");
+        var outp = new java.io.PrintWriter(fw);
+        var line = inp.readLine();
+        var inModule = false;
+        var inPlugin = false;
+
+        var pos;
+        while(line!=null) {
+          if( inModule ) {
+            pos = line.indexOf("<version>");
+            if( pos>=0 ) {
+               pos2 = line.indexOf("</version>");
+               if( pos2==-1 ) throw "Version line for "+inModule+" on line "+inp.getLineNumber()+" does not contain end version.";
+               var versionName = new java.lang.String("versions."+inModule);
+               var newVersion = project.getProperty(versionName);
+               if( newVersion!=null ) {
+                  java.lang.System.out.println("Found a version "+newVersion+" for "+versionName);
+                  line = line.substring(0,pos+9) + newVersion+ line.substring(pos2);
+               } else {
+                  pos = line.indexOf("SNAPSHOT");
+                  if( pos>0 && !inPlugin) throw "SNAPSHOT Version of "+inModule+" is being used in "+project.getProperty("ant.project.name");
+               }
+               inModule = false;
+            }
+          } 
+
+          pos = line.indexOf("<artifactId>");
+          if( pos>=0 ) {
+             pos2 = line.indexOf("</artifactId>");
+             if( pos2==-1 ) throw "artifactId at line "+inp.getLineNumber()+" doesn't have XML ending.";
+             inModule = line.substring(pos+12,pos2);
+             java.lang.System.out.println("Found artifactId - looking for version for "+inModule);
+          }
+
+          if( line.indexOf("<plugins>")>=0 ) inPlugin = true;
+          if( inPlugin && line.indexOf("</plugins>")>=0 ) inPlugin=false;
+          outp.println(line);
+          line = inp.readLine();
+        };
+        inp.close();
+        outp.close();
+     ]]> </script>
+  </target>
+
+  <target name="updatePomRelease" description="Update the pom file versions to the next release version" depends="initReleaseProperties">
+     <echo>Update Pom Relase on ${ant.project.name} to version ${version.version}</echo>
+     <echo file="${version.releaseProperties}" append="true">
+        versions.${ant.project.name}=${version.version}
+     </echo>
+     <antcall target="updateLocalPomVersions" />
+     <antcall target="recurseChildren">
+       <param name="childCall" value="updatePomRelease" />
+     </antcall>
+     <move file="pom.xml" tofile="pom.xml~" />
+     <move file="pom.xml.tmp" tofile="pom.xml" />
+  </target>
+
+  <target name="revertPomDevelop" description="Revert the POM file back to the development version.">
+     <exec executable="${svn}" failonerror="true">
+        <arg line="revert pom.xml" />
+     </exec>
+     <antcall target="recurseChildren">
+        <param name="childCall" value="revertPomDevelop" />
+     </antcall>
+  </target>
+
+  <!-- Copies the contents of the current directory to
+     the named directory location.
+     -->
+  <target name="copyToTag" if="version.tags">
+     <exec executable="${svn}" failonerror="true">
+        <arg line="copy . ${version.tags}/${ant.project.name}-${version.version} -m 'Releasing version ${version.version}' --non-interactive" />
+     </exec>
+  </target>
+
+
+  <target name="createSvnExternalsChildTags" if="version.tags">
+     <echo file="../svn.externals" append="true">${ant.project.name} ${version.tags}/${ant.project.name}-${version.version}
+     </echo>
+  </target>
+
+  <target name="createSvnExternalsChild" if="childCall">
+     <antcall target="createSvnExternalsChildTags" />
+  </target>
+
+  <target name="createSvnExternalsTop">
+      <delete quiet="true" file="svn.externals"/>
+  </target>
+
+  <target name="createSvnExternals" depends="createSvnExternalsTop, createSvnExternalsChild" />
+
+  <target name="commitReleaseProperties" unless="childCall">
+     <exec executable="${svn}" failonerror="true">
+        <arg line="commit release.properties --non-interactive -m 'Update the release.properties file.'" />
+     </exec>
+  </target>
+
+  <target name="commitSvnExternals">
+     <available property="svn.externals.exists" file="svn.externals" />
+     <antcall target="commitSvnExternalsIfExist" />
+     <antcall target="recurseChildren">
+        <param name="childCall" value="commitSvnExternals" />
+     </antcall>
+  </target>
+
+  <target name="commitSvnExternalsIfExist" if="svn.externals.exists">
+     <delete dir="${ant.project.name}" quiet="true"/>
+     <exec executable="${svn}" failonerror="true">
+        <arg line="checkout ${version.tags}/${ant.project.name}-${version.version} ${ant.project.name} -N" />
+     </exec>
+     <exec executable="${svn}" failonerror="true">
+        <arg line="propset svn:externals -F svn.externals ${ant.project.name} --non-interactive" />
+     </exec>
+     <exec executable="${svn}" failonerror="true">
+        <arg line="commit ${ant.project.name} --non-interactive -m 'Commit the svn:externals property on the tagged version.'" />
+     </exec>
+     <delete dir="${ant.project.name}" />
+     <delete file="svn.externals" />
+  </target>
+
+  <target name="commitVersion" if="version.ownVersion">
+     <exec executable="${svn}" failonerror="true">
+        <arg line="commit build.xml --non-interactive -m 'Update the build xml versioning.'" />
+     </exec>
+  </target>
+
+  <target name="releaseCommit" depends="copyToTag, createSvnExternals, commitReleaseProperties,commitSvnExternals">
+     <!-- Recursively enumerate over the child directories calling release commit. -->
+     <antcall target="recurseChildren">
+        <param name="childCall" value="releaseCommit" />
+     </antcall>
+  </target>
+
+  <target name="releaseCleanup" depends="revertPomDevelop">
+     <exec executable="${svn}" failonerror="true">
+	<arg line="revert release.properties" />
+     </exec>
+  </target>
+
+  <target name="updateVersion" description="Recursively updates/commits the new version number (if changed)" depends="nextVersion,commitVersion">
+    <antcall target="recurseChildren">
+       <param name="childCall" value="updateVersion" />
+    </antcall>
+  </target>
+
+  <target name="prepareRelease" depends="clean,updatePomRelease,install,releaseCommit" />
+
+  <target name="releaseDeploy" depends="deploy,revertPomDevelop" />
+
+  <target name="release" depends="prepareRelease,releaseDeploy" description="Release the overall project."/>
+
+  <target name="superIntegration">
+     <antcall target="recurseChildren">
+        <param name="childCall" value="integration" />
+     </antcall>
+  </target>
+
+  <target name="integration" description="Run the integration tests." depends="superIntegration" />
+
+  <target name="releaseIntegration" description="Run the integration tests on the latest release."
+     depends="updatePomRelease,integration,releaseCleanup" />
+
+  <target name="jmeter">
+     <copy file="${integration.cdp}/jmeter/extras/ant-jmeter-1.0.9.jar" todir="${ant.home}/lib" preserveLastModified="true"/>
+     <taskdef name="jmeter" classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask" />
+  </target>
+
+   <!-- By default the integration scripts will be read from all subdirectories -->
+   <fileset dir="${basedir}" id="integration.scripts">
+      <include name="**/*.jmx" />
+      <exclude name="**/include/**/*" />
+      <exclude name="**/template.jmx" />
+   </fileset>
+
+  <target name="runJMeter" depends="jmeter">
+     <delete dir="target" quiet="true" />
+     <mkdir dir="target" />
+     <jmeter jmeterhome="${jmeterhome}"
+        failureproperty="${jmeter.failureproperty}"
+        resultlogdir="${basedir}/target">
+        <jmeterarg value="-q${jmeter.user.properties}"/>
+	<testplans refid="integration.scripts"/>
+	<property name="user.classpath" value="${jmeter.user.classpath}"/>
+	<property name="includecontroller.prefix" value="${jmeter.user.classpath}/"/>
+	<property name="beanshell.init.file" value="${jmeter.beanshell.init.file}"/>
+	<property name="beanshell.sampler.init" value="${jmeter.beanshell.sampler.init}"/>
+	<property name="beanshell.assertion.init" value="${jmeter.beanshell.assertion.init}"/>
+	<jvmarg value="-Xms256m"/>
+	<jvmarg value="-Xmx256m"/>
+     </jmeter>
+     <move todir="target">
+        <fileset dir="${jmeterhome}/bin" includes="**/*.jtl" />
+     </move>
+     <antcall target="runJMeterXslt" />
+     <fail message="One or more JMeter tests failed.  See the target/junit-jmeter/*.xml files for exact failures.">  
+        <condition>
+           <isset property="${jmeter.failureproperty}"/>
+  	</condition>
+     </fail>     
+  </target>
+
+  <target name="runJMeterXslt">
+     <xslt style="${jmeterhome}/extras/jmeter-results-to-junit.xsl"
+	basedir="target"
+	includes="**/*.jtl" destdir="target/junit-jmeter" extension=".xml" filenameparameter="testSuiteName">
+	<param name="packageName" expression="${testPackage}.${ant.project.name}" />
+     </xslt>
+  </target>
+
+  <target name="jmeterPerformance">
+     <property name="tag" value="${jtl}" />
+     <xslt style="${jmeterhome}/extras/jmeter-to-hudson-performance.xsl"
+	in="target/junit-jmeter/${jtl}.xml" out="target/perf/${tag}.avg">
+	<param name="tag" expression="${tag}" />
+	<param name="extract" expression="avg" />
+     </xslt>
+     <xslt style="${jmeterhome}/extras/jmeter-to-hudson-performance.xsl"
+	in="target/junit-jmeter/${jtl}.xml" out="target/perf/${tag}.stddev">
+	<param name="tag" expression="${tag}" />
+	<param name="extract" expression="stdDev" />
+     </xslt>
+     <xslt style="${jmeterhome}/extras/jmeter-to-hudson-performance.xsl"
+	in="target/junit-jmeter/${jtl}.xml" out="target/perf/${tag}.min">
+	<param name="tag" expression="${tag}" />
+	<param name="extract" expression="min" />
+     </xslt>
+     <xslt style="${jmeterhome}/extras/jmeter-to-hudson-performance.xsl"
+	in="target/junit-jmeter/${jtl}.xml" out="target/perf/${tag}.max">
+	<param name="tag" expression="${tag}" />
+	<param name="extract" expression="max" />
+     </xslt>
+  </target>
+
+</project>

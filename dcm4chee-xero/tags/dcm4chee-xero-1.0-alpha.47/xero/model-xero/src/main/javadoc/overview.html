@@ -1,0 +1,81 @@
+<html>
+  <head><title>Xero Server and Client Model</title></head>
+<body>
+  <h1>Xero Server and Client Model</h1>
+  <p>The Xero model contains objects that are used by the view and controller to define the Xero interface data.  The
+  model objects additionally contain some amount of logic that is model dependent and computes model related values.
+  One could argue that this is properly controller logic, but this logic is only included when it is tightly tied
+  to the model data itself rather than being tied to controller logic.</p>
+  
+  <h2>Duplication of Client/Server Model Classes</h2>
+  <p>The client model classes are written in JavaScript, while the server components are in Java.  This allows each
+  component to run in an appropriate environment for that component.  Unfortunately, it does result in some duplication
+  of effort, and could result in some bugs that are only seen in pages rendered in one environment and not the other.  
+  One option that can be considered is to run the JavaScript server side, allowing the server to maintain the 
+  conversational model and other data specific to the window.  This might result in slightly slower server side 
+  rendering, but seems like it would be a good choice for data re-use, and will be an option considered going forward.</p>
+  
+  <h2>Serving Model/View/Controller JavaScript</h2>
+  <p>The way that the server provides the client JavaScript is to use a StringTemplateFilter and to make the 
+  JavaScript created be done by instantiating templates.  The advantage of doing it this way is that additional
+  templates can be created for additional components such as each part of the MVC triad, and that additional components
+  can be plugged in by defining the correct meta-data in files associated with the templates. As well, the templates
+  can also be combined into a single overall JavaScript file.  This also allows alternative implementations to add
+  or remove model files, or define new, customized files for specific additions or extensions to Xero.</p>
+  
+  <h2>XML Data</h2>
+  <p>XML Data is used quite heavily in Xero, with both configuration data and Study data being represented by XML. 
+  The base XML design is that each XML element corresponds to an object, and that attributes on the object
+  correspond to non-nested attributes in the object, while child elements correspond to lists of child elements
+  in the parent object.  Thus, a study contains a list of series, (called "series"), and has an attribute PatientName.
+  </p>
+  
+  <h3>Initialization of Static (or semi-static) Data</h3>
+  <p>The intialization of static or semi-static data such as layout and column information needs to occur on both
+  the client and server sides.  Currently the data is entirely replicated on each side, but the intent is to fix
+  this and to use some sort of model plugin object to allow defining repeated elements and some way to manage
+  nested layout/object creation.  <b>TODO</b> figure out how to manage this - thoughts are to use XML representations
+  or to use a generated JavaScript based on elements in the model.</p>
+  
+  <h2>Server Side Context</h2>
+  <p>The server side context uses a MapWithDefaults to compute static model and data components, and then can use
+  factories to compute dynamic data or to read data from other places such as from the user session context.  That
+  makes it easy to add additional server side on-demand components just be registering them in the metadata.</p>
+  
+  <h2>Adding Client Side Model Components</h2>
+  <p>To add client side javascript model components, declare additional metadata, for example, in the
+  xero-model.metadata file, the declaration:
+<pre>
+model.xeroModels.merged=model/merged
+</pre>
+  adds the merged.st javascript template.
+  The new template file will be included in the xerojs.st file the next time it is requested.
+  </p>
+  
+  <h2>Adding Server Side Model Components</h2>
+  <p>Server side model components can be added just by declaring them in the model.* context of the metadata, for example:
+<pre>
+model.query=${factory:org.dcm4chee.xero.controller.RequestValidator}
+</pre>
+   defines the query object as a request validator.  In this case, it is a factory request, so a new instance is made
+   the first time the object is accessed.
+   </p>
+   
+   <h2>Mixed Client/Server Side Data</h2>
+   <p>Some types of data should be duplicated both client and server side.  To do this, ensure that the model 
+   data is added to the server side model, create a javascript template that defines the same data, and
+   then declare that data client side.  For example, the list of templates to render for the study tray
+   is defined in the metadata using:
+<pre>
+model.shared.studyTrayItems=${class:org.dcm4chee.xero.metadata.access.ValueList}
+model.shared.studyTrayItems.1000nextPrevSeries=image/nextPrevSeries	
+# Add the data to the client side
+model.xeroModels.studyTrayItems=model/studyTrayItems
+</pre>
+	and then is converted to JavaScript using studyTrayItems.st by:
+<pre>
+XeroModel.prototype.studyTrayItems = [ $studyTrayItems:{"$it$"};separator=","$ ];
+</pre></p>
+
+</body>
+</html>

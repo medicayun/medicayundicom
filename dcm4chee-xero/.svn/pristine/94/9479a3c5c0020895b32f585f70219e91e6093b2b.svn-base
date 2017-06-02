@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.dcm4chee.xero</groupId>
+  <artifactId>installer</artifactId>
+  <version>1.0-rc.46</version>
+  <name>Xero OSS Distribution</name>
+  <packaging>pom</packaging>
+
+  <build>
+    <finalName>dcm4chee-xero-${version}</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>src/main/assembly/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>    
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.dcm4chee.xero</groupId>
+      <artifactId>wado2-war</artifactId>
+      <version>1.0-rc.726</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.dcm4chee.xero</groupId>
+      <artifactId>xero-war</artifactId>
+      <version>1.0-rc.443</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>batik</groupId>
+      <artifactId>batik-transcoder</artifactId>
+      <version>1.6-1</version>
+    </dependency>
+    <dependency>
+        <groupId>dcm4chee</groupId>
+        <artifactId>ejb-client</artifactId>
+        <version>2.13.6</version>
+    </dependency>
+    <dependency>
+        <groupId>dcm4chee</groupId>
+        <artifactId>ejb-client2</artifactId>
+        <version>2.14.3-alpha</version>
+    </dependency>
+    <dependency>
+        <groupId>dcm4che</groupId>
+        <artifactId>dcm4che14</artifactId>
+        <version>1.4.18</version>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>dcm4che</id>
+      <name>Dcm4che repository</name>
+      <url>http://www.dcm4che.org/maven2/</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+       <id>dcm4che</id>
+       <name>Dcm4che maven2</name>
+       <url>scp://www.dcm4che.org:443/home/maven2</url>
+    </repository>
+  </distributionManagement>
+</project>

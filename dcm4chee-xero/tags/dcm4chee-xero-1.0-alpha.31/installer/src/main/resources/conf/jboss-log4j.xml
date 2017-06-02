@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  Log4j Configuration                                                  -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<!-- $Id: jboss-log4j.xml 62403 2007-04-18 15:26:43Z dimitris@jboss.org $ -->
+
+<!--
+   | For more configuration infromation and examples see the Jakarta Log4j
+   | owebsite: http://jakarta.apache.org/log4j
+ -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="true">
+
+   <!-- ================================= -->
+   <!-- Preserve messages in a local file -->
+   <!-- ================================= -->
+
+   <!-- A time/date based rolling appender -->
+   <appender name="FILE" class="org.jboss.logging.appender.DailyRollingFileAppender">
+      <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
+      <param name="File" value="${jboss.server.log.dir}/server.log"/>
+      <param name="Append" value="false"/>
+
+      <!-- Rollover at midnight each day -->
+      <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+
+      <!-- Rollover at the top of each hour
+      <param name="DatePattern" value="'.'yyyy-MM-dd-HH"/>
+      -->
+
+      <layout class="org.apache.log4j.PatternLayout">
+         <!-- The default pattern: Date Priority [Category] Message\n -->
+         <param name="ConversionPattern" value="%d %-5p [%c] %m%n"/>
+
+         <!-- The full pattern: Date MS Priority [Category] (Thread:NDC) Message\n
+         <param name="ConversionPattern" value="%d %-5r %-5p [%c] (%t:%x) %m%n"/>
+          -->
+      </layout>
+   </appender>
+
+   <!-- ============================== -->
+   <!-- Append messages to the console -->
+   <!-- ============================== -->
+
+   <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+      <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
+      <param name="Target" value="System.out"/>
+
+      <layout class="org.apache.log4j.PatternLayout">
+         <!-- The default pattern: Date Priority [Category] Message\n -->
+         <param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n"/>
+      </layout>
+   </appender>
+  
+   <!-- ================ -->
+   <!-- Limit categories -->
+   <!-- ================ -->
+
+   <!-- Limit the org.apache category to INFO as its DEBUG is verbose -->
+   <category name="org.apache">
+      <priority value="INFO"/>
+   </category>
+
+   <!-- Limit the org.jboss.serial (jboss-serialization) to INFO as its DEBUG is verbose -->
+   <category name="org.jboss.serial">
+      <priority value="INFO"/>
+   </category>
+
+   <!-- Limit the org.jgroups category to WARN as its INFO is verbose -->
+   <category name="org.jgroups">
+      <priority value="WARN"/>
+   </category>
+
+   <!-- Limit the jacorb category to WARN as its INFO is verbose -->
+   <category name="jacorb">
+      <priority value="WARN"/>
+   </category>
+
+   <!-- Limit JBoss categories
+   <category name="org.jboss">
+      <priority value="INFO"/>
+   </category>
+   -->
+
+   <!-- Limit the JSR77 categories -->
+   <category name="org.jboss.management">
+      <priority value="INFO"/>
+   </category>
+
+
+   <!-- Enable JBossWS message tracing
+   <category name="jbossws.SOAPMessage">
+    <priority value="TRACE"/>
+   </category>
+   -->
+
+   <!-- Decrease the priority threshold for the org.jboss.varia category
+   <category name="org.jboss.varia">
+     <priority value="DEBUG"/>
+   </category>
+   -->
+
+   <!-- Show the evolution of the DataSource pool in the logs [inUse/Available/Max]
+   <category name="org.jboss.resource.connectionmanager.JBossManagedConnectionPool">
+     <priority value="TRACE"/>
+   </category>
+   -->
+
+   <!-- ====================== -->
+   <!-- Limit dcm4che category -->
+   <!-- ====================== -->
+   <category name="org.dcm4che2">
+      <priority value="WARN"/>
+   </category>
+
+   <category name="org.dcm4cheri">
+      <priority value="WARN"/>
+   </category>
+
+   <category name="org.dcm4chee.xero">
+      <priority value="WARN"/>
+   </category>
+   <category name="auditlog">
+      <priority value="WARN"/>
+   </category>
+
+   <!-- ======================= -->
+   <!-- Setup the Root category -->
+   <!-- ======================= -->
+
+
+   <root>
+      <priority value="info" />
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="FILE"/>
+   </root>
+
+</log4j:configuration>

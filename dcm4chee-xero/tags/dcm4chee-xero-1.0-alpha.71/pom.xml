@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>org.dcm4chee.xero</groupId>
+   <artifactId>dcm4chee-xero</artifactId>
+   <version>1.0-alpha.71</version>
+   <name>DCM4CHEE Xero Overall</name>
+   <url>http://www.dcm4che.org/xero</url>
+   <packaging>pom</packaging>
+
+   <modules>
+      <module>xero-util</module>
+      <module>xero-wado</module>
+      <module>xero</module>
+      <module>installer</module>
+  </modules>
+
+  <scm>
+     <developerConnection>scm:svn:https://dcm4che.svn.sourceforge.net/svnroot/dcm4che/dcm4chee/dcm4chee-xero/trunk</developerConnection>
+  </scm>
+
+ <distributionManagement>
+   <repository>
+     <id>dcm4che</id>
+     <name>Dcm4che maven2</name>
+     <url>scp://www.dcm4che.org:443/home/maven2</url>
+   </repository>
+ </distributionManagement>
+
+
+</project>

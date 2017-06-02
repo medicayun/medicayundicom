@@ -1,0 +1,1 @@
+$if(row.xmlFirst)$<a id="$rowTop.PatientIdentifier;format="xml"$" class="jslink" onclick="controller.displayPatient('$layout.id$','$rowTop.PatientIdentifier;format="xml"$')">$if(row.(var))$$row.(var);format="xml"$$else$Unknown$endif$</a>$endif$

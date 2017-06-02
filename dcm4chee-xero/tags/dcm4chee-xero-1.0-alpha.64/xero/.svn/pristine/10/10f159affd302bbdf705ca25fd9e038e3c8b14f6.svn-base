@@ -1,0 +1,96 @@
+# Defines the overall Xero metadata, including the view and model metadata components.
+metaDataProvider.propertyXeroView=${class:org.dcm4chee.xero.metadata.PropertyProvider}
+metaDataProvider.propertyXeroView.model=xero-view.metadata
+
+# The model is defined by the child values and factories registered in the model.
+model=${factory:org.dcm4chee.xero.metadata.access.MapWithDefaults}
+model.version=Xero
+
+# This defines the utilities plugin components for JavaScript
+static.xeroUtilities=${class:org.dcm4chee.xero.metadata.access.ValueList}
+static.xeroUtilities.domUtils=domUtils
+static.xeroUtilities.zoomRectangle=zoomRectangle
+static.xeroUtilities.string=string
+
+# This defines the controller plugin components for JavaScript - NOT the dynamic instances
+static.xeroControllers=${class:org.dcm4chee.xero.metadata.access.ValueList}
+static.xeroControllers.displayController=displayController
+static.xeroControllers.reportController=reportController
+static.xeroControllers.dynamic=dynamic/dynamic
+static.xeroControllers.findController=findController
+static.xeroControllers.tabsController=tabsController
+
+# The controller is available now, so include it in the js_static inclusion.
+static.HAS_CONTROLLER=true
+
+# Define the template groups to include the controller components now.
+templateGroup.groupNames.xeroController=xeroController
+
+# Define the regular controller used for rendering Xero XHTML pages.
+controller=${class:org.dcm4chee.xero.metadata.filter.FilterList}
+controller.maxAge=360
+
+controller.p3p=${class:org.dcm4chee.xero.metadata.servlet.P3PHeaderFilter}
+controller.p3p.priority=11000
+
+controller.stringTemplate=${class:org.dcm4chee.xero.template.StringTemplateFilter}
+controller.stringTemplate.defaultGroup=${ref:templateGroup}
+controller.stringTemplate.model.inherit=model
+controller.stringTemplate.priority=10000
+
+controller.languageTheme=${class:org.dcm4chee.xero.controller.LanguageThemeController}
+controller.languageTheme.priority=9500
+
+controller.browser=${class:org.dcm4chee.xero.controller.BrowserVersion}
+controller.browser.priority=9900
+
+controller.ae=${class:org.dcm4chee.xero.controller.AESelector}
+controller.ae.priority=9000
+
+
+# Defines a URL query factory - something that knows how to produce a query result from
+# one or more parameters. 
+controller.query=${class:org.dcm4chee.xero.controller.RequestValidator}
+controller.query.priority=6000
+controller.query.PatientID=${class:org.dcm4chee.xero.parsers.StringParser}
+controller.query.AccessionNumber=${class:org.dcm4chee.xero.parsers.StringParser}
+controller.query.PatientName=${class:org.dcm4chee.xero.parsers.StringParser}
+controller.query.StudyID=${class:org.dcm4chee.xero.parsers.StringParser}
+controller.query.StudyDateTime=${class:org.dcm4chee.xero.parsers.StringParser}
+controller.query.ModalitiesInStudy=${class:org.dcm4chee.xero.parsers.StringParser}
+controller.query.url=${class:org.dcm4chee.xero.controller.UrlFactory}
+controller.query.url.base=/wado2/?requestType=STUDY&maxResults=500
+controller.query.url.ModalitiesInStudy=query
+controller.query.url.PatientID=query
+controller.query.url.PatientName=query
+controller.query.url.AccessionNumber=query
+controller.query.url.StudyDateTime=query
+
+
+# Contains the pre-rendering component for initial display - relies on query validation having been done.
+controller.renderController=${class:org.dcm4chee.xero.controller.ClientRenderingController}
+controller.renderController.priority=5000
+
+# Define the JSController - the controller that handles the JavaScript generation/creation.
+jscontroller=${class:org.dcm4chee.xero.metadata.filter.FilterList}
+jscontroller.p3p=${class:org.dcm4chee.xero.metadata.servlet.P3PHeaderFilter}
+jscontroller.p3p.priority=11000
+jscontroller.stringTemplate=${class:org.dcm4chee.xero.template.StringTemplateFilter}
+jscontroller.stringTemplate.defaultContentType=text/javascript
+jscontroller.stringTemplate.defaultGroup=${ref:templateGroup}
+# Don't use the static instance directly as that isn't thread safe, and at least a few
+# attributes are changed per-call.  In this case, load a new instance set every call - this is
+# definitely slower, but has the advantage of re-loading the javascript attributes when required.
+jscontroller.stringTemplate.model.inherit=static
+jscontroller.stringTemplate.model=${factory:org.dcm4chee.xero.metadata.access.MapWithDefaults}
+jscontroller.stringTemplate.priority=10000
+
+jscontroller.browser=${class:org.dcm4chee.xero.controller.BrowserVersion}
+jscontroller.browser.priority=9900
+
+jscontroller.ae=${class:org.dcm4chee.xero.controller.AESelector}
+jscontroller.ae.priortiy=9000
+
+jscontroller.languageTheme=${class:org.dcm4chee.xero.controller.LanguageThemeController}
+jscontroller.languageTheme.priority=9500
+

@@ -1,0 +1,1 @@
+$a:{tmpl1=$it$}:{tmpl2=$it$}$

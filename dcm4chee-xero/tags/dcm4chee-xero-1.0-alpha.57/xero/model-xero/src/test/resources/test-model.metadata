@@ -1,0 +1,10 @@
+# Define the XML plugin model that reads studyColumns and studyRows
+metaDataProvider.model=${class:org.dcm4chee.xero.metadata.XmlMetaDataProvider}
+metaDataProvider.model.priority=35
+metaDataProvider.model.propertyFile=test-model.metadata
+metaDataProvider.model.rootXml=http://www.dcm4che.org/xero/metadata
+metaDataProvider.model.suffix=.xml
+
+# Define the base plugin model that defines the static data etc.
+metaDataProvider.property=${class:org.dcm4chee.xero.metadata.PropertyProvider}
+metaDataProvider.property.model=xero-model.metadata

@@ -1,0 +1,21 @@
+<html>
+<head><title>Rhino Extensions Package</title></head>
+<body>
+<h1>Rhino Extensions Package</h1>
+<p>The Rhino extensions package defines some wrapping for Rhino objects to allow treating them as a Map 
+or Array object instead of as Rhino objects.  This allows use of the objects within applications such
+as Stringtemplate rendering that only knows how to access image type objects.</p>
+
+<h2>Sugar Wrap Objects</h2>
+<p>If the sugar-wrap factory is in use, then the base, underlying Java object will be available in the 
+map that represents the Java object.  This allows passing native Java objects both in and out of 
+JavaScript unchanged, and to be used as a native JavaScript object when inside JavaScript.<p>
+
+<h2>Meta-Data Lazy Factory</h2>
+<p>JavaScript objects can be declared in a MapWithDefaults object by using a JavaScriptMapFactory - this
+takes existing objects and adds them to the map, from the default or a configured JavaScript object.
+If, additionally, the constructor name is provided, if the object doesn't exist, a new object of the
+right type will be created in the JavaScript world.</p>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Tests that Rhino class objects can be added into a MapWithDefaults type model, and that
+# Rhino scriptable variables can be added.
+
+
+model=${class:org.dcm4chee.xero.metadata.access.MapWithDefaults}
+
+# This is a factory that knows how to create the RhinoInstances appropriately
+model.rhino=${class:org.dcm4chee.xero.rhino.RhinoInstance}
+model.rhino.stringtemplate=${class:org.dcm4chee.xero.stringtemplate.AutoStringTemplateGroup}
+model.rhino.script=
+

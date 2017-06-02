@@ -1,0 +1,1 @@
+{$render.keys:{"$it$":$json(render=render.(it))$ }; separator=","}

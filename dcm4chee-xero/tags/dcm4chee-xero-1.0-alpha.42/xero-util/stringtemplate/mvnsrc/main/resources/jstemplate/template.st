@@ -1,0 +1,1 @@
+{ 'chunks': [ $template.chunks:astexpr(chunk=it); separator=", "$ ] }

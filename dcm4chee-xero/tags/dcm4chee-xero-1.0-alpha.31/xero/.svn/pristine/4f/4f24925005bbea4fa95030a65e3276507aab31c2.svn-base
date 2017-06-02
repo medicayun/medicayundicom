@@ -1,0 +1,44 @@
+<html>
+  <head><title>Xero View Templates</title></head>
+<body>
+  <h1>Xero View Templates</h1>
+  <p>The Xero View templates define the appearance of the Xero GUI HTML client.  The templates are written in
+  a simple templating language from <a href="www.stringtemplate.org">stringtemplate</a>.  This 
+  language has explicit rules about how to separate the model, view and controller components.  Specifically,
+  the model should be a read-only, no side-affects (other than possibly caching and lazy looking for performance
+  reasons - but the order/number of reads should be idempotent and completely equivalent to having looked
+  up the model data before starting any rendering other than performance.) </p>
+  
+  <p>The base stringtemplate library is a Java library that includes a complete parser for the stringtemplate 
+  language.  This parser is used in Java, and then a set of Stringtemplates are run on the stringtemplates
+  themselves to allow generating a JavaScript implementation of the same set of templates.  Having both
+  Java and JavaScript templating allows fast initial display - the templates are pre-loaded server side
+  and can be used for very fast rendering.  They are then available on the client side for very fast client 
+  side rendering.  In fact, with a bit of work on the controller/model components, the exact same set of 
+  templates could be used offline in a static fashion.</p>
+  
+  <h2>Adding Templates</h2>
+  <p>Templates can just be added in the src/main/resources/xero directory as required.  However, some templates
+  are referenced by variable, for example in a Layout object.  These are then not included unless explicitly 
+  specified.  To add such templates, add metadata that defines the template name to one of
+  allTemplates, queryTemplates or displayTemplates.  For example:
+<pre>
+displayTemplates.myNewTemplate=image/myNewTemplate
+</pre>
+  is meta-data that would add image/myNewTemplate to the JavaScript view component.  </p>
+  
+  <h2>Adding Shared Data</h2>
+  <p>Some data is used by the templates on both the client and server sides.  See the model-xero package
+  for information on how to define shared data.</p>
+  
+  <h2>Internationalization</h2>
+  <p><b>TODO</b> The expectation is that internationalization will done by adding templates in the i18n/* 
+  string template group that define the text expressions required.  The English translation will be loaded
+  by default, and one or more additional translations can be loaded in to extend the translation.</p>
+  
+  <h2>General Page Design</h2>
+  <p><b>TODO</b> Document how the views are organized/arranged for the menus, study tray, study area, image area
+  etc.</p>
+  
+</body>
+</html>

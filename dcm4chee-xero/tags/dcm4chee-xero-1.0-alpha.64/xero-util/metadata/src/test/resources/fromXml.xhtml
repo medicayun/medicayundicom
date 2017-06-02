@@ -1,0 +1,29 @@
+<!--  Defines 3 prefixes to further add meta-data - m, fromXml and alt -->
+<test 
+  xmlns:x="http://www.dcm4che.org/xero"
+  xmlns:m="http://www.dcm4che.org/xero/metadata" 
+  xmlns:fromXml="http://www.dcm4che.org/xero/metadata/fromXml"
+  m:fromXml="valueFromXml"
+  xmlns:alt="http://www.dcm4che.org/xero/ajax"
+  alt:fromXml="alt from xml"
+  >
+   <v m:fromXml.a="a">Produces metadata.fromXml.a=a</v>
+   <v fromXml:A="EH">Produces metadta.fromXml.A=EH</v>
+   <v alt:a="A">Produces ajax.a=a</v>
+   
+   <!-- Thoughts on how to use this in production... -->
+   
+   <!-- Define a default template: -->
+   <x:template fromXml:name="templateName">...</x:template>
+   
+   <x:call-template name="fromXml.templateName" />
+   or
+   <x:call-template name="#{theme.fromXml.templateName}" />
+   or
+   <!-- This line defines the page-level default meta-data source -->
+   <x:param name="pageMetadata" value="#{theme.fromXml}" />
+   <!-- This line defines call to make -note it isn't namespaced in name= -->
+   <x:call-template name="templateName" />
+   
+   <!-- Setup a page to be included, based on calling a template from it... -->
+</test>

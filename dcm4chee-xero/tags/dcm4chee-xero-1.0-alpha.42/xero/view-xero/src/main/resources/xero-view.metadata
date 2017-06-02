@@ -1,0 +1,76 @@
+## To include the model meta-data as well, use the following:
+metaDataProvider.propertyXeroModel=${class:org.dcm4chee.xero.metadata.PropertyProvider}
+metaDataProvider.propertyXeroModel.model=xero-model.metadata
+
+# This defines the study tray items to include - this is an ordered list, so in this case the 
+# numbering is included to define the ordering
+shared.studyTrayItems=${class:org.dcm4chee.xero.metadata.access.ValueList}
+shared.studyTrayItems.1000nextPrevSeries=image/nextPrevSeries	
+shared.studyTrayItems.1250reports=series/reports
+shared.studyTrayItems.1500keyObjects=series/keyObjects
+shared.studyTrayItems.1750presentation=series/presentation
+shared.studyTrayItems.2000thumbnails=series/thumbnails
+
+
+# The Templates for Xero
+static.templateGroup=${ref:templateGroup}
+static.templates=${ref:allTemplates}
+model.view=xero
+
+static.allTemplates=${ref:allTemplates}
+
+# Add the xero group to the overall templates list.
+templateGroup.groupNames.xero=xero
+
+# Define all the required templates - the query and display templates are defined independently, and any
+# item occuring in both should be explicitly listed in both
+queryTemplates=${class:org.dcm4chee.xero.template.AllTemplatesMap}
+queryTemplates.templateGroup=${ref:templateGroup}
+queryTemplates.query=query/query
+queryTemplates.displayIt=html/displayIt
+queryTemplates.displayFirst=html/displayFirst
+queryTemplates.nestedRow=html/nestedRow
+queryTemplates.errorLayout=html/errorLayout
+queryTemplates.htmlTabs=html/tabs
+queryTemplates.noHeaderTabs=html/noHeaderTabs
+queryTemplates.queryQuery=query/query
+queryTemplates.studyTable=query/studyTable
+queryTemplates.patientNameSel=query/patientNameSel
+queryTemplates.studyDescriptionSel=query/studyDescriptionSel
+
+displayTemplates=${class:org.dcm4chee.xero.template.AllTemplatesMap}
+displayTemplates.templateGroup=${ref:templateGroup}
+displayTemplates.imageNumber=image/imageNumber
+displayTemplates.seriesNumber=image/seriesNumber
+displayTemplates.seriesDescription=image/seriesDescription
+displayTemplates.patientMenu=image/patientMenu
+displayTemplates.imageImage=image/image
+displayTemplates.studyTra=image/studyTray
+displayTemplates.reportReport=report/report
+displayTemplates.nextPrevSeries=image/nextPrevSeries
+displayTemplates.compareStudyLay=image/compareStudyLay
+displayTemplates.seriesReports=series/reports
+displayTemplates.seriesKeyObjects=series/keyObjects
+displayTemplates.seriesPresentation=series/presentation
+displayTemplates.seriesThumbnails=series/thumbnails
+displayTemplates.seriesGspsMarkup=series/gspsMarkup
+displayTemplates.studyMenuItem=image/studyMenuItem
+displayTemplates.closeSeriesAreas=image/closeSeriesAreas
+displayTemplates.imageNav=image/imageNav
+displayTemplates.imageMenu=image/imageMenu
+displayTemplates.imageMenuWithDescription=image/imageMenuWithDescription
+displayTemplates.rightImageMenu=image/rightImageMenu
+
+allTemplates=${class:org.dcm4chee.xero.template.AllTemplatesMap}
+allTemplates.templateGroup=${ref:templateGroup}
+allTemplates.queryTemplates=${ref:queryTemplates}
+allTemplates.displayTemplates=${ref:displayTemplates}
+allTemplates.xeroBody=xeroBody
+allTemplates.menu=html/menu
+allTemplates.customStyle=customStyle
+allTemplates.toolItem=html/toolItem
+allTemplates.userName=html/userName
+allTemplates.childList=html/childList
+allTemplates.menuUL=html/menuUL
+allTemplates.logout=html/logout
+allTemplates.separator=html/separator

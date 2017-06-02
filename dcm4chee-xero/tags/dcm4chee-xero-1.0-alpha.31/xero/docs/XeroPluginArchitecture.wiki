@@ -1,0 +1,94 @@
+﻿h1. Metadata Architecture
+
+The metadata architecture is a design to assist in a distributed development environment where the goal is to allow some types of new features to be added into Xero dynamically, as well as replacement of some features dynamically just based on deploying additional JMX, EJB3, WAR or Seam Components.  In specific, this is intended to allow the colours, fonts and some style information to be replaced, as well as to allow pages to be replaced with alternatives under certain conditions, or to add/remove commands dynamically.  
+
+Some of these capabilities have been considered by other frameworks such as the Eclipse plugin framework, and the Spring configuration framework.  Although the Eclipse framework is available for server side components, it isn't a tested or well known technology, and conflicts with other existing technologies.  The spring framework is more easily used with server side components, but it is more driven by a single application configuration rather than being more loosely coupled.  As well, the burden for writing XML files is relatively high.  This tends to disconnect components from their meta-data.  That can be good as it allows arbitrary meta-data to be specified, but it can also make it harder for a user to understand the overall system as they need to know where certain pieces are configured and provided.
+
+Some of the goals of this framework are:
+# Ability to access meta-data independently of an object instance
+# Ability to have meta-data associated with non-Java objects such as Facelet pages.
+# Ability to default the meta-data values right at the source, wherever possible.
+## Facelet defaults use tags and attributes, eg: &lt; x:fragment template="TEMPLATE_NAME" metadata="template_metadata_name"/&gt; where the TEMPLATE_NAME is the default value, and this is associated with template_metadata_name associated with this facelet object.  If no override is provided, then TEMPLATE_NAME would be included, otherwise the provided over-ride would be used.  
+## Java object attributes or getter/setter values.
+## Custom objects to contain objects, for example to handle a singleton service object that has some customization available per-call.
+# Inheritance of the meta-data values for different locations.
+# Use and support of meta-data to construct lists of objects, and filter-sets for performing operations in some order in a standard fashion.
+# Customized command objects to define new commands at various levels, including image level operations, series level, study, list list etc, with support to update the display according to the areas modified.
+# Inclusion of meta-data from many sources, including Seam components, JMX services, EJB's looked up from JNDI, custom annotations, property files etc.
+# Multiple meta-data models for various purposes able to co-exist.  For example, a site might want to try some new component without having all users change to the new component.  They can deploy a second instance of the meta-data service and modify the services used for one of the instances only.  This can also be used for having different types of services, for example AJAX or non-AJAX.
+# Works with JMX Services
+# Works with Seam components
+# Works with Unit testing/microcontainer components
+# Works stand-alone, in-memory with no configuration files
+
+h2. Metadata design
+
+The base design for the meta-data is vey simple.  It is just a hierarchical map.  Every node can have a value object, as well as child nodes.  Each node is a nested name using dots (in a property file) to differentiate levels.  There are meta-data providers that can be specified directly on construction, or as additional meta-data itself.  There are also value-providers that know how to lookup values based on a provided string value.  That allows lookup of JMX Services, EJB's etc.  On top of this framework are lists, JNDI lookups (to find services), Seam lookups, Expression Language value providers, class instance values providers and more as time permits.
+
+For example, as a property file definition, one might have:
+a=$\{org.dcm4chee.xero.A}
+a.m1=13
+a.m2=$\{org.dcm4chee.xero.M2}
+a.m3.inherit=b
+a.m3.m1=A instance
+b=$\{org.dcm4chee.xero.B}
+b.who=B instance
+
+This would define a as a meta-data node containing 3 children nodes, m1, m2, m3 and having value as an instance of org.dcm4chee.xero.A.  Nodes m1, m2 would have no children, but would have values 13 and an instance of M2 respectively.  The value for who for A.m3 would be "A instance" while for B.who it would be "B instance".  It would not be required that b would actually instantiate a value.
+
+Further, one might have some meta-data directly specified by the class A, for instance:
+@MetaData(out="15")
+void setPropertyM4(Object value)
+
+which would specify that the default for m4 would be 15.  This usage provides for getting the meta-data from a value provider.  One could also use a property getter directly which would then require that an instance be created in order to read the default values.  That isn't the preferred mechanism, but it can be useful in some circumstances.
+
+h2. Metadata Classes and Interfaces
+
+There are only a few primary meta-data classes, with a much larger number of extension classes.  The primary classes are:
+* MetaDataBean is used for the meta-data information itself, and is a map from simple value names to meta-data nodes, with some customized initialization and meta-data provider and value providers.
+* MetaDataProvider is an interface that is used by MetaDataBean to allow additional information to be read into the meta-data node.
+* PropertyProvider is an implementation of MetaDataProvider that provides information from property files or Maps.
+* ValueProvider is an interface to provide the node values, as converted/instantiated from the string values.  This has an interface to allow values to be cached and potentially initialized if the right interface is configured.
+* NullValueProvider allows values to be set to null in the case where they shouldn't be defined.  This can be used by a higher level property provider to set a specific value to null that would normally be set to non-null by a lower level property provider.
+* InstanceValueProvider allows values that are classe names enclosed in $\{...} to be instantiated for the instance value.
+* StaticMetaData is a class that allows the meta-data to be looked up by url name, for example by a servlet.  This is a shared value, assuming the classes are shared.
+
+Those classes are the core classes, with the remaining classes being extensions and custom configurations.
+
+h2. Metadata flow diagrams
+
+(TODO)
+
+h2. Extra Providers
+
+Most of the extra work in metadata area is implementations of various meta-data providers and value providers to allow more data to be provided and looked up.  This section deals with some general providers useful in any code, and some specific providers for Seam and for JNDI respectively.
+
+h3. Annotation MetaData Provider
+
+The annotation metadata provider is composed of the annotations that are used to declare a meta-data value, and the meta-data provider itself that indicates to the meta-data node what additional information is available from the object.  In fact, it is typically only the class object that is required to provide data, as the annotations are available on the class.  There is also a helper class to allow injecting the annotatation values into the class.
+
+h3. Inherit MetaData Provider
+
+The inherit meta-data provider allows one meta-data node to inherit from another meta-data node.  An instance of this is configured by default when a MetaDataBean is instantiated.  This instance inherits based on the node "inherit".  In the example above, a.m3 inherits from b.  This inheritance happens after (at a lower priority) than the values that are directly listed, so that values can be overridden as required.
+
+To inject an object from the meta-data information, the Injector class is used.  See the unit tests for an example of how to do this.
+
+
+h3. SeamELValueProvider, SeamComponentProvider and MetaDataFromTheme
+
+h3. JNDDIValueProvider, JNDIMetadataProvider and JmxMetaDataBean
+
+h2. List Metadata
+
+h2. Filter Metadata
+
+h3. Servlet Filter
+
+h2. Command Metadata
+
+h2. Facelet Markup
+
+
+h2. Test Methodology
+
+Most of the tests for the meta-data use embedded property definitions and define an internal MetaDataBean to test various operations on.  Some of them also use either the Seam test plugin or the JBoss microcontainer in order to test Seam component providers and JNDI providers respectively.  Other than that, the unit tests are relatively straightforward unit tests with no other outside dependencies.
