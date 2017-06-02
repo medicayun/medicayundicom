@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.sourceforge.net/">
+	<wicket:panel>
+		<div class="module-selector">
+			<div wicket:id="tabs-container" class="tab-row">
+				<ul>
+					<li wicket:id="tabs">
+						<a href="#" wicket:id="link"><span wicket:id="title">[[tab title]]</span></a>
+					</li>
+				</ul>
+			</div>
+			<div class="tab-logo">
+			   <img wicket:id="img_logo" alt="dcm4che.org" /><br/>
+			</div>
+			<div class="tab-lang">
+			   <a style="margin-right: 10px" class="logout" href="#" wicket:id="logout">
+			   		<span wicket:id="logoutLabel" />
+			   	</a>
+			   <select wicket:id="language" />
+			</div>
+		</div>
+		<div wicket:id="panel" class="module-panel"></div>
+	</wicket:panel>
+</html>
