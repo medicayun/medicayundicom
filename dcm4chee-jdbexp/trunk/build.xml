@@ -1,0 +1,57 @@
+<!-- $Id: build.xml 13162 2010-04-13 12:53:34Z kianusch $ -->
+
+
+<project basedir="." default="jar" name="Jdbexp">
+	<description>
+		jdbexp ... Access DB for DCM4CHE
+	</description>
+		
+	<property name="jdbexp.location" value="${basedir}" />
+	<property name="dist.dir" value="${basedir}/dist" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="src.dir" value="${basedir}/src/java" />
+
+	<path id="project.classpath">
+		<pathelement location="bin" />
+		<pathelement location="../thirdparty/ojdbc14.jar" />
+	</path>
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="build" depends="init">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac destdir="${build.dir}" srcdir="${src.dir}">
+			<classpath>
+				<pathelement location="${build.dir}" />
+				<pathelement location="../thirdparty/ojdbc14.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="build">
+		<mkdir dir="${dist.dir}" />
+		<copy tofile="${build.dir}/com/agfa/db/tools/jdbexp.properties" file="${basedir}/resources/default.properties" />
+		<copy todir="${build.dir}/gnu/getopt/" file="${src.dir}/gnu/getopt/MessagesBundle.properties" />
+		<jar destfile="${dist.dir}/jdbexp.jar" update="true">
+			<zipfileset src="../thirdparty/ojdbc14.jar" />
+			<fileset dir="${build.dir}" />
+			<manifest>
+				<attribute name="Main-Class" value="com.agfa.db.tools.Jdbexp" />
+			</manifest>
+		</jar>
+		<jar destfile="${dist.dir}/jdbexp-stripped.jar" update="true">
+			<fileset dir="${build.dir}" />
+			<manifest>
+				<attribute name="Main-Class" value="com.agfa.db.tools.Jdbexp"/>
+				<attribute name="Class-Path" value="./ ../lib/ojdbc5.jar ../lib/ojdbc14.jar"/>
+			</manifest>
+		</jar>
+	</target>
+</project>
