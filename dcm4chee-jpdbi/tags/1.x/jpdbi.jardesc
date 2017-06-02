@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+<jar path="/home/kianusch/jpdbi.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/jpdbi/jpdbi.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" useSourceFolders="false"/>
+<manifest generateManifest="true" mainClassHandleIdentifier="=jpdbi/src&lt;java.com.agfa.db.tools{jpdbi.java[jpdbi" manifestLocation="/jpdbi/manifest.mf" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+<sealing sealJar="false">
+<packagesToSeal/>
+<packagesToUnSeal>
+<package handleIdentifier="=jpdbi/src&lt;com.agfa.db.tools"/>
+</packagesToUnSeal>
+</sealing>
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<folder path="/jpdbi/thirdparty"/>
+<javaElement handleIdentifier="=jpdbi/src"/>
+</selectedElements>
+</jardesc>

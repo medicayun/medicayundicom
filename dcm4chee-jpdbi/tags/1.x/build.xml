@@ -1,0 +1,62 @@
+<!-- $Id: build.xml 13138 2010-04-10 11:14:55Z kianusch $ -->
+	
+<project basedir="." default="jar" name="Jpdbi">
+	<description>
+		JPDBI ... Access Tables for DCM4CHEE
+	</description>
+
+	<property name="jpdbi.location" value="${basedir}" />
+	<property name="dist.dir" value="${basedir}/dist" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="src.dir" value="${basedir}/src/java" />
+
+	<path id="project.classpath">
+		<pathelement location="${build.dir}" />
+		<pathelement location="${jpdbi.location}/thirdparty/ojdbc14.jar" />
+		<pathelement location="${jpdbi.location}/thirdparty/dcm4che.jar" />
+	</path>
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${dist.dir}" />
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="build" depends="init">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac destdir="${build.dir}" srcdir="${src.dir}">
+			<classpath>
+				<pathelement location="${build.dir}" />
+				<pathelement location="${jpdbi.location}/thirdparty/ojdbc14.jar" />
+				<pathelement location="${jpdbi.location}/thirdparty/dcm4che.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="build">
+		<mkdir dir="${dist.dir}" />
+		<copy tofile="${build.dir}/com/agfa/db/tools/jpdbi.properties" file="${basedir}/resources/default.properties" />
+		<copy todir="${build.dir}/gnu/getopt/" file="${src.dir}/gnu/getopt/MessagesBundle.properties" />
+		<copy todir="${build.dir}/" file="./thirdparty/log4j.properties" />
+		<jar destfile="${dist.dir}/jpdbi.jar" update="true">
+			<zipfileset src="./thirdparty/ojdbc14.jar" />
+			<zipfileset src="./thirdparty/dcm4che.jar" />
+			<zipfileset src="./thirdparty/log4j.jar" />
+			<fileset dir="${build.dir}" />
+			<manifest>
+				<attribute name="Main-Class" value="com.agfa.db.tools.Jpdbi" />
+			</manifest>
+		</jar>
+		<jar destfile="${dist.dir}/jpdbi-stripped.jar" update="true">
+			<fileset dir="${build.dir}" />
+			<manifest>
+				<attribute name="Main-Class" value="com.agfa.db.tools.jpdbi"/>
+				<attribute name="Class-Path" value="./ ../lib/ojdbc5.jar ../lib/ojdbc14.jar ../lib/dcm4che.jar"/>
+			</manifest>
+		</jar>
+	</target>
+</project>
