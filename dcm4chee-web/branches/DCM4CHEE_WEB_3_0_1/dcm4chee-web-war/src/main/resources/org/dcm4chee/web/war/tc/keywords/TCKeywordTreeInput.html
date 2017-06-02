@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<head>
+</head>
+<body>
+    <wicket:panel>
+        <input wicket:id="text" type="text" maxlength="255" class="keyword-input-text"/>
+        <button wicket:id="chooser-button" type="button" class="keyword-chooser-btn">...</button>
+        <div wicket:id="popup-keyword-tree" class="popup-keyword-tree">
+            <div>
+                <button wicket:id="popup-close-button" type="button" class="popup-close-button"></button>
+            </div>
+            <div class="popup-keyword-tree-content">
+                <div wicket:id="keyword-tree" style="width:100%;height:100%"/>
+            </div>
+        </div>
+    </wicket:panel> 
+</body>
+</html>

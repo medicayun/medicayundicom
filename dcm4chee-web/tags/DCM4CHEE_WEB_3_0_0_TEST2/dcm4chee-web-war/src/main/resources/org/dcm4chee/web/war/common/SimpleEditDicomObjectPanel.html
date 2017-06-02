@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<head>
+<title>Dicom Object</title>
+</head>
+<body>
+<wicket:panel>
+  <span wicket:id="title" class="editTitle">[TITLE]</span>
+  <form wicket:id="form" class="edit-dicom-object">
+  <table wicket:id="table">
+    <colgroup>
+      <col class="attrname" />
+      <col class="val" />
+    </colgroup>
+    <thead>
+      <tr class="input">
+        <th class="attrname" wicket:id="nameHdr">Attribute Name</th>
+        <th class="val" wicket:id="valueHdr">Value</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr wicket:id="elements" class="input">
+        <wicket:container wicket:id="fragment" />
+        <wicket:fragment wicket:id="element">
+          <td wicket:id="name" class="attrname">
+          	<div class="edit-input-desc">[Attribute Name]</div>
+          	</td>
+          <td class="val">
+			<div class="edit-input-value"><input wicket:id="value" type="text" /></div>
+          </td>
+        </wicket:fragment>
+        <wicket:fragment wicket:id="date_element">
+          <td wicket:id="name" class="attrname">
+          	<div class="edit-input-desc">[Attribute Name]</div>
+          	</td>
+          <td class="val">
+			<div class="edit-input-value"><div wicket:id="value" id="value" /></div>
+          </td>
+        </wicket:fragment>
+      </tr>
+      
+    </tbody>
+  </table>
+  <div class="submit">
+	  <input type="submit" wicket:id="submit"/>
+	  <input type="submit" wicket:id="cancel"/>
+	</div>
+  </form>
+</wicket:panel>
+</body>
+</html>

@@ -1,0 +1,685 @@
+/*******************************************************
+ *
+ *	Teaching-File And Clinical Trial page; 
+ *  i.e CSS-based positioning and sizing
+ *
+ ******************************************************/
+
+
+/******************************************************  
+ * Position/Size of top-level areas 
+ *****************************************************/
+ 
+div.search-area 
+{
+   min-height: 2em;
+}
+ 
+div.content-area
+{
+	clear: both;
+	padding-top: 10px;
+} 
+
+div.result-area 
+{
+   margin-right: 36em;
+   min-width: 16em;
+}
+ 
+div.details-area
+{
+   float: right;
+   width: 34.75em;
+   height: 41em;
+   margin-top: 30px;
+}
+ 
+
+
+/******************************************************  
+ * Position/Size of search elements 
+ *****************************************************/
+
+div.search-header-area 
+{
+	padding: 0.5em;
+	text-align: left;
+	margin-top: 1.2em;
+	font-weight: bold;
+}
+
+div.search-header-area span.search-toggle-area
+{
+	float: right;
+	margin-left: auto;
+	margin-right: 0;
+	text-align: right;
+}
+
+form.search-form
+{
+	margin: 0px;
+}
+	 
+div.keyword-area
+{
+	margin: auto;
+	text-align: center;
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
+	clear: both;
+}
+
+div.advanced-options-area
+{
+    text-align: center;
+    height: 13em;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding-left: 2.25em;
+}
+
+div.advanced-options-toggle-area 
+{
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	padding-bottom: 1em;
+}
+
+div.advanced-options-area div.code-table-area
+{
+	width: 32em;
+}
+
+div.advanced-options-area div.choice-table-area
+{
+	padding-left: 1.25em;
+	padding-right: 1.25em;
+	margin-right: 1.25em;
+    width: 28em;
+}
+
+div.advanced-options-area div.text-table-area
+{
+    width: 25em;
+}
+
+div.advanced-options-area div.reset-search-area
+{
+    margin-top: 100px;
+}
+
+div.advanced-options-area div.text-table-area div.free-text-area
+{
+	margin-left: 5px;
+	margin-bottom: 1.2em;
+    text-align: left;
+}
+
+div.advanced-options-area div.text-table-area div.free-text-area input.free-text
+{
+    width: 18em;
+}
+
+input.keyword-input-freetext
+{
+	width: 235px;
+}
+
+input.keyword-input-text
+{
+	padding-right: 35px;
+	width: 200px;
+}
+
+button.keyword-chooser-btn
+{
+	height: 20px;
+	width: 25px;
+	padding-left: 0px;
+	padding-right: 0px;
+	left: -31px;
+	position: relative;
+	top: 2px;
+}
+	
+	
+
+/******************************************************  
+ * Position/Size of result (i.e table) elements 
+ *****************************************************/
+
+table.tc-content-table
+{
+	table-layout: fixed;
+	border-spacing: 5px;
+}
+
+table.tc-content-table tr td
+{
+	overflow: hidden;
+    padding: 2px 20px 2px 0;
+    white-space: normal;
+}
+
+table.tc-tc-content-table tr th#loadColumn
+{
+	width:40px;
+}
+
+table.tc-content-table tr th#titleColumn
+{
+	padding-left: 15px;
+    width:45%;
+}
+
+table.tc-content-table tr th#abstractColumn
+{
+	padding-left: 15px;
+    width:55%;
+}
+
+table.tc-content-table tr th#authorColumn
+{
+	padding-left: 15px;
+    width:140px;
+}
+
+table.tc-content-table tr th#dateColumn
+{
+	padding-left: 15px;
+    width:100px;
+}
+
+table.tc-content-table tr th a 
+{ 
+    text-decoration: none;
+}
+
+table.tc-content-table tr th a:hover 
+{
+    text-decoration: underline;
+}
+
+table.tc-content-table td span p
+{
+	margin: 0;
+	overflow: hidden;
+}
+
+table.tc-content-table-header 
+{
+    width: 100%;
+}
+
+table.tc-content-table-header td.navigator 
+{
+    padding: 0.5em;
+    text-align: right;
+}
+
+table.tc-content-table-header td.numberOfMatchingInstances 
+{
+    padding: 0.5em;
+    text-align: left;
+    font-weight: bold;
+}
+
+
+/******************************************************  
+ * Position/Size of details elements 
+ *****************************************************/
+
+div.details-area-header
+{
+	padding-top: 6px;
+	text-align: center;
+	font-weight: bold;
+	height: 22px;
+}
+
+div.details-area-content
+{
+	padding: 0.5em 0.25em;
+	height: 37.5em;
+}
+
+div.info-details-area
+{
+    height: 37.5em;
+}
+
+div.no-details-area
+{
+	text-align: center;
+	font-style: italic;
+	padding-top: 40px;
+}
+
+div.details-tabs
+{
+	height: 37.5em;
+}
+
+div.details-tabs div.tab-row
+{
+	height: 6.5em;
+	position: relative;
+    top: 31.5em;
+}
+	
+div.details-tabs div.tab-row ul 
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+div.details-tabs div.tab-row li 
+{
+    margin: 1px;
+    display: inline;
+    list-style-type: none;
+    height: 23px;
+    width: 100px;
+}
+
+div.details-tabs div.tab-row li a span
+{
+	height: 100%;
+}
+
+div.details-tabs div.tab-row a:link, div.details-tabs div.tab-row a:visited 
+{
+    float: left;
+    line-height: 1.5em;
+    height: 21px;
+    width: 100px;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: center;
+    padding: 2px 0px 0px 0px;
+}
+
+div.details-tabs div.tab-row a.disabled:link, div.details-tabs div.tab-row a.disabled:visited 
+{
+	color: #A9A9A9;
+	cursor: default;
+}
+
+div.details-tabs div.tab-row li.selected a:link, div.details-tabs div.tab-row a:visited.active 
+{
+    line-height: 1.5em;
+    height: 21px;
+    font-weight: bold;
+    padding: 2px 0px 0px 0px;
+}
+
+div.details-tabs div.tab-panel
+{
+	clear: left;
+	height: 31.25em;
+	position: relative;
+    top: -6.75em;
+    padding: 3px;
+}
+
+div.details-tabs div.tab-panel table.details-images-table
+{
+	border-spacing: 1px;
+	padding-top: 2px;
+}
+
+div.details-tabs div.tab-panel div.details-images-nav span
+{
+	text-align: center;
+}
+
+div.details-tabs div.tab-panel div.details-info
+{
+	padding: 2px;
+}
+
+div.details-tabs div.tab-panel div.table-property-row
+{
+	height: 1.25em;
+	overflow: hidden;
+}
+
+div.details-tabs div.tab-panel div.spacer
+{
+	height: 5px;
+	clear: left;
+}
+
+div.details-tabs div.tab-panel span.table-property-key
+{
+    float: left;
+    padding-right: 5px;
+}
+
+div.details-tabs div.tab-panel div p
+{
+	margin: 0px;
+}
+
+div.popup-keyword-list
+{
+	background-color: #F5F5F5;
+    border: 1px solid #808080;
+    padding: 1px;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:280px;
+    height:218px;
+    z-index: 99;
+}
+
+div.popup-keyword-list-content
+{
+    width: 100%;
+    height: 194px;
+    clear: both;
+    padding-top: 4px;
+}
+
+div.popup-keyword-tree
+{
+    background-color: #F5F5F5;
+    border: 1px solid #808080;
+    padding: 1px;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:320px;
+    height:258px;
+    z-index: 99;
+}
+
+div.popup-keyword-tree-content
+{
+    width: 100%;
+    height: 235px;
+    clear: both;
+    padding-top: 4px;
+}
+
+div.popup-keyword-tree-content div.wicket-tree
+{
+	border: none;
+	width: 100%;
+	height: 100%;
+	overflow: scroll;
+	margin: 0px;
+}
+
+div.popup-keyword-tree-content div.wicket-tree span.icon
+{
+	width:0px;
+	height:0px;
+}
+
+div.popup-keyword-tree-content div.wicket-tree div.row-selected 
+{
+	background: none;
+}
+	
+
+div.popup-keyword-tree-content div.wicket-tree div.a_
+{
+	padding-left: 5px;
+}
+
+div.popup-keyword-tree-content div.wicket-tree a
+{
+	color: black;
+}
+
+div.popup-keyword-acr
+{
+    background-color: #F5F5F5;
+    border: 1px solid #808080;
+    padding: 1px;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:420px;
+    height:258px;
+    z-index: 99;
+}
+
+div.popup-keyword-acr-content
+{
+    width: 100%;
+    height: 235px;
+    clear: both;
+    padding-top: 4px;
+}
+
+div.popup-keyword-acr-content div.wicket-tree
+{
+    border: none;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    margin: 0px;
+}
+
+div.popup-keyword-acr-content div.wicket-tree span.icon
+{
+    width:0px;
+    height:0px;
+}
+
+div.popup-keyword-acr-content div.wicket-tree div.row-selected 
+{
+    background: none;
+}
+    
+
+div.popup-keyword-acr-content div.wicket-tree div.a_
+{
+    padding-left: 5px;
+}
+
+div.popup-keyword-acr-content div.wicket-tree a
+{
+    color: black;
+}
+
+button.popup-close-button:hover
+{
+	background-image: url(popup-close-mouse-on.png);
+	background-repeat: no-repeat;
+}
+
+button.popup-close-button
+{
+	float:right;
+	width: 16px;
+	height: 16px;
+	margin: 2px;
+    background-image: url(popup-close-mouse-out.png);
+    background-repeat: no-repeat;
+    background-color: #F5F5F5;
+    border: medium none;
+}
+
+
+
+/* ********** COLORS ****************************/
+
+div.search-header-area
+{
+	color: white;
+	background-color: #446666;
+}
+	
+div.advanced-options-toggle-area 
+{
+	border-top: 1px solid #A9A9A9;
+}
+
+div.advanced-options-area div.choice-table-area
+{
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+}
+
+div.content-area
+{
+	background-color: #FFF;
+	border-top: 2px solid #A9A9A9;
+}
+
+div.details-area
+{
+	background-color: #DCDCDC;
+	border: 1px solid #808080;
+}
+
+div.details-area div.details-area-header
+{
+	color: white;
+	background-color: #446666;
+	border-bottom: 1px solid #D3D3D3;
+}
+
+table.tc-content-table tr th a 
+{ 
+    color: white; 
+}
+
+table.tc-content-table tr th a:hover 
+{
+    color: white; 
+}
+
+table.tc-content-table tr th.wicket_orderNone
+{
+	background-image: url(order-none.png);
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+table.tc-content-table tr th.wicket_orderUp
+{
+	background-image: url(order-ascending.png);
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+table.tc-content-table tr th.wicket_orderDown
+{
+	background-image: url(order-descending.png);
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+	
+table.tc-content-table tr.even-mouse-out 
+{ 
+    background-color: #E1E0DE; 
+    color: #696969;
+}
+
+table.tc-content-table tr.even-mouse-over 
+{ 
+    background-color: #E1E0DE; 
+    color: black;
+}
+
+table.tc-content-table tr.odd-mouse-out 
+{ 
+    background-color: #F5F5F5;
+    color: #696969;
+}
+
+table.tc-content-table tr.odd-mouse-over 
+{ 
+    background-color: #F5F5F5;
+    color: black;
+}
+
+table.tc-content-table tr.mouse-out-selected
+{ 
+    background-color: #FFDEAD; 
+    color: black;
+}
+
+table.tc-content-table tr.mouse-over-selected
+{ 
+    background-color: #FFDEAD; 
+    color: black;
+}
+
+div.no-details-area
+{
+	color: #808080;
+}
+
+hr.details-separator
+{
+	color: white;
+	background-color: white;
+}
+
+div.details-tabs div.tab-row a:hover 
+{
+    color: black;
+}
+
+div.details-tabs div.tab-panel
+{
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    background-color: #F5F5F5;
+}
+
+div.details-tabs div.tab-row a:link, div.details-tabs div.tab-row a:visited 
+{
+	background: #F5F5F5;
+	border: 1px solid #ccc;
+	color: black;
+}
+
+div.details-tabs div.tab-row li.selected a:link, div.details-tabs div.tab-row a:visited.active 
+{
+	background: white;
+    border: 1px solid #ccc;
+    color: black;
+}
+
+div.details-tabs div.tab-panel span.table-property-key
+{
+    color: #696969;
+}
+
+div.wicket-aa-container 
+{
+    background-color: #F5F5F5;
+    border: 1px solid #808080;
+}
+
+div.wicket-aa 
+{
+    background-color: #F5F5F5;
+    padding: 2px;
+    text-align: left;
+}
+
+div.wicket-aa ul 
+{
+    list-style: none outside none;
+    margin: 0;
+    padding: 2px;
+}
+
+div.wicket-aa ul li.selected 
+{
+    margin: 0;
+    font-weight: bold;
+}
+

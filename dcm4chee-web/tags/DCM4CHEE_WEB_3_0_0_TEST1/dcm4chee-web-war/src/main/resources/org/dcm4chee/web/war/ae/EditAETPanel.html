@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<head>
+<title>Application Entity</title>
+</head>
+<body>
+<wicket:panel>
+	<form wicket:id="form">
+	  <div id="ae-content">
+		  <div class="ae-table-panel" >
+			  <div class="ae-table-row">
+			     <span class="ae-desc" wicket:id="title.label">[title]</span>
+			     <input class="ae-value" wicket:id="title" type="text" />
+			  </div>
+		      <div class="ae-table-row">
+			     <span class="ae-desc" wicket:id="hostName.label">[Host]</span>
+			     <input class="ae-value" wicket:id="hostName" type="text" />
+		      </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="port.label">[Port]</span>
+	             <input class="ae-value" wicket:id="port" type="text" size="6" />
+	          </div>
+             <div class="ae-cipher-row">
+                <span class="ae-desc" wicket:id="ciphers1.label">[Ciphersuites]</span>
+                <div class="ae-value">
+             		<select wicket:id="ciphersuite1" />
+             	</div>
+             </div>
+             <div class="ae-cipher-row">
+                <span class="ae-desc" wicket:id="ciphers2.label">[Ciphersuites]</span>
+                <div class="ae-value">
+             		<select wicket:id="ciphersuite2" />
+             	</div>
+             </div>
+             <div class="ae-cipher-row">
+                <span class="ae-desc" wicket:id="ciphers3.label">[Ciphersuites]</span>
+                <div class="ae-value">
+             		<select wicket:id="ciphersuite3" />
+             	</div>
+             </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="description.label">[Description]</span>
+	             <input class="ae-value" wicket:id="description" type="text" size="50" />
+	          </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="issuerOfPatientID.label">[Issuer]</span>
+	             <input class="ae-value" wicket:id="issuerOfPatientID" type="text" />
+	          </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="fileSystemGroupID.label">[FS Group]</span>
+	             <select class="ae-value" wicket:id="fileSystemGroupID" type="text" >
+	                <option>-</option>
+	             </select>
+	          </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="wadoURL.label">[WADO URL]</span>
+	             <input class="ae-value" wicket:id="wadoURL" type="text" size="50" />
+	          </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="userID.label">[USER ID]</span>
+	             <input class="ae-value" wicket:id="userID" type="text" />
+	          </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="password.label">[Password]</span>
+	             <input class="ae-value" wicket:id="password" type="password" />
+	          </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="stationName.label">[Station Name]</span>
+	             <input class="ae-value" wicket:id="stationName" type="text" />
+	          </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="institution.label">[Institution]</span>
+	             <input class="ae-value" wicket:id="institution" type="text" />
+	          </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="department.label">[Department]</span>
+	             <input class="ae-value" wicket:id="department" type="text" />
+	          </div>
+	          <div class="ae-table-row">
+	             <span class="ae-desc" wicket:id="installed.label">[Installed]</span>
+	             <input class="ae-value" wicket:id="installed" type="checkbox" />
+	          </div>
+	      </div>
+	  </div>  
+	  <div class="ae-buttons">
+	    <input type="submit" wicket:id="submit" />
+	    <input type="submit" wicket:id="cancel" />
+	    <input type="submit" wicket:id="echo"/>
+	  </div>
+	</form>
+    <div wicket:id="echoPanel" >echoPanel</div>
+    <div wicket:id="feedbackWin" >feedback</div>
+</wicket:panel>
+</body>
+</html>

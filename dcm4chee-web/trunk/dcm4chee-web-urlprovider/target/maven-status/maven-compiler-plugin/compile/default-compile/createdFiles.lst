@@ -1,0 +1,4 @@
+org\dcm4chee\web\common\webview\link\WebviewerLinkProvider.class
+org\dcm4chee\web\common\webview\link\WebviewerLinkProvider$DummyProvider.class
+org\dcm4chee\web\common\webview\link\WebviewerLinkProvider$1.class
+org\dcm4chee\web\common\webview\link\spi\WebviewerLinkProviderSPI.class

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<head>
+</head>
+<body>
+    <wicket:panel>
+        <div class="details-area-header ui-state-active">
+            <wicket:message key="tc.details.header.title"/>
+        </div>
+        <div class="details-area-content">
+            <div wicket:id="no-details-panel" class="no-details-area">
+                <wicket:message key="tc.details.nodetails.title"/>
+            </div>
+            <div wicket:id="error-details-panel" class="error-details-area">
+                <wicket:message key="tc.details.errordetails.title"/>
+            </div>
+            <div wicket:id="details-info-panel" class="info-details-area">
+                <div wicket:id="details-tabs" class="details-tabs"/>
+            </div>
+        </div>
+    </wicket:panel> 
+</body>
+</html>

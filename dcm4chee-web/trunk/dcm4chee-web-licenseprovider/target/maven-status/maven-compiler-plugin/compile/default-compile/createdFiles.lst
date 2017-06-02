@@ -1,0 +1,4 @@
+org\dcm4chee\web\common\license\ae\AELicenseProviderManager$1.class
+org\dcm4chee\web\common\license\ae\AELicenseProviderManager$NOPLicenseProvider.class
+org\dcm4chee\web\common\license\ae\AELicenseProviderManager.class
+org\dcm4chee\web\common\license\ae\spi\AELicenseProviderSPI.class

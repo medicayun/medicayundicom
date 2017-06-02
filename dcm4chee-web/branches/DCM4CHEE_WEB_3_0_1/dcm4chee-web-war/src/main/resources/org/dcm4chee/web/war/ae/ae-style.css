@@ -1,0 +1,9 @@
+/*
+	AE CSS
+*/
+
+.ae_echo_succeed {background: none #AAFFAA; }
+.ae_echo_pending {background: none #AAAAAA; }
+.ae_echo_failed {background: none #FF6666; }
+.ae_save_failed {background: none red; }
+.ae_ping_succeed {background: none #AAFFAA; }

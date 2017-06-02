@@ -1,0 +1,423 @@
+/*******************************************************
+ *
+ *	DCM4CHEE WEB3: Teaching-File And Clinical Trial Page; 
+ *  CSS-based colors and styles
+ *
+ ******************************************************/
+
+
+
+/******************************************************  
+ * style of common elements 
+ *****************************************************/
+ 
+.tc-popup
+{
+    background-color: #F5F5F5;
+    border: 1px solid #808080;
+}
+
+.tc-keyword-popup select
+{
+    border: none;
+    background: transparent;
+}
+
+.tc-keyword-popup div.wicket-tree
+{
+    border: none;
+}
+
+.tc-keyword-popup div.wicket-tree div.row-selected 
+{
+    background: none;
+}
+
+.tc-keyword-popup div.wicket-tree a
+{
+    color: black;
+}
+
+.tc-wado-image-thumbnail-container
+{
+    border: 1px solid transparent;
+}
+
+.tc-separator-horz
+{
+    border-top: 1px solid #AAAAAA;
+}
+
+.tc-separator-vert
+{
+    border-left: 1px solid #AAAAAA;
+}
+
+.tc-view-input-hidden
+{
+	display: none;
+}
+
+.tc-view-input-editable
+{
+}
+
+.tc-view-input-non-editable
+{
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    color: black;
+}
+
+.wicket-aa-container 
+{
+    background-color: #F5F5F5;
+    border: 1px solid #808080;
+}
+
+.wicket-aa 
+{
+    background-color: #F5F5F5;
+}
+
+.wicket-aa ul 
+{
+    list-style: none outside none;
+}
+
+.wicket-aa ul li.selected 
+{
+    font-weight: bold;
+}
+
+div.diagnosis-warning  {
+	color: #FF0000;
+	font-size: 12px;
+}
+
+/******************************************************  
+ * style of SEARCH elements 
+ *****************************************************/
+ 
+div.search-header-area
+{
+    color: white;
+    font-weight: bold;
+}
+    
+div.advanced-options-toggle-area 
+{
+    border-top: 1px solid #A9A9A9;
+}
+
+div.advanced-options-area div.choice-table-area
+{
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+}
+
+
+/******************************************************  
+ * style of RESULT elements 
+ *****************************************************/
+
+div.content-area
+{
+    background-color: #FFF;
+    border-top: 2px solid #A9A9A9;
+}
+
+table.tc-content-table
+{
+	background-color: medium none;
+	border: none;
+}
+
+table.tc-content-table tr th
+{
+	background-color: transparent;
+}
+
+table.tc-content-table tr td
+{
+    border-bottom: 1px solid lightgray;
+}
+
+table.tc-content-table tr th a 
+{ 
+    color: white; 
+}
+
+table.tc-content-table tr th a:hover 
+{
+    color: white; 
+}
+
+table.tc-content-table tr th.wicket_orderNone
+{
+    background-image: url(theme/images/order-none.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+table.tc-content-table tr th.wicket_orderUp
+{
+    background-image: url(theme/images/order-ascending.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+table.tc-content-table tr th.wicket_orderDown
+{
+    background-image: url(theme/images/order-descending.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+    
+table.tc-content-table tr.even-mouse-out 
+{ 
+    background-color: #E1E0DE; 
+    color: #696969;
+}
+
+table.tc-content-table tr.even-mouse-over 
+{ 
+    background-color: #E1E0DE; 
+    color: black;
+}
+
+table.tc-content-table tr.odd-mouse-out 
+{ 
+    background-color: #F5F5F5;
+    color: #696969;
+}
+
+table.tc-content-table tr.odd-mouse-over 
+{ 
+    background-color: #F5F5F5;
+    color: black;
+}
+
+table.tc-content-table tr.mouse-out-selected
+{ 
+    background-color: #FFDEAD; 
+    color: black;
+}
+
+table.tc-content-table tr.mouse-over-selected
+{ 
+    background-color: #FFDEAD; 
+    color: black;
+}
+
+table.tc-content-table tr th a 
+{ 
+    text-decoration: none;
+}
+
+table.tc-content-table tr th a:hover 
+{
+    text-decoration: underline;
+}
+
+table.tc-content-table-header td.numberOfMatchingInstances 
+{
+    font-weight: bold;
+}
+
+
+
+/******************************************************  
+ * style of DETAIL elements 
+ *****************************************************/
+
+div.details-area
+{
+    background-color: #DCDCDC;
+}
+
+div.details-area div.details-area-header
+{
+    color: white;
+}
+
+div.details-area-header
+{
+	font-weight: bold;
+}
+
+div.no-details-area
+{
+	font-style: italic;
+    color: #808080;
+}
+
+hr.details-separator
+{
+    color: white;
+    background-color: white;
+}
+
+div.details-tabs div.tab-row a:hover 
+{
+    color: black;
+}
+
+div.details-tabs div.tab-panel
+{
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    background-color: #F5F5F5;
+}
+
+div.details-tabs div.tab-row a:link, div.details-tabs div.tab-row a:visited 
+{
+    background: #F5F5F5;
+    border: 1px solid #ccc;
+    color: black;
+}
+
+div.details-tabs div.tab-row li.selected a:link, div.details-tabs div.tab-row a:visited.active 
+{
+    background: white;
+    border: 1px solid #ccc;
+    color: black;
+}
+
+div.details-tabs div.tab-panel span.table-property-key
+{
+    color: #696969;
+}
+
+div.details-tabs div.tab-row li 
+{
+    list-style-type: none;
+}
+
+div.details-tabs div.tab-row a:link, div.details-tabs div.tab-row a:visited 
+{
+    font-weight: normal;
+    text-decoration: none;
+}
+
+div.details-tabs div.tab-row a.disabled:link, div.details-tabs div.tab-row a.disabled:visited 
+{
+	color: #A9A9A9;
+	cursor: default;
+}
+
+div.details-tabs div.tab-row li.selected a:link, div.details-tabs div.tab-row a:visited.active 
+{
+    font-weight: bold;
+}
+
+
+
+/******************************************************  
+ * style of VIEW elements 
+ *****************************************************/
+
+.tc-view-tab-container
+{
+    background: transparent;
+}
+
+.tc-view-overview-row-key
+{
+	color: #808080;
+}
+
+.tc-view-images-tab-container-parent
+{
+    background-color: black !important;
+}
+
+.tc-view-images-thumbnail-indicator
+{
+	background: url("theme/images/load-indicator-small.gif") no-repeat scroll center center transparent
+}
+
+.tc-view-images-thumbnail-hover
+{
+    background: none repeat scroll 0 0 darkgray !important;
+}
+
+.tc-view-images-thumbnail-selected
+{
+    background: none repeat scroll 0 0 orange !important;
+}
+
+#tc-view-images-thumbnail-container img
+{
+	border-radius: 4px;
+}
+
+#tc-view-images-main-prev-image-container a
+{
+	width: 32px;
+	height: 32px;
+	opacity: 0.3;
+    -moz-opacity: 0.3;
+    filter: alpha(opacity=30);
+	background: url("theme/images/left-arrow.png") no-repeat scroll center center transparent;
+}
+
+#tc-view-images-main-prev-image-container a:hover
+{
+	opacity: 0.75;
+    -moz-opacity: 0.75;
+    filter: alpha(opacity=75);
+	background: url("theme/images/left-arrow-hover.png") no-repeat scroll center center transparent;
+}
+
+#tc-view-images-main-next-image-container a
+{
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+    -moz-opacity: 0.3;
+    filter: alpha(opacity=30);
+    background: url("theme/images/right-arrow.png") no-repeat scroll center center transparent;
+}
+
+#tc-view-images-main-next-image-container a:hover
+{
+	opacity: 0.75;
+    -moz-opacity: 0.75;
+    filter: alpha(opacity=75);
+    background: url("theme/images/right-arrow-hover.png") no-repeat scroll center center transparent;
+}
+
+#tc-view-images-series-chooser
+{
+    background: transparent;
+    color: gray;
+    border: medium none;
+    text-decoration: none;
+}
+
+#tc-view-images-series-chooser:hover
+{
+    color: white;
+    border: 1px solid gray;
+}
+
+#tc-view-images-series-popup
+{
+    background: #404040;
+    border: 1px solid #606060;
+}
+
+#tc-view-images-series-popup a
+{
+    text-decoration: none;
+    color: lightgray;
+    display: block;
+}
+
+#tc-view-images-series-popup a:hover
+{
+    color: white;
+}

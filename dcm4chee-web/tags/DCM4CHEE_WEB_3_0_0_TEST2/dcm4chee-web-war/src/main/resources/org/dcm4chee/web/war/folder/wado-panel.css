@@ -1,0 +1,7 @@
+/*
+	Wado CSS
+*/
+
+div.wadopanel {float:left; margin: 0; padding: 0; border: double;} 
+.wadoframe {clear: both; width:100%; height:100%;}
+div.wado_footer {background:green; border: double;} 

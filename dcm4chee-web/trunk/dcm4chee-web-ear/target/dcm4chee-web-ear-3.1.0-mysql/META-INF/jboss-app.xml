@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss-app PUBLIC
+	"-//JBoss//DTD J2EE Application 1.4//EN"
+	"http://www.jboss.org/j2ee/dtd/jboss-app_4_0.dtd">
+<jboss-app>
+  <module>
+    <service>dcm4chee-dashboard-sar-config-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-bridge-store-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-contentedit-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-echo-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-hl7send-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-ianscu-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-movescu-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-mppsforward-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-rejnotescu-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-tlscfg-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-webcfg-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-modify-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-mwlscu-3.1.0.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-web-sar-storescu-3.1.0.sar</service>
+  </module>
+</jboss-app>

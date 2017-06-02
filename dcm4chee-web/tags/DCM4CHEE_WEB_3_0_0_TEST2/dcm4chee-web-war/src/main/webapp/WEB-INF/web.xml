@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	 version="2.4">
+
+	<display-name>dcm4chee-web</display-name>
+
+	 <!--  
+	      There are three means to configure Wickets configuration mode and they are
+	      tested in the order given. 
+	      1) A system property: -Dwicket.configuration
+	      2) servlet specific <init-param>
+	      3) context specific <context-param>
+	      The value might be either "development" (reloading when templates change)
+	      or "deployment". If no configuration is found, "development" is the default.
+	-->
+
+	<filter>
+		<filter-name>wicket.dcm4chee-web</filter-name>
+ 		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+		<init-param>
+			<param-name>applicationClassName</param-name>
+			<param-value>org.dcm4chee.web.war.WicketApplication</param-value>
+ 		</init-param>
+		<init-param>
+			<param-name>configuration</param-name>
+			<param-value>deployment</param-value>
+ 		</init-param>
+ 		<!-- Path to config directory. 
+ 		     A relative path name is resolved relative to archive-install-directory/server/default/. -->  
+ 		<init-param>
+			<param-name>webConfigPath</param-name>
+			<param-value>conf/dcm4chee-web3</param-value>
+ 		</init-param>
+	    <init-param>
+	      <param-name>DashboardServiceName</param-name>
+	      <param-value>dcm4chee.dashboard:service=DashboardService</param-value>
+	    </init-param>
+		<init-param>
+	      <param-name>UserAccessServiceName</param-name>
+	      <param-value>dcm4chee.usr:service=UserAccessService</param-value>
+	    </init-param>
+ 		<!-- Name of security domain. Default is dcm4chee 
+	    <init-param>
+	      <param-name>securityDomainName</param-name>
+	      <param-value>dcm4chee</param-value>
+	    </init-param> -->
+	    <!-- Group name for Roles. Default is Roles 
+	    <init-param>
+	      <param-name>rolesGroupName</param-name>
+	      <param-value>Roles1</param-value>
+	    </init-param> -->
+	    <!-- ClassName of LoginPage that is used for sign in. Default is org.dcm4chee.web.wicket.LoginPage
+	    <init-param>
+	      <param-name>signinPageClass</param-name>
+	      <param-value>your.Login.Page</param-value>
+	    </init-param> -->
+		<!-- ClassName of Page to show Access denied. Default is signinPageClass
+	    <init-param>
+	      <param-name>accessDeniedPage</param-name>
+	      <param-value>org.dcm4chee.web.wicket.AccessDeniedPage</param-value>
+	    </init-param> -->
+		<!-- ClassName of Page to show page expired page. Default is signinPageClass 
+	    <init-param>
+	      <param-name>pageExpiredPage</param-name>
+	      <param-value>org.dcm4chee.web.wicket.PageExpiredErrorPage</param-value>
+	    </init-param> -->
+		<!-- Name of Page to show internal errors. No Default. -->
+	    <init-param>
+	      <param-name>internalErrorPageClass</param-name>
+	      <param-value>org.dcm4chee.web.common.base.InternalErrorPage</param-value>
+	    </init-param> 
+ 	
+ 		<!-- MBean Service Names -->
+	    <init-param>
+	      <param-name>echoServiceName</param-name>
+	      <param-value>dcm4chee.web:service=EchoService</param-value>
+	    </init-param> 
+	    <init-param>
+	      <param-name>moveScuServiceName</param-name>
+	      <param-value>dcm4chee.web:service=MoveScu</param-value>
+	    </init-param> 
+	    <init-param>
+	      <param-name>contentEditServiceName</param-name>
+	      <param-value>dcm4chee.web:service=ContentEditService</param-value>
+	    </init-param> 
+	    <init-param>
+	      <param-name>wadoServiceName</param-name>
+	      <param-value>dcm4chee.archice:service=WADOService</param-value>
+	    </init-param>
+	    <!--  WADO Base URL. uncomment and configure it when the WADO is not in the same web container
+	    <init-param>
+	      <param-name>wadoBaseURL</param-name>
+	      <param-value>http://WADOSERVER:8080/wado?requestType=WADO</param-value>
+	    </init-param>  -->
+	    <!-- Uncomment and configure to the correct name of Webviewer Link Provider if more than one are installed.
+	    	The name is case sensitive! 
+	    <init-param>
+	      <param-name>webviewerName</param-name>
+	      <param-value>MY_WEB_VIEWER</param-value>
+	    </init-param> -->
+	    <!--  WebViewer Base URL. uncomment and configure it according to your WebViewer / URLProvider
+	    <init-param>
+	      <param-name>webviewerBaseUrl</param-name>
+	      <param-value>http://WEBVIEWER:8080/view?</param-value>
+	    </init-param>  -->
+	    <init-param>
+	      <param-name>storeBridgeServiceName</param-name>
+	      <param-value>dcm4chee.web:service=StoreBridge</param-value>
+	    </init-param> 
+	    <init-param>
+	      <param-name>securityDomainName</param-name>
+	      <param-value>dcm4chee</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>rolesGroupName</param-name>
+	      <param-value>Roles</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>hashEncoding</param-name>
+	      <param-value>base64</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>hashCharset</param-name>
+	      <param-value>UTF-8</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>hashAlgorithm</param-name>
+	      <param-value>SHA-1</param-value>
+	    </init-param>	
+ 	</filter>
+
+ <filter-mapping>
+  <filter-name>wicket.dcm4chee-web</filter-name>
+	<url-pattern>/*</url-pattern>
+ </filter-mapping>
+
+	<context-param>
+	    <param-name>configuration</param-name>
+		<param-value>deployment</param-value>
+		<!-- <param-value>development</param-value> -->
+	</context-param>
+</web-app>

@@ -1,0 +1,53 @@
+#
+# Edit Dicom Object CSS
+#
+
+/*
+div.dicomobject td { border-style: solid; border-width: 1px; background:#99bbaa; }
+.editTitle { text-align: center; font-size: 20px; font-weight: bold; }
+col.attrname { width: 200px; }
+col.tag { width: 100px; }
+td.tag input { width: 90px; }
+col.vr { width: 30px; }
+col.len { width: 60px; }
+col.val { width: 300px; }
+td.val input { width: 100%; }
+td.val input.textFieldSH { width: 150px; }
+td.val input.textFieldLO { width: 290px; }
+td.val div.dateTimeField { width: 141px; }
+td.val div.dateTimeField input { width: 70px; }
+td.val div.dateTimeField input.timeField { width: 35px; }
+col.action { width: 30px; }
+td.item, td.newitem, td.newattr { font-style: italic; }
+
+form.edit-dicom-object {}
+form.edit-dicom-object tr.input {
+	background: #99bbaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+form.edit-dicom-object tr.submit {
+	background: none #aaaaaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+
+div.edit-input-desc {
+	border: none;
+	text-align: left;
+	height: 20;
+}
+div.edit-input-value {
+	border: 1px solid;
+	float: left;
+	text-align: right;
+	margin: 0 6;
+	height: 20;
+}
+div.edit-input-button {
+	background: none #aaaaaa;
+	padding: 5 0 0 0;
+	height: 30;
+	text-align: left;
+}
+*/

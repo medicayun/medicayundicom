@@ -1,0 +1,9 @@
+/*
+	Move Entities CSS
+*/
+
+.movePage { background: #99bbaa; width: 100% ; height: 100%;}
+.movePage_content {text-align: center;background: #99bbaa;height: 50%; width: 90%;position: absolute; left: 5%; top: 40px;}
+.movePage_title { width:90%; position: absolute; left: 5%; top: 25%;}
+.movePage_msg { width:90%; position: absolute; left: 5%; top: 35%;}
+.movePage_button { text-align: center;width:100%;position: absolute; top: 45%; }

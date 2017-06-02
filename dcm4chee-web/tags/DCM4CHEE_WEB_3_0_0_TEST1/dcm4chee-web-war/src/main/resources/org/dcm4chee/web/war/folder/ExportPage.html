@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<head>
+<title>	
+	<wicket:message key="application.browser_title">DCM4CHEE WEB</wicket:message>
+</title>
+</head>
+<body>  
+	<wicket:extend> 
+		<form style="clear: both" wicket:id="form" class="folder">
+	  		<span wicket:id="label">LABEL</span>
+	  		<table class="export-info">
+		  		<th wicket:id="selectedItems">LABEL</th>
+	  			<tr><td wicket:id="selectedPats">Patients</td><td wicket:id="selectedPatsValue">0</td></tr>
+	  			<tr><td wicket:id="selectedStudies">Patients</td><td wicket:id="selectedStudiesValue">0</td></tr>
+	  			<tr><td wicket:id="selectedSeries">Patients</td><td wicket:id="selectedSeriesValue">0</td></tr>
+	  			<tr><td wicket:id="selectedInstances">Patients</td><td wicket:id="selectedInstancesValue">0</td></tr>
+	  		</table>
+            <div wicket:id="destinationAETsLabel">Destination AET:</div>
+           	<select wicket:id="destinationAETs">
+	        	<option>DCM4CHEE</option>
+	        	<option>DCMRCV</option>
+	        </select>
+			<div class="export-result">
+				<span wicket:id="exportResultLabel">Export Results</span>
+				<textarea name="exportResult" class="export-result" wicket:id="exportResult" 
+					rows="6" cols="60">[ExportResult]</textarea>
+			</div>
+	  		<input type="submit" wicket:id="export" />
+	  		<input type="submit" wicket:id="close" />
+	  		<input type="checkbox" wicket:id="closeOnFinished" />
+	  		<span wicket:id="closeOnFinishedLabel">Close after export is finished</span>
+	  	</form>
+	</wicket:extend>
+</body>
+</html>

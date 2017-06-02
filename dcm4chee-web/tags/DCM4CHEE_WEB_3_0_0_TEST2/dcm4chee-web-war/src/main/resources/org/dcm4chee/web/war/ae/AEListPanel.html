@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<head>
+<title>Application Entities</title>
+<link href="ae-style.css" rel="stylesheet" />
+</head>
+<body>
+<wicket:panel>
+	<div wicket:id="echoPanel" >echoPanel</div>
+	<div wicket:id="confirm" >confirmDelete</div>
+	<button wicket:id="newAET" style="margin-top: 5px;">
+		<img wicket:id="newAETImg" alt="New AET" />
+		<span wicket:id="newAETText" />
+	</button>
+	<table rules="groups" class="content-table" style="clear: both; margin-top: 9px;">
+		<thead>
+		  <tr>
+		    <th wicket:id="titleHdrLabel">Title</th>
+		    <th wicket:id="hostHdrLabel">Host</th>
+		    <th wicket:id="portHdrLabel">Port</th>
+		    <th wicket:id="cipherHdrLabel">Cipher Suites</th>
+		    <th wicket:id="descriptionHdrLabel">Description</th>
+		    <th wicket:id="issuerHdrLabel">Issuer Of Patient ID</th>
+		    <th wicket:id="fsgrpHdrLabel">File System Group ID</th>
+		    <th wicket:id="wadoHdrLabel">WADO URL</th>
+		    <th wicket:id="userHdrLabel">User ID</th>
+		    <th wicket:id="stationHdrLabel">Station Name</th>
+		    <th wicket:id="institutionHdrLabel">Institution</th>
+		    <th wicket:id="departmentHdrLabel">Department</th>
+		    <th wicket:id="installedHdrLabel">Installed</th>
+		    <th></th>
+		    <th></th>
+		    <th></th>
+		  </tr>
+		</thead>
+	  <tr wicket:id="list">
+	    <td title="Application Entity Title" wicket:id="title">[Title]</td>
+	    <td title="Hostname or IP address" wicket:id="hostName">[Host]</td>
+	    <td wicket:id="port">[Port]</td>
+	    <td>
+	      <div wicket:id="cipherSuites">
+	    	<span wicket:id="ciphersuite">[CIPHERSUITE]</span><br/>
+	      </div>
+	    </td>
+	    <td wicket:id="description">[Description]</td>
+	    <td wicket:id="issuerOfPatientID">[Issuer Of Patient ID]</td>
+	    <td wicket:id="fileSystemGroupID">[File System Group ID]</td>
+	    <td wicket:id="wadoURL">[WADO URL]</td>
+	    <td wicket:id="userID">[User ID]</td>
+	    <td wicket:id="stationName">[Station Nmae]</td>
+	    <td wicket:id="institution">[Institution]</td>
+	    <td wicket:id="department">[Department]</td>
+	    <td wicket:id="installed">[Installed]</td>
+	    <td align="center">
+	        <a wicket:id="editAET" href="#">
+	        	<img wicket:id="img-editAET" />
+	        </a>
+	    </td>
+	    <td align="center">
+	        <a wicket:id="removeAET" href="#">
+	        	<img wicket:id="img-removeAET" />
+			</a>
+	    </td>
+	    <td align="center">
+	        <a wicket:id="echo" href="#">
+	        	<img wicket:id="img-echoAET" />
+	        </a>
+	    </td>
+	  </tr>
+	</table>
+</wicket:panel>
+</body>
+</html>

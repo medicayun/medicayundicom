@@ -1,0 +1,10 @@
+org\dcm4chee\web\war\WicketApplicationTest.class
+org\dcm4chee\web\war\WASPTestUtil.class
+org\dcm4chee\web\war\DicomEditBeanTest.class
+org\dcm4chee\web\war\ae\AETestPage.class
+org\dcm4chee\web\war\ae\AEMgtTest.class
+org\dcm4chee\web\war\DummyServerConfigMBean.class
+org\dcm4chee\web\war\ae\DummyEchoMBean.class
+org\dcm4chee\web\war\DummyWebCfgMBean.class
+org\dcm4chee\web\war\ae\AEMgtApplication.class
+org\dcm4chee\web\war\ae\AEMgtApplication$1.class

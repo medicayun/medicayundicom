@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<head>
+<title>Dicom Object</title>
+</head>
+<body>
+<wicket:panel>
+  <span wicket:id="title" class="editTitle" />
+  <form wicket:id="form" class="edit-dicom-object">
+  <table wicket:id="table" class="content-table">
+    <colgroup>
+      <col class="attrname" />
+      <col class="tag" />
+      <col class="vr" />
+      <col class="len" />
+      <col class="val" />
+      <col class="action" />
+    </colgroup>
+    <thead>
+      <tr class="input">
+        <th class="attrname" wicket:id="nameHdr">Attribute Name</th>
+        <th class="tag" wicket:id="tagHdr">Tag</th>
+        <th class="vr" wicket:id="vrHdr">VR</th>
+        <th class="len" wicket:id="lenHdr">Length</th>
+        <th class="val" wicket:id="valueHdr">Value</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr wicket:id="elements" class="input">
+        <wicket:container wicket:id="fragment" />
+        <wicket:fragment wicket:id="element">
+          <td wicket:id="name" class="attrname">
+          	<div class="edit-input-desc">[Attribute Name]</div>
+          	</td>
+          <td wicket:id="tag" class="tag">
+			<div class="edit-input-desc">[Tag]</div>
+          </td>
+          <td wicket:id="vr" class="vr">
+			<div class="edit-input-desc">[VR]</div>
+          </td>
+          <td wicket:id="length" class="len">
+          	<div class="edit-input-desc">[Length]</div>
+          </td>
+          <td class="val">
+			<div class="edit-input-value"><input wicket:id="value" type="text" /></div>
+          </td>
+          <td>
+          	<div class="edit-input-button">
+          		<a wicket:id="remove" href="#">
+          			<img wicket:id="img-remove" />
+          		</a>
+          	</div>
+		</td>
+        </wicket:fragment>
+      </tr>
+      <wicket:fragment wicket:id="addelement">
+        <td wicket:id="name" class="newattr">[New Attribute]</td>
+        <td class="tag">
+        <form wicket:id="form"><input wicket:id="tag" type="text" />
+        </form>
+        </td>
+        <td class="vr">??</td>
+        <td class="len">0</td>
+        <td class="val"></td>
+        <td>
+          	<div class="edit-input-button">
+          		<a wicket:id="add" href="#">
+          			<img wicket:id="img-add" />
+          		</a>
+          	</div>
+        </td>
+      </wicket:fragment>
+      
+      <wicket:fragment wicket:id="item">
+        <td wicket:id="name" colspan="5" class="item">[Item #]</td>
+        <td>
+          	<div class="edit-input-button">
+          		<a wicket:id="remove" href="#">
+          			<img wicket:id="img-remove" />
+          		</a>
+          	</div>
+        </td>
+      </wicket:fragment>
+      
+      <wicket:fragment wicket:id="additem">
+        <td wicket:id="name" colspan="5" class="newitem">[New Item #]</td>
+        <td>
+          	<div class="edit-input-button">
+          		<a wicket:id="add" href="#">
+          			<img wicket:id="img-add" />
+          		</a>
+          	</div>
+		</td>
+      </wicket:fragment>
+    </tbody>
+  </table>
+  <div class="submit">
+	  <input type="submit" wicket:id="apply" />
+	  <input type="submit" wicket:id="submit"/>
+	  <input type="submit" wicket:id="cancel"/>
+	</div>
+  </form>
+  <div wicket:id="mw" >MessageWindow</div>
+</wicket:panel>
+</body>
+</html>

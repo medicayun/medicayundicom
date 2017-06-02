@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<head>
+</head>
+<body>
+    <wicket:panel>
+		<div wicket:id="msgWin" />
+    	<div wicket:id="modal-window" />
+    	<div wicket:id="study-window" />
+        <div>
+	        <table class="content-table-header tc-content-table-header">
+	            <tr>
+		            <td wicket:id="numberOfMatchingInstances" class="numberOfMatchingInstances"/>
+		            <td wicket:id="navigator" class="navigator"/>
+	            </tr>
+			</table>
+		</div>
+		<div>
+			<table class="tc-content-table">
+				<tr class="ui-state-active">
+					<th wicket:id="titleColumn" id="titleColumn">
+					   <span wicket:id="titleTitle"/>
+					</th>
+					<th wicket:id="abstractColumn" id="abstractColumn">
+					   <span wicket:id="abstractTitle"/>
+					</th>
+					<th wicket:id="authorColumn" id="authorColumn">
+					   <span wicket:id="authorTitle"/>
+					</th>
+					<th wicket:id="dateColumn" id="dateColumn">
+					   <span wicket:id="dateTitle"/>
+					</th>
+					<th id="loadColumn"/>
+					<th id="viewColumn"/>
+					<th id="editColumn"/>
+					<th id="showStudyColumn"/>
+				</tr>
+				<tr wicket:id="row" class="hover-out">
+					<td wicket:id="title">[title]</td>
+					<td wicket:id="abstract">[abstract]</td>
+					<td wicket:id="author">[author]</td>
+					<td wicket:id="date">[date]</td>
+					<td>                   
+					   <a wicket:id="webview" href="#">
+					       <img wicket:id="webviewImg"/>
+					   </a>
+                    </td>
+                    <td>                   
+                       <a wicket:id="tc-view" href="#">
+                           <img wicket:id="tcViewImg"/>
+                       </a>
+                    </td>
+                    <td>                   
+                       <a wicket:id="tc-edit" href="#">
+                           <img wicket:id="tcEditImg"/>
+                       </a>
+                    </td>
+                    <td>                   
+                       <a wicket:id="tc-study" href="#">
+                           <img wicket:id="tcStudyImg"/>
+                       </a>
+                    </td>
+				</tr>
+			</table>
+		</div>
+	</wicket:panel> 
+</body>
+</html>

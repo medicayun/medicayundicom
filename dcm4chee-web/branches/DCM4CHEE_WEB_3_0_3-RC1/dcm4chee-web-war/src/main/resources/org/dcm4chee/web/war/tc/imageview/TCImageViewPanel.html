@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<head>
+</head>
+<body>
+    <wicket:panel>
+        <div id="tc-view-images-main-container">
+            <div id="tc-view-images-main-header-container">
+				<a id="tc-view-images-series-chooser"
+					wicket:id="tc-view-images-series-chooser">
+					<span wicket:id="tc-view-images-series-chooser-label"/> 
+					<img wicket:id="tc-view-images-series-chooser-img" /> 
+				</a> 
+				<span wicket:id="tc-view-images-numberOf"/>
+            </div>
+            <div id="tc-view-images-main-content-container">
+                <div id="tc-view-images-main-prev-image-container">
+                    <a wicket:id="tc-view-images-prev-btn">
+                    </a>
+                </div>
+	            <div id="tc-view-images-main-image-container">
+	                <img wicket:id="tc-view-images-container-content-image"/>
+	            </div>
+	            <div id="tc-view-images-main-next-image-container">
+	                <a wicket:id="tc-view-images-next-btn">
+                    </a>
+	            </div>
+            </div>
+        </div>   
+        <div id="tc-view-images-thumbnail-container" wicket:id="tc-view-thumbnail-container">
+        </div>
+		<div id="tc-view-images-series-popup"
+			wicket:id="tc-view-images-series-popup" class="tc-popup">
+			<a wicket:id="tc-view-images-series-item">
+			     <span wicket:id="tc-view-images-series-item-label"/>
+			</a>
+		</div>
+	</wicket:panel> 
+</body>
+</html>

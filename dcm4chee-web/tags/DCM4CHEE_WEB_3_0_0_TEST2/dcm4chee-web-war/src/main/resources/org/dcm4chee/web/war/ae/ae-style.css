@@ -1,0 +1,21 @@
+/*
+	AE CSS
+*/
+
+table.module-panel-list th { color: #FFFFFF; background-color: #446666;	border-width: 1px; border-style: solid; border-color: #000000; }
+
+div.ae-table-panel { padding: 10 0 0 0; width: 100% ; height: 524; background: none #99bbaa; }
+
+div.ae-table-panel div.ae-table-row { float: left; padding: 1 0 0 0; width: 100%; height: 30; background: #99bbaa;}
+div.ae-table-panel div.ae-cipher-row { float: left; padding: 1 0 0 0; width: 100%; height: 30; background: #99bbaa;}
+
+div.ae-table-panel .ae-desc { border: none; float: left; text-align: right; width: 50%; height: 20; }
+div.ae-table-panel .ae-value { border: 1px solid; float: left; text-align: left; margin: 0 6; width: auto; height: 20; }
+
+div.ae-buttons { background: none #aaaaaa; padding: 5 0 0 0; width: 100%; height: 30; text-align: center; float: left;}
+
+form.ae-echo, div.ae-echo { padding: 20 10 10 10; background: #99bbaa; border-style: double; border-color: black}
+.ae_echo_succeed {background: none #aaffaa; }
+.ae_echo_pending {background: none #aaaaaa; }
+.ae_echo_failed {background: none #ff6666; }
+.ae_save_failed {background: none red; }

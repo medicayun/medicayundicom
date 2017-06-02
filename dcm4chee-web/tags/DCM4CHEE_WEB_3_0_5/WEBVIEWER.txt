@@ -1,0 +1,31 @@
+WEBVIEWER support in DCM4CHEE WEB3
+========================================================
+The folder support the use of WebViewer by providing a URLProvider Interface (SPI)
+This interface must be implemented for a particular WebViewer to get the
+URL's to open the viewer for patient, study, series,..
+The dcm4chee-web project contains already two implementations:
+OVIYAM and WEASIS (http://sourceforge.net/projects/dcm4che/files/)
+
+Example: OVIYAM Viewer 
+
+Build UrlProvider implementation for OVIYAM:
+$ cd dcm4chee-oviyam
+$ mvn install
+
+Install UrlProvider:
+Stop DCM4CHEE archive
+
+copy dcm4chee-web-oviyam-3.0.1.jar <DCM4CHEE>/server/default/lib
+
+Note: the WebViewer itself must also be installed:
+Download OVIYAM binary distribution and copy the war file (found in zip)
+to <DCM4CHEE>/server/default/deploy
+
+Start DCM4CHEE archive
+
+Configuration:
+In jmx-console (http://localhost:8080/jmx-console) go to dcm4chee.web service=WebConfig.
+There you find 'InstalledWebViewer' Attribute which should show 'oviyam'.
+To activate the WebViewer you have to set attribute 'WebviewerNames' to oviyam (or ANY).
+
+
