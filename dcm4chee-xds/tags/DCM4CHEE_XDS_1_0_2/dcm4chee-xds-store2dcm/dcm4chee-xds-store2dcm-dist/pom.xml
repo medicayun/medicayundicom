@@ -1,0 +1,39 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dcm4che</groupId>
+    <artifactId>dcm4chee-xds-store2dcm</artifactId>
+    <version>0.0.2</version>
+  </parent>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-xds-store2dcm-dist</artifactId>
+  <packaging>pom</packaging>
+  <version>0.0.2</version>
+  <name>Assemble Distribution for Store2Dcm Service</name>
+  <dependencies>
+    <dependency>
+      <groupId>dcm4che</groupId>
+	  <artifactId>dcm4che-core</artifactId>
+	  <version>2.0.25</version>
+    </dependency>
+    <dependency>
+      <groupId>dcm4che</groupId>
+	  <artifactId>dcm4che-net</artifactId>
+	  <version>2.0.25</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>dcm4chee-xds-store2dcm-${version}</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>src/main/assembly/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>    
+    </plugins>
+  </build>
+</project>

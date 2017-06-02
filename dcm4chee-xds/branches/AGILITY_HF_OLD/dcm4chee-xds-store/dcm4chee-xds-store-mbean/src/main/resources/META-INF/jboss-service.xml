@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<!--  Version $Revision:$ $Date:$ -->
+<server>
+  <mbean code="org.dcm4chee.xds.store.mbean.XDSStoreService" 
+         name="dcm4chee.xds:service=XDSStoreService"
+         xmbean-dd="">
+    <xmbean>
+      <description><![CDATA[<b>Document Store Service for XDS documents</b><br/>
+		Provides a store/retrieve service.<br/>.
+		]]> </description>
+
+    <descriptors>
+       <persistence persistPolicy="OnUpdate"/>
+       <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+    </descriptors>
+
+    <class>org.dcm4chee.xds.store.mbean.XDSStoreService</class>
+
+    <constructor>
+         <description>The default constructor</description>
+         <name>XDSStoreService </name>
+    </constructor>
+ 
+   <attribute access="read-write"
+      getMethod="getStoreBeforeRegisterPool" setMethod="setStoreBeforeRegisterPool">
+      <description><![CDATA[Name of DocumentStorage pool used for initial store 
+      		before document will be registered in XDSRegistry.<br/>
+      		After registry transaction either <i>commitDocuments</i> or <i>rollbackDocuments</i> will be called. 
+      ]]></description>
+      <name>StoreBeforeRegisterPool</name>
+      <type>java.lang.String</type>
+	  <descriptors>
+         <value value="uncommitted"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStoreAfterRegisterPool" setMethod="setStoreAfterRegisterPool">
+      <description><![CDATA[Name of DocumentStorage pool used to store 
+      		document after it has been registered in XDSRegistry (commitDocuments).<br/>
+      ]]></description>
+      <name>StoreAfterRegisterPool</name>
+      <type>java.lang.String</type>
+	  <descriptors>
+         <value value="committed"/>
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="isStoreMetadata" setMethod="setStoreMetadata">
+      <description><![CDATA[Enable/disable persistence of XDS Metadata.<br/>
+        The Metadata will be stored as document with mime type 'application/metadata+xml'. 
+      ]]></description>
+      <name>StoreMetadata</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMetadataStoragePool" setMethod="setMetadataStoragePool">
+      <description><![CDATA[Name of DocumentStorage pool used to store XDS Metadata. <br/>
+            NONE: No storage pool for metadata. (Use the same storage as for the document. 
+            Therefore this Storage must support 'multi_mime' feature!)
+      ]]></description>
+      <name>MetadataStoragePool</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="isForceMetadataPersistence" setMethod="setForceMetadataPersistence">
+      <description><![CDATA[Force persistence of XDS Metadata.<br/>
+      	Provide and Register transaction will fail when the configured Storage does not support MULTI_MIME feature to store metadata. 
+      ]]></description>
+      <name>ForceMetadataPersistence</name>
+      <type>boolean</type>
+	  <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isIgnoreMetadataPersistenceErrors" setMethod="setIgnoreMetadataPersistenceErrors">
+      <description><![CDATA[Ignore Errors of persistence of XDS Metadata.<br/>
+      	Otherwise the Provide and Register transaction will fail when storage of metadata was not successfull. 
+      ]]></description>
+      <name>IgnoreMetadataPersistenceErrors</name>
+      <type>boolean</type>
+	  <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+     
+       &defaultAttributes;
+       
+       <!-- Operations -->
+       &defaultOperations;
+       
+   <operation impact="ACTION">
+      <description><![CDATA[ Store the document to a DocumentStorage of StoreBeforeRegisterPool.<br/> 
+      		]]> </description>
+      <name>storeDocument</name>
+      <parameter>
+        <description>XDS Document Object</description>
+        <name>XDSDocument</name>
+        <type>org.dcm4chee.xds.common.store.XDSDocument</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.common.store.XDSDocument</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Store the document to a DocumentStorage of StoreBeforeRegisterPool.<br/> 
+      			Stores also XDS metadata in addition to the document.<p/>
+      			Throws an Exception if configured DocumentStorage doesn't support Metadata persistance.
+      		]]> </description>
+      <name>storeDocument</name>
+      <parameter>
+        <description>XDS Document Object</description>
+        <name>XDSDocument</name>
+        <type>org.dcm4chee.xds.common.store.XDSDocument</type>
+      </parameter>
+      <parameter>
+        <description>Source of XDS Metadata.</description>
+        <name>metadata</name>
+        <type>javax.xml.transform.Source</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.common.store.XDSDocument</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Retrieve a document with given document UID and MIME type.<br/> 
+      		]]> </description>
+      <name>retrieveDocument</name>
+      <parameter>
+        <description>Document Unique ID</description>
+        <name>docUid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Mime Type</description>
+        <name>mime</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.common.store.XDSDocument</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description><![CDATA[ Check if document with given UID (and MIME type) exists.<br/> 
+      		]]> </description>
+      <name>documentExists</name>
+      <parameter>
+        <description>Document Unique ID</description>
+        <name>docUid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Mime Type</description>
+        <name>mime</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description><![CDATA[ Commit storage of given list of XDSDocuments.<br/>
+      			This operation is called when Provide and Register transaction was succesfull! 
+      		]]> </description>
+      <name>commitDocuments</name>
+      <parameter>
+        <description>List of XDSDocuments</description>
+        <name>XDSDocuments</name>
+        <type>java.util.Collection</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Rollback storage of given list of XDSDocuments.<br/>
+      			This operation is called when Provide and Register transaction fails! 
+      		]]> </description>
+      <name>rollbackDocuments</name>
+      <parameter>
+        <description>List of XDSDocuments</description>
+        <name>XDSDocuments</name>
+        <type>java.util.Collection</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+ 
+   <operation impact="ACTION">
+      <description><![CDATA[ Computes Hashcode as result from regular storeDocument! 
+      		]]> </description>
+      <name>computeHash</name>
+      <parameter>
+        <description>Filename of Document</description>
+        <name>Filename</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Algorythm (default is SHA1).</description>
+        <name>alg</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description><![CDATA[ Computes Hashcode for file.
+      		]]> </description>
+      <name>computeHash</name>
+      <parameter>
+        <description>Filename of document</description>
+        <name>Filename</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>
+      
+    </xmbean>
+  </mbean>
+</server>

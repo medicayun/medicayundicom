@@ -1,0 +1,24 @@
+BUILD INSTRUCTIONS FOR DCM4CHEE XDS.a REPOSITORY:
+========================================================
+
+Beside JDK 5 or JDK 6 - which is also needed for running DCM4CHEE
+you also have to download and install Maven 2.0.7 from
+http://maven.apache.org/download.html for building the XDS Repository.
+
+If you are behind a http proxy, you have to configure Maven, to use it for
+http downloads (s.  http://maven.apache.org/guides/mini/guide-proxies.html ).
+
+$ cd dcm4chee-xdsa-repository
+$ mvn install
+
+(will download necessary artifacts from public Maven Repositories by http,
+before building MBean and WEB components of the XDS.a Repository.)
+
+Afterwards
+
+$ cd dcm4chee-xdsa-repository-dist
+$ mvn assembly:assembly
+
+will assembly the binary distribution package dcm4chee-xdsa-repository-1.0.zip,
+including the jar and war archive built before along with MBean configuration files 
+and third-party libraries. (dcm4che-core-2.0.12.jar)

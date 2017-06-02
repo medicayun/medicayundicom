@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <servlet>
+    <servlet-name>XDSbWebRetrieve</servlet-name>
+    <display-name>DCM4CHEE XDSb WebRetrieve</display-name>
+    <servlet-class>org.dcm4chee.xdsb.repository.web.XDSbWebRetrieveServlet</servlet-class>
+        <init-param>
+            <param-name>xdsbRepoServiceName</param-name>
+            <param-value>dcm4chee.xds:service=XDSbRepositoryService</param-value>
+        </init-param>
+         </servlet>
+  <servlet-mapping>
+    <servlet-name>XDSbWebRetrieve</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+</web-app>

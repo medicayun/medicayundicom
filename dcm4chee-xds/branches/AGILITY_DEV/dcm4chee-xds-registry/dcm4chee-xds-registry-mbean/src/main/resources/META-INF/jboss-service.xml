@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<!--  Version $Revision:$ $Date:$ -->
+<server>
+  <mbean code="org.dcm4chee.xds.registry.mbean.XDSRegistryService" 
+         name="dcm4chee.xds:service=XDSRegistryService"
+         xmbean-dd="">
+
+    <xmbean>
+      <description><![CDATA[<b>XDSRegistry MBeanService</b><br/>
+		Provides a XDS Registry Service for Mocking Registry Responses for XDS.a and XDS.b Requests.<br/>
+		This service can also send JMX Notification for received SubmitObjectRequests. 
+		The userData of the notification will therefore contain either a 'org.dcm4chee.xds.infoset.v30.SubmitObjectsRequest' 
+		or 'org.dcm4chee.xds.infoset.v21.SubmitObjectsRequest' object.
+		]]> </description>
+
+    <descriptors>
+       <persistence persistPolicy="OnUpdate"/>
+       <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+    </descriptors>
+
+    <class>org.dcm4chee.xdsb.registry.mbean.XDSbRegistryService</class>
+
+    <constructor>
+         <description>The default constructor</description>
+         <name>XDSbRegistryService</name>
+    </constructor>
+      
+
+   <attribute access="read-write"
+      getMethod="isLogReceivedMessage"
+      setMethod="setLogReceivedMessage">
+      <description>Enable logging of received Request message (Provide And Register Document Set).
+      </description>
+      <name>LogReceivedMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogResponseMessage"
+      setMethod="setLogResponseMessage">
+      <description>Enable/Disable logging of received Response message (RegistryResponse). 
+      </description>
+      <name>LogResponseMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isIndentXmlLog"
+      setMethod="setIndentXmlLog">
+      <description>Enable/disable indention of logged XML message.
+      </description>
+      <name>IndentXmlLog</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isSaveRequestAsFile"
+      setMethod="setSaveRequestAsFile">
+      <description>Save Provide And Register Document Set Request as file.
+      </description>
+      <name>SaveRequestAsFile</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute> 
+   <attribute access="read-write"
+      getMethod="getSavePath"
+      setMethod="setSavePath">
+      <description><![CDATA[Base directory where requests are stored.<br/>
+            Format of the file name is: &lt;SavePath&gt;/&lt;SubmissionSetUID&gt;.xml<br/>
+            ]]>
+      </description>
+      <name>SavePath</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="log/xdsb/reg" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMockError"
+      setMethod="setMockError">
+      <description><![CDATA[ An optional error message for mocked Registry Response.<br/>
+      			Format: NONE or [&lt;Error Code&gt;|]&lt;ErrorMessage&gt;<br/>
+      			NONE: Means Success status<br/>
+      			ErrorCode: Optional ErrorCode. If not specified 'XDSRegistryError' is used.<br/>
+      			ErrorMessage: The error message.<br/>
+      		]]>
+      </description>
+      <name>MockError</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMockQueryResponseFile"
+      setMethod="setMockQueryResponseFile">
+      <description><![CDATA[ Filename of a file which holds a AdhocQueryResponse for mocking StoredQuery response.<br/>
+            Use '{id}' as placeholder for the Stored Query ID (without 'urn:uuid:') to get request type specific responses. <br/>
+            Use NONE to use an empty response.
+            ]]>
+      </description>
+      <name>MockQueryResponseFile</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isSendJmxNotification"
+      setMethod="setSendJmxNotification">
+      <description>Activates notification of registered listeners about received
+      'Register Document Set' request.
+      </description>
+      <name>SendNotification</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+
+   &defaultAttributes;
+   
+   <!-- Operations -->
+   &defaultOperations;
+       
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform the XDS.b register document set transaction.
+      		]]> </description>
+      <name>registerDocuments</name>
+      <parameter>
+        <description>The SubmitObjectsRequest Object</description>
+        <name>SubmitObjectsRequest</name>
+        <type>org.dcm4chee.xds.infoset.v30.SubmitObjectsRequest</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.infoset.v30.RegistryResponseType</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform the XDS.a register document set transaction.
+            ]]> </description>
+      <name>registerDocumentsA</name>
+      <parameter>
+        <description>The SubmitObjectsRequest Object (ebRim v2.1)</description>
+        <name>SubmitObjectsRequest</name>
+        <type>org.dcm4chee.xds.infoset.v21.SubmitObjectsRequest</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.infoset.v21.RegistryResponse</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform a Stored Query transaction.
+            ]]> </description>
+      <name>storedQuery</name>
+      <parameter>
+        <description>The AdhocQueryRequest Object</description>
+        <name>AdhocQueryRequest</name>
+        <type>org.dcm4chee.xds.infoset.v30.AdhocQueryRequest</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.infoset.v30.AdhocQueryResponse</return-type>
+   </operation>
+ 
+   <!-- Notifications -->
+   <notification>
+      <description><![CDATA[ The notification sent whenever a 'Register Document Set' request is received.
+      ]]></description>
+      <name>javax.management.Notification</name>
+      <notification-type>org.dcm4chee.xds.infoset.v30.SubmitObjectsRequest</notification-type>
+   </notification>
+        
+    </xmbean>
+  </mbean>
+</server>

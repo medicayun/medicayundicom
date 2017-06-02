@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Version $Revision:$ $Date:$ -->
+<server>
+  <mbean code="org.dcm4chee.xds.cfg.mbean.XdsHttpCfgService" 
+         name="dcm4chee.xds:service=XdsHttpCfgService"
+         xmbean-dd="">
+
+<xmbean>
+   <description><![CDATA[<b>XDS Config XDS HTTP Service</b><br/>
+		Provides a Service to configure http settings (proxy, SSL) for XDS clients.<br/>
+		]]> </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chee.xds.cfg.mbean.XdsHttpCfgService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>XdsHttpCfgService</name>
+   </constructor>
+
+   <attribute access="read-write" getMethod="getProxyHost" setMethod="setProxyHost">
+      <!-- Network -->     
+      <description>Proxy host if http access use http proxy. NONE = no proxy.
+      </description>
+      <name>ProxyHost</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getProxyPort" setMethod="setProxyPort">
+      <!-- Network -->     
+      <description>Proxy port if http access use http proxy.
+      </description>
+      <name>ProxyPort</name>
+      <type>int</type>
+      <descriptors>
+         <value value="3128"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getProxyUser" setMethod="setProxyUser">
+      <!-- Network -->     
+      <description>Proxy user if proxy needs authentication.
+      </description>
+      <name>ProxyUser</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="write-only" setMethod="setProxyPasswd">
+      <!-- Network -->     
+      <description>Proxy password if proxy needs authentication.
+      </description>
+      <name>ProxyPasswd</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getNonProxyHosts" setMethod="setNonProxyHosts">
+      <!-- Network -->     
+      <description>List of hosts that must not use a Proxy (separated by '|', * can be used as wildcard).
+      </description>
+      <name>NonProxyHosts</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getSecureProxyHost" setMethod="setSecureProxyHost">
+      <!-- Network -->     
+      <description>Secure Proxy host if https access use http proxy. NONE = no proxy.
+      </description>
+      <name>SecureProxyHost</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getSecureProxyPort" setMethod="setSecureProxyPort">
+      <!-- Network -->     
+      <description>Secure Proxy port if https access use http proxy.
+      </description>
+      <name>SecureProxyPort</name>
+      <type>int</type>
+      <descriptors>
+         <value value="3128"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getSecureProxyUser" setMethod="setSecureProxyUser">
+      <!-- Network -->     
+      <description>Secure Proxy user if proxy needs authentication.
+      </description>
+      <name>SecureProxyUser</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="write-only" setMethod="setSecureProxyPasswd">
+      <!-- Network -->     
+      <description>Secure Proxy password if proxy needs authentication.
+      </description>
+      <name>SecureProxyPasswd</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getSecureNonProxyHosts" setMethod="setSecureNonProxyHosts">
+      <!-- Network -->     
+      <description>List of hosts that must not use a (Secure) Proxy.
+      </description>
+      <name>SecureNonProxyHosts</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getHttpsProtocols" setMethod="setHttpsProtocols">
+      <!-- Network -->     
+      <description>List of protocols for TLS communication. (e.g. TLSv1,SSLv3,SSLv2Hello)
+      </description>
+      <name>HttpsProtocols</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getHttpsCipherSuites" setMethod="setHttpsCipherSuites">
+      <!-- Network -->     
+      <description>List of Cipher Suites used by TLS (Default: SSL_RSA_WITH_NULL_SHA,TLS_RSA_WITH_AES_128_CBC_SHA).
+      </description>
+      <name>HttpsCipherSuites</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getAuthUser" setMethod="setAuthUser">
+      <description>Authenticator user. This may be needed when proxy use windows authentication.
+      </description>
+      <name>AuthenticatorUser</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="write-only" setMethod="setAuthPasswd">
+      <description>Authenticator password if proxy needs windows authentication.
+      </description>
+      <name>AuthenticatorPasswd</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getSocksProxyHost" setMethod="setSocksProxyHost">
+      <!-- Network -->     
+      <description><![CDATA[ Socks Proxy host if http access should use a socks proxy. NONE = no socks proxy.<br/>
+                    Note: SocksProxy is NOT used when a http proxy is configured!
+      ]]> </description>
+      <name>SocksProxyHost</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getSocksProxyPort" setMethod="setSocksProxyPort">
+      <!-- Network -->     
+      <description>Socks Proxy port if SocksProxy is configured.
+      </description>
+      <name>SocksProxyPort</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1080"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getSocksNonProxyHosts" setMethod="setSocksNonProxyHosts">
+      <!-- Network -->     
+      <description>List of hosts that must not use the socks Proxy (separated by '|', (leading) * can be used as wildcard). (dcm4chee extension!)
+      </description>
+      <name>SocksNonProxyHosts</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getKeyStoreURL" setMethod="setKeyStoreURL">
+      <!-- Security -->     
+      <description>URL of keystore containing certificate to identify this Document Source,
+         when running in TLS mode.
+      </description>
+      <name>KeyStoreURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="conf/identity.p12" />
+      </descriptors>
+   </attribute>
+   <attribute access="write-only"
+      setMethod="setKeyStorePassword">
+      <!-- Security -->     
+      <description>The password for access to keystore,
+      specified by attribute TrustStoreURL.
+      </description>
+      <name>KeyStorePassword</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="secret" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      setMethod="setKeystoreType"
+      getMethod="getKeystoreType">
+      <description>The keystore type.  Set to NONE to use the system default.
+      </description>
+      <name>KeystoreType</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PKCS12" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getTrustStoreURL" setMethod="setTrustStoreURL">
+      <!-- Security -->     
+      <description>URL of trust store containing accepted certificates,
+         when running in TLS mode.
+      </description>
+      <name>TrustStoreURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="conf/cacerts.jks" />
+      </descriptors>
+   </attribute>
+   <attribute access="write-only"  setMethod="setTrustStorePassword">
+      <!-- Security -->     
+      <description>The password for access to trust store,
+      specified by attribute TrustStoreURL.
+      </description>
+      <name>TrustStorePassword</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="secret" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getAllowedUrlHost" setMethod="setAllowedUrlHost">
+      <description>URL Hostname for HTTPS Hostname checking. CERT (from Certificate (standard)), 
+            * (no Check), hostname (only this URL Hostname).
+      </description>
+      <name>AllowedUrlHost</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="CERT" />
+      </descriptors>
+   </attribute>
+
+   <!-- Operations -->
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Configure TLS for given URL.<br/>
+            TLS will be only configured if the protocol of given URL is 'https'!<br/>
+            <dl><dt>Return one of following response values:</dt>
+                <dd>CFG_RSP_OK (1)      : Successfully configured</dd>
+                <dd>CFG_RSP_IGNORED (0) : Ignored becaus URL is not https</dd>
+                <dd>CFG_RSP_ALREADY (2) : TLS is already configured</dd>
+                <dd>CFG_RSP_ERROR (-1)  : NOT configured because config has error</dd>
+            </dl>
+       		]]> </description>
+      <name>configTLS</name>
+      <parameter>
+        <description>URL to determine if https is used</description>
+        <name>url</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>int</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Show list of networking properties.
+       		]]> </description>
+      <name>listProperties</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+
+</xmbean>
+
+
+  </mbean>
+</server>

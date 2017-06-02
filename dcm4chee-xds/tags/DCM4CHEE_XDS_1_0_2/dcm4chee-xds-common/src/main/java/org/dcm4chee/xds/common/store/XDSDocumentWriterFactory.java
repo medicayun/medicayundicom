@@ -1,0 +1,358 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * Version: MPL 1.1/GPL 2.0/LGPL 2.1
+ *
+ * The contents of this file are subject to the Mozilla Public License Version
+ * 1.1 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * The Original Code is part of dcm4che, an implementation of DICOM(TM) in
+ * Java(TM), available at http://sourceforge.net/projects/dcm4che.
+ *
+ * The Initial Developer of the Original Code is
+ * TIANI Medgraph AG.
+ * Portions created by the Initial Developer are Copyright (C) 2003-2005
+ * the Initial Developer. All Rights Reserved.
+ *
+ * Contributor(s):
+ * Gunter Zeilinger <gunter.zeilinger@tiani.com>
+ * Franz Willer <franz.willer@gwi-ag.com>
+ *
+ * Alternatively, the contents of this file may be used under the terms of
+ * either the GNU General Public License Version 2 or later (the "GPL"), or
+ * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+ * in which case the provisions of the GPL or the LGPL are applicable instead
+ * of those above. If you wish to allow use of your version of this file only
+ * under the terms of either the GPL or the LGPL, and not to allow others to
+ * use your version of this file under the terms of the MPL, indicate your
+ * decision by deleting the provisions above and replace them with the notice
+ * and other provisions required by the GPL or the LGPL. If you do not delete
+ * the provisions above, a recipient may use your version of this file under
+ * the terms of any one of the MPL, the GPL or the LGPL.
+ *
+ * ***** END LICENSE BLOCK ***** */
+
+package org.dcm4chee.xds.common.store;
+
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Arrays;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMultipart;
+import javax.xml.soap.AttachmentPart;
+import javax.xml.soap.SOAPException;
+import javax.xml.transform.stream.StreamSource;
+
+import org.jboss.ws.core.soap.attachment.MimeConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class XDSDocumentWriterFactory {
+
+    private int bufferSize = 8192;
+
+    private static XDSDocumentWriterFactory singleton;
+
+    private static Logger log = LoggerFactory.getLogger(XDSDocumentWriter.class);
+
+    private XDSDocumentWriterFactory() {
+    }
+
+    public static XDSDocumentWriterFactory getInstance() {
+        if ( singleton == null )
+            singleton = new XDSDocumentWriterFactory();
+        return singleton;
+    }
+
+    public XDSDocumentWriter getDocumentWriter(File f) throws IOException {
+        long fileSize = f.length();
+        if ( fileSize > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("File is to large! "+fileSize+" exceeds maximum of "+Integer.MAX_VALUE+" bytes");
+        }
+        FileDataSource ds = new FileDataSource(f);
+        return new DataHandlerWriter(new DataHandler(ds), fileSize);
+    }
+
+    public XDSDocumentWriter getDocumentWriter(InputStream inputStream, long size, String contentType) throws IOException {
+        InputStreamDataSource ds = new InputStreamDataSource(inputStream, contentType);
+        return new DataHandlerWriter(new DataHandler(ds), size);
+    }
+
+    public XDSDocumentWriter getDocumentWriter(AttachmentPart part) throws SOAPException, IOException {
+        if ( log.isDebugEnabled()) {
+            log.debug("part datahandler:"+part.getDataHandler().getClass().getName());
+            log.debug("part contentType:"+part.getContentType());
+        }
+        if ( "application/dicom".equalsIgnoreCase(part.getContentType() ) ) { //ImageIO isn't the right handler to handle basic DICOM objects like manifest KOS
+            String[] encoding = part.getMimeHeader(MimeConstants.CONTENT_TRANSFER_ENCODING);
+            if ( encoding != null && MimeConstants.BASE64_ENCODING.equals(encoding[0])) {
+                part.setBase64Content(part.getRawContent(), part.getContentType());
+            }
+            InputStream is = part.getRawContent();
+            return new CachedWriter( is, part.getContentType() );
+        }
+        Object content = part.getContent();
+        log.debug("part:"+part.getClass().getName());
+        log.debug("content:"+content.getClass().getName());
+        if ( content instanceof String ) {
+            return new DataWriter(content.toString(), part.getContentType());
+        } else if ( content instanceof StreamSource ) {
+            return new CachedWriter(((StreamSource) content).getInputStream(), part.getContentType());
+        } else if ( content instanceof InputStream ) {
+            return new CachedWriter( (InputStream) content, part.getContentType() );
+        } else if ( content instanceof MimeMultipart ) {
+            return new CachedWriter( (MimeMultipart) content );
+        } else {
+            throw new IllegalArgumentException("Cant get Writer for attachment! Reason: Unknown content:"+content.getClass().getName()+" contentType:"+part.getContentType());
+        }
+    }
+
+    public XDSDocumentWriter getDocumentWriter(String s, String contentType) throws IOException {
+        return new DataWriter(s, contentType);
+    }
+
+    public XDSDocumentWriter getDocumentWriter(byte[] data, String contentType) throws IOException {
+        return new DataWriter(data, contentType);
+    }
+
+    public XDSDocumentWriter getDocumentWriter(DataHandler dh, long size) throws IOException {
+        return new DataHandlerWriter(dh, size);
+    }
+
+    public XDSDocumentWriter getDocumentWriter(long size, String contentType) throws IOException {
+        return new DummyWriter(size, contentType);
+    }
+
+    // TODO: remove if not needed
+    class CachedWriter implements XDSDocumentWriter {
+        public static final int MAX_MEMORY_CACHESIZE = 1<<26; //64 MBytes
+        private byte[] buffer;
+        private File cacheFile;
+        private boolean deleteCacheFileOnClose = true;
+        private String contentType;
+
+        public CachedWriter( InputStream is, String contentType ) throws IOException {
+            this(is, MAX_MEMORY_CACHESIZE, contentType);
+        }
+        public CachedWriter( InputStream is, int maxMemory, String contentType ) throws IOException {
+            this.contentType = contentType;
+            if ( is.available() > maxMemory ) {
+                writeCacheFile(null, is);
+            } else {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                buffer = new byte[bufferSize];
+                int r;
+                while ((r = is.read(buffer)) > 0) {
+                    log.debug("-----write bytes to memory cache:"+r+" is.available:"+is.available());
+                    baos.write(buffer, 0, r);
+                    if ( baos.size() > maxMemory ) {
+                        writeCacheFile(baos, is);
+                        baos = null;
+                        break;
+                    }
+                }
+                if ( baos != null ) 
+                    buffer = baos.toByteArray();
+            }
+        }
+
+        public CachedWriter( MimeMultipart mmp ) throws IOException {
+            this.contentType = mmp.getContentType();
+            BufferedOutputStream bos = null;
+            try {
+                cacheFile = File.createTempFile("xds_cache", "tmp");
+                bos = new BufferedOutputStream(new FileOutputStream(cacheFile));
+                mmp.writeTo(bos);
+            } catch (MessagingException x) {
+                log.error("Cant cache MimeMultipart!",x);
+                throw new IOException("Cant cache MimeMultipart!");
+            } finally {
+                if ( bos != null )
+                    try {
+                        bos.close();
+                    } catch ( Exception ignore ) {}
+            }
+        }
+
+        public CachedWriter( File f, String contentType ) throws IOException {
+            cacheFile = f;
+            this.contentType = contentType;
+            deleteCacheFileOnClose = false;
+        }
+
+        private void writeCacheFile(ByteArrayOutputStream baos, InputStream is) throws IOException {
+            FileOutputStream fos = null;
+            try {
+                cacheFile = File.createTempFile("xds_cache", "tmp");
+                fos = new FileOutputStream(cacheFile);
+                if ( baos != null ) {
+                    log.debug("-----write bytes from memory cache to file:"+baos.size());
+                    fos.write(baos.toByteArray());
+                }
+                int r;
+                while ((r = is.read(buffer)) > 0) {
+                    log.debug("-----write bytes to file:"+r+" is.available:"+is.available());
+                    fos.write(buffer, 0, r);
+                }
+            } finally {
+                if ( fos != null )
+                    try {
+                        fos.close();
+                    } catch ( Exception ignore ) {}
+            }
+
+        }
+        public long size() {
+            return cacheFile == null ? buffer.length : cacheFile.length();
+        }
+
+        public void writeTo(OutputStream os) throws IOException {
+            long t1 = System.currentTimeMillis();
+            if ( cacheFile == null ) {
+                log.debug("-----start writing! using buffer:"+buffer.length);
+                os.write(buffer);
+            } else {
+                int r;
+                FileInputStream is = new FileInputStream( cacheFile);
+                buffer = new byte[bufferSize];
+                log.debug("-----start writing! using cacheFile "+cacheFile+" ("+cacheFile.length()+" bytes) bufferSize:"+bufferSize);
+                while ((r = is.read(buffer)) > 0) {
+                    log.debug("-----write bytes:"+r+" is.available:"+is.available());
+                    os.write(buffer, 0, r);
+                }
+            }
+            log.debug("-----finished writing after "+(System.currentTimeMillis() - t1)+ "ms");
+        }
+
+        public void close() throws IOException {
+            if ( cacheFile != null && deleteCacheFileOnClose ) {
+                cacheFile.delete();
+            }
+        }
+
+        public DataHandler getDataHandler() {
+            try {
+                DataSource ds = cacheFile == null ?
+                        new InputStreamDataSource(new ByteArrayInputStream(buffer), contentType) :
+                        new InputStreamDataSource( new FileInputStream(cacheFile), contentType);
+                return new DataHandler(ds);
+            } catch (FileNotFoundException e) {
+                log.error("Can't create DataHandler for CachedWriter! Cache file not found:"+cacheFile);
+                return null;
+            }
+        } 		
+    }
+
+    // TODO: remove if not needed
+    class DataWriter implements XDSDocumentWriter {
+        private byte[] data;
+        private String contentType;
+        
+        DataWriter( String s, String contentType ) {
+            this( s.getBytes(), contentType);
+        }
+        DataWriter( byte[] data, String contentType ) {
+            this.data = data;
+            this.contentType = contentType;
+        }
+        public void writeTo(OutputStream os) throws IOException {
+            log.info("@@@@@ Write data:"+data);
+            os.write( data );
+        }
+        public void close() throws IOException {
+        }
+        public long size() {
+            return data.length;
+        }
+        public DataHandler getDataHandler() {
+            return new DataHandler( new InputStreamDataSource(new ByteArrayInputStream(data), contentType));
+        }
+    }
+
+    class DataHandlerWriter implements XDSDocumentWriter {
+        DataHandler dh;
+        long size = 0;
+        DataHandlerWriter( DataHandler dh, long size ){
+            this.dh = dh;
+            this.size = size;
+        }
+        public void writeTo(OutputStream os) throws IOException {
+            dh.writeTo(os);
+        }
+        public void close() throws IOException {
+            InputStream is = dh.getInputStream();
+            if ( is != null ) {
+                is.close();
+            }
+        }
+        public long size() {
+            return size;
+        }
+        public DataHandler getDataHandler() {
+            return dh;
+        }        
+    }
+
+    /**
+     * Dummy XDS writer.
+     * <p/>
+     * This implementation is intended to hold a document size or 
+     * to write a dummy document with given size and byte value.
+     * <p/>
+     * The buffer and DataHandler are only created when getDataHandler() 
+     * or writeTo() is called!
+     * @author franz.willer
+     *
+     */
+    class DummyWriter implements XDSDocumentWriter {
+        private long size = 0;
+        private DataHandler dh = null;
+        private byte fillByte;
+        private String contentType;
+        
+        DummyWriter(long size, String contentType ){
+            this(size, (byte)'#', contentType);
+        }
+        DummyWriter(long size, byte b, String contentType ){
+            this.size = size;
+            fillByte = b;
+            this.contentType = contentType;
+        }
+        
+        public void writeTo(OutputStream os) throws IOException {
+            getDataHandler().writeTo(os);
+        }
+        public void close() throws IOException {
+        }
+        public long size() {
+            return size;
+        }
+        public DataHandler getDataHandler() {
+            if ( dh == null ) {
+                //TODO use tmp File if size > Integer.MAX_VALUE
+                byte[] buffer = new byte[(int)size];
+                Arrays.fill(buffer, fillByte);
+                dh = new DataHandler( new InputStreamDataSource(new ByteArrayInputStream(buffer), contentType));
+            }
+            return dh;
+        }        
+    }
+
+}

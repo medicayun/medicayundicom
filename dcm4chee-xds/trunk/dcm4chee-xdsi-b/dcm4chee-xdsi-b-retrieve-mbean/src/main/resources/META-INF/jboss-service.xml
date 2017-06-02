@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<!--  Version $Revision:$ $Date:$ -->
+<server>
+  <mbean code="org.dcm4chee.xdsib.retrieve.mbean.XDSIbRetrieveService" 
+         name="dcm4chee.xds:service=XDSIbRetrieveService"
+         xmbean-dd="">
+
+    <depends>dcm4chee.xds:service=XdsHttpCfgService</depends>
+    <depends>jboss.j2ee:module=dcm4chee-xdsi-b-retrieve-ejb-1.0.3.jar,service=EJB3</depends>
+    <xmbean>
+      <description><![CDATA[<b>XDS-I.b Imaging Source Retrieve MBeanService</b><br/>
+		Provides a XDS-I.b 'Retrieve Imaging Document Set' Service.<br/>.
+		]]> </description>
+
+    <descriptors>
+       <persistence persistPolicy="OnUpdate"/>
+       <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+    </descriptors>
+
+    <class>org.dcm4chee.xdsib.retrieve.mbean.XDSIbRetrieveService</class>
+
+    <constructor>
+         <description>The default constructor</description>
+         <name>XDSIbRetrieveService</name>
+    </constructor>
+      
+   <attribute access="read-write" getMethod="getRepositoryUniqueId" setMethod="setRepositoryUniqueId">
+      <description>Unique ID of this Repository.
+      </description>
+      <name>RepositoryUniqueId</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="1.2.40.0.13.1.1.192.168.0.211.200901012243"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getExternalRepositories" setMethod="setExternalRepositories">
+      <description><![CDATA[ List of remote XDS.b Repositories.<br/>
+            Format: &lt;Repository UniqueID&gt;=&lt;RetrieveDocument URI&gt; <br/>
+            Use NONE to disable retrieve from remote repositories.
+      ]]></description>
+      <name>ExternalRepositories</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="isAuditLogIti17"
+      setMethod="setAuditLogIti17">
+      <description>Enable/Disable Audit logging of ITI-17 (Export, Retrieve Document) log messages.
+      </description>
+      <name>AuditLogIti17</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAuditLogIti43"
+      setMethod="setAuditLogIti43">
+      <description>Enable/Disable Audit logging of ITI-43 (Report, Retrieve Document Set) log messages. (retired)
+      </description>
+      <name>AuditLogIti43</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+ 
+   <attribute access="read-write"
+      getMethod="isLogRequestMessage"
+      setMethod="setLogRequestMessage">
+      <description>Enable/Disable logging of Request message (Retrieve Document Set Request).
+      </description>
+      <name>LogRequestMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogResponseMessage"
+      setMethod="setLogResponseMessage">
+      <description>Enable/Disable logging of Response message (Retrieve Document Set Response). 
+      </description>
+      <name>LogResponseMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogRemoteRequestMessages"
+      setMethod="setLogRemoteRequestMessages">
+      <description>Enable/Disable logging of Request message sent to remote repositories (Retrieve Document Set Request).
+      </description>
+      <name>LogRemoteRequestMessages</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogRemoteResponseMessages"
+      setMethod="setLogRemoteResponseMessages">
+      <description>Enable/Disable logging of Response message received from remote repositories (Retrieve Document Set Response). 
+      </description>
+      <name>LogRemoteResponseMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isIndentXmlLog"
+      setMethod="setIndentXmlLog">
+      <description>Enable/disable indention of logged XML message.
+      </description>
+      <name>IndentXmlLog</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+
+       &defaultAttributes;
+       
+       <!-- Operations -->
+       &defaultOperations;
+       
+   <operation impact="ACTION">
+      <description><![CDATA[ Retrieve Document Set.<br/>
+      		]]> </description>
+      <name>retrieveDocumentSet</name>
+      <parameter>
+        <description>The RetrieveDocumentSetRequestType Object</description>
+        <name>RetrieveDocumentSetRequestType</name>
+        <type>org.dcm4chee.xds.infoset.v30.RetrieveDocumentSetRequestType</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.infoset.v30.RetrieveDocumentSetResponseType</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Test Local Retrieve Document Set.<br/>
+            ]]> </description>
+      <name>testRetrieveLocalDocument</name>
+      <parameter>
+        <description>Document UID (Dicom Instance UID)</description>
+        <name>docUid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>
+
+    </xmbean>
+  </mbean>
+</server>

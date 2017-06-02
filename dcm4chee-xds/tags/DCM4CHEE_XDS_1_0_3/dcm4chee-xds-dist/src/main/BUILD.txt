@@ -1,0 +1,48 @@
+BUILD INSTRUCTIONS FOR DCM4CHEE XDS Modules:
+========================================================
+
+Beside JDK 5 or JDK 6 - which is also needed for running DCM4CHEE
+you also have to download and install Maven 2.0.9 from
+http://maven.apache.org/download.html for building the XDS Repository.
+
+If you are behind a http proxy, you have to configure Maven, to use it for
+http downloads (s.  http://maven.apache.org/guides/mini/guide-proxies.html ).
+
+dcm4chee-xds also make use of
+
+- dcm4chee-docstore : Generic Document Storage (used by RID - Retrieve Information for Display) 
+
+which sources are not included by dcm4chee-xds-1.0.3-src.zip, but provided in a
+separate ZIP archive: dcm4chee-docstore-1.0.3-src.zip at
+http://sourceforge.net/projects/dcm4che.
+
+$ cd dcm4chee-docstore-1.0.3
+$ mvn install
+
+dcm4chee-xds also make use of
+
+- dcm4chee-xds-infoset : XDS Infoset classes (XDS Query for Consumer and Document Lifecycle)
+
+which sources are not included by dcm4chee-xds-1.0.3-src.zip, but provided in a
+separate ZIP archive: dcm4chee-xds-infoset-1.0.3-src.zip at
+http://sourceforge.net/projects/dcm4che. 
+
+$ cd dcm4chee-xds-infoset-1.0.3
+$ mvn install
+
+Build dcm4chee-xds modules:
+
+$ cd dcm4chee-xds
+$ mvn install
+
+(will download necessary artifacts from public Maven Repositories by http,
+before building MBean and WEB components of the XDS.a Repository.)
+
+Afterwards
+
+$ cd dcm4chee-xds-dist
+$ mvn assembly:assembly
+
+will assembly the binary distribution package dcm4chee-xds-1.0.3.zip,
+including the jar and war and sar along with MBean configuration files 
+and third-party libraries. (dcm4che-core-2.0.21.jar)

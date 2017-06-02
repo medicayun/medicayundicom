@@ -1,0 +1,52 @@
+                 INSTALL INSTRUCTIONS FOR DCM4CHEE XDS Implementation 
+==========================================================================================
+
+Installed Modules:
+------------------------------------------------------------------------------------------
+dcm4chee-xds-common:	   Common classes for XDS implementation
+dcm4chee-xdsa-repository:  XDS.a Repository implementation
+dcm4chee-xdsb-repo:        XDS.b Repository implementation
+dcm4chee-xdsb-src:         XDS.b Source Service (XDS.a -> XDS.b Bridge
+dcm4chee-xds-docstore:     Persistence Layer Service for XDS documents
+dcm4chee-xds-store2dcm:    Service to store XDS documents as encapsulated DICOM objects
+dcm4chee-xdscfg:           XDS Configuration Management service
+------------------------------------------------------------------------------------------
+
+Minimum System Requirements
+JDK 5 or higher.
+512 MB RAM
+200 MB hard disk space (additional to archive storage disk space)  
+400 MHz CPU
+
+Requirements: 
+	- JBoss 4.2.2GA Application server
+	- JBossWs-3.0.1-native-2.0.4.GA Webservice Stack.
+
+Downloads:
+   JBoss 4.2.2.GA:                 http://sourceforge.net/project/showfiles.php?group_id=22866&package_id=16942&release_id=548923
+   JBossWs-3.0.1-native-2.0.4.GA:  http://www.jboss.org/downloading/?projectId=jbossws&url=/jbossws/downloads/jbossws-3.0.1-native-2.0.4.GA.zip
+
+Installation Procedure:
+
+1. Download and extract the binary distribution package of JBoss 4.2.2GA.
+
+2. Download and extract the binary distribution package of dcm4chee-xds-0.0.1.
+
+3. Download and extract the binary distribution package of JBoss Web Service jbossws-3.0.1-native-2.0.4.GA.
+
+4. Change directory to dcm4chee-xds-0.0.1/bin
+
+5. Execute the install_jboss.bat or install_jboss.sh script, as appropriate for your operating system, 
+   with the path of the JBoss 4.2.2GA installation directory as parameter.
+
+6. Execute the upgrade_jbossws.bat or upgrade_jbossws.sh script, as appropriate for your operating system, 
+   with the path of the jbossws-3.0.1-native-2.0.4.GA installation directory as parameter.
+
+7. Execute the patch_jbossws.bat or patch_jbossws.sh script, as appropriate
+   for your operating system, with the path of the dcm4chee-xds-0.0.1 installation
+   installation directory as parameter. Necessary to accept faulty
+   (AttachmentPart Id mismatch) SwA (SOAP with Attachment) requests from Axis2
+   based Web Service clients and to disable schema validation during deployment,
+   which requires internet access. If you need a http proxy for internet access
+   you can configure http.proxyHost! (see run.conf or run.bat)
+

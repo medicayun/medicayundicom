@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dcm4che</groupId>
+    <artifactId>dcm4chee-xds</artifactId>
+    <version>1.0.3</version>
+  </parent>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-xds-registry</artifactId>
+  <version>1.0.3</version>
+  <packaging>pom</packaging>
+  <name>Implementation of XDS.a and XDS.b Registry (Mock Service only)</name>
+  <modules>
+    <module>dcm4chee-xds-registry-ws</module>
+    <module>dcm4chee-xds-registry-mbean</module>
+  </modules>
+</project>
+

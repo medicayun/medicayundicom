@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="dcm4chee-xdscfg/dcm4chee-xdscfg-mbean/target/classes" path="dcm4chee-xdscfg/dcm4chee-xdscfg-mbean/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xdscfg/dcm4chee-xdscfg-mbean/target/classes" path="dcm4chee-xdscfg/dcm4chee-xdscfg-mbean/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xdscfg/dcm4chee-xdscfg-http/target/classes" path="dcm4chee-xdscfg/dcm4chee-xdscfg-http/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xdscfg/dcm4chee-xdscfg-http/target/classes" path="dcm4chee-xdscfg/dcm4chee-xdscfg-http/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-web/target/classes" path="dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-web/src/main/java"/>
+	<classpathentry kind="src" output="dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-mbean/target/classes" path="dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-mbean/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-mbean/target/classes" path="dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-mbean/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xds-common/target/classes" path="dcm4chee-xds-common/src/main/java"/>
+	<classpathentry kind="src" output="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-ws/target/classes" path="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-ws/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-ws/target/classes" path="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-ws/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-mbean/target/classes" path="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-mbean/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-mbean/target/classes" path="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-mbean/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-retrieve/target/classes" path="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-retrieve/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-retrieve/target/classes" path="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-retrieve/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xdsb-src/dcm4chee-xdsb-src-mbean/target/classes" path="dcm4chee-xdsb-src/dcm4chee-xdsb-src-mbean/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xdsb-src/dcm4chee-xdsb-src-mbean/target/classes" path="dcm4chee-xdsb-src/dcm4chee-xdsb-src-mbean/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xds-store/dcm4chee-xds-store-mbean/target/classes" path="dcm4chee-xds-store/dcm4chee-xds-store-mbean/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xds-store/dcm4chee-xds-store-mbean/target/classes" path="dcm4chee-xds-store/dcm4chee-xds-store-mbean/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xds-store/dcm4chee-xds-store-mbean/target/test-classes" path="dcm4chee-xds-store/dcm4chee-xds-store-mbean/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xds-store/dcm4chee-xds-store-mbean/target/test-classes" path="dcm4chee-xds-store/dcm4chee-xds-store-mbean/src/test/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xds-registry/dcm4chee-xds-registry-ws/target/classes" path="dcm4chee-xds-registry/dcm4chee-xds-registry-ws/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xds-registry/dcm4chee-xds-registry-ws/target/classes" path="dcm4chee-xds-registry/dcm4chee-xds-registry-ws/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xds-registry/dcm4chee-xds-registry-mbean/target/classes" path="dcm4chee-xds-registry/dcm4chee-xds-registry-mbean/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xds-registry/dcm4chee-xds-registry-mbean/target/classes" path="dcm4chee-xds-registry/dcm4chee-xds-registry-mbean/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-xds-consumer/dcm4chee-xds-consumer-query/target/classes" path="dcm4chee-xds-consumer/dcm4chee-xds-consumer-query/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xds-consumer/dcm4chee-xds-consumer-query/target/classes" path="dcm4chee-xds-consumer/dcm4chee-xds-consumer-query/src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

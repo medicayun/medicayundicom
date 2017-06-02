@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+	<description><![CDATA[<b>XDS Service</b><br/>
+		Provides a Cross-enterprise Document Sharing Service for Document Repository actor.<br/>.
+		]]>
+	</description>
+
+	<descriptors>
+		<persistence persistPolicy="OnUpdate" />
+		<persistence-manager
+			value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+	</descriptors>
+
+	<class>org.dcm4chex.xds.mbean.XDSService</class>
+
+	<constructor>
+		<description>The default constructor</description>
+		<name>XDSService</name>
+	</constructor>
+
+	<attribute access="read-write" getMethod="getXDSRegistryURI"
+		setMethod="setXDSRegistryURI">
+		<description>XDS Registry URI.</description>
+		<name>XDSRegistryURI</name>
+		<type>java.lang.String</type>
+		<descriptors>
+			<value
+                value="http://ihexds.nist.gov:9080/tf5/services/xdsregistrya" /> <!-- 2008-2009 -->            
+            <!--      value="http://129.6.24.109:9080/axis2/services/xdsregistrya" /> 2007-2008 -->
+			<!--  <value value="http://hcxw2k1.nist.gov:8080/xdsServices2/registry/soap/portals/yr3a/registry"/> 
+				NIST year 2007 version (does NOT work with JBOSS SOAP implementation) -->
+		</descriptors>
+	</attribute>
+	<attribute access="read-write" getMethod="getXDSQueryURI"
+		setMethod="setXDSQueryURI">
+		<description>XDS Query URI.</description>
+		<name>XDSQueryURI</name>
+		<type>java.lang.String</type>
+		<descriptors>
+			<value
+				value="http://ihexds.nist.gov:9080/tf5/services/xdsregistrya" />
+		</descriptors>
+	</attribute>
+	<attribute access="read-write" getMethod="isForceSQLQuery"
+		setMethod="setForceSQLQuery">
+		<description>
+			Force 'older' SQL Query! (Default is Stored Query).
+		</description>
+		<name>ForceSQLQuery</name>
+		<type>boolean</type>
+		<descriptors>
+			<value value="false" />
+		</descriptors>
+	</attribute>
+
+	<attribute access="read-write" getMethod="getRetrieveURI"
+		setMethod="setRetrieveURI">
+		<description>
+			Base URL to build Retrieve URL for a document (without query
+			part).
+		</description>
+		<name>RetrieveURI</name>
+		<type>java.lang.String</type>
+		<descriptors>
+			<value
+				value="http://127.0.0.1:8080/rid/IHERetrieveDocument" />
+		</descriptors>
+	</attribute>
+
+	<attribute access="read-write" getMethod="isUseLongURI"
+		setMethod="setUseLongURI">
+		<description><![CDATA[Enable/Disable the use of splitting long retrieveURI (see change proposal Xds_144).<br/>
+      		If enabled and URI fits not in 128 bytes it will be splitted in multible values in a LONG-URI slot.<br/>
+      		Disabling this feature means always use a 'short' RID URL (?RT=DOCUMENT&amp;UID=..)
+      		]]>
+		</description>
+		<name>UseLongURI</name>
+		<type>boolean</type>
+		<descriptors>
+			<value value="true" />
+		</descriptors>
+	</attribute>
+	<attribute access="read-write" getMethod="getFilteredSlots"
+		setMethod="setFilteredSlots">
+		<description><![CDATA[List of Slots that should be removed from metadata before send to registry.<br/>
+      		Such filtering may be necessary if registry does not support certain slots 
+      		(e.g. does not support XDS-I 'authorRoleDisplayName' slot).<br/>
+      		Use NONE to disable slot filtering.<br/>
+      		Use ';' or  newline to separate multible entries!
+      		]]>
+		</description>
+		<name>FilteredSlots</name>
+		<type>java.lang.String</type>
+		<descriptors>
+			<value value="NONE" />
+		</descriptors>
+	</attribute>
+	<attribute access="read-write" getMethod="getRimPrefix"
+		setMethod="setRimPrefix">
+		<description><![CDATA[Set RIM NS prefix for added slots (size, hash, URI)!
+      		]]>
+		</description>
+		<name>RimPrefix</name>
+		<type>java.lang.String</type>
+		<descriptors>
+			<value value="NONE" />
+		</descriptors>
+	</attribute>
+	<attribute access="read-write" getMethod="isLogSOAPMessage"
+		setMethod="setLogSOAPMessage">
+		<description>
+			Enable logging of SOAP message (send and receive).
+		</description>
+		<name>LogSOAPMessage</name>
+		<type>boolean</type>
+		<descriptors>
+			<value value="true" />
+		</descriptors>
+	</attribute>
+	<attribute access="read-write" getMethod="isLogReceivedSOAPMessage"
+		setMethod="setLogReceivedSOAPMessage">
+		<description>
+			Enable/Disable logging of received SOAP message.
+			LogSOAPMessage has to be enabled to get any SOAP logged!
+		</description>
+		<name>LogReceivedSOAPMessage</name>
+		<type>boolean</type>
+		<descriptors>
+			<value value="false" />
+		</descriptors>
+	</attribute>
+	<attribute access="read-write" getMethod="isIndentSOAPLog"
+		setMethod="setIndentSOAPLog">
+		<description>
+			Enable/disable indention of logged SOAP message (send and
+			receive).
+		</description>
+		<name>IndentSOAPLog</name>
+		<type>boolean</type>
+		<descriptors>
+			<value value="true" />
+		</descriptors>
+	</attribute>
+   <attribute access="read-write"
+      getMethod="isForceSourceAsRequestor"
+      setMethod="setForceSourceAsRequestor">
+      <description><![CDATA[ If activated the 'Source' ActiveParticipant (110153,DCM,Source) is set as Requestor.<br/>
+             If not activated (default) Source is only Requester if user (HumanRequestor) is not known!
+            ]]>
+      </description>
+      <name>ForceSourceAsRequestor</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+
+	<attribute access="read-write" getMethod="getFetchNewPatIDURL"
+		setMethod="setFetchNewPatIDURL">
+		<description>
+			URL to fetch new Patient ID for NIST Test.
+		</description>
+		<name>FetchNewPatIDURL</name>
+		<type>java.lang.String</type>
+		<descriptors>
+			<value
+				value="http://129.6.24.109:9080/xdstools/jsp/allocatePatientId.jsp" />
+		</descriptors>
+	</attribute>
+
+	<attribute access="read-write" getMethod="getXDSStoreService"
+		setMethod="setXDSStoreService">
+		<description>Used internally - do NOT modify.</description>
+		<name>XDSStoreService</name>
+		<type>javax.management.ObjectName</type>
+		<descriptors>
+			<value value="dcm4chee.xds:service=XDSStoreService" />
+		</descriptors>
+	</attribute>
+
+	<!-- Operations -->
+	&defaultOperations;
+
+	<operation impact="ACTION">
+		<description><![CDATA[ Perform the document export with given SOAP message.<br/>
+      			1) Store attachments<br/>
+      			2) Enhance metadata with size and SHA1 checksum
+      			3) Register documents at configured XDS Registry URI.<br/> 
+      		]]>
+		</description>
+		<name>exportDocument</name>
+		<parameter>
+			<description>Cache size in Bytes.</description>
+			<name>cacheSize</name>
+			<type>javax.xml.soap.SOAPMessage</type>
+		</parameter>
+		<return-type>
+			org.dcm4chex.xds.common.XDSResponseObject
+		</return-type>
+	</operation>
+
+	<operation impact="ACTION">
+		<description><![CDATA[ Perform a simple XDSDocumentMetadata test for a SOAP message given in a file.<br/>
+      		]]>
+		</description>
+		<name>checkXDSDocumentMetadata</name>
+		<parameter>
+			<description>XML File containing SOAP message.</description>
+			<name>xmlFile</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<return-type>java.lang.String</return-type>
+	</operation>
+	<operation impact="ACTION">
+		<description><![CDATA[ Perform a simple test by sending a SOAP message to the configured registry.<br/>
+      			The SOAP message is build with a SOAPBody stored in the given file.<br/>
+      		]]>
+		</description>
+		<name>soapRegistryTest</name>
+		<parameter>
+			<description>XML File containing SOAP Body.</description>
+			<name>xmlFile</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<return-type>boolean</return-type>
+	</operation>
+	<operation impact="ACTION">
+		<description><![CDATA[ Perform a simple test by sending a SOAP message to the configured (query)registry.<br/>
+      			The SOAP message is build with a SOAPBody stored in the given file.<br/>
+      		]]>
+		</description>
+		<name>soapQueryTest</name>
+		<parameter>
+			<description>XML File containing SOAP Body.</description>
+			<name>xmlFile</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<return-type>boolean</return-type>
+	</operation>
+	<operation impact="ACTION">
+		<description><![CDATA[ Perform a simple test by sending a SOAP message to the URI.<br/>
+      			The SOAP message is build with a SOAPBody stored in the given file.<br/>
+      		]]>
+		</description>
+		<name>soapRegistryTest</name>
+		<parameter>
+			<description>XML File containing SOAP Body.</description>
+			<name>xmlFile</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<parameter>
+			<description>URI of the receiver</description>
+			<name>uri</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<return-type>boolean</return-type>
+	</operation>
+	<operation impact="ACTION">
+		<description><![CDATA[ Perform a SQL based registry query.<br/>
+      		]]>
+		</description>
+		<name>sqlQuery</name>
+		<parameter>
+			<description>SQL String.</description>
+			<name>sql</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<return-type>java.util.List</return-type>
+	</operation>
+	<operation impact="ACTION">
+		<description><![CDATA[ Perform a SQL based registry query.<br/>
+      		]]>
+		</description>
+		<name>findDocuments</name>
+		<parameter>
+			<description>Patient ID.</description>
+			<name>patId</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<return-type>boolean</return-type>
+	</operation>
+	<operation impact="ACTION">
+		<description><![CDATA[ Perform a SQL based registry query.<br/>
+      		]]>
+		</description>
+		<name>findDocuments</name>
+		<parameter>
+			<description>Patient ID.</description>
+			<name>patId</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<return-type>java.util.List</return-type>
+	</operation>
+	<operation impact="ACTION">
+		<description><![CDATA[ Perform a SQL based registry query.<br/>
+      		]]>
+		</description>
+		<name>getDocuments</name>
+		<parameter>
+			<description>
+				Document UUIDs separated with '|'.
+			</description>
+			<name>uuids</name>
+			<type>java.lang.String</type>
+		</parameter>
+		<return-type>java.util.List</return-type>
+	</operation>
+	<operation impact="ACTION">
+		<description><![CDATA[ Perform a SQL based registry query.<br/>
+      		]]>
+		</description>
+		<name>getDocuments</name>
+		<parameter>
+			<description>Document UUIDs.</description>
+			<name>uuids</name>
+			<type>[Ljava.lang.String;</type>
+		</parameter>
+		<return-type>java.util.List</return-type>
+	</operation>
+
+	<operation impact="ACTION">
+		<description><![CDATA[ Fetch a new PatientID for NIST Test.<br/>
+      		]]>
+		</description>
+		<name>fetchNewPatientIDfromNIST</name>
+		<return-type>java.lang.String</return-type>
+	</operation>
+
+</mbean>

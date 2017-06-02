@@ -1,0 +1,62 @@
+               INSTALL INSTRUCTIONS FOR standalone DCM4CHEE XDS Implementation 
+==========================================================================================
+
+Installed Modules:
+------------------------------------------------------------------------------------------
+dcm4chee-xds-common:	   Common classes for XDS implementation
+dcm4chee-xdsa-repository:  XDS.a Repository implementation
+dcm4chee-xdsb-repo:        XDS.b Repository implementation
+dcm4chee-xds-store:        Persistence Layer Service for XDS documents
+dcm4chee-xdscfg:           XDS Configuration Management service
+dcm4chee-xds-registry:     XDS Registry service (Mocking service)
+dcm4chee-xds-infoset:      XDS schema JAXB generated classes and utils.
+dcm4chee-docstore:         Generic Document Storage
+------------------------------------------------------------------------------------------
+
+Included Modules but not installed (deployed): 
+------------------------------------------------------------------------------------------
+dcm4chee-xdsb-src:         XDS.b Source Service (XDS.a -> XDS.b Bridge
+dcm4chee-xds-consumer:     XDS Stored Query Service for Consumer (and Source - document life-cycle)
+------------------------------------------------------------------------------------------
+(not used by XDS Repository actor and therefore moved to <XDS_HOME>/extras directory)
+
+Minimum System Requirements
+JDK 5 or higher. (JDK 6 recommended)
+512 MB RAM
+200 MB hard disk space (additional to archive storage disk space)  
+400 MHz CPU
+
+Requirements: 
+	- JBoss 4.2.3GA Application server
+
+Downloads:
+   JBoss 4.2.3.GA:                 http://labs.jboss.com/jbossas/downloads
+   There are two different downloads for JDK 5 or JDK 6 environment:
+     JDK 5: jboss-4.2.3.GA
+     JDK 6: jboss-4.2.3.GA-jdk6
+     
+Installation Procedure:
+
+1. Download and extract the binary distribution package of JBoss 4.2.3GA.
+
+2. Download and extract the binary distribution package of dcm4chee-xds-1.0.2.
+
+4. Change directory to dcm4chee-xds-1.0.2/bin
+
+5. Execute the install_jboss.bat or install_jboss.sh script, as appropriate for your operating system, 
+   with the path of the JBoss 4.2.3GA installation directory as parameter.
+
+7. Execute the patch_jbossws.bat or patch_jbossws.sh script, as appropriate
+   for your operating system, with the path of the dcm4chee-xds-1.0.2 installation
+   installation directory as parameter. Necessary to accept faulty
+   (AttachmentPart Id mismatch) SwA (SOAP with Attachment) requests from Axis2
+   based Web Service clients and to disable schema validation during deployment,
+   which requires internet access. If you need a http proxy for internet access
+   you can configure http.proxyHost! (see run.conf or run.bat)
+
+8a. Only applicable for JDK5 version of jboss-4.2.3.GA in a JDK6 environment:
+   Execute the patch_jdk6_jbossws.bat or patch_jdk6_jbossws.sh script, as appropriate for your operating system.
+   This copies several jar files to JBOSS endorsed directory to avoid conflicts between JDK Webservice Stack and JBOSS WS.
+
+8b. Only applicable in JDK5 environment:
+   Download dfcmd_service.zip and extract to dcm4chee-xds-1.0.2/server/default.

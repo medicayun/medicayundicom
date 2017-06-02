@@ -1,0 +1,18 @@
+INSTALL INSTRUCTIONS FOR DCM4CHEE Store2Dcm Service:
+==========================================================
+
+Requirements: 
+1) A DCM4CHEE installation
+
+Installation Procedure:
+
+1. Extract the binary distribution package of dcm4chee-store2dcm-repository. 
+Avoid using a directory that has a name that contains spaces as installation directory.
+
+2. Move to the dcm4chee-store2dcm-2.13.0/bin directory and execute the
+install_as_addon.bat or install_as_addon.sh script, as appropriate for your operating
+system, with the path of your DCM4CHEE installation directory as parameter.
+
+3. Restart DCM4CHEE
+
+4. Configure Store2Dcm Service in JMX-Console:

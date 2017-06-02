@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Version $Revision:$ $Date:$ -->
+<server>
+  <mbean code="org.dcm4chee.xds.repository.mbean.Store2DcmService" 
+         name="dcm4chee.xds:service=Store2Dcm"
+         xmbean-dd="">
+
+    <xmbean>
+      <description><![CDATA[<b>Store2Dcm Service</b><br/>
+		Provides a Service to Store XDS Documents as encapsulated DICOM Objects in a DICOM archive.<br/>.
+		]]> </description>
+
+      <descriptors>
+        <persistence persistPolicy="OnUpdate"/>
+        <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+      </descriptors>
+
+      <class>org.dcm4chee.xds.repository.mbean.Store2DcmService</class>
+
+      <constructor>
+         <description>The default constructor</description>
+         <name>Store2DcmService</name>
+      </constructor>
+      
+      	<attribute access="read-write" getMethod="getCalledAET" setMethod="setCalledAET">
+      		<description>Called AET of StoreSCP/StgCmtSCP.
+      		</description>
+      		<name>CalledAET</name>
+      		<type>java.lang.String</type>
+      		<descriptors>
+	        	<value value="DCM4CHEE"/>
+      		</descriptors>
+   		</attribute>
+      	<attribute access="read-write" getMethod="getRemoteHost" setMethod="setRemoteHost">
+      		<description>Hostname of StoreSCP/StgCmtSCP.
+      		</description>
+      		<name>RemoteHost</name>
+      		<type>java.lang.String</type>
+      		<descriptors>
+	        	<value value="localhost"/>
+      		</descriptors>
+   		</attribute>
+      	<attribute access="read-write" getMethod="getRemotePort" setMethod="setRemotePort">
+      		<description>Port of StoreSCP/StgCmtSCP.
+      		</description>
+      		<name>RemotePort</name>
+      		<type>int</type>
+      		<descriptors>
+	        	<value value="11112"/>
+      		</descriptors>
+   		</attribute>
+      	<attribute access="read-write" getMethod="getCallingAET" setMethod="setCallingAET">
+      		<description>Calling AET used of this StoreSCU/StgCmtSCU.
+      		</description>
+      		<name>CallingAET</name>
+      		<type>java.lang.String</type>
+      		<descriptors>
+	        	<value value="DOC_SEND"/>
+      		</descriptors>
+   		</attribute>
+      	<attribute access="read-write" getMethod="getLocalHost" setMethod="setLocalHost">
+      		<description>Hostname of this StoreSCU/StgCmtSCU.
+      		</description>
+      		<name>LocalHost</name>
+      		<type>java.lang.String</type>
+      		<descriptors>
+	        	<value value="localhost"/>
+      		</descriptors>
+   		</attribute>
+      	<attribute access="read-write" getMethod="getLocalPort" setMethod="setLocalPort">
+      		<description>Port of this StoreSCU/StgCmtSCU.
+      		</description>
+      		<name>LocalPort</name>
+      		<type>int</type>
+      		<descriptors>
+	        	<value value="11113"/>
+      		</descriptors>
+   		</attribute>
+      	<attribute access="read-write" getMethod="getXslFile" setMethod="setXslFile">
+      		<description><![CDATA[ XSL Filename that should be used to add Information from Submissionset to DICOM object.<br/>
+      								NONE: disable XSL transformation of metadata. <br/>
+      								DEFAULT: Use a default stylesheet (submission2dcm.xsl as CLASSPATH resource). <br/>
+      								&lt;Filename&gt;:Either an absolut filename or relative to Server Home Directory.
+      		]]></description>
+      		<name>xslFile</name>
+      		<type>java.lang.String</type>
+      		<descriptors>
+	        	<value value="DEFAULT"/>
+      		</descriptors>
+   		</attribute>
+      	<attribute access="read-write" getMethod="getMime2CuidMap" setMethod="setMime2CuidMap">
+      		<description><![CDATA[ Mapping of Mimetype to SOP Class UID.<br/>
+      							   Format: &lt;mimetype&gt;:&lt;SOPClassUID&gt;<br/>
+      							   You can specify a default SOP Class UID for mime types not listed with mimetype='default'.<br/>
+      							   NONE means no Mapping and use of private EncapsulatedDocumentStorage (1.2.40.0.13.1.5.1.4.1.1.104.1)
+      							   for all mimetypes.
+      		]]> </description>
+      		<name>Mime2CuidMap</name>
+      		<type>java.lang.String</type>
+      		<descriptors>
+	        	<value value="NONE"/>
+      		</descriptors>
+   		</attribute>
+      	<attribute access="read-write" getMethod="isRequestStgCmt" setMethod="setRequestStgCmt">
+      		<description>Enable/disable StgCmt request to ensure availability of Document.
+      		</description>
+      		<name>RequestStgCmt</name>
+      		<type>boolean</type>
+      		<descriptors>
+	        	<value value="false"/>
+      		</descriptors>
+   		</attribute>
+   		
+   <attribute access="read-write"
+      getMethod="getMaxPDULengthSend"
+      setMethod="setMaxPDULengthSend">
+      <description>Maximum protocol data unit (PDU) package length for sending PDUs.
+      </description>
+      <name>MaximumPDULengthSend</name>
+      <type>int</type>
+      <descriptors>
+         <value value="16352"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxPDULengthReceive"
+      setMethod="setMaxPDULengthReceive">
+      <description>Maximum protocol data unit (PDU) package length for receiving PDUs.
+      </description>
+      <name>MaximumPDULengthReceive</name>
+      <type>int</type>
+      <descriptors>
+         <value value="16352"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxOpsInvoked"
+      setMethod="setMaxOpsInvoked">
+      <description>The maximum number of outstanding operations and/or
+      sub-operations it allows the Association-requester to invoke asynchronously.
+      A value of zero indicates an unlimited number of outstanding operations.
+      </description>
+      <name>MaximumOperationsInvoked</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAcceptTimeout"
+      setMethod="setAcceptTimeout">
+      <description>A-Associate accept timeout in milliseconds. 0 = no timeout.
+      </description>
+      <name>AcceptTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10000"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDimseRspTimeout"
+      setMethod="setDimseRspTimeout">
+      <description>DIMSE message timeout in milliseconds. 0 = no timeout.
+      </description>
+      <name>DIMSERspTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="60000"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSocketCloseDelay"
+      setMethod="setSocketCloseDelay">
+      <description>Socket close delay in milliseconds after an A-Release response.
+      </description>
+      <name>SocketCloseDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="50"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isTcpNoDelay"
+      setMethod="setTcpNoDelay">
+      <description>Send packets as quickly as possible (Disable Nagle's algorithmn).
+      </description>
+      <name>TcpNoDelay</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSendBufferSize"
+      setMethod="setSendBufferSize">
+      <description>Buffer size used for socket output. 0 = use platform default.
+      </description>
+      <name>SendBufferSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="0" />
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getReceiveBufferSize"
+      setMethod="setReceiveBufferSize">
+      <description>Buffer size used for socket input. 0 = use platform default.
+      </description>
+      <name>ReceiveBufferSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="0" />
+      </descriptors>
+   </attribute>
+      
+   <operation impact="ACTION">
+      <description><![CDATA[ Store a document file with information of metadata (submissionset/ExtrinsicObject).
+       		]]> </description>
+      <name>storeDocument</name>
+      <parameter>
+        <description>Document Filename</description>
+        <name>docFilename</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Submissionset Filename</description>
+        <name>submissionsetFilename</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>[B</return-type><!-- byte[] -->
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Store a document file with information of metadata (submissionset/ExtrinsicObject).
+       		]]> </description>
+      <name>storeDocument</name>
+      <parameter>
+        <description>Document as AttachmentPart</description>
+        <name>document</name>
+        <type>javax.xml.soap.AttachmentPart</type>
+      </parameter>
+      <parameter>
+        <description>Metadata Information</description>
+        <name>metadata</name>
+        <type>javax.xml.transform.Source</type>
+      </parameter>
+      <return-type>[B</return-type><!-- byte[] -->
+   </operation>
+      
+    </xmbean>
+  </mbean>
+</server>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="dcm4chee-xdsi-b-retrieve-ejb/src/main/java"/>
+	<classpathentry kind="src" path="dcm4chee-xdsi-b-retrieve-mbean/src/main/java"/>
+	<classpathentry kind="src" path="dcm4chee-xdsi-b-retrieve-ws/src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dcm4chee-arc-dao"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dcm4chee-arc-entities"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dcm4che-core"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="dcm4chee-xdsi-b-retrieve/target/dcm4chee-xdsb-repo-retrieve-0.0.3-SNAPSHOT"/>
+</classpath>

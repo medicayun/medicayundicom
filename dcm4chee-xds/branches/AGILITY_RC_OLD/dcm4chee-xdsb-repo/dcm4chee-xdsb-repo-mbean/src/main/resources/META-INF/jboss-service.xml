@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<!--  Version $Revision:$ $Date:$ -->
+<server>
+  <mbean code="org.dcm4chee.xdsb.repository.mbean.XDSbRepositoryService" 
+         name="dcm4chee.xds:service=XDSbRepositoryService"
+         xmbean-dd="">
+
+    <depends>dcm4chee.xds:service=XdsHttpCfgService</depends>
+    <xmbean>
+      <description><![CDATA[<b>XDSbRepository MBeanService</b><br/>
+		Provides a XDS.b Repository Service.<br/>.
+		]]> </description>
+
+    <descriptors>
+       <persistence persistPolicy="OnUpdate"/>
+       <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+    </descriptors>
+
+    <class>org.dcm4chee.xdsb.repository.mbean.XDSbRepositoryService</class>
+
+    <constructor>
+         <description>The default constructor</description>
+         <name>XDSbRepositoryService</name>
+    </constructor>
+      
+   <attribute access="read-write" getMethod="getRepositoryUniqueId" setMethod="setRepositoryUniqueId">
+      <description>Unique ID of this Repository.
+      </description>
+      <name>RepositoryUniqueId</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="1.2.40.0.13.1.1.192.168.0.211.200801012243"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getXDSRegistryURI" setMethod="setXDSRegistryURI">
+      <description>XDS.b Registry URI.
+      </description>
+      <name>XDSRegistryURI</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="http://ihexds.nist.gov:9080/tf5/services/xdsregistryb" /> <!-- 2008-2009 -->            
+      	 <!--  <value value="http://129.6.24.109:9080/axis2/services/xdsregistryb"/> 2007-2008 -->
+      </descriptors>
+   </attribute>
+ 
+   <attribute access="read-write" getMethod="getRetrieveURI" setMethod="setRetrieveURI">
+      <description>Base URL to build Retrieve URL for a document (without query part). NONE to disable optional XDS.a URL retrieve
+      </description>
+      <name>RetrieveURI</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="http://127.0.0.1:8080/rid/IHERetrieveDocument"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="isLogReceivedMessage"
+      setMethod="setLogReceivedMessage">
+      <description>Enable logging of received Request message (Provide And Register Document Set).
+      </description>
+      <name>LogReceivedMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogRegisterMessage"
+      setMethod="setLogRegisterMessage">
+      <description>Enable logging of SubmitObjectsRequest message to registry.
+      </description>
+      <name>LogRegisterMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogResponseMessage"
+      setMethod="setLogResponseMessage">
+      <description>Enable/Disable logging of received Response message (RegistryResponse). 
+      </description>
+      <name>LogResponseMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isIndentXmlLog"
+      setMethod="setIndentXmlLog">
+      <description>Enable/disable indention of logged XML message.
+      </description>
+      <name>IndentXmlLog</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isSaveRequestAsFile"
+      setMethod="setSaveRequestAsFile">
+      <description>Save Provide And Register Document Set Request as file.
+      </description>
+      <name>SaveRequestAsFile</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute> 
+   <attribute access="read-write"
+      getMethod="isMockRegistryResponse"
+      setMethod="setMockRegistryResponse">
+      <description><![CDATA[ If enabled the 'Registry Document Set' transaction will be mocked:<br/>
+      			1) MockError='NONE': A Success Registry Response<br/>
+      			2) MockError!='NONE': A Failure Registry Response<br/>
+      		]]>
+      </description>
+      <name>MockRegistryResponse</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMockError"
+      setMethod="setMockError">
+      <description><![CDATA[ An optional error message for mocked Registry Response.<br/>
+      			Format: NONE or [&lt;Error Code&gt;|]&lt;ErrorMessage&gt;<br/>
+      			NONE: Means Success status<br/>
+      			ErrorCode: Optional ErrorCode. If not specified 'XDSRepositoryError' is used.<br/>
+      			ErrorMessage: The error message.<br/>
+      		]]>
+      </description>
+      <name>MockError</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isDisableForceMTOMResponse"
+      setMethod="setDisableForceMTOMResponse">
+      <description><![CDATA[ If activated the responce will be Simple SOAP instead of MTOM format.
+            ]]>
+      </description>
+      <name>DisableForceMTOMResponse</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isForceSourceAsRequestor"
+      setMethod="setForceSourceAsRequestor">
+      <description><![CDATA[ If activated the 'Source' ActiveParticipant (110153,DCM,Source) is set as Requestor.<br/>
+             If not activated (default) Source is only Requester if user (HumanRequestor) is not known!
+            ]]>
+      </description>
+      <name>ForceSourceAsRequestor</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getDocumentStoreService" setMethod="setDocumentStoreService">
+      <description>Used internally - do NOT modify.</description>
+      <name>DocumentStoreService</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.xds:service=XDSStoreService"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getXDSbRetrieveService" setMethod="setXDSbRetrieveService">
+      <description>Used internally - do NOT modify.</description>
+      <name>getXDSbRetrieveService</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.xds:service=XDSbRetrieveService"/>
+      </descriptors>
+   </attribute>
+
+       &defaultAttributes;
+       
+       <!-- Operations -->
+       &defaultOperations;
+       
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform the document export.<br/>
+      			1) Store attachments<br/>
+      			2) Enhance metadata with size and SHA1 checksum
+      			3) Register documents at configured XDS Registry URI.<br/> 
+      		]]> </description>
+      <name>storeAndRegisterDocuments</name>
+      <parameter>
+        <description>The ProvideAndRegisterDocumentSetRequest Object</description>
+        <name>ProvideAndRegisterDocumentSetRequest</name>
+        <type>org.dcm4chee.xds.infoset.v30.ProvideAndRegisterDocumentSetRequestType</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.infoset.v30.RegistryResponseType</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform the document export.<br/>
+      			1) Store attachments<br/>
+      			2) Enhance metadata with size and SHA1 checksum
+      			3) Register documents at configured XDS Registry URI.<br/> 
+      		]]> </description>
+      <name>storeAndRegisterDocuments</name>
+      <parameter>
+        <description>The ProvideAndRegisterDocumentSetRequest Object</description>
+        <name>ProvideAndRegisterDocumentSetRequest</name>
+        <type>org.dcm4chee.xds.infoset.v30.ProvideAndRegisterDocumentSetRequestType</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.infoset.v30.RegistryResponseType</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Retrieve Document Set.<br/>
+      		]]> </description>
+      <name>retrieveDocumentSet</name>
+      <parameter>
+        <description>The RetrieveDocumentSetRequestType Object</description>
+        <name>RetrieveDocumentSetRequestType</name>
+        <type>org.dcm4chee.xds.infoset.v30.RetrieveDocumentSetRequestType</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.infoset.v30.RetrieveDocumentSetResponseType</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Retrieve Document Set.<br/>
+             Perform a Retrieve Document Set transaction for one ore more documents.<br/>
+            ]]> </description>
+      <name>retrieveDocumentSet</name>
+      <parameter>
+        <description>Document Unique ID(s) (separated by '|').</description>
+        <name>DocumentUIDs</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Repository Unique ID. Default: this RepositoryUniqueId</description>
+        <name>RepositoryUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Home Community ID. Default: no optional Home Community ID</description>
+        <name>HomeCommunityID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Use local Repository Unique ID to avoid webservice round trip for local retrieve requests.</description>
+        <name>UseLocalRepository</name>
+        <type>boolean</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.infoset.v30.RetrieveDocumentSetResponseType</return-type>
+   </operation>
+
+           <operation impact="ACTION">
+      <description><![CDATA[ Save Documents of a Retrieve Document Set.<br/>
+             Perform a Retrieve Document Set transaction for one ore more documents and save the documents in files.<br/>
+            ]]> </description>
+      <name>saveDocumentSet</name>
+      <parameter>
+        <description>Document Unique ID(s) (separated by '|').</description>
+        <name>DocumentUIDs</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Repository Unique ID. Default: this RepositoryUniqueId</description>
+        <name>RepositoryUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Home Community ID. Default: no optional Home Community ID</description>
+        <name>HomeCommunityID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description><![CDATA[Base Directory where documents are stored. <br/>
+            A relative path name is resolved relative to &lt;archive-install-directory&gt;/server/default/.<br/>
+            Use the URLEncoded documentUID as filename.
+            ]]></description>
+        <name>baseDir</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Use local Repository Unique ID to avoid webservice round trip for local retrieve requests.</description>
+        <name>UseLocalRepository</name>
+        <type>boolean</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>
+        
+   <operation impact="ACTION">
+      <description><![CDATA[ Retrieve single Document (DataHandler).<br/>
+            ]]> </description>
+      <name>retrieveDocument</name>
+      <parameter>
+        <description>Document Unique ID.</description>
+        <name>DocumentUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Repository Unique ID. Default: this RepositoryUniqueId</description>
+        <name>RepositoryUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Home Community ID. Default: no optional Home Community ID</description>
+        <name>HomeCommunityID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Use local Repository Unique ID to avoid webservice round trip for local retrieve requests.</description>
+        <name>UseLocalRepository</name>
+        <type>boolean</type>
+      </parameter>
+      <return-type>javax.activation.DataHandler</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Retrieve single Document as String (extract only letters, digits and spaces).<br/>
+            ]]> </description>
+      <name>retrieveDocumentAsString</name>
+      <parameter>
+        <description>Document Unique ID.</description>
+        <name>DocumentUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Repository Unique ID. Default: this RepositoryUniqueId</description>
+        <name>RepositoryUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Home Community ID. Default: no optional Home Community ID</description>
+        <name>HomeCommunityID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Use local Repository Unique ID to avoid webservice round trip for local retrieve requests.</description>
+        <name>UseLocalRepository</name>
+        <type>boolean</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>
+        
+    </xmbean>
+  </mbean>
+</server>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="lib" path="src/main/patches/jbossws-3.0.1-native-2.0.4.GA/deploy/jbossws.sar/jbossws-core.jar"/>
+	<classpathentry kind="lib" path="src/main/patches/jbossws-native-2.0.3.GA/deploy/jbossws.sar/jbossws-core.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

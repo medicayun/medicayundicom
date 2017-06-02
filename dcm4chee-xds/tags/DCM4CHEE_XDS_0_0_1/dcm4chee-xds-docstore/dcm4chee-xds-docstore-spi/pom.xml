@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dcm4che</groupId>
+    <artifactId>dcm4chee-xds-docstore</artifactId>
+    <version>0.0.1</version>
+  </parent>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-xds-docstore-spi</artifactId>
+  <version>0.0.1</version>
+  <packaging>jar</packaging>
+  <name>XDS Document Storage Service Provider</name>
+  <dependencies>
+    <dependency>
+      <groupId>dcm4che</groupId>
+      <artifactId>dcm4chee-xds-common</artifactId>
+      <version>0.0.1</version>
+       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jboss</groupId>
+      <artifactId>jboss-system</artifactId>
+      <version>4.0.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.soap</groupId>
+      <artifactId>saaj-api</artifactId>
+      <version>1.3</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>  
+</project>
+

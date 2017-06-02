@@ -1,0 +1,192 @@
+<assembly>
+  <id>bin</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <baseDirectory>dcm4chee-xds-${version}</baseDirectory>
+  <fileSets>
+
+<!-- bin -->
+    <fileSet>
+      <directory>src/main</directory>
+      <outputDirectory/>
+      <includes>
+        <include>*.txt</include>
+        <include>bin/*.bat</include>
+       </includes>
+       <lineEnding>crlf</lineEnding>
+    </fileSet>
+    <fileSet>
+      <directory>src/main</directory>
+      <outputDirectory/>
+      <includes>
+        <include>bin/*.sh</include>
+      </includes>
+      <lineEnding>lf</lineEnding>
+      <fileMode>0755</fileMode>
+    </fileSet>
+<!-- deploy -->
+    <fileSet>
+      <directory>src/main</directory>
+      <outputDirectory>server/default</outputDirectory>
+      <includes>
+        <include>deploy/**</include>
+       </includes>
+    </fileSet>
+<!-- conf -->
+    <fileSet>
+      <directory>src/main</directory>
+      <outputDirectory>server/default</outputDirectory>
+      <includes>
+        <include>conf/**</include>
+       </includes>
+    </fileSet>
+<!-- XDS common -->
+    <fileSet>
+      <directory>../dcm4chee-xds-common/target</directory>
+      <outputDirectory>server/default/lib</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+    </fileSet>
+<!-- XDS.b Source -->
+    <fileSet>
+      <directory>../dcm4chee-xdsb-src/dcm4chee-xdsb-src-mbean/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+<!-- XDS.b Repository -->
+    <fileSet>
+      <directory>../dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-mbean/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-ws/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.war</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-retrieve/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-webretrieve/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.war</include>
+      </includes>
+    </fileSet>
+<!-- XDS Registry -->
+    <fileSet>
+      <directory>../dcm4chee-xds-registry/dcm4chee-xds-registry-mbean/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../dcm4chee-xds-registry/dcm4chee-xds-registry-ws/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.war</include>
+      </includes>
+    </fileSet>
+<!-- XDS Stored Query Client Service -->
+    <fileSet>
+      <directory>../dcm4chee-xds-consumer/dcm4chee-xds-consumer-query/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+<!-- XDS.a Repository -->
+    <fileSet>
+      <directory>../dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-mbean/target</directory>
+      <outputDirectory>server/default/lib</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-mbean/src/main/resources</directory>
+      <outputDirectory>server/default</outputDirectory>
+      <includes>
+        <include>deploy/*.xml</include>
+        <include>conf/xmdesc/*.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-web/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.war</include>
+      </includes>
+    </fileSet>
+<!-- XDS Storage (using DocumentStorage)-->
+    <fileSet>
+      <directory>../dcm4chee-xds-store/dcm4chee-xds-store-mbean/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+<!-- XDS CFG -->
+    <fileSet>
+      <directory>../dcm4chee-xdscfg/dcm4chee-xdscfg-mbean/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+<!-- XDS HTTP CFG -->
+    <fileSet>
+      <directory>../dcm4chee-xdscfg/dcm4chee-xdscfg-http/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+    
+<!-- Patches -->
+    <fileSet>
+      <directory>src/main/patches/</directory>
+      <outputDirectory>patches</outputDirectory>
+      <includes>
+        <include>*/deploy/jbossws.sar/*.jar</include>
+        <include>*/deploy/jbossws.sar/META-INF/*.xml</include>
+      </includes>
+    </fileSet>
+  </fileSets> 
+<!-- Dependences -->
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>server/default/lib</outputDirectory>
+      <includes>
+        <include>dcm4che:dcm4chee-xds-infoset-v21</include>
+        <include>dcm4che:dcm4chee-xds-infoset-v30</include>
+        <include>dcm4che:dcm4che-core</include>
+        <include>dcm4che:dcm4che-audit</include>
+        <include>dcm4che.dcm4chee:dcm4chee-audit-tomcat</include>
+        <!-- <include>dcm4che:dcm4che-net</include> --><!-- Store2Dcm -->
+        <include>org.slf4j:slf4j-api</include>
+        <include>org.slf4j:slf4j-log4j12</include>
+      </includes>
+    </dependencySet>
+    <dependencySet>
+      <outputDirectory>standalone/lib</outputDirectory>
+      <includes>
+        <include>dcm4che:dcm4chee-docstore-store</include>
+      </includes>
+    </dependencySet>
+  </dependencySets>
+</assembly>

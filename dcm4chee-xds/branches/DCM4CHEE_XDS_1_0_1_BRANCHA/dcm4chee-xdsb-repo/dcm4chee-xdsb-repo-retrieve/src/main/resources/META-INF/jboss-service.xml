@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<!--  Version $Revision:$ $Date:$ -->
+<server>
+  <mbean code="org.dcm4chee.xdsb.repository.mbean.XDSbRetrieveService" 
+         name="dcm4chee.xds:service=XDSbRetrieveService"
+         xmbean-dd="">
+
+    <depends>dcm4chee.xds:service=XdsHttpCfgService</depends>
+    <xmbean>
+      <description><![CDATA[<b>XDSbRepository Retrieve MBeanService</b><br/>
+		Provides a XDS.b Repository Retrieve Service.<br/>.
+		]]> </description>
+
+    <descriptors>
+       <persistence persistPolicy="OnUpdate"/>
+       <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+    </descriptors>
+
+    <class>org.dcm4chee.xdsb.repository.mbean.XDSbRetrieveService</class>
+
+    <constructor>
+         <description>The default constructor</description>
+         <name>XDSbRepositoryRetrieveService</name>
+    </constructor>
+      
+   <attribute access="read-write" getMethod="getExternalRepositories" setMethod="setExternalRepositories">
+      <description><![CDATA[ List of remote XDS.b Repositories.<br/>
+            Format: &lt;Repository UniqueID&gt;=&lt;RetrieveDocument URI&gt; <br/>
+            Use NONE to disable retrieve from remote repositories.
+      ]]></description>
+      <name>ExternalRepositories</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="isAuditLogIti43"
+      setMethod="setAuditLogIti43">
+      <description>Enable/Disable Audit logging of ITI-43 (Report, Retrieve Document Set) log messages. (XDS.b)
+      </description>
+      <name>AuditLogIti43</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAuditLogIti17"
+      setMethod="setAuditLogIti17">
+      <description><![CDATA[Enable/Disable Audit logging of ITI-17 (Export, Retrieve Document) log messages.<br/>
+                            Select this option when you're using XDS.b Repository in a XDS-I environment where 
+                            ITI-17 audit logmessages are required.
+      ]]></description>
+      <name>AuditLogIti17</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+ 
+   <attribute access="read-write"
+      getMethod="isLogRequestMessage"
+      setMethod="setLogRequestMessage">
+      <description>Enable/Disable logging of Request message (Retrieve Document Set Request).
+      </description>
+      <name>LogRequestMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogResponseMessage"
+      setMethod="setLogResponseMessage">
+      <description>Enable/Disable logging of Response message (Retrieve Document Set Response). 
+      </description>
+      <name>LogResponseMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogRemoteRequestMessages"
+      setMethod="setLogRemoteRequestMessages">
+      <description>Enable/Disable logging of Request message sent to remote repositories (Retrieve Document Set Request).
+      </description>
+      <name>LogRemoteRequestMessages</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogRemoteResponseMessages"
+      setMethod="setLogRemoteResponseMessages">
+      <description>Enable/Disable logging of Response message received from remote repositories (Retrieve Document Set Response). 
+      </description>
+      <name>LogRemoteResponseMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isIndentXmlLog"
+      setMethod="setIndentXmlLog">
+      <description>Enable/disable indention of logged XML message.
+      </description>
+      <name>IndentXmlLog</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getDocumentStoreService" setMethod="setDocumentStoreService">
+      <description>Used internally - do NOT modify.</description>
+      <name>DocumentStoreService</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.xds:service=XDSStoreService"/>
+      </descriptors>
+   </attribute>
+
+       &defaultAttributes;
+       
+       <!-- Operations -->
+       &defaultOperations;
+       
+   <operation impact="ACTION">
+      <description><![CDATA[ Retrieve Document Set.<br/>
+      		]]> </description>
+      <name>retrieveDocumentSet</name>
+      <parameter>
+        <description>The RetrieveDocumentSetRequestType Object</description>
+        <name>RetrieveDocumentSetRequestType</name>
+        <type>org.dcm4chee.xds.infoset.v30.RetrieveDocumentSetRequestType</type>
+      </parameter>
+      <parameter>
+        <description>Repository Unique ID of the local Repository. </description>
+        <name>RepositoryUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>The MessageContext Object</description>
+        <name>MessageContext</name>
+        <type>javax.xml.ws.handler.MessageContext</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.infoset.v30.RetrieveDocumentSetResponseType</return-type>
+   </operation>
+
+    </xmbean>
+  </mbean>
+</server>

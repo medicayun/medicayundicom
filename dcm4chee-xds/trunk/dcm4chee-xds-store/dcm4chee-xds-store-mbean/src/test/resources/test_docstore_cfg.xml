@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocumentStoreCfg xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="dcm4chee-docstore-cfg.xsd">
+    <StoreDomain name="XDS" >
+        <Store name="XDSStore_1" type="SimpleFileStorage" desc="File Storage for XDS Domain" pool="uncommitted">
+            <init>BASE_DIR=target/docstore/test/xds/store</init>
+            <FeatureList>
+                <Feature name="RID_RETRIEVE"/>
+            </FeatureList>
+        </Store>
+        <Store name="XDSStore_2" type="SimpleFileStorage" desc="File Storage for XDS Domain" pool="committed">
+            <init>BASE_DIR=target/docstore/test/xds/committed</init>
+            <FeatureList>
+                <Feature name="RID_RETRIEVE"/>
+            </FeatureList>
+        </Store>
+        <Store name="XDSMetadata" type="SimpleFileStorage" desc="File Storage for XDS Metadata" pool="metadata" >
+            <init>BASE_DIR=target/docstore/test/xds/metadata</init>
+            <FeatureList>
+                <Feature name="RID_RETRIEVE"/>
+            </FeatureList>
+        </Store>
+    </StoreDomain>
+ </DocumentStoreCfg>

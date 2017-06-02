@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Version $Revision:$ $Date:$ -->
+<server>
+  <mbean code="org.dcm4chee.xds.docstore.mbean.DocumentStoreService" 
+         name="dcm4chee.xds:service=DocumentStoreService"
+         xmbean-dd="">
+
+    <xmbean>
+      <description><![CDATA[<b>Document Store Service for XDS documents</b><br/>
+		Provides a store/retrieve service.<br/>.
+		]]> </description>
+
+    <descriptors>
+       <persistence persistPolicy="OnUpdate"/>
+       <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+    </descriptors>
+
+    <class>org.dcm4chee.xds.docstore.mbean.DocumentStoreService</class>
+
+    <constructor>
+         <description>The default constructor</description>
+         <name>DocumentStoreService </name>
+    </constructor>
+ 
+   <attribute access="read-write"
+      getMethod="getDocumentStorageBeforeRegister" setMethod="setDocumentStorageBeforeRegister">
+      <description><![CDATA[ DocumentStorage used for initial store 
+      		before document will be registered in XDSRegistry.<br/>
+      		After registry transaction either <i>commitDocuments</i> or <i>rollbackDocuments</i> will be called. 
+      ]]></description>
+      <name>DocumentStorageBeforeRegister</name>
+      <type>java.lang.String</type>
+	  <descriptors>
+         <value value="XDSFileStorage"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-only"
+      getMethod="listDocumentStorageProvider">
+      <description>List Names of registered DocumentStorages.
+      </description>
+      <name>listDocumentStorageProvider</name>
+      <type>java.util.Set</type>
+   </attribute>
+      
+   <operation impact="ACTION">
+      <description><![CDATA[ Stores the document to configured Document Storage.<br/> 
+      		]]> </description>
+      <name>storeDocument</name>
+      <parameter>
+        <description>XDS Document Object</description>
+        <name>XDSDocument</name>
+        <type>org.dcm4chee.xds.common.store.XDSDocument</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.common.store.StoredDocument</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Retrieve a document with given document UID.<br/> 
+      		]]> </description>
+      <name>retrieveDocument</name>
+      <parameter>
+        <description>Document Unique ID</description>
+        <name>docUid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.common.store.BasicXDSDocument</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description><![CDATA[ Check if document with given UID exists.<br/> 
+      		]]> </description>
+      <name>documentExists</name>
+      <parameter>
+        <description>Document Unique ID</description>
+        <name>docUid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description><![CDATA[ Commit storage of given list of StoredDocuments.<br/>
+      			This operation is called when Provide and Register transaction was succesfull! 
+      		]]> </description>
+      <name>commitDocuments</name>
+      <parameter>
+        <description>List of StoredDocuments</description>
+        <name>XDSDocuments</name>
+        <type>java.util.Collection</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Rollback storage of given list of StoredDocuments.<br/>
+      			This operation is called when Provide and Register transaction fails! 
+      		]]> </description>
+      <name>rollbackDocuments</name>
+      <parameter>
+        <description>List of StoredDocuments</description>
+        <name>XDSDocuments</name>
+        <type>java.util.Collection</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+ 
+   <operation impact="ACTION">
+      <description><![CDATA[ Computes Hashcode as result from regular storeDocument! 
+      		]]> </description>
+      <name>computeHash</name>
+      <parameter>
+        <description>Filename of Document</description>
+        <name>Filename</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Algorythm (default is SHA1).</description>
+        <name>alg</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description><![CDATA[ Computes Hashcode for file.
+      		]]> </description>
+      <name>computeHash</name>
+      <parameter>
+        <description>Filename of document</description>
+        <name>Filename</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>
+      
+    </xmbean>
+  </mbean>
+</server>

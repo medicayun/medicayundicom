@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="dcm4chee-xds-common/src/main/java"/>
+	<classpathentry kind="src" path="dcm4chee-xds-store/dcm4chee-xds-store-mbean/src/main/java"/>
+	<classpathentry kind="src" path="dcm4chee-xds-docstore/dcm4chee-xds-docstore-spi/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xds-docstore/dcm4chee-xds-docstore-spi/src/main/resources" path="dcm4chee-xds-docstore/dcm4chee-xds-docstore-spi/src/main/resources"/>
+	<classpathentry kind="src" path="dcm4chee-xds-docstore/dcm4chee-xds-docstore-mbean/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xds-docstore/dcm4chee-xds-docstore-mbean/src/main/resources" path="dcm4chee-xds-docstore/dcm4chee-xds-docstore-mbean/src/main/resources"/>
+	<classpathentry kind="src" path="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-ws/src/main/java"/>
+	<classpathentry kind="src" output="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-ws/src/main/resources" path="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-ws/src/main/resources"/>
+	<classpathentry kind="src" path="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-mbean/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-mbean/src/main/resources" path="dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-mbean/src/main/resources"/>
+	<classpathentry kind="src" path="dcm4chee-xdsb-src/dcm4chee-xdsb-src-mbean/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-xdsb-src/dcm4chee-xdsb-src-mbean/src/main/resources" path="dcm4chee-xdsb-src/dcm4chee-xdsb-src-mbean/src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-xds</artifactId>
+  <version>1.0.3</version>
+  <packaging>pom</packaging>
+  <name>Implementation of XDS Actors</name>
+  <modules>
+    <module>dcm4chee-xdscfg</module>
+    <!--  XDS.a Modules -->
+      <module>dcm4chee-xdsa-repository</module> 
+    <!--  <module>dcm4chee-xds-store2dcm</module> --><!-- Obsolete! replaced with dcm4chee-xds-store -->
+    <!-- XDS.b Modules -->
+      <module>dcm4chee-xds-common</module> 
+    <!--  <module>dcm4chee-xds-docstore</module> --><!-- Obsolete! replaced with dcm4chee-xds-store -->
+      <module>dcm4chee-xdsb-repo</module>
+      <module>dcm4chee-xdsb-src</module>
+      <module>dcm4chee-xds-store</module>
+      <module>dcm4chee-xds-registry</module>
+      <module>dcm4chee-xds-consumer</module>
+  </modules>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.6.1</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>  
+  <repositories>
+    <repository>
+      <id>omar-maven2-repository</id>
+      <url>http://ebxmlrr.sourceforge.net/maven2/repository</url>
+    </repository>
+    <repository>
+      <id>dcm4che</id>
+      <name>dcm4che Repository</name>
+      <url>http://www.dcm4che.org/maven2</url>
+    </repository>
+    <repository>
+      <id>jboss</id>
+      <name>jboss Repository</name>
+      <url>https://repository.jboss.org/nexus/content/groups/developer/</url>
+    </repository>
+    <repository>
+      <id>maven2-repository.dev.java.net</id>
+	  <name>Java.net Repository for Maven 2</name>
+	  <url>http://download.java.net/maven/2</url>
+    </repository>
+    <repository>
+      <id>glassfish-repository.dev.java.net</id>
+	  <name>Java.net Repository for glassfish</name>
+	  <url>http://download.java.net/maven/glassfish</url>
+    </repository>
+    <repository>
+       <id>maven-repository.dev.java.net</id>
+       <name>Java.net Repository for Maven 1</name>
+       <url>http://download.java.net/maven/1/</url>
+       <layout>legacy</layout>
+    </repository>
+    <repository>
+        <id>Maven Central</id>
+        <url>http://repo1.maven.org/maven2</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>codehause.maven.snapshots</id>
+      <url>http://snapshots.repository.codehaus.org/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </pluginRepository>
+     <pluginRepository>
+       <id>maven2-repository.dev.java.net</id>
+       <url>http://download.java.net/maven/2/</url>
+     </pluginRepository>
+  </pluginRepositories>
+  <distributionManagement>
+    <repository>
+      <id>www.dcm4che.org</id>
+      <name>dcm4che Repository</name>
+      <url>scp://www.dcm4che.org:443/var/www/maven2</url>
+    </repository>
+  </distributionManagement>
+</project>
+

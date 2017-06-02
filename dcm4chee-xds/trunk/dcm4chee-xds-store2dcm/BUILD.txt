@@ -1,0 +1,29 @@
+BUILD INSTRUCTIONS FOR Store2Dcm Service:
+========================================================
+
+Beside JDK 5 or JDK 6 - which is also needed for running DCM4CHEE
+you also have to download and install Maven 2.0.7 from
+http://maven.apache.org/download.html for building the XDS Repository.
+
+If you are behind a http proxy, you have to configure Maven, to use it for
+http downloads (s.  http://maven.apache.org/guides/mini/guide-proxies.html ).
+
+$ cd dcm4chee-xds-store2dcm
+$ mvn install
+
+(will download necessary artifacts from public Maven Repositories by http,
+before building JBoss Service (JMX) components in a sar package.)
+The install also tries also an integration test with a local Store (and Storage Commit) SCP.
+Therefore the test tries a DICOM Echo to AET DCM4CHEE (localhost:11112) and enable the test on success response.
+The StgCmtSCU configuration would be: AET=DOC_SEND_TEST on port 11114!  
+Attention: The build will fail for test 'SendDocumentAndStgCmt' if a Store SCP is available but the DOC_SEND_TEST is not configured accordingly!
+
+
+Build the distribution:
+
+$ cd dcm4chee-xds-store2dcm-dist
+$ mvn assembly:assembly
+
+will assembly the binary distribution package dcm4chee-xds-store2dcm-2.13.0.zip,
+including the sar archive built before along with third-party libraries. 
+(dcm4che-core-2.0.12.jar and dcm4che-net-2.0.12.jar)

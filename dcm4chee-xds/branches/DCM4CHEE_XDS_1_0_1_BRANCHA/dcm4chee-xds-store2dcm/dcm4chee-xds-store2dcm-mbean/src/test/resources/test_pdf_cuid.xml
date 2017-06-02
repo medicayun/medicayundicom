@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dicom>
+<!--Patient's Name-->
+<attr tag="00100010" vr="PN" len="16">Homer J.^Simpson</attr>
+<!--Patient ID-->
+<attr tag="00100020" vr="LO" len="4">1234</attr>
+<!--Patient's Birth Date-->
+<attr tag="00100030" vr="DA" len="8">19841231</attr>
+<!--Patient's Sex-->
+<attr tag="00100040" vr="CS" len="2">M</attr>
+<!--SOP Class UID-->
+<attr tag="00080016" vr="UI" len="2">1.2.840.10008.5.1.4.1.1.104.1</attr>
+</dicom>

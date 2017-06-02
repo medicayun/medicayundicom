@@ -1,0 +1,32 @@
+INSTALL INSTRUCTIONS FOR DCM4CHEE XDS.a REPOSITORY:
+==========================================================
+
+Requirements: 
+1) A DCM4CHEE installation
+2) Store2Dcm Service
+
+Installation Procedure:
+
+1. Extract the binary distribution package of dcm4chee-xdsa-repository. 
+Avoid using a directory that has a name that contains spaces as installation directory.
+
+2. Move to the dcm4chee-xdsa-repository-1.0/bin directory and execute the
+install_as_addon.bat or install_as_addon.sh script, as appropriate for your operating
+system, with the path of your DCM4CHEE installation directory as parameter.
+
+3. (3. and 4. only necessary if you get the message 'Store2Dcm Service is not installed in this DCM4CHEE instance!')
+Build Store2Dcm Service: 
+  a) Checkout Store2Dcm: 
+     svn co https://dcm4che.svn.sourceforge.net/svnroot/dcm4che/dcm4chee/dcm4chee-xds-store2dcm/trunk dcm4chee-xds-store2dcm
+  b) Build as described in BUILD.txt in dcm4chee-xds-store2dcm
+
+4. Install Store2Dcm in DCM4CHEE 
+   - According INSTALL.txt of dcm4chee-xds-store2dcm 
+   - Or simply copy dcm4chee-xds-store2dcm-sar-<version>.sar from dcm4chee-xds-store2dcm-sar/target to <DCM4CHEE>/server/default/deploy
+  
+5. Restart DCM4CHEE
+
+6. Configure XDS in JMX-Console:
+   XDS-I            (XDS-I Document Source)
+   XDSService       (Repository) 
+   XDSQueryService  (Stored Query / XDS-I Consumer)

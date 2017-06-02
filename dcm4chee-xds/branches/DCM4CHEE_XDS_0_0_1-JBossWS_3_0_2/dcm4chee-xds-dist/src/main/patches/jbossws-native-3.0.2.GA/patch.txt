@@ -1,0 +1,52 @@
+Index: C:/work_jboss/jbossws-native/modules/core/src/main/java/org/jboss/ws/tools/wsdl/WSDL11Reader.java
+===================================================================
+--- C:/work_jboss/jbossws-native/modules/core/src/main/java/org/jboss/ws/tools/wsdl/WSDL11Reader.java	(revision 7759)
++++ C:/work_jboss/jbossws-native/modules/core/src/main/java/org/jboss/ws/tools/wsdl/WSDL11Reader.java	(working copy)
+@@ -78,6 +78,7 @@
+ import org.jboss.logging.Logger;
+ import org.jboss.ws.Constants;
+ import org.jboss.ws.core.soap.Style;
++import org.jboss.ws.core.utils.JBossWSEntityResolver;
+ import org.jboss.ws.core.utils.ResourceURL;
+ import org.jboss.ws.metadata.wsdl.Extendable;
+ import org.jboss.ws.metadata.wsdl.WSDLBinding;
+@@ -115,6 +116,8 @@
+ import org.w3c.dom.NamedNodeMap;
+ import org.w3c.dom.Node;
+ import org.w3c.dom.NodeList;
++import org.xml.sax.InputSource;
++import org.xml.sax.SAXException;
+ 
+ /**
+  * A helper that translates a WSDL-1.1 object graph into a WSDL-2.0 object graph.
+@@ -157,6 +160,8 @@
+    
+    private Set<Definition> importedDefinitions = new HashSet<Definition>();
+ 
++   private JBossWSEntityResolver resolver = new JBossWSEntityResolver();
++
+    /**
+     * Takes a WSDL11 Definition element and converts into
+     * our object graph that has been developed for WSDL20
+@@ -583,9 +588,19 @@
+             if (schemaLocationsMap.get(namespace) == null)
+             {
+                schemaLocationsMap.put(namespace, currLoc);
+-               
++               InputSource is = null;
++               try {
++            	   is = resolver.resolveEntity(namespace, schemaLocation);
++			   } catch (SAXException e) {
++				   log.error("Can not resolve entity! namespace:"+namespace+" schemaLocation:"+schemaLocation, e);
++			   }
+                // Recursively handle schema imports
+-               Element importedSchema = DOMUtils.parse(currLoc.openStream());
++               Element importedSchema;
++               if ( is == null ) {
++            	   importedSchema = DOMUtils.parse(currLoc.openStream());
++               } else {
++            	   importedSchema = DOMUtils.parse(is);
++               }
+                handleSchemaImports(importedSchema, currLoc);
+             }
+          }

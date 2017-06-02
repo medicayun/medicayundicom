@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+  <handler-chain>
+    <handler>
+      <handler-name>XDS Repo SOAP Handler</handler-name>
+      <handler-class>org.dcm4chee.xds.repo.ws.WSMtomRspHandler</handler-class>
+    </handler>
+    <handler>
+      <handler-name>XDS Repo Addressing SOAP Handler</handler-name>
+      <handler-class>org.dcm4chee.xds.repo.ws.WSAddressingHandler</handler-class>
+    </handler>
+  </handler-chain>
+</handler-chains>

@@ -1,0 +1,152 @@
+<assembly>
+  <id>bin</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <baseDirectory>dcm4chee-xds-${version}</baseDirectory>
+  <fileSets>
+
+<!-- bin -->
+    <fileSet>
+      <directory>src/main</directory>
+      <outputDirectory/>
+      <includes>
+        <include>*.txt</include>
+        <include>bin/*.bat</include>
+       </includes>
+       <lineEnding>crlf</lineEnding>
+    </fileSet>
+    <fileSet>
+      <directory>src/main</directory>
+      <outputDirectory/>
+      <includes>
+        <include>bin/*.sh</include>
+      </includes>
+      <lineEnding>lf</lineEnding>
+      <fileMode>0755</fileMode>
+    </fileSet>
+<!-- deploy -->
+    <fileSet>
+      <directory>src/main</directory>
+      <outputDirectory>server/default</outputDirectory>
+      <includes>
+        <include>deploy/**</include>
+       </includes>
+    </fileSet>
+<!-- conf -->
+    <fileSet>
+      <directory>src/main</directory>
+      <outputDirectory>server/default</outputDirectory>
+      <includes>
+        <include>conf/**</include>
+       </includes>
+    </fileSet>
+<!-- XDS common -->
+    <fileSet>
+      <directory>../dcm4chee-xds-common/target</directory>
+      <outputDirectory>server/default/lib</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+    </fileSet>
+<!-- XDS Doc Storage -->
+    <fileSet>
+      <directory>../dcm4chee-xds-docstore/dcm4chee-xds-docstore-mbean/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../dcm4chee-xds-docstore/dcm4chee-xds-docstore-spi/target</directory>
+      <outputDirectory>server/default/lib</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+    </fileSet>
+<!-- XDS.b Source -->
+    <fileSet>
+      <directory>../dcm4chee-xdsb-src/dcm4chee-xdsb-src-mbean/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+<!-- XDS.b Repository -->
+    <fileSet>
+      <directory>../dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-mbean/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../dcm4chee-xdsb-repo/dcm4chee-xdsb-repo-ws/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.war</include>
+      </includes>
+    </fileSet>
+<!-- XDS.a Repository -->
+    <fileSet>
+      <directory>../dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-mbean/target</directory>
+      <outputDirectory>server/default/lib</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-mbean/src/main/resources</directory>
+      <outputDirectory>server/default</outputDirectory>
+      <includes>
+        <include>deploy/*.xml</include>
+        <include>conf/xmdesc/*.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../dcm4chee-xdsa-repository/dcm4chee-xdsa-repository-web/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.war</include>
+      </includes>
+    </fileSet>
+<!-- Store2Dcm -->
+    <fileSet>
+      <directory>../dcm4chee-xds-store2dcm/dcm4chee-xds-store2dcm-mbean/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+<!-- XDS CFG -->
+    <fileSet>
+      <directory>../dcm4chee-xdscfg/dcm4chee-xdscfg-mbean/target</directory>
+      <outputDirectory>server/default/deploy</outputDirectory>
+      <includes>
+        <include>*.sar</include>
+      </includes>
+    </fileSet>
+<!-- Patches -->
+    <fileSet>
+      <directory>src/main/patches/</directory>
+      <outputDirectory>patches</outputDirectory>
+      <includes>
+        <include>*/deploy/jbossws.sar/*.jar</include>
+      </includes>
+    </fileSet>
+  </fileSets> 
+<!-- Dependences -->
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>server/default/lib</outputDirectory>
+      <includes>
+        <include>dcm4che:dcm4che-core</include>
+        <include>dcm4che:dcm4che-audit</include>
+        <include>dcm4che:dcm4chee-audit-tomcat</include>
+        <include>dcm4che:dcm4che-net</include> <!-- Store2Dcm -->
+        <include>org.slf4j:slf4j-api</include>
+        <include>org.slf4j:slf4j-log4j12</include>
+      </includes>
+    </dependencySet>
+  </dependencySets>
+</assembly>

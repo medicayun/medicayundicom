@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Version $Revision: 5712 $ $Date: 2008-01-18 04:19:23 -0500 (Fri, 18 Jan 2008) $ -->
+<server>
+	<mbean code="org.dcm4chee.xds.consumer.query.XDSQueryService"
+		name="dcm4chee.xds:service=XDSQueryService" xmbean-dd="">
+		<depends optional-attribute-name="PixQueryServiceName">
+			dcm4chee.archive:service=PIXQuery
+		</depends>
+		<depends>dcm4chee.xds:service=XdsHttpCfgService</depends>
+
+		<xmbean>
+			<description><![CDATA[<b>XDS Query Service</b><br/>
+		Provides a Cross-enterprise Document Query Service for Document Consumer actor (Stored Query).<br/>
+		]]>
+			</description>
+
+			<descriptors>
+				<persistence persistPolicy="OnUpdate" />
+				<persistence-manager
+					value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+			</descriptors>
+
+			<class>
+				org.dcm4chee.xds.consumer.query.XDSQueryService
+			</class>
+
+			<constructor>
+				<description>The default constructor</description>
+				<name>XDSQueryService</name>
+			</constructor>
+
+			<attribute access="read-write" getMethod="getXDSQueryURI"
+				setMethod="setXDSQueryURI">
+				<description>XDS Query URI.</description>
+				<name>XDSQueryURI</name>
+				<type>java.lang.String</type>
+				<descriptors>
+                    <value value="http://ihexds.nist.gov:9080/tf5/services/xdsregistryb" /> <!-- 2008-2009 -->            
+					<!-- <value value="http://129.6.24.109:9080/axis2/services/xdsregistrya" /> 2007-2008 -->
+				</descriptors>
+			</attribute>
+
+			<attribute access="read-write" getMethod="getAffinityDomain"
+				setMethod="setAffinityDomain">
+				<description><![CDATA[XDS Affinity Domain (Authority)<br/>
+      		This name is used in PIX Query Service to get patient id of affinity domain.<br/>
+      		You can disable PIX Query by setting this value with '=' as first character.<br/>
+      		'=' : use the source patient ID and issuer.<br/>
+      		'=?&lt;Domain&gt;' : use patientID from source and &lt;Domain&gt; as issuer. <br/>
+      		'=&lt;patient&gt;' : use &lt;patient&gt; for patientID and issuer (patid&#94;&#94;&#94;issuer). 
+      ]]></description>
+				<name>AffinityDomain</name>
+				<type>java.lang.String</type>
+				<descriptors>
+					<value
+						value="=?&amp;1.3.6.1.4.1.21367.2005.3.7&amp;ISO" />
+				</descriptors>
+			</attribute>
+			<attribute access="read-write"
+				getMethod="getPixQueryServiceName"
+				setMethod="setPixQueryServiceName">
+				<description>
+					Used internally - do NOT modify.
+				</description>
+				<name>PixQueryServiceName</name>
+				<type>javax.management.ObjectName</type>
+			</attribute>
+			<attribute access="read-write" getMethod="isUseSoap"
+				setMethod="setUseSoap">
+				<description>
+					Use SOAP call instead of WebService call.
+				</description>
+				<name>UseSoap</name>
+				<type>boolean</type>
+				<descriptors>
+					<value value="false" />
+				</descriptors>
+			</attribute>
+            <attribute access="read-write" getMethod="isUseInfoset"
+                setMethod="setUseInfoset">
+                <description>
+                    Use Infoset classes instead of dcm4che-xds-common.
+                </description>
+                <name>UseInfoset</name>
+                <type>boolean</type>
+                <descriptors>
+                    <value value="true" />
+                </descriptors>
+            </attribute>
+            <attribute access="read-write" getMethod="isUseWSAddressHandler"
+                setMethod="setUseWSAddressHandler">
+                <description>
+                    Use WSAddressHandler from JBoss instead of setting configuration! (only effective when UseInfoset is enabled!).
+                </description>
+                <name>WSAddressHandler</name>
+                <type>boolean</type>
+                <descriptors>
+                    <value value="true" />
+                </descriptors>
+            </attribute>
+			<attribute access="read-write"
+				getMethod="isLogRequestMessage" setMethod="setLogRequestMessage">
+				<description>
+					Enable/Disable logging of Request message
+					(AdhocQueryRequest).
+				</description>
+				<name>LogRequestMessage</name>
+				<type>boolean</type>
+				<descriptors>
+					<value value="false" />
+				</descriptors>
+			</attribute>
+			<attribute access="read-write"
+				getMethod="isLogResponseMessage"
+				setMethod="setLogResponseMessage">
+				<description>
+					Enable/Disable logging of received Response message
+					(AdhocQueryResponse).
+				</description>
+				<name>LogResponseMessage</name>
+				<type>boolean</type>
+				<descriptors>
+					<value value="false" />
+				</descriptors>
+			</attribute>
+
+			<!-- Operations -->
+			<operation impact="ACTION">
+				<description><![CDATA[ Find Documents for a patient with given document status.<br/>
+      			(Perform a 'Stored Query' based registry query with return type OBJECT_REF)
+      		]]>
+				</description>
+				<name>findDocuments</name>
+				<parameter>
+					<description>Patient ID.</description>
+					<name>patId</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<parameter>
+					<description><![CDATA[ Status. (defined: Submitted, Approved, Deprecated) <br/>
+        		Use null(empty) to get documents for all defined stati! <br/>
+        		Formats the parameter to V3 statustype 'urn:oasis:names:tc:ebxml-regrep:StatusType:' 
+        	]]>
+					</description>
+					<name>status</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<parameter>
+					<description>
+						Select of ReturnType. true: LeafClass, false:
+						ObjectRef
+					</description>
+					<name>useLeafClass</name>
+					<type>boolean</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+			<operation impact="ACTION">
+				<description><![CDATA[ Find SubmissionSets for a patient with given SubmissionSet status.<br/>
+      			(Perform a 'Stored Query' based registry query with return type OBJECT_REF)
+      		]]>
+				</description>
+				<name>findSubmissionSets</name>
+				<parameter>
+					<description>Patient ID.</description>
+					<name>patId</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<parameter>
+					<description><![CDATA[ Status. (defined: Submitted, Approved, Deprecated) <br/>
+        		Use null(empty) to get documents for all defined stati! <br/>
+        		Formats the parameter to V3 statustype 'urn:oasis:names:tc:ebxml-regrep:StatusType:' 
+        	]]>
+					</description>
+					<name>status</name>
+					<type>java.lang.String</type>
+				</parameter>
+                <parameter>
+                    <description>
+                        Select of ReturnType. true: LeafClass, false:
+                        ObjectRef
+                    </description>
+                    <name>useLeafClass</name>
+                    <type>boolean</type>
+                </parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+			<operation impact="ACTION">
+				<description><![CDATA[ Find Folders for a patient with given folder status.<br/>
+      			(Perform a 'Stored Query' based registry query with return type OBJECT_REF)
+      		]]>
+				</description>
+				<name>findFolders</name>
+				<parameter>
+					<description>Patient ID.</description>
+					<name>patId</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<parameter>
+					<description><![CDATA[ Status. (defined: Submitted, Approved, Deprecated) <br/>
+        		Use null(empty) to get documents for all defined stati! <br/>
+        		Formats the parameter to V3 statustype 'urn:oasis:names:tc:ebxml-regrep:StatusType:' 
+        	]]>
+					</description>
+					<name>status</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<parameter>
+					<description>
+						Select of ReturnType. true: LeafClass, false:
+						ObjectRef
+					</description>
+					<name>useLeafClass</name>
+					<type>boolean</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+			<operation impact="ACTION">
+				<description><![CDATA[ Get all registry content for a patient given the indicated status.<br/>
+      			(Perform a 'Stored Query' based registry query with return type OBJECT_REF)
+      		]]>
+				</description>
+				<name>getAll</name>
+				<parameter>
+					<description>Patient ID.</description>
+					<name>patId</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<parameter>
+					<description><![CDATA[ DocumentEntryStatus. (defined: Submitted, Approved, Deprecated) <br/>
+        		Use null(empty) to get documents for all defined stati! <br/>
+        		Formats the parameter to V3 statustype 'urn:oasis:names:tc:ebxml-regrep:StatusType:' 
+        	]]>
+					</description>
+					<name>docStatus</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<parameter>
+					<description><![CDATA[ SubmissionSetStatus. (defined: Submitted, Approved, Deprecated) <br/>
+        		Use null(empty) to get documents for all defined stati! <br/>
+        		Formats the parameter to V3 statustype 'urn:oasis:names:tc:ebxml-regrep:StatusType:' 
+        	]]>
+					</description>
+					<name>submissionSetStatus</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<parameter>
+					<description><![CDATA[ FolderStatus. (defined: Submitted, Approved, Deprecated) <br/>
+        		Use null(empty) to get documents for all defined stati! <br/>
+        		Formats the parameter to V3 statustype 'urn:oasis:names:tc:ebxml-regrep:StatusType:' 
+        	]]>
+					</description>
+					<name>folderStatus</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+			<operation impact="ACTION">
+				<description><![CDATA[ Get documents for given list of UUIDs.<br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getDocuments</name>
+				<parameter>
+					<description>List of document UUIDs</description>
+					<name>uuids</name>
+					<type>java.util.List</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+			<operation impact="ACTION">
+				<description><![CDATA[ Get documents for given list of UUIDs.<br/>
+      			Use ',' to seperate entries. <br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getDocuments</name>
+				<parameter>
+					<description>List of document UUIDs</description>
+					<name>uuids</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+			<operation impact="ACTION">
+				<description><![CDATA[ Get folders for given list of UUIDs.<br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getFolders</name>
+				<parameter>
+					<description>List of folder UUIDs</description>
+					<name>uuids</name>
+					<type>java.util.List</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+			<operation impact="ACTION">
+				<description><![CDATA[ Get folders for given list of UUIDs.<br/>
+      			Use ',' to seperate entries. <br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getFolders</name>
+				<parameter>
+					<description>List of folder UUIDs</description>
+					<name>uuids</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+			
+            <operation impact="ACTION">
+                <description><![CDATA[ Get associations for given list of UUIDs.<br/>
+                Return type is LEAF_CLASS
+            ]]>
+                </description>
+                <name>getAssociations</name>
+                <parameter>
+                    <description>List of folder UUIDs</description>
+                    <name>uuids</name>
+                    <type>java.util.List</type>
+                </parameter>
+                <return-type>
+                    org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+                </return-type>
+            </operation>
+            <operation impact="ACTION">
+                <description><![CDATA[ Get associations for given list of UUIDs.<br/>
+                Use ',' to seperate entries. <br/>
+                Return type is LEAF_CLASS
+            ]]>
+                </description>
+                <name>getAssociations</name>
+                <parameter>
+                    <description>List of folder UUIDs</description>
+                    <name>uuids</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>
+                    org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+                </return-type>
+            </operation>
+
+			<operation impact="ACTION">
+				<description><![CDATA[ Retrieve a collection of XDSDocumentEntry objects and the Association objects
+surrounding them.<br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getDocumentsAndAssocs</name>
+				<parameter>
+					<description>List of document UUIDs</description>
+					<name>uuids</name>
+					<type>java.util.List</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+			<operation impact="ACTION">
+				<description><![CDATA[ Retrieve a collection of XDSDocumentEntry objects and the Association objects
+surrounding them.<br/>
+      			Use ',' to seperate several uuids. <br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getDocumentsAndAssocs</name>
+				<parameter>
+					<description>
+						List of document UUIDs, seperated by ','
+					</description>
+					<name>uuids</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+			<operation impact="ACTION">
+				<description><![CDATA[ Retrieve the XDSSubmissionSet objects used to submit a collection of
+XDSDocumentEntry and XDSFolder objects.<br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getSubmissionSets</name>
+				<parameter>
+					<description>
+						List of SubmissionSet UUIDs
+					</description>
+					<name>uuids</name>
+					<type>java.util.List</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+			<operation impact="ACTION">
+				<description><![CDATA[ Retrieve the XDSSubmissionSet objects used to submit a collection of
+XDSDocumentEntry and XDSFolder objects.<br/>
+      			Use ',' to seperate entries. <br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getSubmissionSets</name>
+				<parameter>
+					<description>
+						List of SubmissionSet UUIDs
+					</description>
+					<name>uuids</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+			<operation impact="ACTION">
+				<description><![CDATA[ Retrieve an XDSSubmissionSet object along with its contents.<br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getSubmissionSetAndContents</name>
+				<parameter>
+					<description>SubmissionSet UUID</description>
+					<name>uuid</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+			<operation impact="ACTION">
+				<description><![CDATA[ Retrieve an XDSFolder object and its contents.<br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getFolderAndContents</name>
+				<parameter>
+					<description>Folder UUID</description>
+					<name>uuid</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+			<operation impact="ACTION">
+				<description><![CDATA[ Retrieve XDSFolder objects that contain the XDSDocumentEntry object provided with
+the query.<br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getFoldersForDocument</name>
+				<parameter>
+					<description>Document UUID</description>
+					<name>uuid</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+            <operation impact="ACTION">
+                <description><![CDATA[ Retrieve XDSDocumentEntry objects that are related to the specified document via an Association object.<br/>
+                Return type is LEAF_CLASS
+            ]]>
+                </description>
+                <name>getRelatedDocuments</name>
+                <parameter>
+                    <description>Document UUID</description>
+                    <name>uuid</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <return-type>
+                    org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+                </return-type>
+            </operation>
+			<operation impact="ACTION">
+				<description><![CDATA[ Retrieve XDSDocumentEntry objects that are related to the specified document via an
+Association object.<br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getRelatedDocuments</name>
+				<parameter>
+					<description>Document UUID</description>
+					<name>uuid</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<parameter>
+					<description>
+						List of Association types, seperated with ','
+					</description>
+					<name>assocTypes</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+			<operation impact="ACTION">
+				<description><![CDATA[ Retrieve XDSDocumentEntry objects that are related to the specified document via an
+Association object.<br/>
+      			Return type is LEAF_CLASS
+      		]]>
+				</description>
+				<name>getRelatedDocuments</name>
+				<parameter>
+					<description>Document UUID</description>
+					<name>uuid</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<parameter>
+					<description>List of Association types</description>
+					<name>assocTypes</name>
+					<type>java.util.List</type>
+				</parameter>
+				<return-type>
+					org.dcm4chee.xds.infoset.v30.AdhocQueryResponse
+				</return-type>
+			</operation>
+
+			<operation impact="ACTION">
+				<description>
+					Test a AdhocQueryRequest given by a file.
+				</description>
+				<name>testQueryRequest</name>
+				<parameter>
+					<description>
+						Filename of file contains a AdhocQueryRequest
+					</description>
+					<name>filename</name>
+					<type>java.lang.String</type>
+				</parameter>
+				<return-type>java.lang.String</return-type>
+			</operation>
+
+            <operation impact="ACTION">
+                <description><![CDATA[ Perform a 'Find' StoredQuery with given command and parameters and return the result as XML.<br/> ]]>
+                </description>
+                <name>findAsXML</name>
+                <parameter>
+                    <description>Find command. Use one of 'findDocuments', 'findFolders' or 'findSubmissionSets' </description>
+                    <name>cmd</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>Patient ID.</description>
+                    <name>patId</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description><![CDATA[ Status. (defined: Submitted, Approved, Deprecated) <br/>
+                        Use null(empty) to get documents for all defined stati! <br/>
+                        Formats the parameter to V3 statustype 'urn:oasis:names:tc:ebxml-regrep:StatusType:' ]]>
+                    </description>
+                    <name>status</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>
+                        Select of ReturnType. true: LeafClass, false:
+                        ObjectRef
+                    </description>
+                    <name>useLeafClass</name>
+                    <type>boolean</type>
+                </parameter>
+                <parameter>
+                    <description>Encode for HTML output.</description>
+                    <name>encodeHTML</name>
+                    <type>boolean</type>
+                </parameter>
+                <return-type>java.lang.String</return-type>
+            </operation>
+            <operation impact="ACTION">
+                <description><![CDATA[ Perform a 'Get' StoredQuery with given command and parameters and return the result as XML.<br/> ]]>
+                </description>
+                <name>getAsXML</name>
+                <parameter>
+                    <description><![CDATA[ Get command. Use one of 'getDocuments', 'getFolders', 'getAssociations', 
+                        'getDocumentsAndAssocs' or 'getSubmissionSets'.<br/>
+                        Use only a single uuid for 'getSubmissionSetAndContents', 'getFolderAndContents' or 'getFoldersForDocument' 
+                         ]]></description>
+                    <name>cmd</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>List of UUIDs separated with ','.</description>
+                    <name>uuids</name>
+                    <type>java.lang.String</type>
+                </parameter>
+                <parameter>
+                    <description>Encode for HTML output.</description>
+                    <name>encodeHTML</name>
+                    <type>boolean</type>
+                </parameter>
+                <return-type>java.lang.String</return-type>
+            </operation>
+
+		</xmbean>
+
+	</mbean>
+</server>

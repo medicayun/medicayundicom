@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-xds-service.xml 5474 2007-11-21 08:41:28Z javawilli $ -->
+<server>
+	<classpath codebase="lib" archives="dcm4chee.jar" />
+	<mbean code="org.dcm4chex.xds.mbean.XDSService"
+		name="dcm4chee.xds:service=XDSService"
+		xmbean-dd="xmdesc/dcm4chee-xds-xmbean.xml">
+		<depends>dcm4chee.xds:service=XdsHttpCfgService</depends>
+	</mbean>
+</server>

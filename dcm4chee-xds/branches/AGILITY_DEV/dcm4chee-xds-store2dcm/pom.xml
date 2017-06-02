@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dcm4che</groupId>
+    <artifactId>dcm4chee-xds</artifactId>
+    <version>0.0.2</version>
+  </parent>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-xds-store2dcm</artifactId>
+  <version>0.0.2</version>
+  <packaging>pom</packaging>
+  <name>Implementation of Persistance layer using DICOM archive</name>
+  <modules>
+    <module>dcm4chee-xds-store2dcm-mbean</module>
+  </modules>
+</project>
+

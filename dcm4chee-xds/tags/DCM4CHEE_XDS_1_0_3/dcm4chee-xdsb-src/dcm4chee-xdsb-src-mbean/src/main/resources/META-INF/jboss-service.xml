@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Version $Revision:$ $Date:$ -->
+<server>
+  <mbean code="org.dcm4chee.xdsb.source.mbean.XDSbSourceService" 
+         name="dcm4chee.xds:service=XDSbSourceService"
+         xmbean-dd="">
+    <depends>dcm4chee.xds:service=XdsHttpCfgService</depends>
+
+    <xmbean>
+      <description><![CDATA[<b>XDS.b Document Source MBeanService</b><br/>
+		Provides a Document Source Service.<br/>.
+		]]> </description>
+
+    <descriptors>
+       <persistence persistPolicy="OnUpdate"/>
+       <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+    </descriptors>
+
+    <class>org.dcm4chee.xdsb.source.mbean.XDSbSourceService</class>
+
+    <constructor>
+         <description>The default constructor</description>
+         <name>XDSbSourceService</name>
+    </constructor>
+      
+   <attribute access="read-write" getMethod="getSourceId" setMethod="setSourceId">
+      <description>Unique ID of this Document Source.
+      </description>
+      <name>DocumentSourceId</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="1.3.6.1.4.1.21367.2009.1.2.134.54.1.30.1"/> <!-- 2008-2009 OID Base: 1.3.6.1.4.1.21367.2009.1.2. -->
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getXDSRepositoryURI" setMethod="setXDSRepositoryURI">
+      <description>XDS.b Repository URI.
+      </description>
+      <name>XDSRepositoryURI</name>
+      <type>java.lang.String</type>
+      <descriptors>
+      	 <value value="http://localhost:8080/dcm4chee-xdsb-repository"/>
+      </descriptors>
+   </attribute>
+ 
+   <attribute access="read-write"
+      getMethod="isLogRequestMessage"
+      setMethod="setLogRequestMessage">
+      <description>Enable logging of the request message (Provide And Register Document Set).
+      </description>
+      <name>LogRequestMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogResponseMessage"
+      setMethod="setLogResponseMessage">
+      <description>Enable/Disable logging of received response message (RegistryResponse).
+      </description>
+      <name>LogResponseMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isIndentXmlLog"
+      setMethod="setIndentXmlLog">
+      <description>Enable/disable indention of logged xml messages.
+      </description>
+      <name>IndentXmlLog</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getV2Tov3Xslt"
+      setMethod="setV2Tov3Xslt">
+      <description>XSLT Filename to convert RIM v2 to RIM v3 or DEFAULT
+      </description>
+      <name>V2Tov3Xslt</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DEFAULT" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getV3Tov2Xslt"
+      setMethod="setV3Tov2Xslt">
+      <description>XSLT Filename to convert RIM v3 to RIM v2 or DEFAULT
+      </description>
+      <name>V3Tov2Xslt</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DEFAULT" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isUseSOAP11"
+      setMethod="setUseSOAP11">
+      <description>Use SOAP 1.1 vs. SOAP 1.2
+      </description>
+      <name>UseSOAP11</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isForceSourceAsRequestor"
+      setMethod="setForceSourceAsRequestor">
+      <description><![CDATA[ If activated the 'Source' ActiveParticipant (110153,DCM,Source) is set as Requestor.<br/>
+             If not activated (default) Source is only Requester if user (HumanRequestor) is not known!
+            ]]>
+      </description>
+      <name>ForceSourceAsRequestor</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isForceMTOMRequest"
+      setMethod="setForceMTOMRequest">
+      <description><![CDATA[ If activated the the Provide And Register Request is forced to be MTOM! <br/>
+            This is necessary when request doesn't contain a Document! (e.g. create Folder) 
+            ]]>
+      </description>
+      <name>ForceMTOMRequest</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Send the given ProvideAndRegister request to configured XDS.b Repository.<br/>
+      		]]> </description>
+      <name>exportDocuments</name>
+      <parameter>
+        <description>The ProvideAndRegisterDocumentSetRequest Object</description>
+        <name>ProvideAndRegisterDocumentSetRequest</name>
+        <type>org.dcm4chee.xds.infoset.v30.ProvideAndRegisterDocumentSetRequestType</type>
+      </parameter>
+      <return-type>org.dcm4chee.xds.infoset.v30.RegistryResponseType</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Export Documents with a (RIM V2.1) SubmissionRequest.<br/>
+      		]]> </description>
+      <name>exportDocuments</name>
+      <parameter>
+        <description>SubmitObjectsRequest Node</description>
+        <name>SubmitObjectsRequestNode</name>
+        <type>org.w3c.dom.Node</type>
+      </parameter>
+      <parameter>
+        <description>Map with id and DataHandler for Documents to export</description>
+        <name>Documents</name>
+        <type>java.util.Map</type>
+      </parameter>
+      <return-type>org.w3c.dom.Node</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Test a ProvideAndRegisterDocumentSet given in an xml file.<br/>
+      		]]> </description>
+      <name>exportTestFile</name>
+      <parameter>
+        <description>Testfile containing a ProvideAndRegisterDocumentSetRequest (inlined)</description>
+        <name>FileName</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Export a list of documents with corresponding SubmissionRequest.<br/>
+      		]]> </description>
+      <name>testExport</name>
+      <parameter>
+        <description>The Filename of an SubmitObjectsRequest</description>
+        <name>SubmitObjectsRequestFilename</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>The Filename of the Document to export</description>
+        <name>DocumentFilename</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Convert a ebXML v2.1 File to a V3.0 File.<br/>
+      		]]> </description>
+      <name>convertV2toV3File</name>
+      <parameter>
+        <description>Source file (ebXML registry file version 2.1) </description>
+        <name>source</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Destination file (ebXML registry file version 3.0) </description>
+        <name>dest</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description><![CDATA[ Send a audit log Export message.<br/>
+            ]]> </description>
+      <name>logExport</name>
+      <parameter>
+        <description>SubmissionSet Unique ID</description>
+        <name>sumissionSetUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Submissionset Patient ID</description>
+        <name>patId</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Success</description>
+        <name>success</name>
+        <type>boolean</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+    </xmbean>
+  </mbean>
+</server>

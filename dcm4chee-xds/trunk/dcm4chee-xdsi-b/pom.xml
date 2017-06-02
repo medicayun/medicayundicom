@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dcm4che</groupId>
+    <artifactId>dcm4chee-xds</artifactId>
+    <version>1.0.3</version>
+  </parent>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-xdsi-b</artifactId>
+  <version>1.0.3</version>
+  <packaging>pom</packaging>
+  <name>Implementation of XDS-I.b Source</name>
+  <modules>
+    <module>dcm4chee-xdsi-b-retrieve-ejb</module>
+    <module>dcm4chee-xdsi-b-retrieve-mbean</module>
+    <module>dcm4chee-xdsi-b-retrieve-ws</module>
+    <module>dcm4chee-xdsi-b-retrieve-ear</module>
+  </modules>
+  <dependencies>
+    <dependency>
+      <groupId>jboss.jbossws</groupId>
+      <artifactId>jboss-jaxws</artifactId>
+      <version>3.0.1-native-2.0.4.GA</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jboss.jbossws</groupId>
+      <artifactId>jboss-jaxws-ext</artifactId>
+      <version>3.0.1-native-2.0.4.GA</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>
+

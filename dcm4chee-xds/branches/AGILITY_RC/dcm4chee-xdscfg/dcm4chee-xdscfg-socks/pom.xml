@@ -1,0 +1,21 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>dcm4che</groupId>
+        <artifactId>dcm4chee-xdscfg</artifactId>
+        <version>1.0.2</version>
+    </parent>
+    <groupId>dcm4che</groupId>
+    <artifactId>dcm4chee-xdscfg-mbean</artifactId>
+    <version>1.0.2</version>
+    <packaging>jar</packaging>
+    <name>Socks Socket implementation with socksNonProxyHost support </name>
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.1</version>
+	      <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
