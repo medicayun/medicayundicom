@@ -1,0 +1,19 @@
+<mbean name="dcm4chee.arr:service=TCPListener">
+<attribute name="Port" type="Network"/>
+<attribute name="LocalAddress" type="Network"/>
+<attribute name="ReceiveBufferSize"/>
+<attribute name="Backlog"/>
+<attribute name="SoTimeout"/>
+<attribute name="TLSEnabled" type="Security"/>
+<attribute name="TLSNeedClientAuth"/>
+<attribute name="TLSProtocols" type="Security"/>
+<attribute name="TLSCiphers" type="Security"/>
+<attribute name="KeyStoreFile" type="Security"/>
+<attribute name="KeyStorePass"/>
+<attribute name="KeyPass"/>
+<attribute name="KeyStoreType"/>
+<attribute name="TrustStoreFile" type="Security"/>
+<attribute name="TrustStorePass"/>
+<attribute name="TrustStoreType"/>
+<attribute name="EnableDNSLookups"/>
+</mbean>

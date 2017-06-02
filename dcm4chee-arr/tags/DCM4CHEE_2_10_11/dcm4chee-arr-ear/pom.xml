@@ -1,0 +1,46 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-arr-ear-${db}</artifactId>
+  <packaging>ear</packaging>
+  <version>3.0-SNAPSHOT</version>
+  <name>Assemble EAR for ARR</name>
+  <parent>
+    <groupId>dcm4che</groupId>
+    <artifactId>dcm4chee-arr</artifactId>
+    <version>1</version>
+  </parent>
+  <dependencies>
+    <dependency>
+      <groupId>dcm4che</groupId>
+      <artifactId>dcm4chee-arr-ejb-${db}</artifactId>
+      <type>jar</type>
+      <version>3.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>dcm4che</groupId>
+      <artifactId>dcm4chee-arr-web-${db}</artifactId>
+      <type>war</type>
+      <version>3.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>dcm4chee-arr-${db}-${version}</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-ear-plugin</artifactId>
+        <configuration>
+          <version>1.4</version>
+          <display-name>dcm4chee-arr</display-name>
+          <description>IHE Audit Record Repository</description>
+        </configuration>
+      </plugin>
+    </plugins>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  </build>
+</project>

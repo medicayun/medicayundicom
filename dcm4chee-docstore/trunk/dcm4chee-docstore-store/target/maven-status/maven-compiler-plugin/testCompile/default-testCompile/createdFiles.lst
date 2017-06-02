@@ -1,0 +1,11 @@
+org\dcm4chee\docstore\test\DocStoreTestBase.class
+org\dcm4chee\docstore\DocumentStoreNoPoolTest.class
+org\dcm4chee\docstore\BaseDocumentTest.class
+org\dcm4chee\docstore\test\TestUtil$1.class
+org\dcm4chee\docstore\DocumentStorageListenerTest$TestDocumentStorageListener.class
+org\dcm4chee\docstore\DocumentStorageListenerTest.class
+org\dcm4chee\docstore\test\TestUtil.class
+org\dcm4chee\docstore\test\DummyDFCommandMBean.class
+org\dcm4chee\docstore\DocumentStorageRegistryTest.class
+org\dcm4chee\docstore\DocumentStorageHashSupportTest.class
+org\dcm4chee\docstore\AvailabilityTest.class

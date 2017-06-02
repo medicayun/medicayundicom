@@ -1,0 +1,10 @@
+<components>
+
+    <component name="org.jboss.seam.core.init">
+        <property name="myFacesLifecycleBug">true</property>
+        <property name="jndiPattern">dcm4chee-arr-${db}-${version}/#{ejbName}/local</property>
+    </component>
+    
+    <component class="org.jboss.seam.core.Ejb" installed="false"/>
+
+</components>

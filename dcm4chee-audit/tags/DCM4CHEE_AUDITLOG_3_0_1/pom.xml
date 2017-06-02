@@ -1,0 +1,68 @@
+<model>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-audit</artifactId>
+  <version>1</version>
+  <packaging>pom</packaging>
+  <name>Audit Logger</name>  
+  <modules>
+    <module>dcm4chee-audit-logger</module>
+    <module>dcm4chee-audit-login</module>
+  </modules>
+  
+  <repositories>
+    <repository>
+      <id>dcm4che</id>
+      <name>dcm4che Repository</name>
+      <url>http://www.dcm4che.org/maven2</url>
+    </repository>
+    <repository>
+      <id>jboss</id>
+      <name>jboss Repository</name>
+      <url>http://repository.jboss.com/maven2</url>
+    </repository>
+    <repository>
+      <id>Codehaus Snapshots</id>
+      <url>http://snapshots.repository.codehaus.org/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>Codehaus Snapshots</id>
+      <url>http://snapshots.repository.codehaus.org/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
+  <distributionManagement>
+    <repository>
+      <id>www.dcm4che.org</id>
+      <name>dcm4che Repository</name>
+      <url>scp://www.dcm4che.org:443/var/www/maven2</url>
+    </repository>
+  </distributionManagement>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+</model>

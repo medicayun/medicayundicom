@@ -1,0 +1,121 @@
+/*
+	Dashboard CSS
+*/
+
+body {font-family:font-family:Verdana,sans-serif !important}
+
+div.header {
+	background: #99bbaa !important;
+	border-width: 1px !important;
+	border-color: #666 !important;
+	border-style: solid !important;
+}
+
+div.wicket-tree-table-body {
+	background: #aaccbb !important;
+	border-width: 1px !important;
+	border-color: #666 !important;
+	border-style: solid !important;
+}
+
+/* class of tree table of wicket extensions */
+span.c_ {
+	text-align: center;	
+}
+
+/* to make IE show dashboard FileSystemTreeTable usage diagrams correctly */
+div.wicket-tree-table span.junction, div.wicket-tree-table span.junction-last, div.wicket-tree-table span.plus, div.wicket-tree-table span.minus, div.wicket-tree-table span.corner, div.wicket-tree-table span.indent-line, div.wicket-tree-table span.icon, div.wicket-tree-table div.row, div.wicket-tree-table div.row-selected, div.wicket-tree-table div.a_, div.wicket-tree-table span.b_, div.wicket-tree-table span.b_ span.c_ {
+	height: 60px !important;
+	min-height: 60px !important;
+/*	overflow: hidden !important; */
+}
+
+div.dashboard-input-desc {
+	border: none;
+	text-align: left;
+	height: 20;
+}
+div.dashboard-input-value {
+	border: 1px solid;
+	float: left;
+	text-align: right;
+	margin: 0 6;
+	height: 20;
+}
+div.dashboard-input-button {
+	background: none #aaaaaa;
+	padding: 5 0 0 0;
+	height: 30;
+	text-align: left;
+}
+
+form.add-group {width: 33%;}
+form.add-group tr.input {
+	background: #99bbaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+form.add-group tr.submit {
+	background: none #aaaaaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+
+form.create-or-edit-report {width: 33%;}
+form.create-or-edit-report tr.input {
+	background: #99bbaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+form.create-or-edit-report tr.submit {
+	background: none #aaaaaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+
+form.configure-report {width: 33%;}
+form.configure-report tr.input {
+	background: #99bbaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+form.configure-report tr.submit {
+	background: none #aaaaaa;
+	padding: 1 0 0 0;
+	height: 30;
+}
+
+.result-message {
+	color: black;
+}
+
+.error-message {
+	color: red;
+}
+
+table.report-info {}
+table.report-info th {background: #99bbaa; border-color: #666;}
+table.report-info tr.even {background: #aaccbb;}
+table.report-info tr.odd {background: #99bbaa;}
+table.report-info td.centered {align: center;}
+
+div.diagram-panel {
+	float: left;
+	margin: 20px;	
+}
+
+div.table-panel {
+	margin: 20px;	
+}
+
+table.report-result {}
+table.report-result th {background: #99bbaa; border-color: #666;}
+table.report-result tr.even {background: #aaccbb;}
+table.report-result tr.odd {background: #99bbaa;}
+table.report-result td.centered {align: center;}
+
+table.memory {}
+table.memory th {background: #99bbaa; border-color: #666;}
+table.memory tr.even {background: #aaccbb;}
+table.memory tr.odd {background: #99bbaa;}
+table.memory td.centered {align: center;}

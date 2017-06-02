@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<server>
+  <mbean code="org.dcm4chee.arr.listeners.udp.UDPListener"
+    name="dcm4chee.arr:service=UDPListener"
+    xmbean-dd="xmdesc/dcm4chee-arr-udplistener-xmbean.xml">
+    <depends>jboss.messaging.connectionfactory:service=ConnectionFactory</depends>
+    <depends>jboss.messaging.destination:service=Queue,name=ARRIncoming</depends>
+  </mbean>
+</server>

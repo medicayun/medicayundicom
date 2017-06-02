@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<wicket:panel>
+			<div class="donotprint">
+				<p>
+					<div wicket:id="error-message" class="error-message" />
+				</p>
+				<p>
+					<div wicket:id="error-reason" class="error-message" />
+				</p>
+				<table>
+					<tr>
+						<td>
+							<a wicket:id="table-download-xml">
+								<div wicket:id="table-download-xml-image" />
+							</a>
+						</td>
+						<td>
+							<a wicket:id="table-download-csv">
+								<div wicket:id="table-download-csv-image" />
+							</a>
+						</td>
+						<td>
+							<td>
+								<a href="#" onclick="javascript:window.print()">
+									<img wicket:id="table-print-image" />
+								</a>
+							</td>
+						</td>
+					</tr>
+				</table>
+			</div>
+            <div class="viewport">
+                <a wicket:id="prev">
+                    <img wicket:id="prevImg" />
+                </a>
+                <span wicket:id="viewport" />
+                <a wicket:id="next">
+                    <img wicket:id="nextImg" />
+                </a>
+            </div>
+			<table class="content-table">
+				<thead>
+					<tr>
+						<th wicket:id="column-headers" />
+					</tr>
+				</thead>
+				<tbody>
+					<tr wicket:id="report-rows">
+			 	  	  	<td wicket:id="column-values" style="text-align:center">
+							<div wicket:id="column-value" />
+			 	  	  	</td>
+					</tr>
+				</tbody>
+			</table>
+		</wicket:panel>
+	</body>
+</html>

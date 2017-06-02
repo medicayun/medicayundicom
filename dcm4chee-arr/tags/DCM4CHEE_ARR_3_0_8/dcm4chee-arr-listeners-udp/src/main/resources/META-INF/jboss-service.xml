@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<server>
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+    name="jboss.mq.destination:service=Queue,name=ARRIncoming">
+    <depends optional-attribute-name="DestinationManager"
+      >jboss.mq:service=DestinationManager</depends>
+  </mbean>
+  <mbean code="org.dcm4chee.arr.listeners.udp.UDPListener"
+    name="dcm4chee.arr:service=UDPListener"
+    xmbean-dd="xmdesc/dcm4chee-arr-udplistener-xmbean.xml">
+    <depends>jboss.mq.destination:service=Queue,name=ARRIncoming</depends>
+    <depends>jboss.mq:service=InvocationLayer,type=JVM</depends>
+  </mbean>
+</server>

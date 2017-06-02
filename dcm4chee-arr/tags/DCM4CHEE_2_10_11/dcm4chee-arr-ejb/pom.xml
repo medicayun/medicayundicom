@@ -1,0 +1,317 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>dcm4che</groupId>
+        <artifactId>dcm4chee-arr</artifactId>
+        <version>1</version>
+    </parent>
+    <groupId>dcm4che</groupId>
+    <artifactId>dcm4chee-arr-ejb-${db}</artifactId>
+    <version>3.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>EJBs and Services for ARR</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-j2ee</artifactId>
+            <version>4.0.5.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>ejb3-persistence</artifactId>
+            <version>4.0.5.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-ejb3x</artifactId>
+            <version>4.0.5.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-annotations-ejb3</artifactId>
+            <version>4.0.5.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <version>1.0.1.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-annotations-ejb3</artifactId>
+            <version>4.0.5.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>hibernate</groupId>
+            <artifactId>hibernate</artifactId>
+            <version>3.2.0.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.2.0.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.2.0.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>5.1</version>
+            <scope>test</scope>
+            <classifier>jdk15</classifier>
+        </dependency>
+        <dependency>
+            <groupId>dcm4che</groupId>
+            <artifactId>dcm4che-tool-logger</artifactId>
+            <version>2.0.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss.embeddable-ejb3</groupId>
+            <artifactId>jboss-ejb3-all</artifactId>
+            <version>ALPHA_8-patch2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss.embeddable-ejb3</groupId>
+            <artifactId>thirdparty-all</artifactId>
+            <version>ALPHA_8-patch2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss.embeddable-ejb3</groupId>
+            <artifactId>jboss-ejb3-shutdownpatch</artifactId>
+            <version>1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>dcm4chee-arr-${db}-${version}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.8-SNAPSHOT</version>
+                <configuration>
+                    <skip>${skipTest}</skip>               
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/conf/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+
+                    <!-- Need this in order to deploy Beans and our EJBs -->
+                    <systemProperties>
+                        <property>
+                            <name>java.class.path</name>
+                            <value>target/classes</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
+            </plugin>
+
+            <!-- 
+                Scenarios in "persistence.xml":
+                1. For exporting database schema, we need "${db}" and "RESOURCE_LOCAL" transaction;
+                phase: process-test-resources, since we need classes and log4j.xml for logging
+                2. For TestNG unit test, we need only "hsql" and "JTA" transaction;
+                phase: test-compile, just before test phase
+                3. For packaging for various database, we need "${db}" and "JTA" transaction;
+                phase: test, just before package
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>export-schema</id>
+                        <phase>process-test-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <echo>......copying resource files for exporting schema: ${db}</echo>
+                                <filter filtersfile="${basedir}/src/${db}/${db}.properties" />
+                                <copy overwrite="true" todir="${basedir}/target/classes" filtering="true">
+                                    <fileset dir="${basedir}/src/main/resources-local" />
+                                </copy>
+                                <echo>......exporting database schema: ${db}</echo>
+                                <mkdir dir="target/generated/schema" />
+                                <taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" />
+                                <hibernatetool destdir="target/generated/schema">
+                                    <classpath>
+                                        <path refid="maven.compile.classpath" />
+                                        <path refid="maven.test.classpath" />
+                                    </classpath>
+                                    <ejb3configuration />
+                                    <hbm2ddl drop="false" create="true" export="false" update="false" console="false"
+                                        outputfilename="dcm4chee-arr-${db}.ddl" delimiter=";" format="true" />
+                                </hibernatetool>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>copy-resources-test</id>
+                        <phase>test-compile</phase>
+                        <configuration>
+                            <tasks>
+                                <echo>......copying resource files for testing: from test/dd</echo>
+                                <copy overwrite="true" todir="${basedir}/target/classes">
+                                     <fileset dir="${basedir}/src/test/dd" />
+                                </copy>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>copy-resources-package</id>
+                        <phase>test</phase>
+                        <configuration>
+                            <tasks>
+                                <echo>......copying resource files for packaging: ${db}</echo>
+                                <filter filtersfile="${basedir}/src/${db}/${db}.properties" />
+                                <copy overwrite="true" todir="${basedir}/target/classes" filtering="true">
+                                    <fileset dir="${basedir}/src/main/resources" />
+                                </copy>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <!-- JDBC driver dependencies, necessary only if we want to export to live database -->
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>3.1.11</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sourceforge.jtds</groupId>
+                        <artifactId>jtds</artifactId>
+                        <version>1.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>oracle</groupId>
+                        <artifactId>ojdbc14</artifactId>
+                        <version>9i</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>8.1-407.jdbc3</version>
+                    </dependency>
+                    <!-- Couldn't find this guy
+                    <dependency>
+                        <groupId>com.ibm.db2</groupId>
+                        <artifactId>db2jcc</artifactId>
+                        <version>8.2</version>
+                    </dependency>
+                     -->
+                     
+                    <dependency>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-tools</artifactId>
+                        <version>3.2.0.beta8</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>hibernate</groupId>
+                        <artifactId>hibernate</artifactId>
+                        <version>3.2.0.GA</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>hibernate</groupId>
+                        <artifactId>hibernate-annotations</artifactId>
+                        <version>3.2.0.GA</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                        <version>1.2.13</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>jboss</groupId>
+                        <artifactId>ejb3-persistence</artifactId>
+                        <version>4.0.5.GA</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+        </plugins>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test/conf</directory>
+            </testResource>
+        </testResources>
+
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>snapshots.repository.codehaus.org</id>
+            <url>http://snapshots.repository.codehaus.org</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>apache.maven.snapshots</id>
+            <url>http://svn.apache.org/maven-snapshot-repository</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>codehause.maven.snapshots</id>
+            <url>http://snapshots.maven.codehaus.org/maven2/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+        <pluginRepository>
+            <id>dist.codehaus.org</id>
+            <url>http://dist.codehaus.org/mule/dependencies/maven2</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>tapestry.javaforge</id>
+            <url>http://howardlewisship.com/repository</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+</project>

@@ -1,0 +1,14 @@
+org\dcm4chee\docstore\spi\DocumentStorageProviderSPI.class
+org\dcm4chee\docstore\spi\DocumentStorage.class
+org\dcm4chee\docstore\spi\file\DocumentFileStorage.class
+org\dcm4chee\docstore\spi\file\DocumentFileStorageProviderSPI.class
+org\dcm4chee\docstore\DataHandlerVO.class
+org\dcm4chee\docstore\DocumentStorageListener.class
+org\dcm4chee\docstore\util\FileSystemInfo.class
+org\dcm4chee\docstore\BaseDocument.class
+org\dcm4chee\docstore\StorageListenerAdapter.class
+org\dcm4chee\docstore\Feature.class
+org\dcm4chee\docstore\DocumentStore.class
+org\dcm4chee\docstore\Availability.class
+org\dcm4chee\docstore\spi\BaseDocumentStorage.class
+org\dcm4chee\docstore\DocumentStorageRegistry.class

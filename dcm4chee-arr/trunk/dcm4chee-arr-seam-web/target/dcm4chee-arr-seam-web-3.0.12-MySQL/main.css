@@ -1,0 +1,33 @@
+#filter  { float:left; width:24em } 
+
+#list  { margin-left:24em } 
+
+fieldset  { width:22em } 
+
+select  { width:14em } 
+
+body, div, span, td, th, caption  { 	
+	font-family:'Trebuchet MS', Verdana, Arial, Sans-Serif;
+	font-size:small 
+} 
+
+table  { 
+	border-collapse:collapse; border-spacing:0px;
+	width:100%
+} 
+
+td  { vertical-align:top } 
+
+table#data td  { 
+	border:1px solid #C0C0C0 
+} 
+
+table#data th  { 
+	border:1px solid #C0C0C0; padding:2px;
+	color:#303030; background-color:#E0E0E0 
+} 
+
+table#data  { 
+	/* IE "float drop bug" workarround from http://www.brunildo.org/test/IE_fdi11.html */
+	margin-right:-3000px; position:relative 
+}

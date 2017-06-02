@@ -1,0 +1,55 @@
+/*
+    Dashboard CSS
+*/
+
+body {font-family:font-family:Verdana,sans-serif !important}
+
+div.header {
+    background-color: #15253E !important;
+    color: white !important;
+    height: 20px !important;
+    text-align: left !important;
+    
+    border: thin !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: black !important;
+}
+
+div.wicket-tree-table-body {
+    background-color: #FFFFFF !important;
+
+    border: thin !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: black !important;
+}
+
+/* class of tree table of wicket extensions */
+span.c_ {
+    text-align: center; 
+}
+
+/* to make IE show dashboard FileSystemTreeTable usage diagrams correctly */
+div.wicket-tree-table span.junction, div.wicket-tree-table span.junction-last, div.wicket-tree-table span.plus, div.wicket-tree-table span.minus, div.wicket-tree-table span.corner, div.wicket-tree-table span.indent-line, div.wicket-tree-table span.icon, div.wicket-tree-table div.row, div.wicket-tree-table div.row-selected, div.wicket-tree-table div.a_, div.wicket-tree-table span.b_, div.wicket-tree-table span.b_ span.c_ {
+    height: 25px !important;
+    min-height: 25px !important;
+}
+
+.result-message {
+    color: #000000;
+}
+
+.error-message {
+    color: red;
+}
+
+div.diagram-panel {
+    float: left;
+    margin: 20px;   
+}
+
+div.table-panel {
+    margin: 20px;   
+}
+

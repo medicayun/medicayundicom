@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+<mbean>
+  <description>TCP Listener of ATNA Audit Record Repository (ARR)</description>
+  <descriptors>
+    <persistence persistPolicy="OnUpdate"/>
+    <persistence-manager
+      value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+  </descriptors>
+  <class>org.dcm4chee.arr.listeners.tcp.TCPListener</class>
+  <constructor>
+    <description>The default constructor</description>
+    <name>TCPListener</name>
+  </constructor>
+  <attribute access="read-write" getMethod="getPort" setMethod="setPort">
+    <!-- Network -->
+    <description>TCP/IP port for listening for audit messages.</description>
+    <name>Port</name>
+    <type>int</type>
+    <descriptors>
+      <value value="6514"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="getLocalAddress"
+    setMethod="setLocalAddress">
+    <!-- Network -->
+    <description>Local interface for TCP listener to bind. 0.0.0.0 means any
+      available.</description>
+    <name>LocalAddress</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="0.0.0.0"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="getReceiveBufferSize"
+    setMethod="setReceiveBufferSize">
+    <description>Set the size of the internal socket receive buffer and the
+      size of the TCP receive window that is advertized to the remote peer.</description>
+    <name>ReceiveBufferSize</name>
+    <type>int</type>
+    <descriptors>
+      <value value="0"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="getBacklog"
+    setMethod="setBacklog">
+    <description>Set maximum queue length for incoming connection indications
+    (a request to connect).</description>
+    <name>Backlog</name>
+    <type>int</type>
+    <descriptors>
+      <value value="50"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="getSoTimeout"
+    setMethod="setSoTimeout">
+    <description>Socket timeout for accepted connections in milliseconds. If
+      the timeout expires on waiting for receive of audit messages, the
+      connection will be closed by the server. A timeout of zero is
+      interpreted as an infinite timeout.</description>
+    <name>SoTimeout</name>
+    <type>int</type>
+    <descriptors>
+      <value value="0"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="isTLSEnabled"
+    setMethod="setTLSEnabled">
+    <!-- Security -->
+    <description><![CDATA[Set to <tt>true</tt> to turn TLS handshake/decryption
+on, or <tt>false</tt> to accept plain TCP connections. You have to manually
+<b>restart()</b> the listener after changing the value of this attribute to
+become effective.]]></description>
+    <name>TLSEnabled</name>
+    <type>boolean</type>
+    <descriptors>
+      <value value="true"/>
+    </descriptors>
+  </attribute>
+  <!-- Security -->
+  <attribute access="read-write" getMethod="isTLSNeedClientAuth"
+    setMethod="setTLSNeedClientAuth">
+    <description><![CDATA[Set to <tt>true</tt> if TLS client authentication is
+required, or <tt>false</tt> if no TLS client authentication is desired. Only
+effective with <b>TLSEnabled</b> = <tt>true</tt>.  You have to manually
+<b>restart()</b> the listener after changing the value of this attribute to
+become effective.]]></description>
+    <name>TLSNeedClientAuth</name>
+    <type>boolean</type>
+    <descriptors>
+      <value value="true"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="getTLSProtocols"
+    setMethod="setTLSProtocols">
+    <!-- Security -->
+    <description><![CDATA[Comma separated list of TLS protocols to be accepted.
+Only effective with <b>TLSEnabled</b> = <tt>true</tt>. You have to manually
+<b>restart()</b> the listener after changing the value of this attribute to
+become effective. Supported protocols: SSLv2Hello, SSLv3, TLSv1.
+Default: TLSv1, SSLv3.
+]]></description>
+    <name>TLSProtocols</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="TLSv1, SSLv3"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="getTLSCiphers"
+    setMethod="setTLSCiphers">
+    <!-- Security -->
+    <description><![CDATA[Comma separated list of TLS ciphers to be accepted.
+Only effective with <b>TLSEnabled</b> = <tt>true</tt>. You have to manually
+<b>restart()</b> the listener after changing the value of this attribute to
+become effective. Supported ciphers:
+<ul>
+<li>SSL_RSA_WITH_RC4_128_MD5</li>
+<li>SSL_RSA_WITH_RC4_128_SHA</li>
+<li>TLS_RSA_WITH_AES_128_CBC_SHA</li>
+<li>TLS_DHE_RSA_WITH_AES_128_CBC_SHA</li>
+<li>TLS_DHE_DSS_WITH_AES_128_CBC_SHA</li>
+<li>SSL_RSA_WITH_3DES_EDE_CBC_SHA</li>
+<li>SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA</li>
+<li>SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA</li>
+<li>SSL_RSA_WITH_DES_CBC_SHA</li>
+<li>SSL_DHE_RSA_WITH_DES_CBC_SHA</li>
+<li>SSL_DHE_DSS_WITH_DES_CBC_SHA</li>
+<li>SSL_RSA_EXPORT_WITH_RC4_40_MD5</li>
+<li>SSL_RSA_EXPORT_WITH_DES40_CBC_SHA</li>
+<li>SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA</li>
+<li>SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA</li>
+<li>SSL_RSA_WITH_NULL_MD5</li>
+<li>SSL_RSA_WITH_NULL_SHA</li>
+<li>SSL_DH_anon_WITH_RC4_128_MD5</li>
+<li>TLS_DH_anon_WITH_AES_128_CBC_SHA</li>
+<li>SSL_DH_anon_WITH_3DES_EDE_CBC_SHA</li>
+<li>SSL_DH_anon_WITH_DES_CBC_SHA</li>
+<li>SSL_DH_anon_EXPORT_WITH_RC4_40_MD5</li>
+<li>SSL_DH_anon_EXPORT_WITH_DES40_CBC_SHA</li>
+<li>TLS_KRB5_WITH_RC4_128_SHA</li>
+<li>TLS_KRB5_WITH_RC4_128_MD5</li>
+<li>TLS_KRB5_WITH_3DES_EDE_CBC_SHA</li>
+<li>TLS_KRB5_WITH_3DES_EDE_CBC_MD5</li>
+<li>TLS_KRB5_WITH_DES_CBC_SHA</li>
+<li>TLS_KRB5_WITH_DES_CBC_MD5</li>
+<li>TLS_KRB5_EXPORT_WITH_RC4_40_SHA</li>
+<li>TLS_KRB5_EXPORT_WITH_RC4_40_MD5</li>
+<li>TLS_KRB5_EXPORT_WITH_DES_CBC_40_SHA</li>
+<li>TLS_KRB5_EXPORT_WITH_DES_CBC_40_MD5</li>
+</ul>
+Default: TLS_RSA_WITH_AES_128_CBC_SHA, SSL_RSA_WITH_3DES_EDE_CBC_SHA
+]]></description>
+    <name>TLSCiphers</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="TLS_RSA_WITH_AES_128_CBC_SHA, SSL_RSA_WITH_3DES_EDE_CBC_SHA"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="getKeyStoreFile"
+    setMethod="setKeyStoreFile">
+    <!-- Security -->
+    <description><![CDATA[The KeyStore file containing the server certificate
+and private key. Only effective with <b>TLSEnabled</b> = <tt>true</tt>. You
+have to manually <b>restart()</b> the listener after changing the value of
+this attribute to become effective.]]></description>
+    <name>KeyStoreFile</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="${jboss.server.home.dir}/conf/certificates/test_sys_1.p12"/>
+    </descriptors>
+  </attribute>
+  <attribute access="write-only" setMethod="setKeyStorePass">
+    <description>The password to access the KeyStore.</description>
+    <name>KeyStorePass</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="secret"/>
+    </descriptors>
+  </attribute>
+  <attribute access="write-only" setMethod="setKeyPass">
+    <description>The password to access the private key in the KeyStore.</description>
+    <name>KeyPass</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="secret"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="getKeyStoreType"
+    setMethod="setKeyStoreType">
+    <description>Type of KeyStore. JKS (=Java Key Store) or PKCS12.</description>
+    <name>KeyStoreType</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="PKCS12"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="getTrustStoreFile"
+    setMethod="setTrustStoreFile">
+    <!-- Security -->
+    <description><![CDATA[The TrustStore file to use to validate client
+certificates. Only effective with <b>TLSEnabled</b> = <tt>true</tt>. You
+have to manually <b>restart()</b> the listener after changing the value of
+this attribute to become effective.]]></description>
+    <name>TrustStoreFile</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="${jboss.server.home.dir}/conf/certificates/mesa_certs.jks"/>
+    </descriptors>
+  </attribute>
+  <attribute access="write-only" setMethod="setTrustStorePass">
+    <description>The password to access the TrustStore.</description>
+    <name>TrustStorePass</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="secret"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="getTrustStoreType"
+    setMethod="setTrustStoreType">
+    <description>Type of TrustStore. JKS (=Java Key Store) or PKCS12.</description>
+    <name>TrustStoreType</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="JKS"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-write" getMethod="isEnableDNSLookups"
+    setMethod="setEnableDNSLookups">
+    <description>Flag to control activation/deactivation of reverse DNS lookup
+      to evaluate the hostname of the emitter of received audit messages.</description>
+    <name>EnableDNSLookups</name>
+    <type>boolean</type>
+    <descriptors>
+      <value value="false"/>
+    </descriptors>
+  </attribute>
+  <attribute access="read-only" getMethod="getNumClients">
+    <description>Number of connected clients.</description>
+    <name>NumClients</name>
+    <type>int</type>
+  </attribute>
+  <attribute access="read-only" getMethod="getLastStartedAt">
+    <description>Time, when this TCP listener was started at last.</description>
+    <name>LastStartedAt</name>
+    <type>java.util.Date</type>
+  </attribute>
+  <attribute access="read-only" getMethod="getLastStoppedAt">
+    <description>Time, when this TCP listener was stopped at last.</description>
+    <name>LastStoppedAt</name>
+    <type>java.util.Date</type>
+  </attribute>
+  <attribute access="read-only" getMethod="getStateString">
+    <description>The status of this TCP listener.</description>
+    <name>StateString</name>
+    <type>java.lang.String</type>
+  </attribute>
+  <operation>
+    <description>Start this TCP listener.</description>
+    <name>start</name>
+  </operation>
+  <operation>
+    <description>Stop this TCP listener.</description>
+    <name>stop</name>
+  </operation>
+  <operation>
+    <description>Restart this TCP listener.</description>
+    <name>restart</name>
+  </operation>
+</mbean>

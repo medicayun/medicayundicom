@@ -1,0 +1,62 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="dcm4chee-arr Unit Tests" verbose="6">
+
+	<test name="slsb">
+		<groups>
+			<run>
+				<include name="slsb" />
+			</run>
+		</groups>
+		<packages>
+			<package name="test.*" />
+		</packages>
+	</test>
+	
+	<test name="jmx">
+		<groups>
+			<run>
+				<include name="jmx" />
+			</run>
+		</groups>
+		<packages>
+			<package name="test.*" />
+		</packages>
+	</test>
+	
+	<test name="mdb">
+		<parameter name="simple-msg" value="This is a test - 1 2 3"/>		
+		<groups>
+			<run>
+				<include name="mdb" />
+			</run>
+		</groups>
+		<packages>
+			<package name="test.*" />
+		</packages>
+	</test>
+	
+	<test name="integration">
+		<groups>
+			<run>
+				<include name="integration.*" />
+			</run>
+		</groups>
+		<packages>
+			<package name="test.*" />
+		</packages>
+	</test>
+
+	<!-- Stree testing takes a long time
+	<test name="stress">
+		<groups>
+			<run>
+				<include name="stress.*" />
+			</run>
+		</groups>
+		<packages>
+			<package name="test.*" />
+		</packages>
+	</test>
+	 -->	 
+</suite>

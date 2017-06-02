@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+  <!-- Seam -->
+
+  <listener>
+    <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>Seam Resource Servlet</servlet-name>
+    <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Seam Resource Servlet</servlet-name>
+    <url-pattern>/seam/resource/*</url-pattern>
+  </servlet-mapping>
+
+  <filter>
+    <filter-name>Seam Filter</filter-name>
+    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>Seam Filter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- JSF -->
+
+  <context-param>
+    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+    <param-value>.xhtml</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>facelets.DEVELOPMENT</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.seam</url-pattern>
+  </servlet-mapping>
+
+  <!-- XML List View Servlet -->
+  <servlet>
+    <servlet-name>XML List View Servlet</servlet-name>
+    <servlet-class>org.dcm4chee.arr.seam.servlet.XMLListViewServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>XML List View Servlet</servlet-name>
+    <url-pattern>/xml</url-pattern>
+  </servlet-mapping>
+
+  <!-- XML View Servlet -->
+  <servlet>
+    <servlet-name>XML View Servlet</servlet-name>
+    <servlet-class>org.dcm4chee.arr.seam.servlet.XMLViewServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>XML View Servlet</servlet-name>
+    <url-pattern>/xmlview</url-pattern>
+  </servlet-mapping>
+
+  <!-- HTML View Servlet -->
+  <servlet>
+    <servlet-name>HTML View Servlet</servlet-name>
+    <servlet-class>org.dcm4chee.arr.seam.servlet.HTMLViewServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>HTML View Servlet</servlet-name>
+    <url-pattern>/htmlview</url-pattern>
+  </servlet-mapping>
+
+  <!-- EJB Local References -->
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/AuditRecordAccess</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local-home />
+    <local>org.dcm4chee.arr.seam.ejb.AuditRecordAccessLocal</local>
+  </ejb-local-ref>
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/AuditRecordQuery</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local-home />
+    <local>org.dcm4chee.arr.seam.ejb.AuditRecordQueryLocal</local>
+  </ejb-local-ref>
+
+  <session-config>
+    <session-timeout>10</session-timeout>
+  </session-config>
+
+  <!--
+    A security constraint that restricts access to to users with the
+    role AuditLogUser. Edit the roles to what you want and uncomment the
+    WEB-INF/jboss-web.xml/security-domain element to enable secured
+    access.
+  -->
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>AuditLog</web-resource-name>
+      <description>description</description>
+      <url-pattern>/*</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>AuditLogUser</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>AuditLog</realm-name>
+  </login-config>
+
+  <security-role>
+    <role-name>AuditLogUser</role-name>
+  </security-role>
+
+</web-app>

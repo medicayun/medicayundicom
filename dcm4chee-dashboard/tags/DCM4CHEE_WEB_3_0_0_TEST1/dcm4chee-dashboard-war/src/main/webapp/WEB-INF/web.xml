@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	 version="2.4">
+
+	<display-name>dcm4chee-dashboard</display-name>
+	<filter>
+		<filter-name>wicket.dcm4chee-dashboard</filter-name>
+		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+	    <init-param>
+	      <param-name>applicationClassName</param-name>
+	      <param-value>org.dcm4chee.dashboard.war.WicketApplication</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>DashboardServiceName</param-name>
+	      <param-value>dcm4chee.dashboard:service=DashboardService</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>securityDomainName</param-name>
+	      <param-value>dcm4chee</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>rolesGroupName</param-name>
+	      <param-value>Roles</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>userRoleName</param-name>
+	      <param-value>WebUser</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>adminRoleName</param-name>
+	      <param-value>JBossAdmin</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>hashEncoding</param-name>
+	      <param-value>base64</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>hashCharset</param-name>
+	      <param-value>UTF-8</param-value>
+	    </init-param>
+	    <init-param>
+	      <param-name>hashAlgorithm</param-name>
+	      <param-value>SHA-1</param-value>
+	    </init-param>	
+	</filter>
+	<filter-mapping>
+		<filter-name>wicket.dcm4chee-dashboard</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<context-param>
+	    <param-name>configuration</param-name>
+		<param-value>deployment</param-value>
+	</context-param>
+</web-app>

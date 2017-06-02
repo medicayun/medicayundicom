@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="dcm4chee-docstore-store/src/main/java"/>
+	<classpathentry kind="src" path="dcm4chee-docstore-store/src/test/java"/>
+	<classpathentry kind="lib" path="dcm4chee-docstore-store/target/dcm4chee-docstore-store-0.0.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="dcm4chee-docstore-store/target/classes"/>
+</classpath>

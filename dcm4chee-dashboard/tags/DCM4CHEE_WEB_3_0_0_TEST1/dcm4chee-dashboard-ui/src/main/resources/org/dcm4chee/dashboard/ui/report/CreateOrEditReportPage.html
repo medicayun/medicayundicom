@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:wicket="http://wicket.apache.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+    	<div class="msgWindow">
+			<div wicket:id="page-title" />
+			<form wicket:id="create-or-edit-report-form" class="create-or-edit-report">
+				 <table>
+				 	<tr class="input">
+				 		<td>
+				 			<div class="dashboard-input-desc">
+								<wicket:message key="dashboard.report.createoredit.form.title.title" />
+							</div>
+						</td>
+						<td>
+							<div class="dashboard-input-value">
+								<input wicket:id="dashboard.report.createoredit.form.title.input" type="text" />
+							</div>
+						</td>
+					</tr>
+					<tr class="input">
+						<td>
+							<div class="dashboard-input-desc">
+								<div wicket:id="report-datasource-dropdown-label" />
+							</div>
+						</td>
+						<td>
+							<div class="dashboard-input-value">
+								<select wicket:id="report-datasource-dropdown-choice" size="1"></select>
+							</div>
+						</td>
+					</tr>
+					<tr class="input">
+						<td>
+							<div class="dashboard-input-desc">
+								<wicket:message key="dashboard.report.createoredit.form.statement.title" />
+							</div>
+						</td>
+						<td>
+							<div class="dashboard-input-value">	
+								<textarea wicket:id="dashboard.report.createoredit.form.statement.input">
+								</textarea>
+							</div>
+						</td>
+					</tr>
+					<tr class="submit">
+						<td>
+						</td>
+						<td>
+							<div class="dashboard-input-submit">
+								<input wicket:id="statement-test-submit" type="submit" wicket:message="value:dashboard.report.createoredit.form.statement.test" style="clear: left" />
+							</div>
+						</td>
+					</tr>
+					<tr class="input">
+						<td>
+							<div class="dashboard-input-desc">
+								<div wicket:id="report-diagram-dropdown-label" />
+							</div>
+						</td>
+						<td>
+							<div class="dashboard-input-value">
+								<select wicket:id="report-diagram-dropdown-choice" size="1"></select>
+							</div>
+						</td>
+					</tr>
+					<tr class="input">
+						<td>
+							<div class="dashboard-input-desc">
+								<wicket:message key="dashboard.report.createoredit.form.table.option.title" />
+							</div>
+						</td>
+						<td>
+							<div class="dashboard-input-value">
+								<input wicket:id="report-table-checkbox" type="checkbox" style="float: left" />
+							</div>
+						</td>
+					</tr>
+					<tr class="submit">
+						<td>
+						</td>
+						<td>
+							<div class="dashboard-input-submit">		
+								<input wicket:id="form-submit" type="submit" wicket:message="value:dashboard.report.createoredit.form.submit" style="clear: left" />
+							</div>
+						</td>
+					</tr>
+				</table>
+			</form>
+	        <p>
+				<div wicket:id="result-message">
+					[Result message]
+				</div>
+	        </p>
+	        <p>
+				<wicket:message key="dashboard.report.createoredit.documentation">
+	           		[Documentation]
+				</wicket:message>				
+	        </p>
+        </div>
+ 	</body>
+</html>

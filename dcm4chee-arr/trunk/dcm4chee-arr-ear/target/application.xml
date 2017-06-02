@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE application PUBLIC
+	"-//Sun Microsystems, Inc.//DTD J2EE Application 1.3//EN"
+	"http://java.sun.com/dtd/application_1_3.dtd">
+<application>
+  <display-name>dcm4chee-arr</display-name>
+  <module>
+    <ejb>lib/dcm4chee-arr-entities-3.0.12-mysql.jar</ejb>
+  </module>
+  <module>
+    <ejb>dcm4chee-arr-listeners-mdb-3.0.12.jar</ejb>
+  </module>
+  <module>
+    <ejb>dcm4chee-arr-seam-ejb-3.0.12.jar</ejb>
+  </module>
+  <module>
+    <web>
+      <web-uri>dcm4chee-arr-seam-web-3.0.12-mysql.war</web-uri>
+      <context-root>/dcm4chee-arr</context-root>
+    </web>
+  </module>
+  <module>
+    <java>lib/jboss-seam-2.1.1.GA.jar</java>
+  </module>
+  <module>
+    <java>lib/jboss-el-1.0_02.CR2.jar</java>
+  </module>
+</application>

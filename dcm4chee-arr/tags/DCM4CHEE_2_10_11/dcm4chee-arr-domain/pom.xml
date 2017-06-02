@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-arr-domain</artifactId>
+  <version>3.0.0-SNAPSHOT</version>
+  <description>Domain Model for Audit Record Repository</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>jboss</groupId>
+      <artifactId>ejb3-persistence</artifactId>
+      <version>4.0.5.GA</version>
+    </dependency>
+    <dependency>
+      <groupId>hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
+      <version>3.2.0.GA</version>
+    </dependency>
+  </dependencies>
+  <properties>
+    <db>mysql</db>
+    <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+    <hibernate.show_sql>false</hibernate.show_sql>
+  </properties>
+  <build>
+    <finalName>dcm4chee-arr-domain-${db}-${version}</finalName>
+    <filters>
+      <filter>src/main/filters/${db}.properties</filter>
+    </filters>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  </build>
+</project>

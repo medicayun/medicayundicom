@@ -1,0 +1,70 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-docstore
+</artifactId>
+  <version>1.0.3</version>
+  <packaging>pom</packaging>
+  <name>Generic Document Storage</name>
+  <modules>
+    <module>dcm4chee-docstore-store</module>
+  </modules>
+  <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <repositories>
+    <repository>
+      <id>dcm4che</id>
+      <name>dcm4che Repository</name>
+      <url>http://www.dcm4che.org/maven2</url>
+    </repository>
+    <repository>
+      <id>jboss</id>
+      <name>jboss Repository</name>
+      <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+    </repository>
+    <repository>
+        <id>Maven Central</id>
+        <url>http://repo1.maven.org/maven2</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+    </repository>
+  </repositories>
+<pluginRepositories>
+  <pluginRepository>
+    <id>codehause.maven.snapshots</id>
+    <url>http://snapshots.repository.codehaus.org/</url>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+  </pluginRepository>
+</pluginRepositories>
+  <distributionManagement>
+    <repository>
+      <id>www.dcm4che.org</id>
+      <name>dcm4che Repository</name>
+      <url>scp://www.dcm4che.org:443/home/maven2</url>
+    </repository>
+  </distributionManagement>
+</project>

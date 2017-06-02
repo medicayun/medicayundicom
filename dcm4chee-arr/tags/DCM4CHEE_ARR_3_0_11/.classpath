@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="dcm4chee-arr-entities/target/classes" path="dcm4chee-arr-entities/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-arr-entities/target/classes" path="dcm4chee-arr-entities/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-arr-listeners-common/target/classes" path="dcm4chee-arr-listeners-common/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-arr-listeners-common/target/classes" path="dcm4chee-arr-listeners-common/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-arr-listeners-mdb/target/classes" path="dcm4chee-arr-listeners-mdb/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-arr-listeners-mdb/target/classes" path="dcm4chee-arr-listeners-mdb/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-arr-listeners-tcp/target/classes" path="dcm4chee-arr-listeners-tcp/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-arr-listeners-tcp/target/classes" path="dcm4chee-arr-listeners-tcp/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-arr-listeners-udp/target/classes" path="dcm4chee-arr-listeners-udp/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-arr-listeners-udp/target/classes" path="dcm4chee-arr-listeners-udp/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-arr-seam-ejb/target/classes" path="dcm4chee-arr-seam-ejb/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-arr-seam-ejb/target/classes" path="dcm4chee-arr-seam-ejb/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-arr-seam-web/target/classes" path="dcm4chee-arr-seam-web/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-arr-seam-web/target/classes" path="dcm4chee-arr-seam-web/src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

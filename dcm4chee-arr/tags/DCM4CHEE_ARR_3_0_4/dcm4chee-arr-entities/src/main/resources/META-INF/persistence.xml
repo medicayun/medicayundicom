@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence>
+  <persistence-unit name="dcm4chee-arr">
+    <jta-data-source>@ds@</jta-data-source>
+    <properties>
+      <property name="hibernate.dialect" value="@dialect@"/>
+      <property name="hibernate.hbm2ddl.auto" value="@hibernate.hbm2ddl.auto@"/>
+      <property name="hibernate.jdbc.use_get_generated_keys"
+        value="@use_get_generated_keys@"/>
+      <property name="hibernate.show_sql" value="@hibernate.show_sql@"/>
+    </properties>
+  </persistence-unit>
+</persistence>

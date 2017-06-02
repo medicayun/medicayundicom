@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss-app PUBLIC
+	"-//JBoss//DTD J2EE Application 1.4//EN"
+	"http://www.jboss.org/j2ee/dtd/jboss-app_4_0.dtd">
+<jboss-app>
+  <loader-repository>org.dcm4chee.arr:loader=dcm4chee-arr-3.0.12-mysql.ear</loader-repository>
+  <module>
+    <service>dcm4chee-arr-listeners-common-3.0.12.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-arr-listeners-tcp-3.0.12.sar</service>
+  </module>
+  <module>
+    <service>dcm4chee-arr-listeners-udp-3.0.12.sar</service>
+  </module>
+</jboss-app>

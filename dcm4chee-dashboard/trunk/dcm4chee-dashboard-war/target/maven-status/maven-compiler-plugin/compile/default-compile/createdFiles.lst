@@ -1,0 +1,9 @@
+org\dcm4chee\dashboard\war\common\InternalErrorPage.class
+org\dcm4chee\dashboard\war\pages\LoginPage.class
+org\dcm4chee\dashboard\war\common\PageExpiredErrorPage.class
+org\dcm4chee\dashboard\war\pages\DashboardMainPage.class
+org\dcm4chee\dashboard\war\common\InternalErrorPage$1.class
+org\dcm4chee\dashboard\war\WicketApplication.class
+org\dcm4chee\dashboard\war\common\PageExpiredErrorPage$1.class
+org\dcm4chee\dashboard\war\common\AccessDeniedPage$1.class
+org\dcm4chee\dashboard\war\common\AccessDeniedPage.class

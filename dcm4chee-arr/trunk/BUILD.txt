@@ -1,0 +1,44 @@
+BUILD INSTRUCTIONS FOR DCM4CHEE AUDIT RECORD REPOSITORY:
+========================================================
+
+Beside JDK 5 or JDK 6 - which is also needed for running the Audit Record
+Repository - you also have to download and install Maven 2.2.1 from
+http://maven.apache.org/download.html for building the Audit Record Repository.
+
+If you are behind a http proxy, you have to configure Maven, to use it for
+http downloads (s.  http://maven.apache.org/guides/mini/guide-proxies.html ).
+
+The dcm4chee Audit Record Repostory (dcm4chee-arr) uses
+
+- dcm4che-audit-logger : JMX Service for emitting DICOM Supp95 Audit Trail
+  Messages, and
+- dcm4che-audit-login : JAAS login module emitting User Authentication message
+
+which sources are not included by dcm4chee-arr, but provided as separate
+package dcm4chee-audit at http://sourceforge.net/projects/dcm4che . Follow
+the build instructions included in dcm4chee-audit, to build and install these
+artefacts in your local Maven Repository (default: ~/.m2/repository) for usage
+by following build task for the Audit Record Repository.
+
+After that,
+
+$ cd dcm4chee-arr-3.0.10
+$ mvn -Ddb=<database>  install
+
+with
+
+<database> ::= db2|hsql|mssql|mysql|oracle|psql
+
+will download necessary artifacts from public Maven Repositories by http,
+before building EJB and WEB components of the Audit Record Repository for the
+specified data base and pack them into an EAR archive, including necessary
+third-party libraries.
+
+Finally,
+
+$ cd dcm4chee-arr-dist
+$ mvn -Ddb=<database> assembly:assembly
+
+will assembly the binary distribution package dcm4chee-arr-3.0.10-<db>.zip,
+including the EAR archive built before, but also dcm4che-audit-logger,
+dcm4che-audit-login and JBoss configuration files.

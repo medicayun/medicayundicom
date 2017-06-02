@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- $Id: persistence.xml 73 2006-08-29 18:09:10Z fangatagfa $ -->
+
+<!-- This is for export database schema only -->
+
+<persistence>
+	<persistence-unit name="dcm4chee-arr" transaction-type="RESOURCE_LOCAL">
+		<properties>
+			<property name="hibernate.dialect" value="@dialect@"/>			
+			<property name="hibernate.hbm2ddl.auto" value="none" />
+            
+            <!-- 
+            ==========================================================================================
+            The following is not necessary for database schema exporting.
+            But if you want to connect to the real database, selectively copy the following settings:
+            ==========================================================================================
+            
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+            
+            MySQL:         
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/> 
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/arrdb"/> 
+            <property name="hibernate.connection.username" value="arr"/> 
+            <property name="hibernate.connection.password" value="arr"/> 
+            
+            Oracle:
+            <property name="hibernate.connection.driver_class" value="oracle.jdbc.driver.OracleDriver"/> 
+            <property name="hibernate.connection.url" value="jdbc:oracle:thin:@xxx.xxx.xxx.xxx:1521:arrdb"/> 
+            <property name="hibernate.connection.username" value="arr"/> 
+            <property name="hibernate.connection.password" value="arr"/> 
+            
+            MS SQL Server 2000/2005:
+            <property name="hibernate.connection.driver_class" value="net.sourceforge.jtds.jdbc.Driver"/> 
+            <property name="hibernate.connection.url" value="jdbc:jtds:sqlserver://localhost:1433;DatabaseName=arrdb"/> 
+            <property name="hibernate.connection.username" value="arr"/> 
+            <property name="hibernate.connection.password" value="arr"/> 
+            
+            PostgreSQL:
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/> 
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost/arrdb"/> 
+            <property name="hibernate.connection.username" value="arr"/> 
+            <property name="hibernate.connection.password" value="arr"/> 
+            
+            DB2:
+            <property name="hibernate.connection.driver_class" value="com.ibm.db2.jcc.DB2Driver"/> 
+            <property name="hibernate.connection.url" value="jdbc:db2://localhost:50000/arrdb"/> 
+            <property name="hibernate.connection.username" value="arr"/> 
+            <property name="hibernate.connection.password" value="arr"/> 
+             -->
+		</properties>
+	</persistence-unit>
+</persistence>

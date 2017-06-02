@@ -1,0 +1,7 @@
+<mbean name="dcm4chee.arr:service=UDPListener">
+<attribute name="Port" type="Network"/>
+<attribute name="LocalAddress" type="Network"/>
+<attribute name="MaxMessageSize"/>
+<attribute name="ReceiveBufferSize"/>
+<attribute name="EnableDNSLookups"/>
+</mbean>

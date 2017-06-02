@@ -1,0 +1,3 @@
+<jboss-app>
+  <loader-repository>seam.jboss.org:loader=dcm4chee-arr</loader-repository>
+</jboss-app>

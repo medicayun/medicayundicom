@@ -1,0 +1,10 @@
+org\dcm4chee\dashboard\model\ReportModel.class
+org\dcm4chee\dashboard\filesystem\FileSystemStatus.class
+org\dcm4chee\dashboard\mbean\DashboardDelegator.class
+org\dcm4chee\dashboard\model\PropertyDisplayModel.class
+org\dcm4chee\dashboard\filesystem\Availability.class
+org\dcm4chee\dashboard\model\QueueDepthModel.class
+org\dcm4chee\dashboard\mbean\DashboardService.class
+org\dcm4chee\dashboard\model\QueueDepthTupel.class
+org\dcm4chee\dashboard\model\MBeanValueModel.class
+org\dcm4chee\dashboard\mbean\DashboardService$1.class

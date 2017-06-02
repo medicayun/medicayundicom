@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<server>
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+    name="jboss.mq.destination:service=Queue,name=ARRIncoming">
+    <depends optional-attribute-name="DestinationManager"
+      >jboss.mq:service=DestinationManager</depends>
+  </mbean>
+  <mbean code="org.dcm4chee.arr.listeners.udp.UDPListener"
+    name="dcm4chee.arr:service=UDPListener" xmbean-dd="">
+    <depends>jboss.mq.destination:service=Queue,name=ARRIncoming</depends>
+    <depends>jboss.mq:service=InvocationLayer,type=JVM</depends>
+    <xmbean>
+      <description>UDP Listener of ATNA Audit Record Repository (ARR)</description>
+      <class>org.dcm4chee.arr.listeners.udp.UDPListener</class>
+      <descriptors>
+        <persistence persistPolicy="OnUpdate"/>
+        <persistence-manager
+          value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+      </descriptors>
+      <constructor>
+        <description>The default constructor</description>
+        <name>UDPListener</name>
+      </constructor>
+      <attribute access="read-write" getMethod="getPort" setMethod="setPort">
+        <description>UDP port for listening for audit messages.</description>
+        <name>Port</name>
+        <type>int</type>
+        <descriptors>
+          <value value="4000"/>
+        </descriptors>
+      </attribute>
+      <attribute access="read-write" getMethod="getLocalAddress"
+        setMethod="setLocalAddress">
+        <description>Local interface for UDP listener to bind. 0.0.0.0
+          means any available.</description>
+        <name>LocalAddress</name>
+        <type>java.lang.String</type>
+        <descriptors>
+          <value value="0.0.0.0"/>
+        </descriptors>
+      </attribute>
+      <attribute access="read-write" getMethod="getMaxMessageSize"
+        setMethod="setMaxMessageSize">
+        <description>Maximum audit message size. Larger messages will be
+          truncated! Must be in range 512..65507.</description>
+        <name>MaxMessageSize</name>
+        <type>int</type>
+        <descriptors>
+          <value value="65507"/>
+        </descriptors>
+      </attribute>
+      <attribute access="read-write" getMethod="getReceiveBufferSize"
+        setMethod="setReceiveBufferSize">
+        <description>Used Network I/O buffer size for receiving messages.
+          Increasing the receive buffer may allow the network implementation to
+          buffer multiple packets when packets arrive faster than being
+          processed.</description>
+        <name>ReceiveBufferSize</name>
+        <type>int</type>
+        <descriptors>
+          <value value="65507"/>
+        </descriptors>
+      </attribute>
+      <attribute access="read-write" getMethod="isEnableDNSLookups"
+        setMethod="setEnableDNSLookups">
+        <description>Flag to control activation/deactivation of reverse DNS
+          lookup to evaluate the hostname of the emitter of received audit
+          messages.</description>
+        <name>EnableDNSLookups</name>
+        <type>boolean</type>
+        <descriptors>
+          <value value="false"/>
+        </descriptors>
+      </attribute>
+      <attribute access="read-only" getMethod="getLastStartedAt">
+        <description>Time, when this UDP listener was started at last.</description>
+        <name>LastStartedAt</name>
+        <type>java.util.Date</type>
+      </attribute>
+      <attribute access="read-only" getMethod="getLastStoppedAt">
+        <description>Time, when this UDP listener was stopped at last.</description>
+        <name>LastStoppedAt</name>
+        <type>java.util.Date</type>
+      </attribute>
+      <attribute access="read-only" getMethod="getStateString">
+        <description>The status of this UDP listener.</description>
+        <name>StateString</name>
+        <type>java.lang.String</type>
+      </attribute>
+      <operation>
+        <description>Start this UDP listener.</description>
+        <name>start</name>
+      </operation>
+      <operation>
+        <description>Stop this UDP listener.</description>
+        <name>stop</name>
+      </operation>
+    </xmbean>
+  </mbean>
+</server>

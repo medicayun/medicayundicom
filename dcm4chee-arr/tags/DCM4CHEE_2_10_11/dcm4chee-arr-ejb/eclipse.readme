@@ -1,0 +1,53 @@
+$Id: eclipse.readme 108 2006-09-13 14:26:30Z fangatagfa $
+=====================
+Working with Eclipse
+=====================
+
+1. Installation
+----------------
+	1.1 Install Eclipse 3.1.1 above. Use coding standard as specified here (http://www.dcm4che.org/confluence/display/proj/Coding+Standards)
+	1.2 Install Maven2 plugin using "Software updates". URL: http://m2eclipse.codehaus.org
+	1.3 Install TestNG plugin using "Software updates". URL: http://beust.com/eclipse
+
+2. Prepare Eclispe
+------------------
+	2.1 Rename "eclipse.classpath" to ".classpath", "eclipse.project" to ".project". Under windows OS, you have to use dos command "rename"
+	2.2 Run Eclipse. Select the path of "dcm44chee-arr" as workspace path
+	2.4 Notice that there is a small rotated "E" on the top-left corner of the icon of project "dcm4chee-arr-ejb", which means this project is Maven2 enabled. Right click the project to check "Java Build Path -> Libraries", which should have "Maven2 Dependencies" included. 
+	2.5 Create "M2_REPO" variable from "Java Build Path -> Libraries -> Add Variable... -> Configure Variables... -> New.." to point to your local Maven2 repository;
+	2.6 You projects will be rebuilt and should be error free in Eclipse.
+	2.7 Prepare Soure folders on build path (mainly for TestNG):
+		. src/main/java, output folder: target/classes
+		. src/test/dd, output folder: target/classes (the persistence.xml must be under classes)
+		. src/test/java, output folder: target/test-classes
+		. src/test/conf, output folder: target/test-classes
+		. src/test/resource, output folder: target/test-classes
+
+3. Prepare TestNG
+-----------------
+	3.1 Open Debug or Run configuration dialog from "Run -> Debug..." or "Run -> Run...";
+	3.2 Double click TestNG on the leftside bar, an new configuration will be created. Rename it to "dcm4chee-arr-ejb" or whatever you want to call;
+	3.3 Choose "src\test\conf\testng.xml" as Suite to test; 
+	3.4 Make sure the "Compliance level" is set to "1.5";
+	3.5 Go to "Classpath", under "User Entries", you have "dcm4chee-arr-ejb" and "Maven2 Dependencies" entries. Add the following three entries on the top by clicking "Advanced... -> Add Classpath Variables":
+		. M2_REPO/jboss/embeddable-ejb3/jboss-ejb3-all/ALPHA_8-patch2/jboss-ejb3-all-ALPHA_8-patch2.jar
+		. M2_REPO/jboss/embeddable-ejb3/jboss-ejb3-all/ALPHA_8-patch2/thirdparty-all-ALPHA_8-patch2.jar
+		. M2_REPO/org/slf4j/slf4j-log4j12/1.0/slf4j-log4j12-1.0.jar
+		
+		These three entries are basically for solving classpath lookup conflict caused by "Maven2 Dependencies" which has some imcompatible versions internally.
+	
+	3.6 You now should be able to debug/run the TestNG unit tests.
+	3.7 Note that command-line "mvn" with different databases other than "hsql" may cause subsequent problem for TestNG inside Eclipse, in this case, please do a project clean from inside Eclipse. This is due to the specific "persistence.xml" in classes path.
+	
+Appendix: How to do remote debug to command line "mvn":
+--------------------------------------------------------
+i) export MAVEN_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE
+-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"
+
+ii) and in eclipse run - debug - new - remote java application
+port is the 5005 specified before
+
+iii) you run mvn and hit debug in eclipse
+
+Any questions, please contact:
+Fang Yang (fang.yang@agfa.com)

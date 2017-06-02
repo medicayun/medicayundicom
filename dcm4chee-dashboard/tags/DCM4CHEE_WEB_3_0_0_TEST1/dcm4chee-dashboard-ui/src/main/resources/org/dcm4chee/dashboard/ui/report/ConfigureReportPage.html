@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:wicket="http://wicket.apache.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+    	<div class="msgWindow">
+			<wicket:message key="dashboard.report.configure.title">
+				[Configure report]
+			</wicket:message>
+			<form wicket:id="configure-report-form" class="configure-report">
+				<table>
+				 	<tr class="input">
+				 		<td>
+				 			<div class="dashboard-input-desc">
+								<wicket:message key="dashboard.report.configure.form.title.label" />
+							</div>
+						</td>
+						<td>
+							<div class="dashboard-input-desc">
+								<label wicket:id="dashboard.report.configure.form.title.name" />
+							</div>
+						</td>
+					</tr>
+		 	  	  	<tr wicket:id="variable-rows" class="input">
+			 	  	  	<td>
+							<div class="dashboard-input-desc">
+			 	  	  			<div wicket:id="variable-name" />
+							</div>
+						</td>
+						<td>
+							<div class="dashboard-input-value">
+								<input wicket:id="variable-value" type="text" />
+							</div>
+						</td>
+		 	  	  	</tr>
+					<tr class="submit">
+						<td>
+						</td>
+						<td>
+							<div class="dashboard-input-submit">
+								<input wicket:id="form-submit" type="submit" wicket:message="value:dashboard.report.configure.form.submit" style="clear: left" />
+							</div>
+						</td>
+					</tr>
+				</table>
+			</form>
+        </div>
+        <p>
+			<div wicket:id="result-message">
+				[Result message]
+			</div>
+        </p>
+	</body>
+</html>

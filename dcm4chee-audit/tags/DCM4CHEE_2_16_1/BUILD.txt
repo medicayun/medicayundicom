@@ -1,0 +1,30 @@
+BUILD INSTRUCTIONS FOR DCM4CHEE-AUDIT:
+======================================
+
+dcm4chee-audit includes
+
+- dcm4che-audit-logger : JMX Service for emitting DICOM Supp95 Audit Trail
+  Messages, and
+- dcm4che-audit-login : JAAS login module emitting User Authentication message
+
+Both are used by the dcm4chee archive application (dcm4chee), as well by the
+dcm4chee Audit Record Repository (dcm4chee-arr).
+
+Beside JDK 5 or JDK 6 - which is also needed for running the archive
+application or the Audit Record Repository - you also have to download and
+install Maven 2.0.7 from http://maven.apache.org/download.html for building
+dcm4che-audit-logger and dcm4che-audit-login.
+
+If you are behind a http proxy, you have to configure Maven, to use it for
+http downloads (s.  http://maven.apache.org/guides/mini/guide-proxies.html ).
+
+After that,
+
+$ cd dcm4chee-audit-2.14.3
+$ mvn install
+
+will download necessary artifacts from public Maven Repositories by http,
+build dcm4chee-audit-logger-2.13.0.jar and dcm4chee-audit-login-2.13.0.jar,
+and install them in your local Maven Repository (default: ~/-m2/repository),
+for usage by the build tasks for the dcm4chee archive application or the
+Audit Record Repository.

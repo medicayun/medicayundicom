@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/application_1_4.xsd"
+  version="1.4">
+  <description>IHE Audit Record Repository</description>
+  <display-name>dcm4chee-arr</display-name>
+  <module>
+    <web>
+      <web-uri>dcm4chee-arr-${db}-${version}.war</web-uri>
+      <context-root>/dcm4chee-arr</context-root>
+    </web>
+  </module>
+  <module>
+    <ejb>dcm4chee-arr-${db}-${version}.jar</ejb>
+  </module>
+  <module>
+    <java>jboss-seam-1.0.1.GA.jar</java>
+  </module>
+</application>

@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:c="http://java.sun.com/jstl/core"
+  xmlns:s="http://jboss.com/products/seam/taglib">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <title>Audit Records</title>
+    <link href="main.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+  	<div id="filter">
+    <h:form>
+      <h:panelGrid bgcolor="#CCCCCC" columns="2">
+        <h:outputLink value="http://www.dcm4che.org">
+          <h:graphicImage url="img/logo.gif" border="0"/>
+        </h:outputLink>
+        <h:commandButton value="Search >>" action="#{auditRecordList.find}"/>
+        <h:outputLabel for="pageSize">Page Size:</h:outputLabel>
+        <h:inputText id="pageSize" value="#{auditRecordList.pageSize}"/>
+      </h:panelGrid>
+      <fieldset>
+        <legend>Event</legend>
+        <h:panelGrid columns="2">
+          <h:outputLabel for="orderBy">Order by:</h:outputLabel>
+          <h:selectOneRadio id="orderBy" layout="pageDirection"
+            value="#{auditRecordList.orderByEventDateTime}">
+            <f:selectItem itemValue="true" itemLabel="Event Date/Time"/>
+            <f:selectItem itemValue="false" itemLabel="Receive Date/Time"/>
+          </h:selectOneRadio>
+          <h:outputLabel for="dateTimeRange">Date/Time:</h:outputLabel>
+          <h:inputText id="dateTimeRange"
+            value="#{auditRecordList.dateTimeRange}"/>
+          <h:outputLabel for="eventID">Event ID:</h:outputLabel>
+          <h:selectManyListbox id="eventID" value="#{auditRecordList.eventIDs}"
+            size="3" >
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="110100^DCM"
+              itemLabel="Application Activity"/>
+            <f:selectItem itemValue="110101^DCM" itemLabel="Audit Log Used"/>
+            <f:selectItem itemValue="110102^DCM" itemLabel="Begin Transferring"/>
+            <f:selectItem itemValue="110103^DCM" itemLabel="Instances Accessed"/>
+            <f:selectItem itemValue="110104^DCM"
+              itemLabel="Instances Transferred"/>
+            <f:selectItem itemValue="110105^DCM" itemLabel="Study Deleted"/>
+            <f:selectItem itemValue="110106^DCM" itemLabel="Export"/>
+            <f:selectItem itemValue="110107^DCM" itemLabel="Import"/>
+            <f:selectItem itemValue="110108^DCM" itemLabel="Network Entry"/>
+            <f:selectItem itemValue="110109^DCM" itemLabel="Order Record"/>
+            <f:selectItem itemValue="110110^DCM" itemLabel="Patient Record"/>
+            <f:selectItem itemValue="110111^DCM" itemLabel="Procedure Record"/>
+            <f:selectItem itemValue="110112^DCM" itemLabel="Query"/>
+            <f:selectItem itemValue="110113^DCM" itemLabel="Security Alert"/>
+            <f:selectItem itemValue="110114^DCM" itemLabel="User Authentication"/>
+            <f:selectItem itemValue="IHE0001^IHE" itemLabel="HS Provision Event"/>
+            <f:selectItem itemValue="IHE0002^IHE" itemLabel="Medication Event"/>
+            <f:selectItem itemValue="IHE0003^IHE" itemLabel="PC Resource Assignment"/>
+            <f:selectItem itemValue="IHE0004^IHE" itemLabel="PC Episode"/>
+            <f:selectItem itemValue="IHE0005^IHE" itemLabel="PC Protocol"/>
+          </h:selectManyListbox>
+          <h:outputLabel for="eventType">Event Type:</h:outputLabel>
+          <h:selectManyListbox id="eventType"
+            value="#{auditRecordList.eventTypes}" size="3">
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="110120^DCM" itemLabel="Application Start"/>
+            <f:selectItem itemValue="110121^DCM" itemLabel="Application Stop"/>
+            <f:selectItem itemValue="110122^DCM" itemLabel="Login"/>
+            <f:selectItem itemValue="110123^DCM" itemLabel="Logout"/>
+            <f:selectItem itemValue="110124^DCM" itemLabel="Attach"/>
+            <f:selectItem itemValue="110125^DCM" itemLabel="Detach"/>
+            <f:selectItem itemValue="110126^DCM" itemLabel="Node Authentication"/>
+            <f:selectItem itemValue="110127^DCM" itemLabel="Emergency Override"/>
+            <f:selectItem itemValue="110128^DCM"
+              itemLabel="Network Configuration"/>
+            <f:selectItem itemValue="110129^DCM"
+              itemLabel="Security Configuration"/>
+            <f:selectItem itemValue="110130^DCM"
+              itemLabel="Hardware Configuration"/>
+            <f:selectItem itemValue="110131^DCM"
+              itemLabel="Software Configuration"/>
+            <f:selectItem itemValue="110132^DCM"
+              itemLabel="Use of Restricted Function"/>
+            <f:selectItem itemValue="110133^DCM"
+              itemLabel="Audit Recording Stopped"/>
+          </h:selectManyListbox>
+          <h:outputLabel for="eventOutcome">Outcome:</h:outputLabel>
+          <h:selectManyListbox id="eventOutcome"
+            value="#{auditRecordList.eventOutcomes}" size="3">
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="0" itemLabel="Success"/>
+            <f:selectItem itemValue="4" itemLabel="Minor failure"/>
+            <f:selectItem itemValue="8" itemLabel="Serious failure"/>
+            <f:selectItem itemValue="12" itemLabel="Major failure"/>
+          </h:selectManyListbox>
+          <h:outputLabel for="eventAction">Event Action:</h:outputLabel>
+          <h:selectManyListbox id="eventAction"
+            value="#{auditRecordList.eventActions}" size="3">
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="C" itemLabel="Create"/>
+            <f:selectItem itemValue="R" itemLabel="Read"/>
+            <f:selectItem itemValue="U" itemLabel="Update"/>
+            <f:selectItem itemValue="D" itemLabel="Delete"/>
+            <f:selectItem itemValue="E" itemLabel="Execute"/>
+          </h:selectManyListbox>
+        </h:panelGrid>
+      </fieldset>
+      <fieldset>
+        <legend>Audit Source</legend>
+        <h:panelGrid columns="2">
+          <h:outputLabel for="siteID">Site ID:</h:outputLabel>
+          <h:inputText id="siteID" value="#{auditRecordList.siteID}"/>
+          <h:outputLabel for="sourceID">Source ID:</h:outputLabel>
+          <h:inputText id="sourceID" value="#{auditRecordList.sourceID}"/>
+          <h:outputLabel for="sourceType">Source Type:</h:outputLabel>
+          <h:selectManyListbox id="sourceType"
+            value="#{auditRecordList.sourceTypes}" size="3">
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="1" itemLabel="End-user display"/>
+            <f:selectItem itemValue="2" itemLabel="Data acquisition"/>
+            <f:selectItem itemValue="3" itemLabel="Web server"/>
+            <f:selectItem itemValue="4" itemLabel="Application server"/>
+            <f:selectItem itemValue="5" itemLabel="Database server"/>
+            <f:selectItem itemValue="6" itemLabel="Security server"/>
+            <f:selectItem itemValue="7" itemLabel="Network component"/>
+            <f:selectItem itemValue="8" itemLabel="Operating software"/>
+            <f:selectItem itemValue="9" itemLabel="External source"/>
+          </h:selectManyListbox>
+        </h:panelGrid>
+      </fieldset>
+      <fieldset>
+        <legend>Active Participant</legend>
+        <h:panelGrid columns="2">
+          <h:outputLabel for="userID1">User ID:</h:outputLabel>
+          <h:inputText id="userID1" value="#{auditRecordList.userID1}"/>
+          <h:outputLabel for="altUserID1">Alt User ID:</h:outputLabel>
+          <h:inputText id="altUserID1" value="#{auditRecordList.altUserID1}"/>
+          <h:outputLabel for="userName1">User Name:</h:outputLabel>
+          <h:inputText id="userName1" value="#{auditRecordList.userName1}"/>
+          <h:outputLabel for="userIsRequestor1">is Requestor:</h:outputLabel>
+          <h:selectOneRadio id="userIsRequestor1" value="#{auditRecordList.userIsRequestor1}">
+            <f:selectItem itemValue="any" itemLabel="Any"/>
+            <f:selectItem itemValue="true" itemLabel="Yes"/>
+            <f:selectItem itemValue="false" itemLabel="No"/>
+          </h:selectOneRadio>
+          <h:outputLabel for="roleID1">Role ID:</h:outputLabel>
+          <h:selectManyListbox id="roleID1" value="#{auditRecordList.roleIDs1}"
+            size="3">
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="110150^DCM" itemLabel="Application"/>
+            <f:selectItem itemValue="110151^DCM"
+              itemLabel="Application Launcher"/>
+            <f:selectItem itemValue="110152^DCM" itemLabel="Destination"/>
+            <f:selectItem itemValue="110153^DCM" itemLabel="Source"/>
+            <f:selectItem itemValue="110154^DCM" itemLabel="Destination Media"/>
+            <f:selectItem itemValue="110155^DCM" itemLabel="Source Media"/>
+          </h:selectManyListbox>
+          <h:outputLabel for="napType1">Network Access Point Type:</h:outputLabel>
+          <h:selectManyListbox id="napType1"
+            value="#{auditRecordList.napTypes1}" size="3">
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="1" itemLabel="Machine Name"/>
+            <f:selectItem itemValue="2" itemLabel="IP Address"/>
+            <f:selectItem itemValue="3" itemLabel="Telephone Number"/>
+          </h:selectManyListbox>
+          <h:outputLabel for="napID1">NAP ID:</h:outputLabel>
+          <h:inputText id="napID1" value="#{auditRecordList.napID1}"/>
+        </h:panelGrid>
+      </fieldset>
+      <fieldset>
+        <legend>Participant Object</legend>
+        <h:panelGrid columns="2">
+          <h:outputLabel for="objectType">Object Type:</h:outputLabel>
+          <h:selectManyListbox id="objectType"
+            value="#{auditRecordList.objectTypes}" size="3">
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="1" itemLabel="Person"/>
+            <f:selectItem itemValue="2" itemLabel="System object"/>
+            <f:selectItem itemValue="3" itemLabel="Organization"/>
+            <f:selectItem itemValue="4" itemLabel="Other"/>
+          </h:selectManyListbox>
+          <h:outputLabel for="objectRole">Object Role:</h:outputLabel>
+          <h:selectManyListbox id="objectRole"
+            value="#{auditRecordList.objectRoles}" size="3">
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="1" itemLabel="Patient"/>
+            <f:selectItem itemValue="2" itemLabel="Location"/>
+            <f:selectItem itemValue="3" itemLabel="Report"/>
+            <f:selectItem itemValue="4" itemLabel="Resource"/>
+            <f:selectItem itemValue="5" itemLabel="Master file"/>
+            <f:selectItem itemValue="6" itemLabel="User"/>
+            <f:selectItem itemValue="7" itemLabel="List"/>
+            <f:selectItem itemValue="8" itemLabel="Doctor"/>
+            <f:selectItem itemValue="9" itemLabel="Subscriber"/>
+            <f:selectItem itemValue="10" itemLabel="Guarantor"/>
+            <f:selectItem itemValue="11" itemLabel="Security User Entity"/>
+            <f:selectItem itemValue="12" itemLabel="Security User Group"/>
+            <f:selectItem itemValue="13" itemLabel="Security Resource"/>
+            <f:selectItem itemValue="14" itemLabel="Security Granualarity"/>
+            <f:selectItem itemValue="15" itemLabel="Provider"/>
+            <f:selectItem itemValue="16" itemLabel="Report Destination"/>
+            <f:selectItem itemValue="17" itemLabel="Report Library"/>
+            <f:selectItem itemValue="18" itemLabel="Schedule"/>
+            <f:selectItem itemValue="19" itemLabel="Customer"/>
+            <f:selectItem itemValue="20" itemLabel="Job"/>
+            <f:selectItem itemValue="21" itemLabel="Job Stream"/>
+            <f:selectItem itemValue="22" itemLabel="Table"/>
+            <f:selectItem itemValue="23" itemLabel="Routing Criteria"/>
+            <f:selectItem itemValue="24" itemLabel="Query"/>
+          </h:selectManyListbox>
+          <h:outputLabel for="lifeCycle">Data Life Cycle:</h:outputLabel>
+          <h:selectManyListbox id="lifeCycle"
+            value="#{auditRecordList.lifeCycles}" size="3">
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="1" itemLabel="Creation"/>
+            <f:selectItem itemValue="2" itemLabel="Import"/>
+            <f:selectItem itemValue="3" itemLabel="Amendment"/>
+            <f:selectItem itemValue="4" itemLabel="Verification"/>
+            <f:selectItem itemValue="5" itemLabel="Translation"/>
+            <f:selectItem itemValue="6" itemLabel="Access/Use"/>
+            <f:selectItem itemValue="7" itemLabel="De-identification"/>
+            <f:selectItem itemValue="8" itemLabel="Aggregation"/>
+            <f:selectItem itemValue="9" itemLabel="Report"/>
+            <f:selectItem itemValue="10" itemLabel="Export"/>
+            <f:selectItem itemValue="11" itemLabel="Disclosure"/>
+            <f:selectItem itemValue="12" itemLabel="Receipt of disclosure"/>
+            <f:selectItem itemValue="13" itemLabel="Archiving"/>
+            <f:selectItem itemValue="14" itemLabel="Logical deletion"/>
+            <f:selectItem itemValue="15" itemLabel="Permanent erasure"/>
+          </h:selectManyListbox>
+          <h:outputLabel for="objectIDType">Object ID Type:</h:outputLabel>
+          <h:selectManyListbox id="objectIDType"
+            value="#{auditRecordList.objectIDTypes}" size="3">
+            <f:selectItem itemValue="" itemLabel="Any"/>
+            <f:selectItem itemValue="1" itemLabel="Medical Record Number"/>
+            <f:selectItem itemValue="2" itemLabel="Patient Number"/>
+            <f:selectItem itemValue="3" itemLabel="Encounter Number"/>
+            <f:selectItem itemValue="4" itemLabel="Enrollee Number"/>
+            <f:selectItem itemValue="5" itemLabel="Social Security Number"/>
+            <f:selectItem itemValue="6" itemLabel="Account Number"/>
+            <f:selectItem itemValue="7" itemLabel="Guarantor Number"/>
+            <f:selectItem itemValue="8" itemLabel="Report Name"/>
+            <f:selectItem itemValue="9" itemLabel="Report Number"/>
+            <f:selectItem itemValue="10" itemLabel="Search Criteria"/>
+            <f:selectItem itemValue="11" itemLabel="User Identifier"/>
+            <f:selectItem itemValue="12" itemLabel="URI"/>
+            <f:selectItem itemValue="110180^DCM" itemLabel="Study Instance UID"/>
+            <f:selectItem itemValue="110181^DCM" itemLabel="SOP Class UID"/>
+            <f:selectItem itemValue="110182^DCM" itemLabel="Node ID"/>
+          </h:selectManyListbox>
+          <h:outputLabel for="objectID">Object ID:</h:outputLabel>
+          <h:inputText id="objectID" value="#{auditRecordList.objectID}"/>
+          <h:outputLabel for="objectName">Object Name:</h:outputLabel>
+          <h:inputText id="objectName" value="#{auditRecordList.objectName}"/>
+        </h:panelGrid>
+      </fieldset>
+    </h:form>
+    </div>
+    <div id="list">
+      <h:outputText value="No matching records."
+        rendered="#{records.rowCount==0}"/>
+      <h:panelGroup rendered="#{records.rowCount>0}">
+        <div>
+          <h:outputFormat escape="false"
+            value="Displaying records &lt;strong&gt;{0}&lt;/strong&gt; to &lt;strong&gt;{1}&lt;/strong&gt; of &lt;strong&gt;{2}&lt;/strong&gt; matching records.">
+            <f:param value="#{auditRecordList.firstResult+1}"/>
+            <f:param value="#{auditRecordList.firstResult+records.rowCount}"/>
+            <f:param value="#{auditRecordList.count}"/>
+          </h:outputFormat>
+        </div>
+        <div>
+          <h:panelGroup>
+            <h:panelGroup rendered="#{auditRecordList.curPage>1}">
+              <s:link value="&lt;&lt; Newer"
+                action="#{auditRecordList.selectPage}">
+                <f:param name="page" value="#{auditRecordList.curPage-1}"/>
+              </s:link>
+              <c:forEach var="i" begin="#{auditRecordList.minPage}"
+                end="#{auditRecordList.curPage-1}">
+                <f:verbatim> | </f:verbatim>
+                <s:link value="${i}" action="#{auditRecordList.selectPage}">
+                  <f:param name="page" value="${i}"/>
+                </s:link>
+              </c:forEach>
+              <f:verbatim> | </f:verbatim>
+            </h:panelGroup>
+            <h:outputFormat escape="false"
+              value="&lt;strong&gt;{0}&lt;/strong&gt;">
+              <f:param value="#{auditRecordList.curPage}"/>
+            </h:outputFormat>
+            <h:panelGroup
+              rendered="#{auditRecordList.curPage&lt;auditRecordList.lastPage}">
+              <c:forEach var="i" begin="#{auditRecordList.curPage+1}"
+                end="#{auditRecordList.maxPage}">
+                <f:verbatim> | </f:verbatim>
+                <s:link value="${i}" action="#{auditRecordList.selectPage}">
+                  <f:param name="page" value="${i}"/>
+                </s:link>
+              </c:forEach>
+              <f:verbatim> | </f:verbatim>
+              <s:link value="Older >>" action="#{auditRecordList.selectPage}">
+                <f:param name="page" value="#{auditRecordList.curPage+1}"/>
+              </s:link>
+            </h:panelGroup>
+          </h:panelGroup>
+        </div>
+        <h:dataTable border="1" value="#{records}" var="rec"
+          rowClasses="#{auditRecordList.rowClasses}">
+          <h:column>
+            <f:facet name="header">
+              <h:outputText value="O"  title="Event Outcome"/>
+            </f:facet>
+            <h:graphicImage title="#{rec.eventOutcome>0 ? (rec.eventOutcome>4 ? (rec.eventOutcome>8 ? messages.majorFailure : messages.seriousFailure) : messages.minorFailure) : messages.success}"
+              url="img/outcome-#{rec.eventOutcome}.gif"/>
+          </h:column>
+          <h:column>
+            <f:facet name="header">
+              <h:outputText value="A" title="Event Action"/>
+            </f:facet>
+            <h:graphicImage title="#{messages[rec.eventAction]}"
+              url="img/action-#{rec.eventAction}.gif"/>
+          </h:column>
+          <h:column>
+            <f:facet name="header">Summary</f:facet>
+            <h:outputText escape="false" value="#{rec.summary}"/>
+          </h:column>
+          <h:column>
+            <f:facet name="header">Receive Date/Time</f:facet>
+            <h:outputFormat value="{0,date,yyyy-MM-dd HH:mm:ss}">
+              <f:param value="#{rec.receiveDateTime}"/>
+            </h:outputFormat>
+          </h:column>
+          <h:column>
+            <f:facet name="header">Event Date/Time</f:facet>
+            <h:outputFormat value="{0,date,yyyy-MM-dd HH:mm:ss}">
+              <f:param value="#{rec.eventDateTime}"/>
+            </h:outputFormat>
+          </h:column>
+          <h:column>
+            <f:facet name="header">View</f:facet>
+            <s:link value="Details" action="#{auditRecordList.showDetails}"/>
+            <h:outputText value=" "/>
+            <s:link value="XML" action="#{auditRecordList.showXml}"/>
+          </h:column>
+        </h:dataTable>
+      </h:panelGroup>
+    </div>
+    <div id="info">
+      <c:if test="#{!auditRecordList.showXml}">
+        <div>
+          <h:outputText escape="false"
+            value="&lt;strong&gt;Details&lt;/strong&gt; | "/>
+          <s:link value="XML" action="#{auditRecordList.showXml}"/>
+        </div>
+        <div id="details">
+          <f:verbatim>#{auditRecordList.details}</f:verbatim>
+        </div>
+      </c:if>
+      <c:if test="#{auditRecordList.showXml}">
+        <div>
+          <s:link value="Details" action="#{auditRecordList.showDetails}"/>
+          <h:outputText escape="false"
+            value=" | &lt;strong&gt;XML&lt;/strong&gt;"/>
+        </div>
+        <div id="xml">
+          <f:verbatim>#{auditRecordList.xml}</f:verbatim>
+        </div>
+      </c:if>
+    </div>
+  </body>
+</html>

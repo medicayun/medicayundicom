@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  Log4j Configuration                                                  -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<!-- $Id$ -->
+
+<!--
+	| For more configuration infromation and examples see the Jakarta Log4j
+	| owebsite: http://jakarta.apache.org/log4j
+-->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="false">
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<errorHandler
+			class="org.jboss.logging.util.OnlyOnceErrorHandler" />
+		<param name="Target" value="System.out" />
+		<param name="Threshold" value="DEBUG" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-5p %d{dd-MM HH:mm:ss,SSS} [%t - %c{1}] %m%n" />
+			<!-- 
+         <param name="ConversionPattern" value="%-5p %d{dd-MM HH:mm:ss,SSS} (%F:%M:%L)  -%m%n"/>
+			-->
+		</layout>
+	</appender>
+
+	<appender name="FILE" class="org.jboss.logging.appender.RollingFileAppender">
+		<param name="File" value="target/dcm4chee-arr.log" />
+		<param name="Append" value="false" />
+		<param name="MaxFileSize" value="10000KB" />
+		<param name="MaxBackupIndex" value="10" />
+		<param name="Threshold" value="DEBUG" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-5p %d{dd-MM HH:mm:ss,SSS} [%t - %c{1}] %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="SYSLOG" class="org.dcm4che2.tool.logger.SyslogAppender">
+		<param name="Threshold" value="INFO" />
+		<param name="syslogHost" value="localhost:4000" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"	value="%m" />
+		</layout>
+	</appender>
+
+	<category name="syslog" additivity="false">
+		<priority value="INFO" />
+	    <appender-ref ref="SYSLOG"/>
+	</category>
+
+    <category name="org.dcm4chee">
+		<priority value="DEBUG" />
+	</category>
+
+	<category name="test.dcm4chee">
+		<priority value="DEBUG" />
+	</category>
+
+    <category name="org.jboss.ejb3">
+        <priority value="INFO" />
+    </category>
+    	
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+	
+</log4j:configuration>

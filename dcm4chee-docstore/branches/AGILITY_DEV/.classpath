@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="dcm4chee-docstore-store/target/classes" path="dcm4chee-docstore-store/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-docstore-store/target/classes" path="dcm4chee-docstore-store/src/main/resources"/>
+	<classpathentry kind="src" output="dcm4chee-docstore-store/target/test-classes" path="dcm4chee-docstore-store/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="dcm4chee-docstore-store/target/test-classes" path="dcm4chee-docstore-store/src/test/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/commons-codec.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/commons-httpclient.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/concurrent.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/getopt.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/jaxb-impl.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/jboss-common.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/jboss-jmx.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/jboss-system.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/jboss-xml-binding.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/jboss-4.2.3.GA/lib/log4j-boot.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
+	<classpathentry kind="lib" path="D:/ImageProcess/dcm4chee/lib/javax.mail.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

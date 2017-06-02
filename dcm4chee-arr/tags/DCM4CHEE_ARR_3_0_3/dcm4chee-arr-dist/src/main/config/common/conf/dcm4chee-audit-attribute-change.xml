@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+List of service attributes, which changes in the JMX console shall trigger the  
+emission of Security Alert messages with an Event Type Code according the
+specified type:
+type           Event Type Code
+"Network"      "Network Configuration"
+"Security"     "Security Configuration"
+"Hardware"     "Hardware Configuration"
+<other>        "Software Configuration"
+-->
+<mbeans>
+<mbean name="dcm4chee.arr:service=UDPListener">
+<attribute name="Port" type="Network"/>
+<attribute name="LocalAddress" type="Network"/>
+<attribute name="MaxMessageSize"/>
+<attribute name="ReceiveBufferSize"/>
+<attribute name="EnableDNSLookups"/>
+</mbean>
+<mbean name="dcm4chee.arr:service=AuditLogger">
+<attribute name="AuditSourceID"/>
+<attribute name="AuditEnterpriseSiteID"/>
+<attribute name="AuditSourceTypeCodes"/>
+<attribute name="ProcessName"/>
+<attribute name="LocalAETitles"/>
+<attribute name="EnableDNSLookups"/>
+<attribute name="IncludeXMLDeclaration"/>
+<attribute name="TimezonedDateTime"/>
+<attribute name="UtcDateTime"/>
+<attribute name="AttributeChangeConfigurationURL"/>
+</mbean>
+</mbeans>

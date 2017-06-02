@@ -1,0 +1,147 @@
+INSTALL INSTRUCTIONS FOR DCM4CHEE AUDIT RECORD REPOSITORY:
+==========================================================
+
+Minimum System Requirements
+JDK 5 or higher.
+512 MB RAM
+200 MB hard disk space  
+400 MHz CPU
+
+Supported Databases
+PostgreSQL 8.1+
+MySQL 4.1+
+Oracle 9i/10g
+SQL Server
+DB2 8.1+
+Firebird 2.1
+Hypersonic SQL (Embedded in JBoss AS) - not suitable for production use!
+
+Installation Procedure:
+
+1. Extract the binary distribution package of dcm4chee-arr for the database
+of your choice. Avoid using a directory that has a name that contains spaces
+as installation directory.
+
+2. Download the binary distribution package of JBoss Application Server 4.2.3.GA
+from http://labs.jboss.com/jbossas/downloads and extract it into a different
+directory.
+
+3. Move to the dcm4chee-arr-3.0.11-<db>/bin directory and execute the
+install_jboss.bat or install_jboss.sh script, as appropriate for your operating
+system, with the path of your JBoss AS installation directory as parameter.
+
+4. [4.-7. are not necessary with Hypersonic SQL] Install the Database SW - if
+not already done. You also have to copy an apropriate JDBC Driver for the
+Database o dcm4chee-arr-3.0.11-<db>/server/default/lib/ - except for MySQL and
+PostgreSQL, which binary distribution packages of dcm4chee-arr already contains
+a JDBC driver. Also ensure, that DB access via TCP/IP socket is enabled.
+E.g. PostgresSQL:
+
+$PGDATA/pg_hba.conf:
+# IPv4 local connections:
+host    all         all         127.0.0.1/32          trust
+
+5. Create the audit record repository database instance: arrdb, and grant
+sufficient privileges to the DB user, configured in the datasource descriptor 
+dcm4chee-arr-3.0.11-<db>/server/default/deploy/arr-xxx-ds.xml.
+
+E.g.: PostgreSQL
+> export PGUSER=postgres
+> createdb pacsdb
+
+E.g.: MySQL
+> mysql -uroot
+mysql> create database arrdb;
+mysql> grant all on arrdb.* to 'arr'@'localhost' identified by 'arr';
+mysql> \q
+
+6. [Optional] Initialize the database using create DDL script
+dcm4chee-arr-3.0.11-<db>/sql/dcm4chee-arr-xxx.ddl
+
+E.g.: PostgreSQL
+> psql arrdb -f dcm4chee-arr-3.0.11-psql/sql/dcm4chee-arr-psql.ddl
+
+E.g.: MySQL
+> mysql -uarr -parr arrdb < dcm4chee-arr-3.0.11-mysql/sql/dcm4chee-arr-mysql.ddl
+
+Otherwise, the database will be initialized automatically at first startup
+of the application.
+
+7. Adjust the Database connection configuration (host, port, DB name, user
+password) of the archive:
+
+dcm4chee-arr-3.0.11-<db>/server/default/deploy/arr-xxxx-ds.xml
+
+according your Database configuration. 
+
+8. Set environment variable JAVA_HOME to the JDK location.
+
+9. Adjust maximum allocation of heap memory: 
+[Windows]: dcm4chee-arr-3.0.11-<db>/bin/run.bat:
+rem Sun JVM memory allocation pool parameters. Modify as appropriate.
+set JAVA_OPTS=%JAVA_OPTS% -Xms128m -Xmx512m
+[Linux/Unix]: dcm4chee-arr-3.0.11-<db>/bin/run.conf
+# Specify options to pass to the Java VM.
+if [ "x$JAVA_OPTS" = "x" ]; then
+   JAVA_OPTS="-Xms128m -Xmx512m ..
+fi
+
+according available RAM and memory requirements of other processes on this node. 
+E.g.: if only 512 MB RAM are available, you should decrease the default
+value -Xmx512m to (e.g.) -Xmx300.
+
+10. To test your installation, move to the dcm4chee-arr-3.0.11-<db>/bin directory
+and execute the run.bat or run.sh script, as appropriate for your operating
+system. To enable remote access to jboss services and web interface, you have
+to invoke the start script with parameter '-b 0.0.0.0'! Your output should look
+like the following and contain no error or exception messages:
+
+=========================================================================
+
+  JBoss Bootstrap Environment
+
+  JBOSS_HOME: /home/gunter/dcm4chee-arr-3.0.11-psql
+
+  JAVA: /usr/lib/jvm/java-6-sun/bin/java
+
+  JAVA_OPTS: -Dprogram.name=run.sh -server -Xms128m -Xmx512m
+   -Dsun.rmi.dgc.client.gcInterval=3600000
+   -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.awt.headless=true
+   -Dapp.name=dcm4chee-arr -Djava.net.preferIPv4Stack=true
+
+  CLASSPATH: /home/gunter/dcm4chee-arr-3.0.11-psql/bin/run.jar:
+   /usr/lib/jvm/java-6-sun/lib/tools.jar
+
+=========================================================================
+
+17:03:32,261 INFO  [Server] Starting JBoss (MX MicroKernel)...
+17:03:32,262 INFO  [Server] Release ID: JBoss [Trinity] 4.2.3.GA
+ (build: SVNTag=JBoss_4_2_3_GA date=200807181439)
+:
+17:03:44,970 INFO  [EARDeployer] Started J2EE application: file:/home/gunter/
+ dcm4chee-arr-3.0.11-psql/server/default/deploy/dcm4chee-arr-3.0.11-psql.ear
+17:03:45,013 INFO  [Http11Protocol] Starting Coyote HTTP/1.1 on
+ http-127.0.0.1-8080
+17:03:45,027 INFO  [AjpProtocol] Starting Coyote AJP/1.3 on ajp-127.0.0.1-8009
+17:03:45,037 INFO  [Server] JBoss (MX MicroKernel) [4.2.3.GA
+ (build: SVNTag=JBoss_4_2_3_GA date=200807181439)] Started in 12s:772ms
+
+11. Connect to the Web Interface at http://localhost:8080/dcm4chee-arr/
+of the Audit Record Repository using any Web Browser (most tested are
+Mozilla-Firefox and Microsoft Internet Explorer v6.x). You will be prompted
+for user name and password. Login in using default Administrator account 
+'admin', with password 'admin'.
+
+12. You should see two entries in the displayed list of Audit Records: one
+documenting the start of the applicationt, and one auditing your login as user
+'admin'. After refreshing the page by activating the 'Search >>' button, a
+third entry documenting the access of the Audit Record Repository by user
+'admin' will appear.
+
+13. If it works, you may stop the AUdit Record Repository by Ctrl+C in the
+console you have started it, and 
+[Windows]: install it as Windows service executing install_service.bat
+or 
+[Redhat Linux]: copy the init script dcm4chee_arr_init_redhat.sh to 
+/etc/init.d/ and adjust it according your installation location of the archive
+and the JDK and under which user the application shall run.

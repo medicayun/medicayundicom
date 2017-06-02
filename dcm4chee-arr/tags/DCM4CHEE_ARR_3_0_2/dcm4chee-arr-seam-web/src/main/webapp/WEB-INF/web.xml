@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <!-- Seam -->
+    
+    <listener>
+        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+    </listener>
+
+    <!-- MyFaces -->
+
+    <listener>
+        <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
+    </listener>
+    
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>facelets.DEVELOPMENT</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.jboss.seam.core.init.debug</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- Faces Servlet Mapping -->
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.seam</url-pattern>
+	</servlet-mapping>
+	
+	<!-- XML View Servlet -->
+	<servlet>
+		<servlet-name>XML View Servlet</servlet-name>
+		<servlet-class>org.dcm4chee.arr.seam.servlet.XMLViewServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>XML View Servlet</servlet-name>
+		<url-pattern>/xmlview</url-pattern>
+	</servlet-mapping>
+	
+	<!-- HTML View Servlet -->
+	<servlet>
+		<servlet-name>HTML View Servlet</servlet-name>
+		<servlet-class>org.dcm4chee.arr.seam.servlet.HTMLViewServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>HTML View Servlet</servlet-name>
+		<url-pattern>/htmlview</url-pattern>
+	</servlet-mapping>
+	
+	 <!-- A security constraint that restricts access to to users with the role 
+	 AuditLogUser. Edit the roles to what you want and uncomment the 
+	 WEB-INF/jboss-web.xml/security-domain element to enable secured access.
+   -->
+   <security-constraint>
+     <web-resource-collection>
+       <web-resource-name>AuditLog</web-resource-name>
+       <description>description</description>
+       <url-pattern>/*</url-pattern>
+       <http-method>GET</http-method>
+       <http-method>POST</http-method>
+     </web-resource-collection>
+     <auth-constraint>
+       <role-name>AuditLogUser</role-name>
+     </auth-constraint>
+   </security-constraint>
+   <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>AuditLog</realm-name>
+   </login-config>
+   
+   <security-role>
+      <role-name>AuditLogUser</role-name>
+   </security-role>
+	
+</web-app>

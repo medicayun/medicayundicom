@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- $Id: persistence.xml 124 2006-09-22 18:40:41Z fangatagfa $ -->
+
+<persistence>
+   <persistence-unit name="dcm4chee-arr">
+      <jta-data-source>@ds@</jta-data-source>
+      <properties>
+          <property name="hibernate.dialect" value="@dialect@"/>
+          <property name="hibernate.hbm2ddl.auto" value="update"/>
+          <property name="hibernate.jdbc.use_get_generated_keys" value="@use_get_generated_keys@"/>
+          <property name="hibernate.show_sql" value="false"/>       
+      </properties>
+   </persistence-unit>
+</persistence>
