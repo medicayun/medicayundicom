@@ -1,1 +1,0 @@
-$if(varName)$var $varName$=$endif$ $(jsonRenderType(render))(render=render)$

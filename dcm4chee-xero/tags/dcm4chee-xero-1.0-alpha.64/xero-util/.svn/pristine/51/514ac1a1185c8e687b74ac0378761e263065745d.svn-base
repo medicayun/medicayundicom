@@ -1,1 +1,0 @@
-amps value=$ampValue;format="xml", separator=","$

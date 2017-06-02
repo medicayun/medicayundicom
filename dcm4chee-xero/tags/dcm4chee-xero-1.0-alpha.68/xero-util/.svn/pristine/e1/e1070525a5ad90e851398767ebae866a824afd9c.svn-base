@@ -1,1 +1,0 @@
-$lst:{odd|itodd=$odd$},{even|iteven=$even$}$

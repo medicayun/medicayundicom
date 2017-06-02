@@ -1,1 +1,0 @@
- <span class="jslink toolItem" onclick="$onclick$">$if(icon)$<img src="$icon$?v=$version$" alt="$it$" class="icon" />$else$$it$$endif$</span>

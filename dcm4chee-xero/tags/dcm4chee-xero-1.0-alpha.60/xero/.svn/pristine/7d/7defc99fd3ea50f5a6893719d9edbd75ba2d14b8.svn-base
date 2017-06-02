@@ -1,3 +1,0 @@
-  $if(firebug)$
-   <script type='text/javascript' src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script>
-  $endif$

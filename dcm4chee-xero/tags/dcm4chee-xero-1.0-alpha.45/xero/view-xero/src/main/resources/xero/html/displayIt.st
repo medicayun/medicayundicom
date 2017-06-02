@@ -1,1 +1,0 @@
-$row.(var);format="xml"$
