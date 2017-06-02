@@ -1,0 +1,33 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dcm4che</groupId>
+    <artifactId>dcm4chee-webview</artifactId>
+    <version>1</version>
+  </parent>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-webview-web</artifactId>
+  <version>1.0</version>
+  <packaging>war</packaging>
+  <name>Web Application for webview</name>
+  <dependencies>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>dcm4che</groupId>
+      <artifactId>dcm4che-core</artifactId>
+      <version>2.0.10</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jboss</groupId>
+      <artifactId>jboss-jmx</artifactId>
+      <version>4.0.2</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<!--
+	$Id: web.xml,v 1.9 2006/07/05 08:39:29 javawilli Exp $
+	$Source: /cvsroot/dcm4che/dcm4jboss-wado/src/web/WEB-INF/web.xml,v $
+-->
+
+<web-app>
+	<display-name>dcm4chee WebView</display-name>
+
+	<welcome-file-list>
+		<welcome-file>webviewer.jsp</welcome-file>
+	</welcome-file-list>
+
+   <!-- A security constraint that restricts access to the
+   	Archive Web Administration pages to users with the role WebAdmin.
+   -->
+<!-- 
+   <security-constraint>
+     <web-resource-collection>
+       <web-resource-name>dispatcher</web-resource-name>
+       <description>Only allows users with the role WebView
+       		to access the Archive WebViewer.
+       </description>
+       <url-pattern>/*</url-pattern>
+       <http-method>GET</http-method>
+       <http-method>POST</http-method>
+     </web-resource-collection>
+     <auth-constraint>
+       <role-name>WebView</role-name>
+     </auth-constraint>
+   </security-constraint>
+
+   <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>Archive Web Admin</realm-name>
+   </login-config>
+
+   <security-role>
+      <role-name>WebView</role-name>
+   </security-role>
+-->   
+</web-app>

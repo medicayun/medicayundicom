@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Version $Revision:$ $Date:$ -->
+<server>
+  <mbean code="org.dcm4chex.webview.mbean.WebViewService" 
+         name="dcm4chee.archive:service=WebViewService"
+         xmbean-dd="">
+
+<xmbean>
+   <description><![CDATA[<b>WebView Service</b><br/>
+		Provides a Service to launch a DICOM Viewer web application (applet).<br/>.
+		]]> </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.webview.mbean.WebViewService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>WebViewService</name>
+   </constructor>
+
+   <attribute access="read-write" getMethod="getCalledAET" setMethod="setCalledAET">
+      <description>Called AET (AET to get SOP Instance UIDS via C-FIND).
+      </description>
+      <name>CalledAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DCM4CHEE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getCallingAET" setMethod="setCallingAET">
+      <description>Calling AET.
+      </description>
+      <name>CallingAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="WEBVIEW"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getHost" setMethod="setHost">
+      <description>Hostname or IP address of called AE.
+      </description>
+      <name>Host</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="localhost"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getPort" setMethod="setPort">
+      <description>Port of calling AE.
+      </description>
+      <name>Port</name>
+      <type>int</type>
+      <descriptors>
+         <value value="11112"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getAppletClass" setMethod="setAppletClass">
+      <description>Applet Class. Full qualified class name of viewer applet.
+      </description>
+      <name>AppletClass</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="com.tiani.jvision.applet.DisplayApplet.class"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getAppletArchive" setMethod="setAppletArchive">
+      <description>Applet Archive. Jar file containing applet class. Path relative to this WebView URL.
+      </description>
+      <name>AppletArchive</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="../WebViewer/jvapplet.jar"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getAppletParameterMap" setMethod="setAppletParameterMap">
+      <description><![CDATA[List of applet parameters with fixed values.<br/>
+      		Format:&lt;parametername&gt;=&lt;value&gt;<br/>
+      		Separate multible parameters with ';' or newline.
+      ]]> </description>
+      <name>setAppletParameterMap</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="title=TITLE;
+         			   SELECT_SEQUENCE=1;
+         			   IMAGE_SERVLET=/WebViewer/servlet/GetImageServlet?IMGUID=;
+         			   OBJECT_SERVLET=/WebViewer/servlet/GetImageServlet?Q=ORIG&amp;IMGUID="/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getResult2ParameterMap" setMethod="setResult2ParameterMap">
+      <description><![CDATA[List of applet parameters with values from DICOM attributes.<br/>
+      		Format:&lt;parametername&gt;=&lt;tag&gt;<br/>
+      		&lt;tag&gt;:Use either the attribute name as defined in dictionary or the hex value <br/>
+      		e.g. 'PatientName' or '00100010'<br/>
+      		Separate multible parameters with ';' or newline.<br/>
+      		Use NONE to disable this list.
+      ]]> </description>
+      <name>Result2ParameterMap</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getCustomLaunchPropertiesClass" setMethod="setCustomLaunchPropertiesClass">
+      <description><![CDATA[Class name of a custom class to add customized launch properties.<br/>
+      			This Class must implement the CustomLaunchProperties interface.<br/>
+      			Use NONE if no customization is necessary.
+      ]]> </description>
+      <name>CustomLaunchPropertiesClass</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="org.dcm4chex.webview.WebViewerProperties"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getImageSOPClasses"
+      setMethod="setImageSOPClasses">
+      <description><![CDATA[
+        List of image SOP Classes that are included in the image UID list(s).<br/>
+        Use either the SOP Class UID value, or the name specified in 
+        DICOM Part 6, Annex A Registry of DICOM unique identifiers,
+        concatenating individual words without spaces.]]>
+      </description>
+      <name>ImageSOPClasses</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="
+           ComputedRadiographyImageStorage
+           DigitalXRayImageStorageForPresentation
+           DigitalXRayImageStorageForProcessing
+           DigitalMammographyXRayImageStorageForPresentation
+           DigitalMammographyXRayImageStorageForProcessing
+           DigitalIntraoralXRayImageStorageForPresentation
+           DigitalIntraoralXRayImageStorageForProcessing
+           CTImageStorage
+           EnhancedCTImageStorage
+           UltrasoundMultiframeImageStorage
+           MRImageStorage
+           EnhancedMRImageStorage
+           UltrasoundImageStorage
+           SecondaryCaptureImageStorage
+           MultiframeSingleBitSecondaryCaptureImageStorage
+           MultiframeGrayscaleByteSecondaryCaptureImageStorage
+           MultiframeGrayscaleWordSecondaryCaptureImageStorage
+           MultiframeTrueColorSecondaryCaptureImageStorage
+           XRayAngiographicImageStorage
+           XRayRadiofluoroscopicImageStorage
+           NuclearMedicineImageStorage
+           VLEndoscopicImageStorage
+           VLMicroscopicImageStorage
+           VLSlideCoordinatesMicroscopicImageStorage
+           VLPhotographicImageStorage
+           OphthalmicPhotography8BitImageStorage
+           OphthalmicPhotography16BitImageStorage
+           PositronEmissionTomographyImageStorage
+           RTImageStorage
+           HardcopyGrayscaleImageStorageSOPClassRetired
+           HardcopyColorImageStorageSOPClassRetired
+           NuclearMedicineImageStorageRetired
+           UltrasoundMultiframeImageStorageRetired
+           UltrasoundImageStorageRetired
+           XRayAngiographicBiPlaneImageStorageRetired
+           "/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPresentationStateCUIDs"
+      setMethod="setPresentationStateCUIDs">
+      <description><![CDATA[
+        List of SOP Classes that are used for Presentation States.<br/>
+        Use either the SOP Class UID value, or the name specified in 
+        DICOM Part 6, Annex A Registry of DICOM unique identifiers,
+        concatenating individual words without spaces.]]>
+      </description>
+      <name>PresentationStateCUIDs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="
+           GrayscaleSoftcopyPresentationStateStorageSOPClass
+           ColorSoftcopyPresentationStateStorageSOPClass
+           PseudoColorSoftcopyPresentationStateStorageSOPClass
+           BlendingSoftcopyPresentationStateStorageSOPClass
+           "/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getParaSeriesInstances" setMethod="setParaSeriesInstances">
+      <description><![CDATA[Config String to get parameter for List of SOPInstanceUIDs per series.<br/>
+      		Format:&lt;parametername&gt;|&lt;descr&gt;|&lt;descrValue&gt;|&lt;list seperator&gt;|&lt; uid seperator&gt;|&lt;postfix&gt;<br/>
+      		descrValue: either value from a DICOM attribute (e.g. 0008103E or SeriesDescription) 
+      		or a numbering (#, #-1 or #a -&gt; 1,2,3,.. 0,1,2,.. or a,b,c,.. )<br/>
+      		e.g.:SEQUENCE|Seq. Nr.|0008103E|;|;| --> SEQUENCE1="Seq. Nr.[seriesdescr];[UID1];[UID2]"
+      ]]> </description>
+      <name>ParaSeriesInstances</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="SEQUENCE|Seq. Nr.|0008103E|;|;|"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getParaPresentationStates" setMethod="setParaPresentationStates">
+      <description><![CDATA[Config String to get parameter for List of presentation states.<br/>
+      		Format:&lt;parametername&gt;|&lt;descr&gt;|&lt;descrValue&gt;|&lt;list seperator&gt;|&lt; uid seperator&gt;|&lt;postfix&gt;<br/>
+      		descrValue: either value from a DICOM attribute (e.g. 0008103E or SeriesDescription) 
+      		or a numbering (#, #-1 or #a -&gt; 1,2,3,.. 0,1,2,.. or a,b,c,.. )<br/>
+      		e.g.:PR_UIDS||||;| --> PR_UIDS="[UID1];[UID2]"
+      ]]> </description>
+      <name>ParaPresentationStates</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PR_UIDS||||;|"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="isIgnorePresentationStateForStudies" setMethod="setIgnorePresentationStateForStudies">
+      <description><![CDATA[Ignore Presentation States if viewer is called with study level (studyUID or accNr).
+      ]]> </description>
+      <name>IgnorePresentationStateForStudies</name>
+      <type>boolean</type>
+      <descriptors>
+      	<value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="isSelectMultiPR" setMethod="setSelectMultiPR">
+      <description><![CDATA[Enable Selection of Presentation States if study contains more than one Presentation State.
+      ]]> </description>
+      <name>enableSelectionOfPresentationState</name>
+      <type>boolean</type>
+      <descriptors>
+      	<value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getInstanceComparatorClass" setMethod="setInstanceComparatorClass">
+      <description><![CDATA[Class name of an optional Instance Comparator to sort instances.<br/>
+      		The class must implement org.dcm4chex.webview.InstanceComparator!<br/>
+      		The org.dcm4chex.webview.InstanceNumberComparator sorts the instance by instance number
+      		(numerical if both arguments are numerical or as String)<br/>
+      		Use NONE to disable sorting feature (get instances in the order of receiving).
+      ]]> </description>
+      <name>InstanceComparatorClass</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+
+   <!-- Operations -->
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Get the Applet Parameters to launch the web based DICOM viewer.<br/>
+      			Get SOP Instance UIDs for given Accession Number.<br>
+      			If the C-FIND response contains entries from different patient,<br/> 
+      			only entries of the first patient are taken into account.
+       		]]> </description>
+      <name>getLaunchPropertiesForAccNr</name>
+      <parameter>
+        <description>Accession Number</description>
+        <name>accNr</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Ignore Presentation States of study</description>
+        <name>ignorePR</name>
+        <type>java.lang.Boolean</type>
+      </parameter>
+      <parameter>
+        <description><![CDATA[ Enable selection of Presentation State if study contains more than one PR.<br/>
+        		In this case the result contains selection parameters (key=InstanceUID, value=Description)
+        		instead of APPLET PARAMs. <br/>
+        		If selectPR is <i>null</i> the value of <b>enableSelectionOfPresentationState</b> is used as default.
+        	]]> </description>
+        <name>selectPR</name>
+        <type>java.lang.Boolean</type>
+      </parameter>
+      <return-type>java.util.Properties</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Get the Applet Parameters to launch the web based DICOM viewer.<br/>
+      			Get SOP Instance UIDs for given Patient ID.<br>
+      			If the C-FIND response contains entries from different patient,<br/> 
+      			only entries of the first patient are taken into account.
+       		]]> </description>
+      <name>getLaunchPropertiesForPatId</name>
+      <parameter>
+        <description>PatientID</description>
+        <name>patId</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Ignore Presentation States of study</description>
+        <name>ignorePR</name>
+        <type>java.lang.Boolean</type>
+      </parameter>
+      <parameter>
+        <description><![CDATA[ Enable selection of Presentation State if study contains more than one PR.<br/>
+        		In this case the result contains selection parameters (key=InstanceUID, value=Description)
+        		instead of APPLET PARAMs. <br/>
+        		If selectPR is <i>null</i> the value of <b>enableSelectionOfPresentationState</b> is used as default.
+        	]]> </description>
+        <name>selectPR</name>
+        <type>java.lang.Boolean</type>
+      </parameter>
+      <return-type>java.util.Properties</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Get the Applet Parameters to launch the web based DICOM viewer.<br/>
+      			Get SOP Instance UIDs for given Study-, Series- and SOP Instance UID.<br>
+       		]]> </description>
+      <name>getLaunchProperties</name>
+      <parameter>
+        <description>Study Instance UID</description>
+        <name>studyUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Series Instance UID</description>
+        <name>seriesUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Ignore Presentation States of study</description>
+        <name>ignorePR</name>
+        <type>java.lang.Boolean</type>
+      </parameter>
+      <parameter>
+        <description><![CDATA[ Enable selection of Presentation State if study contains more than one PR.<br/>
+        		In this case the result contains selection parameters (key=InstanceUID, value=Description)
+        		instead of APPLET PARAMs. <br/>
+        		If selectPR is <i>null</i> the value of <b>enableSelectionOfPresentationState</b> is used as default.
+        	]]> </description>
+        <name>selectPR</name>
+        <type>java.lang.Boolean</type>
+      </parameter>
+      <return-type>java.util.Properties</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Get the Applet Parameters to launch the web based DICOM viewer.<br/>
+      			Get SOP Instance UIDs referenced by given Presentation State.<br>
+       		]]> </description>
+      <name>getLaunchPropertiesForPresentationState</name>
+      <parameter>
+        <description>Study Instance UID</description>
+        <name>studyUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Series Instance UID</description>
+        <name>seriesUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>instanceUID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.util.Properties</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Get the Applet Parameters to launch the web based DICOM viewer.<br/>
+      			Get SOP Instance UIDs referenced by a Manifest retrieved from given URL.<br>
+       		]]> </description>
+      <name>getLaunchPropertiesForManifest</name>
+      <parameter>
+        <description>Manifest URL</description>
+        <name>url</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.util.Properties</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Get the Applet Parameters to launch the web based DICOM viewer.<br/>
+      			Get SOP Instance UIDs referenced by given Manifest (Key Object Selection Document).<br>
+       		]]> </description>
+      <name>getLaunchPropertiesForManifest</name>
+      <parameter>
+        <description>Manifest (Key Object Selection Document)</description>
+        <name>manifest</name>
+        <type>org.dcm4che2.data.DicomObject</type>
+      </parameter>
+      <return-type>java.util.Properties</return-type>
+   </operation>
+   
+</xmbean>
+
+
+  </mbean>
+</server>
