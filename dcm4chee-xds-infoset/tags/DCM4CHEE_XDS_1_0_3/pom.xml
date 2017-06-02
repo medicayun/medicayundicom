@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dcm4che</groupId>
+  <artifactId>dcm4chee-xds-infoset</artifactId>
+  <version>1.0.3</version>
+  <packaging>pom</packaging>
+  <name>Infoset classes for XDS</name>
+  <modules>
+    <module>dcm4chee-xds-infoset-v21</module>
+    <module>dcm4chee-xds-infoset-v30</module>
+  </modules>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-rt</artifactId>
+      <version>2.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>activation</artifactId>
+      <version>1.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+       <groupId>javax.jws</groupId>
+       <artifactId>jsr181-api</artifactId>
+       <version>1.0-MR1</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>jboss</id>
+      <name>Public Repository group on jboss</name>
+      <url>http://repository.jboss.org/nexus/content/groups/public</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+     <pluginRepository>
+       <id>Public Repository group on jboss</id>
+       <url>http://repository.jboss.org/nexus/content/groups/public</url>
+     </pluginRepository>
+  </pluginRepositories>
+  <distributionManagement>
+     <repository>
+       <id>www.dcm4che.org</id>
+       <name>dcm4che Repository</name>
+       <url>scp://www.dcm4che.org:443/home/maven2</url>
+     </repository>
+   </distributionManagement>
+</project>
+

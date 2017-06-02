@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+    xmlns="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:ihe="urn:ihe:iti:xds-b:2007" 
+    xmlns:query="urn:oasis:names:tc:ebxml-regrep:query:xsd:2.1" 
+    xmlns:rim="urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.1" 
+    xmlns:rs="urn:oasis:names:tc:ebxml-regrep:registry:xsd:2.1" 
+    targetNamespace="urn:ihe:iti:xds-b:2007" 
+    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
+    xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" 
+    name="XDS_DocumentRegistry">
+	<documentation>IHE XDS.a Document Registry</documentation>
+	<types>
+		<xsd:schema elementFormDefault="qualified" targetNamespace="urn:oasis:names:tc:ebxml-regrep:registry:xsd:2.1">
+			<xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:registry:xsd:2.1" schemaLocation="../schema/ebRS_v21/rs.xsd"/>
+            <xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.1" schemaLocation="../schema/ebRS_v21/rim.xsd"/>
+            <xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:query:xsd:2.1" schemaLocation="../schema/ebRS_v21/query.xsd"/>
+		</xsd:schema>
+	</types>
+	<message name="RegisterDocumentSet_Message">
+		<documentation>Register Document Set</documentation>
+		<part name="body" element="rs:SubmitObjectsRequest"/>
+	</message>
+	<message name="RegisterDocumentSet-Response_Message">
+		<documentation>Register Document Set Response</documentation>
+		<part name="body" element="rs:RegistryResponse"/>
+	</message>
+
+	<portType name="DocumentRegistryA_PortType">
+		<operation name="DocumentRegistryA_RegisterDocumentSet">
+			<input message="ihe:RegisterDocumentSet_Message" wsaw:Action="urn:ihe:iti:2007:RegisterDocumentSet"/>
+			<output message="ihe:RegisterDocumentSet-Response_Message" wsaw:Action="urn:ihe:iti:2007:RegisterDocumentSet-Response"/>
+		</operation>
+	</portType>
+	<binding name="DocumentRegistryA_Binding_Soap11" type="ihe:DocumentRegistryA_PortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="DocumentRegistryA_RegisterDocumentSet">
+			<soap:operation soapAction="urn:ihe:iti:2007:RegisterDocumentSet"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="DocumentRegistryA_Service">
+		<port name="DocumentRegistryA_Port_Soap11" binding="ihe:DocumentRegistryA_Binding_Soap11">
+			<soap:address location="http://servicelocation/DocumentRegistryA_Service"/>
+		</port>
+	</service>
+</definitions>
