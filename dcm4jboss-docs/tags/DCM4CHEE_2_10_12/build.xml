@@ -1,0 +1,192 @@
+<!--
+   To build the reference docs for a particular language only, use "ant -Dlang=en", for
+   example, and call either ref.all, ref.docpdf, ref.dochtml, or ref.dochtmlsingle
+   for the target of your choice. You can also call ref.lang.section-check to track down missing identifiers in the 
+   reference docs for a particular language.
+   
+   To build a conformance doc for a particular standard (DICOM, IHE, HL7 is not supported yet), 
+   use "ant -Dtype=dcm" or "ant -Dtype=dcm" for example, and call con.type.docpdf.
+-->
+<project name="ReferenceDocumentation" default="all.doc" basedir=".">
+    <!-- Documentation base directories. -->
+    <property name="conformance.dir"           value="conformance"/>
+    <property name="dcm4che2-ref.dir"           value="dcm4che2-ref"/>
+    <property name="dcm4chee-ref.dir"           value="reference"/>
+
+    <!-- Support files for build process. -->
+    <property name="support.dir"           value="${basedir}/support"/>
+    
+    <!-- The output directory. -->
+    <property name="build.dir"           value="${basedir}/build"/>
+
+    <!-- Set DocBook stylesheets. -->
+    <property name="db.style.fopdf"        value="fopdf.xsl"/>
+    <property name="db.style.html"         value="html_chunk.xsl"/>
+    <property name="db.style.htmlsingle"   value="html.xsl"/>
+
+    <!-- Classpath for the build tools. -->
+    <path id="lib.classpath">
+        <fileset dir="${support.dir}/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- ################################################################## -->
+
+    <target name="all.doc"
+            depends="clean"
+            description="Compile documentation for all languages and all formats.">
+
+        <!-- Create the DICOM Conformance Statement PDF document. -->
+        <antcall target="ref.docpdf">
+            <param name="module.basedir" value="${conformance.dir}"/>
+            <param name="subdir" value="dcm"/>
+            <param name="docname" value="dcm4chee-cs"/>
+        </antcall>
+        
+        <!-- Create the IHE Integration Statement PDF document. -->
+        <antcall target="ref.docpdf">
+            <param name="module.basedir" value="${conformance.dir}"/>
+            <param name="subdir" value="ihe"/>
+            <param name="docname" value="dcm4chee-is"/>
+        </antcall>
+        
+        <!-- Create the dcm4che2 Reference PDF document. -->
+        <!-- TRANSLATOR: Duplicate these lines for your language (different value for value="en") -->
+        <antcall target="ref.all">
+            <param name="module.basedir" value="${dcm4che2-ref.dir}"/>
+            <param name="subdir" value="en"/>
+            <param name="docname" value="dcm4che2-ref"/>
+        </antcall>
+        
+        <!-- Create the dcm4chee Reference PDF document. -->
+        <!-- TRANSLATOR: Duplicate these lines for your language -->
+        <antcall target="ref.all">
+            <param name="module.basedir" value="${dcm4chee-ref.dir}"/>
+            <param name="subdir" value="en"/>
+            <param name="docname" value="dcm4chee-ref"/>
+        </antcall>
+        <!-- example:
+        <antcall target="ref.all">
+            <param name="module.basedir" value="${dcm4chee-ref.dir}"/>
+            <param name="subdir" value="es"/>
+            <param name="docname" value="dcm4chee-ref"/>
+        </antcall>
+    	-->
+    </target>
+    
+    <target name="clean">
+        <!-- Delete build directory. -->
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="ref.all">
+        <!-- Compile the reference documentation for a single language in all formats. -->
+        <antcall target="ref.docpdf"/>
+        <antcall target="ref.dochtml"/>
+        <antcall target="ref.dochtmlsingle"/>
+        <antcall target="ref.htmlmisc"/>
+    </target>
+            
+    <target name="ref.docpdf.prepare">
+        <!-- Copy all the images to the output location, will be removed later. -->
+        <copy todir="${build.dir}/${module.basedir}/${subdir}/pdf/images">
+            <fileset dir="${basedir}/${module.basedir}/${subdir}/images">
+                <include name="**/*.png"/>
+                <include name="**/*.svg"/>
+                <include name="**/*.gif"/>
+            </fileset>
+        </copy>
+
+        <!-- Create the XSL/FO temporary file. -->
+        <java classname="com.icl.saxon.StyleSheet" fork="true" dir="${basedir}/${module.basedir}" maxmemory="128m" >
+            <classpath refid="lib.classpath"/>
+            <arg value="-o"/>
+            <arg value="${build.dir}/${module.basedir}/${subdir}/pdf/docbook_fop.tmp"/>
+            <arg value="${basedir}/${module.basedir}/${subdir}/master.xml"/>
+            <arg value="${basedir}/${module.basedir}/${subdir}/styles/${db.style.fopdf}"/>
+        </java>
+
+        <available property="custom.fop.userconfig.present" file="userconfig.xml" filepath="${basedir}/${module.basedir}/${subdir}/fop"/>
+    </target>
+
+    <target name="ref.docpdf.customized" depends="ref.docpdf.prepare" if="custom.fop.userconfig.present">
+
+        <copy todir="${build.dir}/${module.basedir}/${subdir}/pdf">
+            <fileset dir="${basedir}/${module.basedir}/${subdir}/fop">
+                <include name="*"/>
+            </fileset>
+        </copy>
+
+        <!-- Create a PDF from the XSL/FO, using customized fop userconfig.xml -->
+        <java classname="org.apache.fop.apps.Fop" fork="true" dir="${basedir}" maxmemory="128m" >
+            <classpath refid="lib.classpath"/>
+            <arg value="-c"/>
+            <arg value="${basedir}/${module.basedir}/${subdir}/fop/userconfig.xml"/>
+            <arg value="${build.dir}/${module.basedir}/${subdir}/pdf/docbook_fop.tmp"/>
+            <arg value="${build.dir}/${module.basedir}/${subdir}/pdf/${docname}.pdf"/>
+        </java>
+    </target>
+
+    <target name="ref.docpdf.normal" depends="ref.docpdf.prepare" unless="custom.fop.userconfig.present">
+        <!-- Create a PDF from the XSL/FO. -->
+        <java classname="org.apache.fop.apps.Fop" fork="true" dir="${basedir}">
+            <classpath refid="lib.classpath"/>
+            <arg value="${build.dir}/${module.basedir}/${subdir}/pdf/docbook_fop.tmp"/>
+            <arg value="${build.dir}/${module.basedir}/${subdir}/pdf/${docname}.pdf"/>
+        </java>
+    </target>
+    
+    <target name="ref.docpdf" depends="ref.docpdf.normal,ref.docpdf.customized"
+            description="Generates the PDF documentation only for a language (set lang)">
+        <!-- House keeping,delete temporary files. -->
+        <delete>
+            <fileset dir="${build.dir}/${module.basedir}/${subdir}/pdf" excludes="**/*.pdf"/>
+        </delete>
+        <delete  dir="${build.dir}/${module.basedir}/${subdir}/pdf/images"/>
+    </target>
+    
+    <target name="ref.dochtml"
+            description="Generates the HTML documentation only for a language (set lang)">
+
+        <mkdir dir="${build.dir}/${module.basedir}/${subdir}/html/"/>
+
+        <java classname="com.icl.saxon.StyleSheet" fork="true" dir="${build.dir}/${module.basedir}/${subdir}/html">
+            <classpath refid="lib.classpath"/>
+            <arg value="${basedir}/${module.basedir}/${subdir}/master.xml"/>
+            <arg value="${basedir}/${module.basedir}/${subdir}/styles/${db.style.html}"/>
+        </java>
+    </target>
+
+    <target name="ref.dochtmlsingle"
+        description="Generates the single-page HTML documentation only for a language (set lang)">
+
+        <mkdir dir="${build.dir}/${module.basedir}/${subdir}/html_single/"/>
+
+        <java classname="com.icl.saxon.StyleSheet" fork="true" dir="${basedir}/${module.basedir}">
+            <classpath refid="lib.classpath"/>
+            <arg value="-o"/>
+            <arg value="${build.dir}/${module.basedir}/${subdir}/html_single/index.html"/>
+            <arg value="${basedir}/${module.basedir}/${subdir}/master.xml"/>
+            <arg value="${basedir}/${module.basedir}/${subdir}/styles/${db.style.htmlsingle}"/>
+        </java>
+    </target>
+
+    <target name="ref.htmlmisc">
+
+        <!-- Copy images and CSS for HTML documentation, language specific. -->
+        <copy todir="${build.dir}/${module.basedir}/${subdir}/shared/images">
+            <fileset dir="${basedir}/${module.basedir}/${subdir}/images">
+                <include name="**/*.png"/>
+                <include name="**/*.gif"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}/${module.basedir}/${subdir}/shared/css">
+            <fileset dir="${basedir}/${module.basedir}/${subdir}/styles">
+                <include name="**/*.css"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+</project>

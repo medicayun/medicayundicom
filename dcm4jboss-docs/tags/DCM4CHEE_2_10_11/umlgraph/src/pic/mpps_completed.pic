@@ -1,0 +1,70 @@
+.PS
+boxwid=1.2
+
+copy "sequence.pic";
+
+# Object definition
+actor(M,"Modality");
+object(S,"DICOM Server");
+object(P,"MPPS SCP");
+object(W,"MWL SCP");
+object(U,"MPPS SCU");
+object(I,"IAN SCU");
+actor(O,"Order Filler");
+step();
+active(S);
+step();
+
+# Modality Procedure Step Completed
+active(M);
+message(M,S,"N-SET(mpps)");
+active(S);
+message(S,P,"handle(mpps)");
+inactive(S);
+inactive(M);
+active(P);
+message(P,W,"notify(mpps)");
+active(W);
+message(W,W,"*update(COMPLETED)");
+inactive(W);
+message(P,U,"notify(mpps)");
+active(U);
+async();
+message(U,U,"*queue(mpps)");
+sync();
+active(U);
+message(U,O,"N-SET(mpps)");
+inactive(U);
+inactive(U);
+active(O);
+step();
+inactive(O);
+message(P,I,"notify(mpps)");
+inactive(P);
+active(I);
+lconstraint(I,"{all objects received}");
+async();
+message(I,I,"*queue(ian)");
+active(I);
+sync();
+step();
+message(I,O,"N-CREATE(ian)" \
+"or C-STORE(scn)" \
+"");
+active(O);
+inactive(I);
+inactive(I);
+step();
+inactive(O);
+step();
+
+# Object lifeline completion
+complete(I);
+complete(S);
+complete(O);
+complete(M);
+complete(P);
+complete(W);
+complete(U);
+
+.PE

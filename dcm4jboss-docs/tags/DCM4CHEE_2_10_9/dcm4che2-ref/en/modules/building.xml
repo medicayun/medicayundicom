@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appendix id="dcm4che2-build" revision="1">
+  <title>Building dcm4che2 from Source Code</title>
+
+    <sect1 id="dcm4che2-build-overview" revision="1">
+        <title>Build Overview</title>
+
+        <para>In order to build all components of the dcm4che2 toolkit you will need to download and install:</para>
+            
+        <orderedlist>
+                    <listitem> <para>Ant 1.6.x [<ulink url="http://ant.apache.org">http://ant.apache.org</ulink>]</para></listitem>
+            
+                    <listitem> <para>Maven 2.0.2 [<ulink url="http://maven.apache.org/">http://maven.apache.org/</ulink>].  
+                        Maven 2.0.4 is the current version, but it contains a bug in the assembly task which messes up the dcm4che2 build.</para></listitem>
+        </orderedlist>
+        
+        <para>
+            In addition, you will have to download the dcm4che2 source code from the dcm4che project at <ulink url="http://sourceforge.net/cvs/?group_id=37982">SourceForge</ulink>.
+        </para>
+                
+         <para>
+            There are two pieces to building dcm4che2: building the DICOM dictionary, and building the software itself.  Building the dictionary is optional, 
+            as the standard dictionary is included in the application already.  However, if you want to customize the dictionary, or add items to it that have not 
+            yet been included in the standard yet, then knowing how to build the dictionary is a good thing.
+        </para>
+    </sect1>
+    
+    <sect1>
+        <title>Building dcm4che2</title>
+        <para>
+    	    Building dcm4che2 is relatively easy, as Maven manages the dependencies for you.  Assuming that you have the Maven executable scripts on your path...  Simply navigate to the root of the dcm4che2 source directory structure, and type 
+    	    <literal>mvn install</literal>, then <literal>cd dcm4che-dist</literal> and type <literal>mvn assembly::assembly</literal>.
+    	    This will build distributions of the dcm4che2 toolkit.  That's it!
+        </para>
+    </sect1>
+    
+    <sect1>
+        <title>The DICOM Data Dictionary</title>
+        
+        <para>
+            <literal>/dcm4che2/dcm4che2-core</literal> is the project that contains the base dictionary files and the build script that generates the 
+            serialized file which gets included in the distribution. The DICOM standard is contained in an <ulink url="http://www.openoffice.org/">OpenOffice</ulink> format. These 
+            documents are parsed using the appropriate DTD, and transformed (with XSL) into XML documents. These XML documents 
+            are then used as input to another XSL process which will generate <literal>org.dcm4che2.data.Tag.java</literal>, <literal>org.dcm4che2.data.UID.java</literal>, 
+            <literal>dictionary.xml</literal>, and <literal>uids.xml</literal>. The two Java files are compiled later as part of the dcm4che-core build process. The two XML files 
+            are used to generate serialized data dictionaries which are accessed at run time. These data dictionaries are <literal>ElementDictionary.ser</literal>, 
+            <literal>UIDDictionary.ser</literal>, and <literal>VRMap.ser</literal>.
+        </para>
+        
+        <para>
+            Currently the movement of the generated Java and XML files over to the <literal>/dcm4che2/dcm4che-core</literal> directory structure is manual, as well as the generation of the 
+            serialized data dictionaries. 
+        </para>
+        
+        <para>
+            Within this directory, you'll see the following structure:
+            <programlisting>
+dcm4che2-core-dict
+|
+----src
+    |
+    ----main
+        |
+        ----dtd
+        |
+        ----sxw
+        |
+        ----xml
+        |
+        ----xsl
+            </programlisting>
+        </para>
+        
+        <para>
+            The <literal>main</literal> directory contains the content subdirectories and the Ant build script.  The content subdirectories can be described as follows:
+        </para>
+            
+            <variablelist spacing="compact">
+                <varlistentry>
+                    <term>dtd</term>
+                    <listitem>
+                        <para>
+                            This directory contains all of the DTD for OpenOffice documents. The file names within this directory have <literal>.mod</literal>, or <literal>.dtd</literal> extensions.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>sxw</term>
+                    <listitem>
+                        <para>
+                            This directory contains the DICOM standard documents in OpenOffice.org format. These documents include Part 6 (Data Dictionary), Part 7 (Message Exchange), 
+                            Correction Items, and appropriate Supplements which contain DICOM UIDs, VR definitions, and Tag mappings. All of these documents can be found in Microsoft 
+                            Word format at the <ulink url="ftp://medical.nema.org/medical/">DICOM FTP</ulink> site. The documents are opened with OpenOffice.org Writer, and then saved 
+                            in that format (.sxw) to create the files within this directory.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>xml</term>
+                    <listitem>
+                        <para>
+                                This directory contains XML definitions of what will get included when the stylesheets are applied to create the Tag and UID Java classes. After the 
+                                OpenOffice DICOM standard documents have been rendered into XML, they will reside in the build target directory. The <literal>elements.xml</literal> and <literal>uids.xml</literal> 
+                                files reference these generated XML files. There also exists a <literal>private-uids.xml</literal> file which contains UIDs which are mainly used by dcm4chee 
+                                and other applications to initiate custom DICOM behavior.
+                        </para>
+                    </listitem>
+                </varlistentry>
+            <varlistentry>
+                    <term>xsl</term>
+                    <listitem>
+                        <para>
+                            This directory contains the XSL files which are used to perform all of the transformations on files. This includes transformation of the OpenOffice.org documents 
+                            into XML (<literal>dictionary.xml</literal>, <literal>uids.xml</literal>), and XML documents into Java classes (<literal>org.dcm4che2.data.Tag.java</literal>, <literal>org.dcm4che2.data.UID.java</literal>).
+                        </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+    </sect1>
+</appendix>

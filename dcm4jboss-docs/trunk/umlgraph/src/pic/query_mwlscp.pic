@@ -1,0 +1,32 @@
+.PS
+boxwid=1.2
+
+copy "sequence.pic";
+
+# Object definition
+actor(M,"Modality");
+object(S,"DICOM Server");
+object(W,"MWL SCP");
+step();
+active(S);
+step();
+
+# Worklist Query
+active(M);
+message(M,S,"C-FIND RQ(keys)");
+active(S);
+message(S,W,"handle(keys)");
+inactive(S);
+active(W);
+rmessage(W,M,"*C-FIND RSP(item)");
+inactive(W);
+step();
+inactive(M);
+step();
+
+# Object lifeline completion
+complete(W);
+complete(M);
+complete(S);
+
+.PE

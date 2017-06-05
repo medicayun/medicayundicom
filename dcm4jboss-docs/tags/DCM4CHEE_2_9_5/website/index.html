@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Open Source Clinical Image and Object Management</title>
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="description" content="dcm4chee, An open source Java implementation of the IHE Image Manager/Image Archive actors.  Based on the dcm4che open source Java DICOM toolkit.">
+   <meta name="keywords" content="DICOM,open source,Java,DICOM,IHE,HL7,Image Manager,Image Archive,XDS,XDS-I,XDSI,C-STORE,C-MOVE,C-FIND,N-ACTION,WADO,RID">
+</head>
+<body leftmargin="0" topmargin="0">
+    <table id="bannertable">
+        <tr>
+            <td id="bannerlogo"><img src="images/dcm4che.gif"></td>
+        </tr>
+    </table>
+
+    <table border="0">
+        <tr>
+            <td valign="top">
+                <div id="left">
+                <div id="nav">
+                
+                <div class="title">Community</div>
+                <div class="content">
+                    <a href="http://www.dcm4che.org">Home</a>
+                    <br />
+                    <a href="http://sourceforge.net/project/showfiles.php?group_id=37982">Download</a>
+                    <br/>
+                    <a href="http://www.dcm4che.org/confluence">Wiki</a>
+                    <br />
+                    <a href="http://sourceforge.net/forum/?group_id=37982">Forums</a>
+                    <br />
+                    <a href="http://sourceforge.net/mail/?group_id=37982">Mailing Lists</a>
+                    <br/>
+                    <a href="http://www.dcm4che.org/jira">JIRA Issue Tracking</a>
+                    <br/>
+                    <a href="http://sourceforge.net/projects/dcm4che">Development</a>
+                    <br />
+                </div>
+                
+                <div class="title">Documentation</div>
+                <div class="content">
+                    dcm4chee Archive<br/>
+                    &nbsp;&nbsp;Reference Manual<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="docs/reference/dcm4chee/html/index.html">HTML</a><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="docs/reference/dcm4chee/html_single/index.html">Single HTML Page</a><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="docs/reference/dcm4chee/pdf/dcm4chee-ref.pdf">PDF</a><br/>
+                    &nbsp;&nbsp;<a href="docs/conformance/dcm4chee-cs.pdf">DICOM Conformance</a><br/>
+                    &nbsp;&nbsp;<a href="docs/conformance/dcm4chee-is.pdf">IHE Integration</a><br/>
+                    <br/>
+                    dcm4che2 Toolkit<br/>
+                    &nbsp;&nbsp;Reference Manual<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="docs/reference/dcm4che/html/index.html">HTML</a><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="docs/reference/dcm4che/html_single/index.html">Single HTML Page</a><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="docs/reference/dcm4che/pdf/dcm4che-ref.pdf">PDF</a><br/>
+                    &nbsp;&nbsp;<a href="">API Documentation</a><br/>
+                    <br/>
+                    <a href="http://medical.nema.org/dicom/2006/">The DICOM Standard</a>
+                    <br/>
+                    <a href="http://www.hl7.org">HL7</a>
+                    <br/>
+                    <a href="http://www.ihe.net">IHE</a>
+                </div>                
+            </td>
+            <td valign="top">
+                <h2>Open Source Clinical Image and Object Management</h2>
+                <div id="bodytext">
+                    <p>
+                        dcm4che is a collection of open source applications and utilities for the healthcare enterprise.  These applications have been developed in the Java programming language for 
+                        performance and portability, supporting deployment on JDK 1.4 and up.
+                    </p>
+                    <p>
+                        At the core of the dcm4che project is a robust implementation of the DICOM standard.  The dcm4che-1.x DICOM toolkit 
+                        is used in many production applications across the world, while the current (2.x) version of the toolkit has been re-architected for high performance and flexibility.  
+                    </p>
+                    <p>
+                        Also contained within the dcm4che project is dcm4chee (the extra 'e' stands 
+                        for 'enterprise').  dcm4chee is an Image Manager/Image Archive (according to <acronym title="Integrating the Healthcare Enterprise">IHE</acronym>).
+                        The application contains the <acronym title="Digital Imaging and Communication in Medicine">DICOM</acronym>, <acronym title="Health Level 7">HL7</acronym> services
+                        and interfaces that are required to provide storage, retrieval, and workflow to a healthcare environment.  dcm4chee is pre-packaged and deployed within the <a href="http://www.jboss.org">JBoss</a> 
+                        application server.  By taking advantage of many JBoss features (<acronym title="Java Message Service">JMS</acronym>, <acronym title="Enterprise java Beans">EJB</acronym>, 
+                        Servlet Engine, etc.), and assuming the role of <a href="docs/conformance/dcm4chee-is.pdf">several IHE actors</a> for the sake of interoperability, the application provides many robust and scalable services:
+                    </p>
+                    
+                    <p>
+                        <h4>Services</h4>
+                        <table class="bodytable" cellspacing="0">
+                            <tr>
+                                <th>Service</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td class="label">Web-based UI</td>
+                                <td>
+                                    <p>
+                                        dcm4chee contains a robust user interface for administrators which runs entirely in a Web browser.
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">DICOM Storage</td>
+                                <td>
+                                    <p>
+                                        Acting as an archive, dcm4chee is able to store any type of DICOM object to standard file systems, with compression if necessary.
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">DICOM Query/Retrieve</td>
+                                <td>
+                                    <p>
+                                        Query the archive for DICOM objects, and retrieve them.
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><acronym title="Web Access to DICOM Objects">WADO</acronym> and <acronym title="Retrieve Information for Display">RID</acronym></td>
+                                <td>
+                                    <p>
+                                        Web access to the archived content.
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">Other DICOM Services</td>
+                                <td>
+                                    <p>
+                                        <acronym title="Modality Performed Procedure Step">MPPS</acronym>, <acronym title="General Purpose Worklist">GPWL</acronym>, 
+                                        <acronym title="Modality Worklist">MWL</acronym>, Storage Committment, Instance Availability Notification, Study Content Notification, 
+                                        Output Content to CD Media, Hanging Protocols, and more.
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">HL7 Server</td>
+                                <td>
+                                    <p>
+                                        An integrated HL7 server which can act on ADT, ORM, and ORU message types.
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">IHE Services</td>
+                                <td>
+                                    <p>
+                                        dcm4chee can happily exist in an IHE-capable environment by integrating with an <acronym title="Cross Enterprise Document Sharing">XDS</acronym>/<acronym title="Cross Enterprise Document Sharing for Imaging">
+                                        XDSI</acronym> registry and repository, acting as a secure node, and providing compliant auditing.
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="http://www.atlassian.com/software/jira/"><img border="0" alt="Atlassian JIRA Issue Tracking" src="images/jira.png" /></a><br/><br/>
+                    <a href="http://www.atlassian.com/software/confluence/"><img border="0" alt="Atlassian Confluence Enterprise Wiki" src="images/confluence.jpg" /></a><br/><br/>
+                    <a href="http://www.cenqua.com"><img src="http://www.cenqua.com/images/cenquad1.gif" width="89" height="33" border="0" alt="Supported by Cenqua"/></a><br/><br/>
+                    <a href="http://sourceforge.net/projects/dcm4che"><img src="images/sflogo.png" border="0" alt="dcm4che on SourceForge"/></a>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

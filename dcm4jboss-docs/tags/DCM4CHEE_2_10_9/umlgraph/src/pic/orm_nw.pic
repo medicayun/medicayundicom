@@ -1,0 +1,41 @@
+.PS
+boxwid=1.2
+
+copy "sequence.pic";
+
+# Object definition
+actor(O,"Order Filler");
+object(S,"HL7 Server");
+object(R,"ORM Service");
+object(W,"MWL SCP");
+object(D,"Device Service");
+step();
+active(S);
+step();
+
+# Procedure Scheduled
+active(O);
+message(O,S,"ORM^O01(NW)");
+active(S);
+message(S,R,"handle(orm)");
+active(R);
+inactive(S);
+inactive(O);
+message(R,D,"addStationInfo(items)");
+active(D);
+message(R,W,"*create(item)");
+active(W);
+inactive(D);
+inactive(R);
+step();
+inactive(W);
+step();
+
+# Object lifeline completion
+complete(O);
+complete(R);
+complete(W);
+complete(D);
+complete(S);
+
+.PE

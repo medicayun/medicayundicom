@@ -1,0 +1,52 @@
+.PS
+boxwid=1.2
+
+copy "sequence.pic";
+
+# Object definition
+actor(M,"Modality");
+object(S,"DICOM Server");
+object(P,"MPPS SCP");
+object(W,"MWL SCP");
+object(U,"MPPS SCU");
+actor(O,"Order Filler");
+step();
+active(S);
+step();
+
+# Modality Procedure Step In Progress
+active(M);
+message(M,S,"N-CREATE(mpps)");
+active(S);
+message(S,P,"handle(mpps)");
+inactive(M);
+inactive(S);
+active(P);
+message(P,W,"notify(mpps)");
+active(W);
+message(W,W,"*update(STARTED)");
+inactive(W);
+message(P,U,"notify(mpps)");
+inactive(P);
+active(U);
+async();
+message(U,U,"*queue(mpps)");
+sync();
+active(U);
+message(U,O,"N-CREATE(mpps)");
+inactive(U);
+inactive(U);
+active(O);
+step();
+inactive(O);
+step();
+
+# Object lifeline completion
+complete(S);
+complete(M);
+complete(P);
+complete(W);
+complete(U);
+complete(O);
+
+.PE

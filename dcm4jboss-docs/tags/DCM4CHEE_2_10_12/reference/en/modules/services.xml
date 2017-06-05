@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="dcm4chee-services" revision="1">
+  <title>dcm4chee Services</title>
+
+    <sect1 id="services-overview">
+        <title>Overview</title>
+
+        <para>
+            dcm4chee contains a number of services...
+            XMBean and EJB infrastructure...
+            diagram...
+        </para>
+    
+    </sect1>
+    
+    <sect1 id="services-ref">
+        <title>Service Reference</title>
+        
+        <sect2 id="core-archive">
+            <title>Core Archive Services</title>
+            <para>
+                The core archive services are implemented as EJBs and JBoss XMBeans.  They provide services to the 
+                user interface, DICOM server, HL7 server, etc.  They are implemented within the <literal>dcm4chee-sar</literal>
+                and <literal>dcm4chee-ejb</literal> code modules, and are configured by manipulating their XML descriptor files.
+            </para>
+            
+            <sect3 id="ae-service">
+                <title>AE Title Configuration Service</title>
+                <para>
+                     Used to list/add/remove AE configuration entities - alternatively to more convenient
+   AE Management Page of the <ulink url='hliteralp://localhost:8080/dcm4chee-web/'>
+   Administration Web Application</ulink>.
+   Used/Required by various DICOM services (Query/Retrieve SCP, Storage Commitment SCU/SCP,
+   DICOM Hanging Protocol SCP) to 'guess' the port number of DICOM peer Application Entities,
+   if no AE configuration entry for a given AE Title matches.
+                </para>
+            </sect3>
+            
+            <sect3 id="audit-service">
+                <title>Audit Logger</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="comp-service">
+                <title>Compression Service</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="cons-service">
+                <title>Consistency Check Service</title>
+                <para>
+                    Sets up a schedule to automatically check the consistency of compressed images. 
+                    You can set image compression rules in the Compression Service. You can also 
+                    use it directly via JMX to manually check the consistency of images.
+                </para>
+            </sect3>
+            
+            <sect3 id="cont-service">
+                <title>Content Edit service</title>
+                <para>
+                    Identifies where patient information and study information updates are sent and received.
+                 </para>
+                 <para>
+       		    Use the values in <literal>ReceivingApplication</literal> and <literal>ReceivingFacility</literal> aliteralributes or the 
+                    <literal>SendingApplication</literal> or <literal>SendingFacility</literal> aliteralributes to configure specific
+                    forwarding rules in the <literal>HL7SendService</literal> for patient information updates received from this
+                    Content Edit Service. 
+                </para>
+                 <para>
+                    Use the values in the <literal>CalledAETitle</literal> and the <literal>CallingAETitle</literal> aliteralributes to configure
+                    specific forwarding rules in the <literal>StudyMgtScu</literal> Service for study information updates
+                    received from this Content Edit Service.
+                </para>
+                 <para>
+                     The Content Edit Service sends also <literal>PatientUpdated</literal> and <literal>SeriesUpdated</literal> JMX Notifications. 
+                     This allows to forward instances to systems not supporting either StudyMgtScu or HL7 ADT patient updates.
+                 </para>
+                 <para>
+                     In this case the receiver must use the received instances for updating!
+                     Use the <literal>ForwardService</literal> to configure this forward option.
+                </para>
+            </sect3>
+            
+            <sect3 id="dcm-service">
+                <title>DICOM Server</title>
+                <para>
+                    Sends incoming service reqest to registered DICOM services. When 
+                    configuring, select the TCP port listening port, the security protocol 
+                    for communication, timeouts, and the maximum number of connected DICOM clients.
+                </para>
+            </sect3>
+            
+            <sect3 id="dvc-service">
+                <title>Device Service</title>
+                <para>
+                    Use the commands in this service to import device mapping files, delete 
+                    device mappings, delete a specific device, get a list of all devices for a 
+                    specific protocol, and add the scheduled station name AE title, the name, 
+                    and the modality to the given SPS items.
+                </para>
+            </sect3>
+            
+            <sect3 id="echo-service">
+                <title>Echo Service</title>
+                <para>
+                    Use this service to test the AE configurations (host and port and protocol) you 
+                    defined with the AE Configuration Service. First, you must set the CallingAETitle 
+                    used in echo associations used to  test those AE configurations.
+                </para>
+            </sect3>
+            
+            <sect3 id="export-service">
+                <title>Teaching File and Clinical Trial Export Manager</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="fc-service">
+                <title>File Copy Service</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="fix-pat-service">
+                <title>FixPatientAttributes Service</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="forward-service">
+                <title>DICOM Forward Service</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="fsm-service">
+                <title>File System Management Service</title>
+                <para>
+                    Specifies the location of
+                    file systems in which DICOM objects received from the Store SCP Server 
+                    are stored. You can also set up rules to delete the most infrequently
+                    accessed studies.
+                </para>
+            </sect3>
+            
+            <sect3 id="gpwl-feed-service">
+                <title>DICOM GPWL Feed Service</title>
+                <para>
+                    Used to add entries to the General Purpose Worklist, triggered by received MPPS N-Set messages.
+                </para>
+            </sect3>
+            
+            <sect3 id="gpwl-scp-service">
+                <title>DICOM GPWL Service Class Providers</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="gpwl-scu-service">
+                <title>DICOM GPWL SCU Service</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="hang-service">
+                <title>DICOM Hanging Protocol SCP</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="ian-service">
+                <title>DICOM IAN/SCN SCU Service</title>
+                <para>
+                    Used to notify DICOM peers about available instances via Instance Available Notifications and Study Content Notifications.
+                </para>
+            </sect3>
+            
+            <sect3 id="key-service">
+                <title>DICOM Key Object Generation Service</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="mcm-service">
+                <title>DICOM Media Creation Management SCU</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="md5-service">
+                <title>MD5 Check Service</title>
+                <para>
+                    Used to check if the MD5 sum of the new object differs
+                    from the MD5 sum of the existing file. If the MD5 sum does not match, the files may be corrupted.
+                </para>
+            </sect3>
+            
+            <sect3 id="move-service">
+                <title>Move SCU Service</title>
+                <para>
+                    rocess move orders. Invokes DICOM 
+                    Retrieve requests, typically from the archive's own DICOM
+                    Query/Retrieve Service (SCP).
+                </para>
+            </sect3>
+            
+            <sect3 id="mpps-em-service">
+                <title>MPPS Emulator</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="mpps-scp-service">
+                <title>DICOM Modality Performed Procedure Step (MPPS) SCP</title>
+                <para>
+                    Used to define the calling and called AE titles for receiving MPPS messages.
+                </para>
+            </sect3>
+            
+            <sect3 id="mpps-scu-service">
+                <title>DICOM Modality Performed Procedure Step (MPPS) SCU</title>
+                <para>
+                    Used  to forward MPPS messages received by
+                    the MPPS SCP Service.
+                </para>
+            </sect3>
+            
+            <sect3 id="mwl-scp-service">
+                <title>DICOM Modality Worklist SCP</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="mwl-scu-service">
+                <title>Modality Worklist SCU</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="pps-exc-service">
+                <title>Performed Procedure Step (PPS) Exception Managment</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="pps-scu-service">
+                <title>PPS SCU Service</title>
+                <para>
+                    Forwards GP-PPS messages received by the PPS SCP Service.
+                </para>
+            </sect3>
+            
+            <sect3 id="qr-service">
+                <title>DICOM Query/Retrieve SCP</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="mail-service">
+                <title>Simple SMTP Mail Sender</title>
+                <para>
+                    Used to send email messages through SMTP.
+                </para>
+            </sect3>
+            
+            <sect3 id="stgcmt-service">
+                <title>DICOM Storage Commitment SCU/SCP</title>
+                <para>
+                    Provides a DICOM Storage 
+                   Commitment Service in the Service Class Provider
+                   (SCP) and the Service Class User (SCU) Role. When acting as the SCP,
+                   the service handles storage commitment requests that it receives 
+                   from modalities or evidence creators (workstations). 
+                   When acting as the SCU, it may request storage
+                   commitment for objects for itself that were retrieved from the archive to a remote
+                   application. Typically this application is a further archive 
+                   instance acting as a long-term or central archive.
+                </para>
+            </sect3>
+            
+            <sect3 id="store-service">
+                <title>DICOM Storage SCP</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="st-info-service">
+                <title>Study Information Service</title>
+                <para>
+                    Used to retrieve information about a study, or about a series of image in a study.
+                </para>
+            </sect3>
+            
+            <sect3 id="st-rec-service">
+                <title>Study Reconciliation Service</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="st-stat-service">
+                <title>Study Status Service</title>
+                <para>
+                    used to update Study Status triggered by receive
+                    of General Purpose Performed Procedure Step N-CREATE-RQ with particular
+                    Performed Work Item Code by General Purpose Performed Procedure Step SCP.
+                </para>
+            </sect3>
+            
+            <sect3 id="st-mgmt-scp-service">
+                <title>Private Study Management Service SCP</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="st-mgmt-scu-service">
+                <title>DICOM Modality Worklist SCU</title>
+                <para>
+                    used to forward 
+                   messages received by private Study Management Service SCP Service. You must use the Content edit 
+                    service to identify where study information updates are sent and received. Use the values in the 
+                   CalledAETitle and the CallingAETitle attributesto configure
+                   specific forwarding rules in this StudyMgtScu Service for study information updates
+                   received from the Content Edit Service
+                </para>
+            </sect3>
+            
+            <sect3 id="fsm-status-service">
+                <title>Check File Status Service</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="tls-conf-service">
+                <title>TLS Configuration</title>
+                <para>
+                </para>
+            </sect3>
+            
+            <sect3 id="xdsi-service">
+                <title>XDS-I Service</title>
+                <para>
+                    Cross-enterprise Document Sharing for Imaging. (Imaging Document Source actor)
+                </para>
+            </sect3>
+        </sect2>
+
+  </sect1>
+</chapter>

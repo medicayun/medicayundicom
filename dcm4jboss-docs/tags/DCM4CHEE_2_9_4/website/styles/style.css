@@ -1,0 +1,134 @@
+body {
+  font: normal x-small verdana, arial, helvetica, sans-serif;
+  font-size: 75%;
+  background-color: #fff;
+}
+
+a:link {
+    text-decoration: none; color: blue; background: transparent;
+}
+
+a:visited {
+    text-decoration: none; color: blue; background: transparent;
+}
+
+a:hover {
+    text-decoration: underline; color: blue; background: transparent;
+}
+
+a:active {
+    text-decoration: none; color: #666; background: transparent;
+}
+
+/* hover-help: usage: <acronym title="Here is a bit of info about the text">text</acronym> */
+acronym {
+    border-bottom:1px dotted #A2B0B1;
+    cursor:help;
+}
+
+h1 { font-size: 24px; font-weight: bold; margin-left:10px}
+
+h2 { font-size: 16px; font-weight: bold; margin-left:10px}
+ 
+h3 { font-size: 12px; font-weight: bold; margin-left:10px}
+
+h4 { font-size: 12px; font-weight: bold; margin-left:10px;   font-style: italic}
+     
+p { font-size: 11px }
+
+ol { font-size: 11px }
+
+ul { font-size: 11px }
+
+#bodytext{
+  margin-left: 10px; 
+}
+
+.bodytable {
+  background-color: #ccc;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-bottom-color: #ccc;
+  border-left-color: #ccc;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  margin: 10px;
+  margin-left: 20px;
+}
+
+.bodytable td {
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-top-color: #ccc;
+  border-right-color: #ccc;
+  border-top-style: solid;
+  border-right-style: solid;
+  background-color: #fff;
+  font-size: 80%;
+  padding: 6px;
+}
+
+.bodytable th {
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-top-color: #ccc;
+  border-right-color: #ccc;
+  border-top-style: solid;
+  border-right-style: solid;
+  font-size: 70%;
+  background-color: #888;
+  color:#fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 2px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.label {
+  color:#000;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+table#bannertable {
+    background:#ffffff url('../images/bg.gif') repeat-x bottom;
+    width: 100%; font-style:normal; font-variant:normal; font-weight:normal; font-size:10px; font-family:verdana, arial, sans-serif
+}
+
+table#bannertable td {
+    font: 10px verdana, arial, sans-serif;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+table#bannertable td#bannerlogo {
+    text-align: left;
+    width: 175px;
+    height: 50px;
+}
+
+div#left {
+  float: left;
+  margin: 8px 0px;
+  background-color: transparent;
+}
+
+div#nav {
+  padding: 8px;
+  border: 1px solid #333;
+  width: 152px;
+}
+
+div#nav .title {
+  border-bottom: solid 1px #C3CFE5;
+  text-align: left;
+  margin-bottom: 0px;
+  color: #333;
+  font-weight: bold;
+}
+
+div#nav .content {
+  padding: 0px 0px 8px 8px;
+}

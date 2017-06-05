@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="dcm4che-utilities" revision="1">
+  <title>dcm4che2 DICOM Toolkit Utilities</title>
+
+    <sect1 id="utilities-overview" revision="1">
+        <title>Overview</title>
+    
+        <para>The base dcm4che toolkit contains a number of useful sample
+        applications that may be used in conjunction with dcm4chee, with another
+        archive application, or to operate on DICOM objects in a standalone
+        fashion.</para>
+    
+        <para>The latest version of dcm4che is 2.0.6 within the
+        dcm4che2 CVS code line. dcm4che2 is the next generation of the toolkit, replacing 
+        dcm4che14.  dcm4che14 is still used within dcm4chee, but that will soon change.
+        </para>
+    
+        <para>The dcm4che2 utilities are a great place to get started with the
+        toolkit.  They're useful applications, and the code can be very helpful if 
+        you are interested in writing your own DICOM applications.
+        They demonstrate most of the operations that you will have need
+        of.</para>
+
+    </sect1>    
+    
+    <sect1 id="utilities-usage" revision="1">
+        <title>Basic Usage</title>
+        
+        <para>Using the dcm4che2 utilities and samples.</para>
+        
+        <sect2 id="dcm2txt">
+            <title>dcm2txt</title>
+            <para>
+                The dcm2txt utility will take a DICOM file as input and dump it out to the console as text.
+            </para>
+            
+            <para>Usage:</para>
+            
+            <para>
+                <literal><![CDATA[
+                    dcm2txt [-cVh] [-l <max>] [-w <max>] <dcmfile>
+                ]]></literal>
+            </para>
+            
+            <para>Options:</para>
+            
+            <programlisting><![CDATA[
+ -V,--version           print the version information and exit
+ -c,--compact          dump without attribute names
+ -h,--help                print this message
+ -l,--vallen <max>   limit value prompt to <maxlen> characters, by
+                               default: 64
+ -w,--width <max>  maximal number of characters per line, by default: 80
+            ]]></programlisting>
+        </sect2>
+        
+        <sect2 id="dcmdir">
+            <title>dcmdir</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="dcm2xml">
+            <title>dcm2xml</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="dcmecho">
+            <title>dcmecho</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="dcmgpwl">
+            <title>dcmgpwl</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="dcmmwl">
+            <title>dcmmwl</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="dcmof">
+            <title>dcmof</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="dcmqr">
+            <title>dcmqr</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="dcmrcv">
+            <title>dcmrcv</title>
+            <para>
+                This application implements a DICOM server listening on a specified <literal>PORT</literal> for incoming association
+                requests. If no local IP address of the network interface is specified
+                connections on any/all local addresses are accepted. If an <literal>AET</literal> is specified,
+                only requests with a matching called AE title will be accepted.
+            </para>
+            
+            <para>Usage:</para>
+            
+            <para>
+                <literal><![CDATA[
+                    dcmrcv [Options] [<aet>[@<ip>]:]<port>
+                ]]></literal>
+            </para>
+            
+            <para><literal>dcmrcv DCMRCV:11112 --dest /tmp</literal></para>
+            
+            <para>Starts the server listening on port 11112, accepting association requests
+                with DCMRCV as the called AE title. Received objects are stored to <literal>/tmp</literal>.</para>
+
+            <para>Options:</para>
+            
+            <programlisting><![CDATA[
+ -soclosedelay <in millis>   delay in ms for Socket close after sending A-ABORT,
+                      50ms by default
+ -releaseTO <in millis>      timeout in ms for receiving A-RELEASE-RP, 5s by
+                                        default
+ -requestTO <in millis>      timeout in ms for receiving -ASSOCIATE-RQ, 5s by default
+ -idleTO <in millis>         timeout in ms for receiving DIMSE-RQ, 60s by default
+ -reaper <in millis>         period in ms to check for outstanding DIMSE-RSP, 10s
+                                       by default
+ -rspdelay <in millis>       delay in ms for DIMSE-RSP; useful for testing
+                                        asynchronous mode
+ -pdv1                send only one PDV in one P-Data-TF PDU, pack command
+                      and data PDV in one P-DATA-TF PDU by default.
+ -sndpdulen <KB>      maximal length in KB of sent P-DATA-TF PDUs, 16KB by
+                      default
+ -rcvpdulen <KB>      maximal length in KB of received P-DATA-TF PDUs,
+                      16KB by default
+ -V,--version         print the version information and exit
+ -async <maxops>      maximum number of outstanding operations performed
+                      asynchronously, unlimited by default.
+ -bigendian           accept also Explict VR Big Endian transfer syntax.
+ -bufsize <KB>        minimal buffer size to write received object to
+                      file, 1KB by default
+ -defts               accept only default transfer syntax.
+ -dest <dir>          store received objects into files in specified
+                      directory <dir>. Do not store received objects by default.
+ -h,--help            print this message
+ -native              accept only transfer syntax with uncompressed pixel
+                      data.
+ -sorcvbuf <KB>       set SO_RCVBUF socket option to specified value in KB
+ -sosndbuf <KB>       set SO_SNDBUF socket option to specified value in KB
+ -tcpdelay            set TCP_NODELAY socket option to false, true by
+                      default
+            ]]></programlisting>
+        </sect2>
+        
+        <sect2 id="dcmsnd">
+            <title>dcmsnd</title>
+            <para>
+                This application acts as a Storage SCU to send DICOM objects to a Storage SCP. 
+                It loads composite DICOM Object(s) from specified DICOM file(s) or a directory structure and sends them to
+                the specified remote Application Entity. If a directory is specified, all DICOM
+                objects in files under that directory and further sub-directories are sent.
+                If <literal>PORT</literal> is not specified, DICOM default port 104 is assumed. If no
+                 <literal>HOST</literal> is specified, localhost is assumed.
+            </para>
+            
+            <para>Usage:</para>
+            
+            <para>
+                <literal><![CDATA[
+                    dcmsnd [Options] <aet>[@<host>[:<port>]] <file>|<directory>...</literal></para>
+                ]]></literal>
+            </para>
+            
+            <para>Examples:</para>
+            
+            <para><literal>dcmsnd DCMRCV@localhost:11112 image.dcm</literal></para>
+            
+            <para>Opens association to local server, listening on port 11112 with called application entity title 
+            <literal>DCMRCV</literal>. Sends the DICOM file <literal>image.dcm</literal> to the
+                server.</para>
+                        
+            <para>Options (overrides presets defined in resource <literal>dcmsnd.cfg</literal>):</para>
+                <programlisting><![CDATA[
+ -soclosedelay <in millis>   delay in ms for Socket close after sending A-ABORT,
+                                          50ms by default
+ -acceptTO <in millis>       timeout in ms for receiving A-ASSOCIATE-AC, 5s by
+                                        default
+ -releaseTO <in millis>      timeout in ms for receiving A-RELEASE-RP, 5s by
+                                        default
+ -reaper <in millis>         period in ms to check for outstanding DIMSE-RSP, 10s
+                                        by default
+ -rspTO <in millis>          timeout in ms for receiving DIMSE-RSP, 60s by
+                      default
+ -lowprior            LOW priority of the C-STORE operation, MEDIUM by
+                      default
+ -highprior           HIGH priority of the C-STORE operation, MEDIUM by
+                      default
+ -pdv1                send only one PDV in one P-Data-TF PDU, pack command
+                      and data PDV in one P-DATA-TF PDU by default.
+ -sndpdulen <KB>      maximal length in KB of sent P-DATA-TF PDUs, 16KB by
+                      default
+ -rcvpdulen <KB>      maximal length in KB of received P-DATA-TF PDUs,
+                      16KB by default
+ -L <aet[@host]>      set AET and local address of local Application
+                      Entity, use ANONYMOUS and pick up any valid local address to bind the
+                      socket by default
+ -V,--version         print the version information and exit
+ -async <maxops>      maximum number of outstanding operations it may
+                      invoke asynchronously, unlimited by default.
+ -bufsize <KB>        transcoder buffer size in KB, 1KB by default
+ -connectTO <in millis>      timeout in ms for TCP connect, no timeout by default
+ -h,--help            print this message
+ -sorcvbuf <KB>       set SO_RCVBUF socket option to specified value in KB
+ -sosndbuf <KB>       set SO_SNDBUF socket option to specified value in KB
+ -tcpdelay            set TCP_NODELAY socket option to false, true by
+                      default
+                    ]]></programlisting>
+                
+        </sect2>
+        
+        <sect2 id="dcmwado">
+            <title>dcmwado</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="jpg2dcm">
+            <title>jpg2dcm</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="logger">
+            <title>logger</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="mkelmdic">
+            <title>mkelmdic</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="mkuiddic">
+            <title>mkuiddic</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="mkvrmap">
+            <title>mkvrmap</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="pdf2dcm">
+            <title>pdf2dcm</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="rgb2ybr">
+            <title>rgb2ybr</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="txt2dcmsr">
+            <title>txt2dcmsr</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+        <sect2 id="xml2dcm">
+            <title>xml2dcm</title>
+            <para>
+                TODO
+            </para>
+        </sect2>
+        
+    </sect1>
+</chapter>

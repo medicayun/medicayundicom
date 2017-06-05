@@ -1,0 +1,68 @@
+.PS
+boxwid=1.2
+
+copy "sequence.pic";
+
+# Object definition
+actor(O,"Order Filler");
+object(S,"HL7 Server");
+object(R,"ORM Service");
+object(D,"Device Service");
+object(W,"MWL SCP");
+step();
+active(S);
+step();
+
+# Procedure Canceled
+active(O);
+message(O,S,"ORM^O01(CA)");
+active(S);
+message(S,R,"handle(orm)");
+active(R);
+inactive(S);
+inactive(O);
+message(R,W,"*delete(spsid)");
+active(W);
+inactive(R);
+
+# Procedure Updated
+active(O);
+message(O,S,"ORM^O01(XO)");
+inactive(W);
+active(S);
+message(S,R,"handle(orm)");
+active(R);
+inactive(S);
+inactive(O);
+message(R,D,"addStationInfo(items)");
+active(D);
+step();
+inactive(D);
+message(R,W,"*update(item)");
+active(W);
+inactive(R);
+
+# Procedure Discontinued
+active(O);
+message(O,S,"ORM^O01(DC)");
+inactive(W);
+active(S);
+message(S,R,"handle(orm)");
+active(R);
+inactive(S);
+inactive(O);
+message(R,W,"*updateStatus(spsid, DISCONTINUED)");
+active(W);
+inactive(R);
+step();
+inactive(W);
+step();
+
+# Object lifeline completion
+complete(O);
+complete(R);
+complete(W);
+complete(S);
+complete(D);
+
+.PE

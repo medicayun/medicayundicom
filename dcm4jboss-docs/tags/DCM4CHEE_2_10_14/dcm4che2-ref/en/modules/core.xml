@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="dcm4che-core" revision="1">
+  <title>Working with DICOM Files</title>
+
+    <sect1 id="core-overview" revision="1">
+        <title>Overview</title>
+    
+        <para>
+        </para>
+    </sect1>
+</chapter>

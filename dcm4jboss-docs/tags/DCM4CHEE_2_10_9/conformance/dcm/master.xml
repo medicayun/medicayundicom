@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding="iso-8859-1"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+                      "../../support/docbook-dtd/docbookx.dtd"
+[
+<!ENTITY dcm4chee-cs               SYSTEM "modules/dcm4chee-cs.xml">
+]>
+
+<book lang="en">
+
+    <bookinfo>
+        <title>dcm4chee Open Source Image Manager/Archive</title>
+        <subtitle>DICOM Conformance Statement</subtitle>
+        <releaseinfo>0.9.x</releaseinfo>
+    </bookinfo>
+
+    <toc/>
+
+    <preface id="preface" revision="1">
+        <title>Preface</title>
+
+        <para>
+            We need a better introduction than the following.
+        </para>
+        
+        <para>
+            dcm4chee is an implementation of an <acronym>IHE</acronym> (Integrating the Healthcare Enterprise) compliant
+            Image Archive and Report Repository. This includes the capabilities
+        </para> 
+        
+        <itemizedlist>
+            <listitem><para>to store and retrieve various kinds of DICOM Objects such as: 
+                <orderedlist>
+                    <listitem><para>
+                        Images from multiple modalities,
+                    </para></listitem>
+                    <listitem><para>
+                        Grayscale Presentation States [<acronym>GSPS</acronym>], which specifies the
+                        presentations of images as grayscaling, zoom, text and graphical annotations,
+                    </para></listitem>
+                    <listitem><para>
+                        Key Objects [<acronym>KO</acronym>], which specifies a particular selection of
+                        images for a specified reason and with an attached note,
+                    </para></listitem>
+                    <listitem><para>
+                        Structured Reports [<acronym>SR</acronym>].
+                    </para></listitem> 
+                </orderedlist>
+            </para></listitem>
+            <listitem><para>
+                to process HL7 notification messages from the Order Filler, about Procedure
+                Scheduling, Procedure Updates and Patient Information Updates,
+            </para></listitem>
+            <listitem><para>
+                to process DICOM Modality Performed Procedure Step [<acronym>MPPS</acronym>]
+                messages from modalities and forward them to the Order Filler.
+            </para></listitem> 
+        </itemizedlist> 
+        
+        <para>
+            dcm4chee is a server application. Its
+            Web-based User Interface is intended for system configuration and monitoring by
+            system adminstrators.
+        </para> 
+    </preface>
+
+    &dcm4chee-cs;
+</book>
+

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding="iso-8859-1"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+                      "../../support/docbook-dtd/docbookx.dtd"
+[
+<!ENTITY install               SYSTEM "modules/install.xml">
+<!ENTITY core               SYSTEM "modules/core.xml">
+<!ENTITY net               SYSTEM "modules/net.xml">
+<!ENTITY util           SYSTEM "modules/util.xml">
+<!ENTITY building          SYSTEM "modules/building.xml">
+]>
+
+<book lang="en">
+
+    <bookinfo>
+        <title>dcm4che Open Source DICOM</title>
+        <subtitle>dcm4che Reference Documentation</subtitle>
+        <releaseinfo>2.0.6</releaseinfo>
+    </bookinfo>
+
+    <toc/>
+
+    <preface id="preface" revision="1">
+        <title>Preface</title>
+
+        <para>
+            dcm4che is a high performance, open source implementation of the DICOM standard.  It is developed in the Java 
+            programming language.  Version 2.x of this toolkit (which is what this document covers) is the next generation of 
+            the popular dcm4che14 version.  The toolkit has undergone a re-architecting with an improvement over the 1.x 
+            versions with regards to speed, memory usage, and a more robust DICOM dictionary implementation.
+        </para>
+        
+        <para>
+            The best way to get started with the toolkit is to use, and examine the code of, the sample applications documented 
+            in <xref linkend="dcm4che-utilities"/>.  These are full featured applications that are able to be used in a stand-along
+            fashion, and demonstrate the capabilities of the toolkit.
+        </para> 
+        
+        <para>
+            The dcm4che toolkit implements the <ulink url="http://medical.nema.org/">DICOM 2006 standard</ulink>.  As such, 
+            it is beneficial to the user that they have a good understanding of that standard.
+        </para>
+    </preface>
+
+    &install;
+    
+    &core;
+    
+    &net;
+    
+    &util;
+
+    &building;
+
+</book>
+

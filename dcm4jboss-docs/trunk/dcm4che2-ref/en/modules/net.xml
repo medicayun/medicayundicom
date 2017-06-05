@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="dcm4che-net" revision="1">
+  <title>DICOM Network Operations</title>
+
+    <sect1 id="net-overview" revision="1">
+        <title>Overview</title>
+    
+        <para>
+        </para>
+    </sect1>
+</chapter>

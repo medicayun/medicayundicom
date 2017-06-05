@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="dcm4che2-installation" revision="1">
+  <title>Installation Instructions</title>
+
+  <sect1 id="dcm4che2-install" revision="1">
+    <title>Minimum System Requirements and Supporting Software</title>
+
+    <para>In order to start using dcm4che, you must first download the
+    distribution from SourceForge. 
+    To begin:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Download the binary distribution of dcm4che2 from the Files
+        page of the dcm4che project page on SourceForge (<literal><ulink
+        url="http://sourceforge.net/projects/dcm4che/">http://sourceforge.net/projects/dcm4che/</ulink></literal>).
+        The current version available for download is
+        <literal>dcm4che-2.0.6.tar.bz2</literal>. If you plan on writing your own
+        DICOM applications, it is recommended that you download the source
+        distribution as well. The source may then be linked in with your IDE
+        for debugging and browsing purposes.</para>
+      </listitem>
+
+      <listitem>
+        <para>Extract the archive file to the directory of your choice.</para>
+      </listitem>
+    </orderedlist>
+    
+    <para>After extracting the contents, you should see the following directory structure:</para>
+    
+    <programlisting><![CDATA[
+dcm4che-2.0.6
+|
+|_bin
+|
+|_dtd
+|
+|_etc
+    |
+    |_dcmof
+    |
+    |_logger
+|
+|_lib
+|
+|_xml
+    ]]></programlisting>
+    
+        <para>This directory listing may be described as follows:</para>
+
+        <variablelist spacing="compact">
+            <varlistentry>
+                <term>dcm4che-2.0.6</term>
+                <listitem>
+                    <para>
+                        This is the root directory, named by "dcm4che" and the version.  It doesn't 
+                        contain anything other than the following subdirectories.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>bin</term>
+                <listitem>
+                    <para>
+                        The <literal>bin</literal> directory contains Unix and Windows scripts to run the sample applications.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>dtd</term>
+                <listitem>
+                    <para>
+                        The <literal>dtd</literal> directory contains DTD files which define the XML format of the DICOM data
+                        dictionary used by dcm4che2, and the XML format of DICOM objects
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>etc</term>
+                <listitem>
+                    <para>
+                        The <literal>etc</literal> directory contains configuration used by the sample applications.  There are a
+                        couple of subdirectories as well:
+                        <itemizedlist>
+                            <listitem>dcmof - information used by the Order Filler samples, currently only a sample Modality Worklist
+                                            (MWL) Item (in XML format for submission to dcm4chee) resides here</listitem>
+                            <listitem>logger - a sample log4j.properties file which defines a syslog appender.</listitem>
+                        </itemizedlist>
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>lib</term>
+                <listitem>
+                    <para>
+                        The <literal>lib</literal> directory contains the dcm4che2 libraries, all of the third party libraries that the toolkit 
+                        depends upon, and individual JAR files for all of the samples.
+                    </para>
+                </listitem>
+            </varlistentry>
+            <varlistentry>
+                <term>xml</term>
+                <listitem>
+                    <para>
+                        The <literal>xml</literal> directory contains the XML definition of the DICOM data dictionary, and the DICOM UIDs
+                        that the toolkit will use.  These items are inclusive of the DICOM 2006 standard, and are actually generated from 
+                        the standard documents during the build process.
+                    </para>
+                </listitem>
+            </varlistentry>
+        </variablelist>
+
+    </sect1>
+</chapter>

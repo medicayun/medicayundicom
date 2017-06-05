@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="dcm4chee-installation" revision="1">
+  <title>Installation Instructions</title>
+
+  <sect1 id="install-requirements" revision="1">
+    <title>Minimum System Requirements and Supporting Software</title>
+
+    <para>dcm4chee is a Java-based application for the management of digital
+    clinical objects. As such, it should be run under the best hardware
+    available for production systems. The minimal system configuration is as
+    follows:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>512 MB RAM</para>
+      </listitem>
+
+      <listitem>
+        <para>100 MB hard disk space (in addition to archive disk space for
+        object storage and caching)</para>
+      </listitem>
+
+      <listitem>
+        <para>400 MHz CPU or better</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>dcm4chee requires a database to store transient and permanent
+    information from the clinical workflow and objects. The authors of
+    dcm4chee realize that database expertise varies from site to site, and has
+    included support for several different databases for deployment with the
+    archive. The list of supported databases is:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>PostgreSQL 8.1.x</para>
+      </listitem>
+
+      <listitem>
+        <para>MySQL 4.1+</para>
+      </listitem>
+
+      <listitem>
+        <para>Oracle 9i/10g</para>
+      </listitem>
+
+      <listitem>
+        <para>SQL Server</para>
+      </listitem>
+
+      <listitem>
+        <para>DB2 8.1+</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><emphasis>Additional Software Notes</emphasis></para>
+
+    <para>dcm4chee is a Java-based application. It requires the installation
+    of the JDK version 1.4.2 or higher. JDK version 5 is recommended for the
+    best performance and stability.</para>
+
+    <para>For image compression/decompression, dcm4chee 2.8.x utilizes Sun's
+    Java Advanced Imaging (JAI) Image I/O Tools 1.0_01. The binary
+    distribution packages of dcm4chee 2.8.x already includes the necessary
+    JARs and native libraries for Windows and Linux i586. For Solaris support,
+    you need to download the software package from Sun at <literal><ulink
+    url="http://java.sun.com/products/java-media/jai/downloads/download-iio-1_0_01.html">http://java.sun.com/products/java-media/jai/downloads/download-iio-1_0_01.html</ulink></literal>
+    and replace the Linux version of <literal>libclib_jiio.so</literal> in
+    <literal>DCM4CHEE_DIST/bin/</literal> with the file of the same name from
+    the Solaris JAI Image IO distribution.</para>
+
+    <para>dcm4chee depends heavily on the JBoss (<literal><ulink
+    url="http://www.jboss.org">http://www.jboss.org</ulink></literal>) application
+    server for its infrastructure. It is not necessary to download JBoss (as
+    dcm4chee is pre-packaged within JBoss), but viewing the online (or
+    downloaded) JBoss documentation will assist a great deal in learning the
+    dcm4chee directory structure, and how the product operates under the
+    covers. JBoss services such as XMBeans, JBossMQ (JMS), and EJB (Session
+    and Entity beans) are utilized by dcm4chee.</para>
+  </sect1>
+
+  <sect1 id="install-steps" revision="1">
+    <title>Installation Steps</title>
+
+    <para>Installing dcm4chee is fairly easy:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Download the binary distribution of dcm4chee for the database of
+        your choice from the Files page of the dcm4che project page on
+        SourceForge (<literal><ulink
+        url="http://sourceforge.net/projects/dcm4che/">http://sourceforge.net/projects/dcm4che/</ulink></literal>).
+        If you do not see a distribution for your database, you will have to
+        build dcm4chee from the source code. See  <xref linkend="dcm4chee-build"/> for instructions on doing
+        so.</para>
+      </listitem>
+
+      <listitem>
+        <para>Once downloaded, extract the distribution package into your
+        desired destination directory. Avoid using a directory path that
+        contains spaces though, as that may cause problems when running the
+        application from the command line.</para>
+      </listitem>
+
+      <listitem>
+        <para>Install the database software of your choice (keeping in mind
+        the supported database systems) if you have not already done so. Keep
+        in mind that the database software that you install (or have
+        installed) must match the version of dcm4chee that you downloaded. For
+        example, if you want to use PostgreSQL with dcm4chee then you should
+        download the dcm4chee-standalone-psql-2.8.2.zip file from
+        SourceForge.</para>
+      </listitem>
+
+      <listitem>
+        <para>If using a database other than MySQL or PostgreSQL you will need
+        to copy an apropriate JDBC Driver for the database to
+        <literal>DCM4CHEE_DIST/server/default/lib/</literal>. This is not
+        necessary for MySQL or PostgreSQL because the binary distribution of
+        dcm4chee already contains the correct JDBC drivers for these database
+        systems.</para>
+      </listitem>
+
+      <listitem>
+        <para>Verify that your database installation has TCP/IP socket access
+        available.</para>
+
+        <para>For example, with PostgreSQL you can check the pg_hba.conf file
+        for your database:</para>
+
+        <programlisting><![CDATA[
+$PGDATA/pg_hba.conf:
+# IPv4 local connections:
+host    all         all         127.0.0.1/32          trust
+        ]]></programlisting>
+
+        <para>With Oracle, you can verify that the TNS Listener is
+        enabled:</para>
+
+        <programlisting><![CDATA[
+C:\>netstat -b -p TCP
+Active Connections
+  TCP    localhost:1284               host.domain.com:1521     ESTABLISHED     1788
+  [ORACLE.EXE]
+
+  TCP    localhost:1521               host.domain.com:1284     ESTABLISHED     1816
+  [TNSLSNR.exe]
+        ]]></programlisting>
+      </listitem>
+
+      <listitem>
+        <para>Initiate the archive database instance (named pacsdb) using the
+        create DDL script located in
+        <literal>DCM4CHEE_DIST/sql/create.xxx</literal>.</para>
+
+        <para>For example, with PostgreSQL on a Unix-based system:</para>
+
+        <programlisting><![CDATA[
+> export PGUSER=postgres
+> createdb pacsdb
+> psql pacsdb -f DCM4CHEE_DIST/sql/create.psql
+        ]]></programlisting>
+
+        <para>To initialize a MySQL database on a Unix-based system:</para>
+
+        <programlisting><![CDATA[
+> mysql -uroot
+mysql> create database pacsdb;
+mysql> grant all on pacsdb.* to 'pacs'@'localhost' identified by 'pacs';
+mysql> \q
+> mysql -upacs -ppacs < DCM4CHEE_DIST/sql/create.mysql
+        ]]></programlisting>
+
+        <para><emphasis>Note</emphasis>: If you wish to take advantage of
+        specific features of your RDBMS such as tablespaces, partitioning,
+        etc. you will need to implement them on your own. This can sometimes
+        be done with the tools that come with the database, or by modifying
+        the DDL script before running it. If you make changes to the DDL
+        script that you think might be useful to the wider audience, please
+        submit them to the dcm4che-users listserv.</para>
+      </listitem>
+
+      <listitem>
+        <para>Adjust the dcm4chee database connection pool settings in
+        <literal>DCM4CHEE_DIST/server/default/deploy/xxxx-ds.xml</literal> to
+        suit your environment. This includes the user name and password that
+        the application should use when obtaining connections. In addition,
+        JBoss allows for the configuration of other aspects of the connection
+        pool. Although the default settings are fine for basic deployment
+        scenarios, the following may be added to the XML file in order to tune
+        the connection pool:</para>
+
+        <para><programlisting>&lt;!--example of how to specify class that determines if exception means connection should be destroyed--&gt;
+&lt;!--exception-sorter-class-name&gt;org.jboss.resource.adapter.jdbc.vendor.DummyExceptionSorter&lt;/exception-sorter-class-name--&gt;
+
+&lt;!-- this will be run before a managed connection is removed from the pool for use by a client--&gt;
+&lt;!--&lt;check-valid-connection-sql&gt;select * from something&lt;/check-valid-connection-sql&gt; --&gt;
+
+&lt;!-- The minimum connections in a pool/sub-pool. Pools are lazily constructed on first use --&gt;
+&lt;min-pool-size&gt;5&lt;/min-pool-size&gt;
+
+&lt;!-- The maximum connections in a pool/sub-pool --&gt;
+&lt;max-pool-size&gt;20&lt;/max-pool-size&gt;
+
+&lt;!-- The time before an unused connection is destroyed --&gt;
+&lt;!-- NOTE: This is the check period. It will be destroyed somewhere between 1x and 2x this timeout after last use --&gt;
+&lt;idle-timeout-minutes&gt;0&lt;/idle-timeout-minutes&gt;
+
+&lt;!-- sql to call when connection is created
+&lt;new-connection-sql&gt;some arbitrary sql&lt;/new-connection-sql&gt;
+ --&gt;
+
+&lt;!-- sql to call on an existing pooled connection when it is obtained from pool 
+&lt;check-valid-connection-sql&gt;some arbitrary sql&lt;/check-valid-connection-sql&gt;
+--&gt;
+
+&lt;!-- example of how to specify a class that determines a connection is valid before it is handed out from the pool
+&lt;valid-connection-checker-class-name&gt;fully qualified name of class to use&lt;/valid-connection-checker-class-name&gt;
+--&gt;
+
+&lt;!-- Whether to check all statements are closed when the connection is returned to the pool,
+     this is a debugging feature that should be turned off in production 
+&lt;track-statements/&gt; 
+--&gt;</programlisting></para>
+      </listitem>
+
+      <listitem>
+        <para>Set the JAVA_HOME environment variable to your JDK installation
+        directory.</para>
+      </listitem>
+
+      <listitem>
+        <para>Adjust the Java heap settings for the application</para>
+
+        <para>[Windows]: <literal>DCM4CHEE_DIST/bin/run.bat:</literal>
+        <programlisting>rem Sun JVM memory allocation pool parameters. Modify as appropriate.
+set JAVA_OPTS=%JAVA_OPTS% -Xms128m -Xmx512m</programlisting></para>
+
+        <para>[Linux/Unix]: <literal>DCM4CHEE_DIST/bin/run.conf</literal>
+        <programlisting># Specify options to pass to the Java VM.
+JAVA_OPTS="-server -Xms64m -Xmx200m -Djava.awt.headless=true ..</programlisting></para>
+
+        <para>Keep in mind the available RAM and memory requirements of other
+        processes running on the hardware. For example, iif only 512 MB RAM is
+        available on the machine, you should decrease the default value from
+        <literal>-Xmx512m</literal> (on Windows to)
+        <literal>-Xmx300</literal>.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis>Optional:</emphasis> Upon installation, all DICOM services are
+        pre-configured with <classname>DCM4CHEE</classname> as the Application
+        Entity Title (AE Title, or AET). Although it is possible to modify
+        this default configuration at a later date through the Web-based
+        administrative console, it is more efficient to replace
+        <classname>DCM4CHEE</classname> with <classname>YOUR_AET</classname>
+        in <literal>DCM4CHEE_DIST/server/default/conf/xmdesc/*.xml</literal>
+        using utilities provided by your platform.</para>
+
+        <para>For example, on GNU Linux:</para>
+
+        <para><computeroutput>&gt; find
+        DCM4CHEE_DIST/server/default/conf/xmdesc -exec \ sed -i
+        s/DCM4CHEE_DIST/YOUR_AET/g '{}' ';'</computeroutput></para>
+      </listitem>
+
+      <listitem>
+        <para>You're all done and ready to verify the installation.</para>
+        
+        <para>After verifying that the application is installed and running correctly, you may want to install it as a Windows service or Unix daemon.</para>
+        <orderedlist>
+            <listitem>
+                <para>Stop the application (type <literal>ctrl-c</literal> in the console window).</para>
+            </listitem>
+            <listitem>
+                <para>Windows: install dcm4chee as a Windows service executing <literal>DCM4CHEE_DIST/bin/install_service.bat</literal>.</para>
+            </listitem>
+            <listitem>
+                <para>Redhat Linux: copy the init script <literal>DCM4CHEE_DIST/bin/dcm4chee_init_redhat.sh</literal> to <literal>/etc/init.d/</literal>
+                    and adjust it according to the dcm4chee installation location, the JDK installation location,
+                    and which user the dcm4chee should run under.</para>
+            </listitem>
+        </orderedlist>
+        
+      </listitem>
+    </orderedlist>
+    
+  </sect1>
+  
+    <sect1 id="install-verification" revision="1">
+        <title>Verify the Installation</title>
+        
+        <para>Navigate to the <literal>DCM4CHEE_DIST/bin</literal> directory, and execute the
+        run.bat or run.sh script, as appropriate for your operating system.
+        Your output should look like the following and contain no error or
+        exception messages:</para>
+    
+        <programlisting><![CDATA[
+===============================================================================
+.
+  JBoss Bootstrap Environment
+.
+  JBOSS_HOME: C:\apps\dcm4chee-standalone-psql-2.8.2\bin\\..
+.
+  JAVA: C:\jdk1.5.0_06\bin\java
+.
+  JAVA_OPTS:  -Dprogram.name=run.bat -Xms128m -Xmx512m
+.
+  CLASSPATH: C:\jdk1.5.0_06\lib\tools.jar;
+    C:\apps\dcm4chee-standalone-psql-2.8.2\bin\\run.jar
+.
+===============================================================================
+.
+14:46:16,046 INFO  [Server] Starting JBoss (MX MicroKernel)...
+14:46:16,046 INFO  [Server] Release ID: JBoss [Zion] 4.0.3SP1 (build: 
+    CVSTag=JBoss_4_0_3_SP1 date=200510231054)
+...
+...
+...
+14:46:50,626 INFO  -> [JkMain] Jk running ID=0 time=0/60  config=null
+14:46:50,636 INFO  -> [Server] JBoss (MX MicroKernel) [4.0.3SP1 (build: 
+    CVSTag=JBoss_4_0_3_SP1 date=200510231054)] Started in 34s:580ms
+        ]]></programlisting>        
+        
+        <orderedlist>
+            <listitem>
+                <para>Connect to the Web-based User Interface (default URL is <literal><ulink url="http://localhost:8080/dcm4chee-web/">http://localhost:8080/dcm4chee-web/</ulink></literal>)
+                of the archive using any Web Browser (most tested are Mozilla Firefox and
+                Microsoft Internet Explorer v6.x). You should get the User Login Screen.
+                Login in using the default Administrator account <literal>admin</literal>, with password <literal>admin</literal>.</para>
+            </listitem>
+            
+            <listitem>
+                <para>Connect to the JBoss JMX Console (default URL is <literal><ulink url="http://localhost:8080/jmx-console/">http://localhost:8080/jmx-console/</ulink></literal>)
+                and login in using the default Administrator account <literal>admin</literal>, with password <literal>admin</literal>.</para>
+                
+                <para>Follow the link <literal>service=FileSystemMgt</literal> to the  
+                            File System Management service configuration page under the <literal>dcm4chee.archive</literal> heading.</para>
+                            
+                <para>Invoke the operation addOnlineFileSystem(), with a directory path argument specifying
+                            where the archive shall store received objects/images.</para>
+            
+                <para><emphasis>Note:</emphasis> If no Storage File System is configured, the archive will auto-configure
+                    <literal>DCM4CHEE_DIST/server/default/archive</literal> as the Storage File System when the
+                    the first object/image is received.</para>
+            </listitem>
+            
+            <listitem>
+                <para><emphasis>Optional:</emphasis> In the default configuration, received images are stored 'as is'
+                    - meaning that no compression is performed. Lossless (or other types of) compression of received
+                    uncompressed images can be activated by the <literal>CompressionRules</literal> attribute in the
+                    Storage SCP Service (<literal>service=StoreScp</literal>) configuration page.  For example, set it
+                    to <literal>JLSL</literal>, to compress all types of images received from any Storage SCU with
+                    JPEG-LS Lossless codec.</para>
+            </listitem>
+            
+            <listitem>
+                <para><emphasis>Optional:</emphasis> The directory used for caching generated JPEG representations
+                    of archived images requested by Web Access to DICOM Persistent Objects (WADO)
+                    can be specified by the <literal>CacheRoot</literal> attribute in the 
+                    the WADO Service (<literal>service=WADOService</literal>) configuration page. 
+                    Default: <literal>DCM4CHEE_DIST/server/default/wadocache</literal>.</para>
+                
+                <para>The directory used for caching generated PDF representations of archived
+                    Structured Report Documents requested by IHE Retrieve Information for Display
+                    (RID) Services can be specified with the <literal>CacheRoot</literal> attribute in 
+                    the RID Service (<literal>service=RIDService</literal>) configuration page. 
+                    Default: <literal>DCM4CHEE_DIST/server/default/ihe_rid_cache</literal>.</para>
+            </listitem>
+            
+            <listitem>
+                <para>Send some objects/images to the archive's Storage SCP, using the 
+                    send utility of the dcm4che14 package, the dcm4che2 package, or another Storage SCU of your choice.</para>
+                    
+                <para>Refresh the Web Interface (<literal><ulink url="http://localhost:8080/dcm4chee-web/">http://localhost:8080/dcm4chee-web/</ulink></literal>), which should 
+                    now show the the list of received studies.</para>
+                    
+                <para>Expand a study row to show contained series. Expand one of these series
+                    to show contained instances. In the case of images, you can follow the image
+                    icon on the right to invoke an HTTP WADO request for a JPEG presentation of
+                    this image which will be displayed in a separate browser window.</para>
+            </listitem>
+            
+            <listitem>
+                <para>To test object retrieval, you will need an external Storage SCP acting as
+                    the Destination using the DICOM Receiver utility of the dcm4che14 package, the dcm4che2 package, or another Storage SCP of your choice.</para>
+                
+                <para>Before initiating the retrieve, you will need to configure an additional Application Entity (AE) Title identifying
+                    your Move Destination using the "AE Management" function of the Web User Interface.  For example:</para>
+                
+                <programlisting><![CDATA[
+AE Title: DCMRCV
+Hostname: localhost
+Port:     11112
+                ]]></programlisting>  
+            </listitem>
+            
+            <listitem>
+                <para>Switch back to the Study List (the Folder view) and mark studies to retrieve using the
+                    check box on the right.  Select "DCMRCV" as the send destination in the combo box
+                    above and click on the send button left from it.</para>
+                    
+                <para>Alternatively, you could initiate a C-MOVE with the utility of your choice with DCMRCV as the destination AE Title.</para>
+            </listitem>
+        </orderedlist>
+        
+        <para>If everything worked, you are ready to start using dcm4chee.  If not, post your questions to the dcm4che-users listserv.</para>
+    
+    </sect1>
+</chapter>

@@ -1,0 +1,2380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="dcm4chee-ui-guide" revision="1">
+  <title>User Interface Guide</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>The dcm4chee User Interface Guide was written for system administrators
+    responsible for the adminstration of dcm4chee archive application.
+    The unser interface consists of several dynamic web pages, and is named dcm4chee-web.
+    dcm4chee-web contains the following functionality:
+    in:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Archive Content Administration</para>
+      </listitem>
+
+      <listitem>
+        <para>AE Management</para>
+      </listitem>
+
+      <listitem>
+        <para>Offline Storage</para>
+      </listitem>
+
+      <listitem>
+        <para>Worklist Console</para>
+      </listitem>
+
+      <listitem>
+        <para>MPPS Console</para>
+      </listitem>
+
+      <listitem>
+        <para>User admin</para>
+      </listitem>
+
+      <listitem>
+        <para>Audit Repository</para>
+      </listitem>
+    </itemizedlist>
+
+  </section>
+
+  <section>
+    <title>User Login</title>
+
+    <para>The default login page for dcm4chee-web is <literal>http://hostname:8080/dcm4chee-web/</literal>.  Upon browsing 
+        to this location, you will be presented with a login screen.  if this is your first time logging into the application, 
+        you may use the username/password combination <literal>admin</literal>/<literal>admin</literal>.</para>
+
+      <mediaobject>
+        <imageobject role="fo">
+            <imagedata fileref="images/user_login.png" format="PNG" align="center"/>
+        </imageobject>
+        <imageobject role="html">
+            <imagedata fileref="../shared/images/user_login.png" format="PNG"  align="center"/>
+        </imageobject>
+      </mediaobject>
+
+    <para>After logging in, the user will remain logged in until the web browser is closed.  
+    It is recommended that you log out of the application whenever dcm4chee-web is not 
+    in use.  This will avoid the security issue of having an active, idle session.</para>
+  </section>
+
+  <section>
+    <title>Archive Content Administration</title>
+
+    <para>To administer the archive content (patient, study, and other clinical information) click on
+    Folder in the header line of dcm4chee-web.</para>
+    
+    <mediaobject>
+        <imageobject role="fo">
+            <imagedata fileref="images/folder.gif" format="GIF" align="center"/>
+        </imageobject>
+        <imageobject role="html">
+            <imagedata fileref="../shared/images/folder.gif" format="GIF" align="center"/>
+        </imageobject>
+      </mediaobject>
+
+    <para>The folder window can be divided into three logical parts:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>Study List</term>
+
+        <listitem>
+          <para>Information regarding patients, studies, series, and
+          images.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Search Filter</term>
+
+        <listitem>
+          <para>Specifies matching criteria for listed studies.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Function buttons</term>
+
+        <listitem>
+          <para>Invoke operations on selected list entires.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <section>
+      <title>Study List</title>
+
+      <para>The study list contains information on four levels:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Patient - marked with green.</para>
+        </listitem>
+
+        <listitem>
+          <para>Study - marked with light green.</para>
+        </listitem>
+
+        <listitem>
+          <para>Series - marked with grey.</para>
+        </listitem>
+
+        <listitem>
+          <para>Instance – marked with light grey.</para>
+        </listitem>
+
+        <listitem>
+          <para>File – marked with white.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>To expand the hierarchy of a line item, click on the + sign.
+      To hide the hierarchy beneath a line item, click on the - sign.
+      </para>
+
+      <para>In the figure above the patient AAPM Test Pattern has four
+      studies containing several OT series. The second series has its instance-level 
+      hierarchy expanded, and contains three DICOM instances.</para>
+
+      <para>The label for a column can be seen at the top of each column. The
+      information that is displayed at the <emphasis role="bold">Patient</emphasis> level:</para>
+      
+      <para><emphasis>Note: Patient-level information is always shown in bold type.</emphasis></para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Name</para>
+        </listitem>
+
+        <listitem>
+          <para>Patient ID</para>
+        </listitem>
+
+        <listitem>
+          <para>Birthdate</para>
+        </listitem>
+
+        <listitem>
+          <para>Sex</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>At the <emphasis role="bold">Study</emphasis> level the
+      information that is displayed:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Date/Time</para>
+        </listitem>
+
+        <listitem>
+          <para>Study ID</para>
+        </listitem>
+
+        <listitem>
+          <para>Modalities</para>
+        </listitem>
+
+        <listitem>
+          <para>Study Description/IUID (Instance Unique Identifier)</para>
+          <para>Clicking either Study Description or IUID allows teh user to 
+            toggle between Study Description and IUID information within the column.
+            If Study Instance UID becomes active, the Study ID search field will change 
+            to Study IUID, and vice versa. 
+            </para>
+        </listitem>
+
+        <listitem>
+          <para>Accession Number</para>
+        </listitem>
+
+        <listitem>
+          <para>Referring Physician</para>
+        </listitem>
+
+        <listitem>
+          <para>Number of Series</para>
+        </listitem>
+
+        <listitem>
+          <para>Number of Instances</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>The information at the <emphasis role="bold">Series</emphasis>
+      level is:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Data/Time</para>
+        </listitem>
+
+        <listitem>
+          <para>Series Number</para>
+        </listitem>
+
+        <listitem>
+          <para>Modality</para>
+        </listitem>
+
+        <listitem>
+          <para>Series Description/Body Part/IUID (Series Instance Unique
+          Identifier)</para>
+          <para>Clicking either Series Description/Body Part or IUID will
+            between the display of Series Description/Body Part and IUID
+            information within the column.</para>
+        </listitem>
+
+        <listitem>
+          <para>Vendor/Model</para>
+        </listitem>
+
+        <listitem>
+          <para>Number of Images</para>
+        </listitem>
+      </itemizedlist>
+
+    </section>
+
+    <section id="search_filter_fields">
+      <title>Search Filter</title>
+
+      <para>To filter the records in the study list, search criteria can be
+      specified above the columns labels. It is possible to search for Patient
+      Name, Patient ID, Study ID, Study Data, Accession Number, Modality, or a
+      combination thereof. To perform a search just press "Return" on the
+      keyboard or click the New Search button. The result of the search will
+      be displayed in the list. If the list contains more than ten studies
+      (records), the first ten records will be shown. To show the next ten
+      records press the Next Search Result button or go back using the
+      Previous Search Result button. Information regarding what is displayed,
+      and the total amount of matching records can be seen in the status line
+      – ex.:</para>
+
+      <para>"Displaying studies 1 to 10 of 29 matching studies"</para>
+
+      <para>The search can include a specific entry or part of an entry
+      truncated with a question mark (?) or an asterisk (*). A search
+      including a question mark will only search for one character where it is
+      placed, opposite a search with an asterisk will include an unlimited
+      amount of characters. It is possible to combine question marks and
+      asterisk in the same search.</para>
+
+      <para>All fields are case sensitive – except the Patient Name
+      Field.</para>
+
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/search_input.gif" format="GIF" align="center"/>
+        </imageobject>
+        <imageobject role="html">
+            <imagedata fileref="../shared/images/search_input.gif" format="GIF"  align="center"/>
+        </imageobject>
+        </mediaobject>
+
+    </section>
+
+    <section>
+      <title>Function Buttons</title>
+
+      <para>The buttons for functions in dcm4chee-web can be divided into two
+      – the buttons placed in the header section of the window, and the
+      buttons placed next to the entities in the folder.</para>
+
+      <section>
+        <title>Functions Buttons in the header section</title>
+
+    <section>
+        <title>
+            <inlinemediaobject>
+                <imageobject role="fo">
+                    <imagedata fileref="images/search.gif" format="GIF" />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/search.gif" format="GIF" />
+                </imageobject>
+            </inlinemediaobject> 
+            New Search
+        </title>
+
+          <para>After typing in the search string in the related fields, a
+          click on this button will perform a search in the database. As an
+          alternative, the "Return" button on the keyboard will also perform a
+          search. For a more detailed description of the search field see
+          <xref linkend="search_filter_fields" />.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/prev.gif" format="GIF" />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/prev.gif" format="GIF" />
+                </imageobject>
+            </inlinemediaobject> Previous Search Results</title>
+
+          <para>A click on this button will show the previous page in the
+          search. If the first page or the one and only page in a search are
+          shown, no activity is related to the button.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/next.gif" format="GIF" />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/next.gif" format="GIF" />
+                </imageobject>
+            </inlinemediaobject> Next Search Results</title>
+
+          <para>A click on this button will show the next page of records in
+          the search (if the total amount of records is larger than one page).
+          If the last page or the one and only page in a search are shown, no
+          activity is related to the button.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/addpat.gif" format="GIF" />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/addpat.gif" format="GIF" />
+                </imageobject>
+            </inlinemediaobject> Add New Patient</title>
+
+          <para>To add a new patient, click this button and fill out the
+          fields in the window. The fields are:</para>
+
+          <variablelist>
+            <varlistentry>
+              <term>Patient ID</term>
+
+              <listitem>
+                <para>The ID of the patient – typically a person number,
+                social security number, or another unique patient identifier
+                generated or handled by a Hospital Information System, Patient
+                Administration System, or a Radiology Information
+                System.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Issuer of Patient ID</term>
+
+              <listitem>
+                <para>Identifier of the assigning authority (system,
+                organization, agency or department) that issued the Patient
+                ID.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Patient Name</term>
+
+              <listitem>
+                <para>The name of the patient.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Sex</term>
+
+              <listitem>
+                <para>Choose sex between Female, Male, and Other (unknown)
+                clicking on the arrow.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Birth Date</term>
+
+              <listitem>
+                <para>The birth date of the patient in the format
+                yyyy/mm/dd</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+
+            <mediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/new_pat.png" format="PNG"  align="center"/>
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/new_pat.png" format="PNG"  align="center"/>
+                </imageobject>
+            </mediaobject>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/merge.gif" format="GIF" />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/merge.gif" format="GIF" />
+                </imageobject>
+            </inlinemediaobject> Merge Selected Patient</title>
+
+          <para>To merge two (or more) patients in dcm4chee-web, the patients
+          must be marked (selected) by clicking the checkbox next to the patients.
+          The boxes will now contain a checkmark. It is not possible to merge
+          patients by a checkmark at the study or series level.</para>
+
+            <mediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/select_patients.gif" format="GIF"  align="center"/>
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/select_patients.gif" format="GIF"  align="center"/>
+                </imageobject>
+            </mediaobject>
+
+          <para>After the patients have been marked in the folder list, click
+          on the button "Merge Selected Patients". This shows the list of
+          patients that will be merged. In the column Patient ID click the
+          checkbox to mark which patient should be the remaining patient.
+          Click Merge to merge the patients or Cancel to cancel the
+          operation.</para>
+
+            <mediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/patient_merge.png" format="PNG"  align="center"/>
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/patient_merge.png" format="PNG"  align="center"/>
+                </imageobject>
+            </mediaobject>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/move.gif" format="GIF" />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/move.gif" format="GIF" />
+                </imageobject>
+            </inlinemediaobject> Move Selected Items</title>
+
+          <para>To move one or several items, the source and the destination
+          must be selected. To select a source or a destination just mark it
+          in the checkbox next to the entity.</para>
+
+          <para>There are some selection rules for source and
+          destination:</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>The destination is always at the highest selected level in
+              the hierarchic patient, study, series and instance.</para>
+            </listitem>
+
+            <listitem>
+              <para>The source will always be the entity (or entities) at the
+              lowest level in the hierarchic patient, study, series, and
+              instance.</para>
+            </listitem>
+
+            <listitem>
+              <para>Only one destination is allowed.</para>
+            </listitem>
+
+            <listitem>
+              <para>The sources have to be only one hierarchic level under the
+              destination.</para>
+            </listitem>
+
+            <listitem>
+              <para>The destination must not be the parent of the
+              sources.</para>
+            </listitem>
+          </itemizedlist>
+
+          <section>
+            <title>To Move a Study to another Patient</title>
+
+            <orderedlist>
+              <listitem>
+                <para>Click the checkbox next to the study (or studies) to
+                mark it.</para>
+              </listitem>
+
+              <listitem>
+                <para>Click the checkbox next to the patient (destination) to
+                mark it.</para>
+              </listitem>
+
+              <listitem>
+                <para>Click the "Move Selected Items" button to perform the
+                move.</para>
+              </listitem>
+            </orderedlist>
+
+          </section>
+
+          <section>
+            <title>To Move a Series to another Study</title>
+
+            <orderedlist>
+              <listitem>
+                <para>Click the checkbox next to the one (or several) series
+                to mark it.</para>
+              </listitem>
+
+              <listitem>
+                <para>Click the checkbox next to the study (destination) to
+                mark it.</para>
+              </listitem>
+
+              <listitem>
+                <para>Click the button "Move Selected Items" to perform the
+                move.</para>
+              </listitem>
+            </orderedlist>
+
+          </section>
+
+          <section>
+            <title>To Move an Instance to another Series</title>
+
+            <orderedlist>
+              <listitem>
+                <para>Select the instance (or instances) by clicking on its checkbox.</para>
+              </listitem>
+
+              <listitem>
+                <para>Select the destination series (destination) by clicking on its checkbox.</para>
+              </listitem>
+
+              <listitem>
+                <para>Click the button "Move Selected Items" to perform the
+                move.</para>
+              </listitem>
+            </orderedlist>
+
+          </section>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/export_tf.gif" format="GIF" />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/export_tf.gif" format="GIF" />
+                </imageobject>
+            </inlinemediaobject> Export Teaching Files</title>
+
+          <para>To export an entity or several entities (patient, study,
+          series, or instance/image), click the checkbox next to the line
+          or lines to mark the entity/entities.</para>
+
+          <para>Click the button "Export selected instances to Teaching File
+          Sytem" to export the entity or entities marked.</para>
+
+          <para>In the next window you can select different export options and
+          define optional included additional Teaching File
+          Information.</para>
+
+            <mediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/export_teaching_files.png" format="PNG"  align="center"/>
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/export_teaching_files.png" format="PNG"  align="center"/>
+                </imageobject>
+            </mediaobject>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/export_xdsi.gif" format="GIF"  />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/export_xdsi.gif" format="GIF"  />
+                </imageobject>
+            </inlinemediaobject> Provide and Register Imaging Document Set to an
+          XDS-I Registry/Repository</title>
+
+          <para>To register an image document set click the checkbox next to
+          the line or lines to mark the entity/entities.</para>
+
+          <para>In the next window you can edit your XDS-I metadata, which
+          will be exported with selected entities as Key Objects.</para>
+
+            <mediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/export_xds.png" format="PNG"  align="center" />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/export_xds.png" format="PNG"  align="center" />
+                </imageobject>
+            </mediaobject>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/trash.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                    <imagedata fileref="../shared/images/trash.gif" format="GIF"  />
+                </imageobject>
+            </inlinemediaobject> Move Selected Entities into the Trash</title>
+
+          <para>To delete an entity or several entities (patient, study,
+          series, or instance/image) click the checkbox next to the line or
+          lines to mark the entity/entities.</para>
+
+          <para>Click the button "Delete Selected Entities" to delete the
+          entity or entities marked. Confirm or cancel the operation by
+          clicking the appropriate button in the ensuing confirmation pop-up window.</para>
+
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/loeschen.gif" format="GIF"  />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/loeschen.gif" format="GIF"  />
+                </imageobject>
+            </inlinemediaobject> Permanently Delete Selected Entities</title>
+
+          <para>If you want to permanently delete the entities, you have to
+          select the Trash folder and select the entities, which you want to
+          delete. then press the "Delete selected Entities" button to
+          permanently delete the entities.</para>
+
+           <mediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/select_for_delete.png" format="PNG"  align="center" />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/select_for_delete.png" format="PNG"  align="center" />
+                </imageobject>
+            </mediaobject>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/undel.gif" format="GIF"  />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/undel.gif" format="GIF"  />
+                </imageobject>
+            </inlinemediaobject> Undelete Selected Entities</title>
+
+          <para>To undelete entities in the Trash folder you have to press the
+          "Undelete" button.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/send.gif" format="GIF"  />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/send.gif" format="GIF"  />
+                </imageobject>
+            </inlinemediaobject> Send Selected Entities to Specified
+          Destination</title>
+
+          <para>To send an entity or several entities (patient, study, series,
+          or instance/image) to a DICOM destination click the checkbox next to the line or lines to
+          mark the entity/entities.</para>
+
+          <para>From the drop-down menu choose which AE Title to send the
+          entity or entities to.</para>
+
+           <mediaobject>
+              <imageobject role="fo">
+                    <imagedata fileref="images/select_for_send.png" format="PNG"  align="center" />
+                </imageobject>
+                <imageobject role="html">
+                    <imagedata fileref="../shared/images/select_for_send.png" format="PNG"  align="center" />
+                </imageobject>
+            </mediaobject>
+
+          <para>Click the "Send Selected Entities to Specified
+          Destination" button to send the entity or entities marked. Confirm or
+          cancel the operation by clicking the appropriate button in the
+          ensuing confirmation pop-up window.</para>
+
+        </section>
+      </section>
+
+      <section>
+        <title>Function buttons next to the entities in the folder</title>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/edit.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                    <imagedata fileref="../shared/images/edit.gif" format="GIF"  />
+                </imageobject>
+            </inlinemediaobject> Edit Patient Attributes</title>
+
+          <para>Click the "Edit Patients Attributes" button to edit patient
+          information.</para>
+
+           <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/edit_patient.png" format="PNG"  align="center" />
+              </imageobject>
+              <imageobject role="html">
+                    <imagedata fileref="../shared/images/edit_patient.png" format="PNG"  align="center" />
+                </imageobject>
+            </mediaobject>
+
+          <para>Click the "Update" button to update the patient attributes or
+          "Cancel" to quit without updating the attributes.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/edit.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                    <imagedata fileref="../shared/images/edit.gif" format="GIF"  />
+                </imageobject>
+            </inlinemediaobject> Edit Study Attributes</title>
+
+          <para>Click the "Edit Study Attributes" button to edit study
+          information.</para>
+
+           <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/edit_study.png" format="PNG"  align="center" />
+              </imageobject>
+              <imageobject role="html">
+                    <imagedata fileref="../shared/images/edit_study.png" format="PNG"  align="center" />
+                </imageobject>
+            </mediaobject>
+
+          <para>Click the "Update" button to update the study attributes or
+          "Cancel" to quit without updating the attributes.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/edit.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                    <imagedata fileref="../shared/images/edit.gif" format="GIF"  />
+                </imageobject>
+            </inlinemediaobject> Edit Series Attributes</title>
+
+          <para>Click the "Edit Series Attributes" button to edit series
+          information.</para>
+
+           <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/edit_series.png" format="PNG"  align="center" />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/edit_series.png" format="PNG"  align="center" />
+              </imageobject>
+            </mediaobject>
+
+          <para>Click the "Update" button to update the series attributes or
+          "Cancel" to quit without updating the attributes.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/add.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/add.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject> Add New Study</title>
+
+          <para>To add a new study click the "Add New Study" button, and fill
+          out the fields with the appropriate information. Due to the fact,
+          that dcm4chee-web creates a Study Instance UID itself, no fields are
+          mandatory.</para>
+
+          <para>All fields can contain alphanumeric characters, except the
+          Date/Time field, where the format <literal>yyyy/mm/dd</literal> should be used.</para>
+
+           <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/new_study.png" format="PNG"  align="center" />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/new_study.png" format="PNG"  align="center" />
+              </imageobject>
+            </mediaobject>
+
+          <para>Click the "Add Study" button to add the new study or "Cancel"
+          to quit without adding a new study.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/add.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/add.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject> Add New Series</title>
+
+          <para>To add a new series click the "Add New Series" button, and
+          fill out the fields with the appropriate information. Due to the
+          fact, that dcm4chee-web creates a Series Instance UID itself, only
+          the modality field is mandatory.</para>
+
+          <para>All fields can contain alphanumeric characters, except the
+          Date/Time field, where the format <literal>yyyy/mm/dd</literal> should be used.</para>
+
+           <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/new_series.png" format="PNG"  align="center" />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/new_series.png" format="PNG"  align="center" />
+              </imageobject>
+            </mediaobject>
+
+          <para>Click the "Add Series" button to add the new series or
+          "Cancel" to quit without adding a new series.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/image.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/image.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject> View Image</title>
+
+          <para>Click the "View Image" button to show the image. Icon
+          appearances are dependent on the instance type/state.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/sr.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/sr.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject> View Report as HTML</title>
+
+          <para>Click the "View Report as HTML" button to show the structured
+          report as HTML document. Icon appearances are dependent on the
+          instance type/state.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/sr_pdf.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/sr_pdf.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject> View Report as PDF</title>
+
+          <para>Click the "View Report as PDF" button to show the structured
+          report as pdf document. Icon appearances are dependent on the
+          instance type/state.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/waveform.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/waveform.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject> View Waveform object</title>
+
+          <para>Click the "View WaveForm" button to show the WaveForm object
+          as PDF. Icon appearances are dependent on the instance
+          type/state.</para>
+        </section>
+
+        <section>
+          <title><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/invalid.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/invalid.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject> Offline</title>
+
+          <para>Indicates that the instance is offline. Icon appearances are
+          dependent on the instance type/state.</para>
+        </section>
+      </section>
+    </section>
+  </section>
+
+  <section>
+    <title>Application Entity (AE) Management</title>
+
+    <para>The AE Title, host names and port numbers of remote applications, to
+    which the archive shall be able to connect, must be configured by the AE
+    Management web page.</para>
+
+    <para>After clicking on AE Management, the following window will be
+    shown:</para>
+
+     <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/ae_list.png" format="PNG"  align="center" />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/ae_list.png" format="PNG"  align="center" />
+        </imageobject>
+      </mediaobject>
+
+    <variablelist>
+      <varlistentry>
+        <term>AE Title</term>
+
+        <listitem>
+          <para>The AE Title (AET) of the remote application</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Hostname</term>
+
+        <listitem>
+          <para>Host name or IP-address of the host of the remote
+          application.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Port</term>
+
+        <listitem>
+          <para>TCP port number of the remote application.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Cipher</term>
+
+        <listitem>
+          <para>TLS Cipher Suites which are supported on this connection. No
+          entry implies a direct (unsecure) DICOM connection (without
+          TLS).</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>To create a new connection click button <inlinemediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/add_aet.gif" format="GIF"  />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/add_aet.gif" format="GIF"  />
+        </imageobject>
+      </inlinemediaobject> (Add New AET), and the window for creating a new
+    AET opens.</para>
+
+     <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/new_ae.png" format="PNG"  align="center" />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/new_ae.png" format="PNG"  align="center" />
+        </imageobject>
+      </mediaobject>
+
+    <para>Fill in the appropriate information for AE Title, Hostname (or
+    IP-Address), Port number, and Cipher (for TLS connections over an
+    un-trusted network connection). Be careful to type in the right
+    information - dcm4chee-web only checks if the Port number is a number
+    (if not, the value is changed to "0"). Click on Create to create the entry
+    in the AET-list or Cancel to leave without creating the entry in the
+    AET-list.</para>
+
+    <para>For DICOM over TLS connections you can configure support of up to 3
+    different Cipher Suites:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>SSL_RSA_WITH_NULL_SHA</term>
+
+        <listitem>
+          <para>No Encryption, only Entity Authentication by RSA based
+          certificates &amp; Data Integrity check by SHA hashing
+          function</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>TLS_RSA_WITH_AES_128_CBC_SHA</term>
+
+        <listitem>
+          <para>Use AES_128_CBC for Encryption</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>SSL_RSA_WITH_3DES_EDE_CBC_SHA</term>
+
+        <listitem>
+          <para>Use Triple DES EDE, CBC Encryption</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>The order defines the preferences e.g.:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>TLS_RSA_WITH_AES_128_CBC_SHA</para>
+      </listitem>
+
+      <listitem>
+        <para>SSL_RSA_WITH_3DES_EDE_CBC_SHA</para>
+      </listitem>
+
+      <listitem>
+        <para>...</para>
+      </listitem>
+    </orderedlist>
+
+    <para>Prefer AES Encryption, with Triple DES EDE, CBC
+    Encryption being acceptable alternatives.  Try to avoidusing no Encryption (SSL_RSA_WITH_NULL_SHA
+    ).</para>
+
+    <para>To change an entry in the AET-list click on the <inlinemediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/edit.gif" format="GIF"  />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/edit.gif" format="GIF"  />
+        </imageobject>
+      </inlinemediaobject> (Edit), and the information for this entry is
+    shown.</para>
+
+     <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/edit_ae.png" format="PNG"  align="center" />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/edit_ae.png" format="PNG"  align="center" />
+        </imageobject>
+      </mediaobject>
+
+    <para>After changing the information click "Apply Changes" to apply the new
+    information to the AET list or Cancel to leave without changing the
+    information.</para>
+
+    <para>To delete an entry, click the <inlinemediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/delete.gif" format="GIF"  />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/delete.gif" format="GIF"  />
+        </imageobject>
+      </inlinemediaobject> (Delete) icon and click OK in
+    the ensuing confirmation pop-up window. To cancel the deletion click the Cancel button.</para>
+
+  </section>
+
+  <section>
+    <title>Offline Storage</title>
+
+    <para>This page shows the information of the off-line storage filesets
+    (media).</para>
+
+     <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/offline_storage.png" format="PNG"  align="center" />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/offline_storage.png" format="PNG"  align="center" />
+        </imageobject>
+      </mediaobject>
+
+    <para>There are several search parameters to choose between or
+    combine.</para>
+
+    <para>In the Media Status pull down list it is possible to choose one or
+    more (using SHIFT of CTRL keys on the keyboard together with a click on
+    the left mouse button) of the following statuses:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>all</term>
+
+        <listitem>
+          <para>List all File Sets.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>OPEN</term>
+
+        <listitem>
+          <para>Search for open file set – file set that are not scheduled for
+          media creation, and therefore new studies can be added for offline
+          storage</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>FAILED</term>
+
+        <listitem>
+          <para>Search for filesets, that failed for one or another reason
+          during media creation.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>QUEUED</term>
+
+        <listitem>
+          <para>Search for filesets, that are queued – scheduled for media
+          creation.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>TRANSFERRING</term>
+
+        <listitem>
+          <para>Search for filesets, that are transferring – transfer files to
+          media creation server.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>CREATING</term>
+
+        <listitem>
+          <para>Search for filesets, that are during creation for the time
+          being.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>COMPLETED</term>
+
+        <listitem>
+          <para>Search for filesets, that are completed</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>It is also possible to search for items in a specific time interval.
+    The search can be for all activities, for media initialization dates, or
+    for media modification dates. The time interval should be in the format:
+    yyyy/mm/dd hh:mm:ss.</para>
+
+    <para>The six columns in the window show:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>Fileset ID</term>
+
+        <listitem>
+          <para>The ID of the fileset</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Initialized</term>
+
+        <listitem>
+          <para>The date and time where the media content was scheduled</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Modified</term>
+
+        <listitem>
+          <para>The last date and time where the scheduled media content was
+          modified</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Usage</term>
+
+        <listitem>
+          <para>The usage of the media (in KB, MB, or GB)</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Status</term>
+
+        <listitem>
+          <para>Shows status of the file set:</para>
+
+          <para><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/cdrom-open.gif" format="GIF"  valign="middle" />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/cdrom-open.gif" format="GIF"  valign="middle" />
+              </imageobject>
+            </inlinemediaobject> open, <inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/cdrom-queued.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/cdrom-queued.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject>queued, <inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/cdrom-transfering.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/cdrom-transfering.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject>transferring, <inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/cdrom-creating.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/cdrom-creating.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject>creating, <inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/cdrom-completed.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/cdrom-completed.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject>completed, <inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/cdrom-failed.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/cdrom-failed.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject>failed.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Action</term>
+
+        <listitem>
+          <para><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/burn.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/burn.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject> Schedule open file set for media
+          creation.</para>
+
+          <para><inlinemediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/delete.gif" format="GIF"  />
+              </imageobject>
+              <imageobject role="html">
+                <imagedata fileref="../shared/images/delete.gif" format="GIF"  />
+              </imageobject>
+            </inlinemediaobject> Delete file set - so associated files will be
+          reassigned to another file set for media storage.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>A new search is performed by either pressing the <inlinemediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/search.gif" format="GIF"  />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/search.gif" format="GIF"  />
+        </imageobject>
+      </inlinemediaobject> (New Search) or the Enter key at the
+    keyboard.</para>
+
+    <section>
+      <title>Manual Offline Archiving</title>
+
+      <para>If dcm4chee's Media Creation Service is configured to manual
+      actitvation of the burning process, the administrator will receive an
+      e-mail with information about the media. The administrator can see the
+      status at the web-page and start the burning process by activating the
+      start button <inlinemediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/burn.gif" format="GIF"  />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/burn.gif" format="GIF"  />
+          </imageobject>
+        </inlinemediaobject>.</para>
+    </section>
+
+    <section>
+      <title>Automatic Offline Archiving</title>
+
+      <para>If dcm4chee's Media Creation Service is configured to automatic
+      actitvation of the burning process, the administrator will only have to
+      check the job status occasionally.</para>
+
+       <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/offline_storage_check_status.gif" format="GIF" align="center" />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/offline_storage_check_status.gif" format="GIF"  align="center" />
+          </imageobject>
+        </mediaobject>
+
+      <para>If a media has a status of failed <inlinemediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/cdrom-failed.gif" format="GIF"  />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/cdrom-failed.gif" format="GIF"  />
+          </imageobject>
+        </inlinemediaobject> you may try a manual restart of the burning
+      process by activating the start button <inlinemediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/burn.gif" format="GIF"  />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/burn.gif" format="GIF"  />
+          </imageobject>
+        </inlinemediaobject>.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Worklist Console</title>
+
+    <para>This console is the tool to administrate the modality worklist
+    information.</para>
+
+     <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/mwl_console.png" format="PNG"  align="center" />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/mwl_console.png" format="PNG"  align="center" />
+        </imageobject>
+      </mediaobject>
+
+    <para>By use of one or several search fields it is possible to search for
+    specific information in the database. The search fields are:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>Patient</term>
+
+        <listitem>
+          <para>The patient name</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Date</term>
+
+        <listitem>
+          <para>The date and time (format: yyyy/mm/dd hh:mm) where the search
+          should begin.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>to</term>
+
+        <listitem>
+          <para>The date and time (format: yyyy/mm/dd hh:mm) where the search
+          should end</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Modality</term>
+
+        <listitem>
+          <para>Type of modality (e.g. MR, CT, CR, and US)</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Station AET</term>
+
+        <listitem>
+          <para>The specific Application Entity Title of the modality</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Accession No</term>
+
+        <listitem>
+          <para>The specific accession number for a study</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>The available functions are the <inlinemediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/search.gif" format="GIF"  />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/search.gif" format="GIF"  />
+        </imageobject>
+      </inlinemediaobject> (New Search) button that will perform the search
+    (alternative: press the Enter key) and the <inlinemediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/delete.gif" format="GIF"  />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/delete.gif" format="GIF"  />
+        </imageobject>
+      </inlinemediaobject> (Delete) button next to the records in the folder
+    information. Pressing <inlinemediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/delete.gif" format="GIF"  />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/delete.gif" format="GIF"  />
+        </imageobject>
+      </inlinemediaobject> will delete the record.</para>
+
+    <para>The modality worklist (MWL) information is shown in
+    the table. The columns of the table are:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>ID</term>
+
+        <listitem>
+          <para>Scheduled Procedure Step ID</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Study IUID</term>
+
+        <listitem>
+          <para>Study Instance Unique Identifier</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Req. Proc. ID</term>
+
+        <listitem>
+          <para>Requested Procedure ID</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Acc. No.</term>
+
+        <listitem>
+          <para>Accession Number</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Filler/Placer Order</term>
+
+        <listitem>
+          <para>Filler Order Number and the Placer Order Number.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Proc. Desc.</term>
+
+        <listitem>
+          <para>Requested Procedure Description.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>SPS Desc.</term>
+
+        <listitem>
+          <para>Scheduled Procedure Step Description.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Start Date</term>
+
+        <listitem>
+          <para>Scheduled Start Date/Time for this Procedure Step.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Ref. Physician</term>
+
+        <listitem>
+          <para>Name of the Referring Physician</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Station</term>
+
+        <listitem>
+          <para>Name of scheduled device (modality) for this Procedure
+          Step.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Adm. ID</term>
+
+        <listitem>
+          <para>Admission ID (Visit Number)</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Patient</term>
+
+        <listitem>
+          <para>The name (and ID) of the patient</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Birthdate</term>
+
+        <listitem>
+          <para>The date of birth for the patient</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Sex</term>
+
+        <listitem>
+          <para>The sex of the patient</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+
+  <section>
+    <title>MPPS Console</title>
+
+    <para>This console is the tool to administrate the modality performed
+    procedure step worklist information. The window is divided into three
+    logical parts. The content of each part will be described below the
+    figure.</para>
+
+     <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/mpps_console.png" format="PNG"  align="center" />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/mpps_console.png" format="PNG"  align="center" />
+        </imageobject>
+      </mediaobject>
+
+    <para>By using one or several search fields it is possible to search for
+    specific information in the database. The search fields are:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>Patient</term>
+
+        <listitem>
+          <para>The patient name.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Date</term>
+
+        <listitem>
+          <para>The date and time (format: yyyy/mm/dd hh:mm) when the search
+          should begin.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>to</term>
+
+        <listitem>
+          <para>The date and time (format: yyyy/mm/dd hh:mm) where the search
+          should end.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Modality</term>
+
+        <listitem>
+          <para>Type of modality (e.g. MR, CT, CR, and US).</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Station AET</term>
+
+        <listitem>
+          <para>The specific Application Entity Title of the modality.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Accession No.</term>
+
+        <listitem>
+          <para>The specific accession number for a study. If box is checked
+          the search will include unscheduled examinations.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Status</term>
+
+        <listitem>
+          <para><emphasis role="bold">[ANY]:</emphasis> Will include all types
+          in the search.</para>
+
+          <para><emphasis role="bold">IN PROGRESS:</emphasis> Will only
+          include procedures, that are in progress, in the search.</para>
+
+          <para><emphasis role="bold">COMPLETED:</emphasis> Will only include
+          procedures, that are completed, in the search.</para>
+
+          <para><emphasis role="bold">DISCONTINUED:</emphasis> Will only
+          include procedures, that are discontinued, in the search.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>The available functions are the <inlinemediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/search.gif" format="GIF"  />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/search.gif" format="GIF"  />
+        </imageobject>
+      </inlinemediaobject> (New Search) button that will perform the search
+    (alternative: press the Enter key) and the <inlinemediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/next.gif" format="GIF"  />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/next.gif" format="GIF"  />
+        </imageobject>
+      </inlinemediaobject> (Next Search Results) button, which will show the next page
+    of records in the search result.</para>
+
+    <para>The information regarding the modality performed procedure step
+    worklist (MPPS) are shown in the table. The columns in the table
+    are:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>Acc. No.</term>
+
+        <listitem>
+          <para>The accession number of the study.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Status</term>
+
+        <listitem>
+          <para><emphasis role="bold">IN PROGRESS:</emphasis> Will only
+          include procedures, that are in progress, in the search.</para>
+
+          <para><emphasis role="bold">COMPLETED:</emphasis> Will only include
+          procedures, that are completed, in the search.</para>
+
+          <para><emphasis role="bold">DISCONTINUED:</emphasis> Will only
+          include procedures, that are discontinued, in the search.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Study IUID</term>
+
+        <listitem>
+          <para>The Study Instance UID.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Proc. Desc.</term>
+
+        <listitem>
+          <para>Description of the performed procedure.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Start Date</term>
+
+        <listitem>
+          <para>The date and time, when the procedure step started.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Station</term>
+
+        <listitem>
+          <para>Name of device (modality) on which this Procedure Step was
+          performed.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>NoI</term>
+
+        <listitem>
+          <para>The number of instances.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Patient</term>
+
+        <listitem>
+          <para>The patient name.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+
+  <section>
+    <title>User Administration</title>
+
+    <para>To create, change or delete a user click on User Admin.</para>
+
+    <para>The first window gives a list of users defined in the system.</para>
+
+     <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/user_admin.png" format="PNG"  align="center" />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/user_admin.png" format="PNG"  align="center" />
+        </imageobject>
+      </mediaobject>
+
+    <para>Roles are shown for each user. The four roles that can be
+    combined for a user are:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>WebUser</term>
+
+        <listitem>
+          <para>A user in this role is allowed to use this web
+          interface.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>WebAdmin</term>
+
+        <listitem>
+          <para>A user in this role has administrative rights within the web interface. To
+          have WebAdmin rights the user also has to have the WebUser
+          rights.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Admin</term>
+
+        <listitem>
+          <para>This role is used to allow configuration access via the JMX
+          Console.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>AuditRep</term>
+
+        <listitem>
+          <para>Members of this role are allowed to access the Audit
+          Repository.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <section>
+      <title>Create a new user</title>
+
+      <para>To add a new user click <inlinemediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/addpat.gif" format="GIF"  />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/addpat.gif" format="GIF"  />
+          </imageobject>
+        </inlinemediaobject> (add new user) and fill in the appropriate
+      information in the following window:</para>
+
+       <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/new_user.png" format="PNG"  align="center" />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/new_user.png" format="PNG"  align="center" />
+          </imageobject>
+        </mediaobject>
+
+      <para>The entries are:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>User ID</term>
+
+          <listitem>
+            <para>The user ID for the user should have.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Password</term>
+
+          <listitem>
+            <para>The belonging password.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Retype Password</term>
+
+          <listitem>
+            <para>The password again.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <para>The roles for the user can be check with a <inlinemediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/checkmcm.gif" format="GIF"  />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/checkmcm.gif" format="GIF"  />
+          </imageobject>
+        </inlinemediaobject> in the appropriate checkboxes:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>WebUser</term>
+
+          <listitem>
+            <para>A user in this role is allowed to use this web
+            interface.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>WebAdmin</term>
+
+          <listitem>
+            <para>A user in this role has admin rights in the web interface.
+            To have WebAdmin rights the user also has to have the WebUser
+            rights.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Admin</term>
+
+          <listitem>
+            <para>This role is used to allow configuration access via the JMX
+            Console.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>AuditRep</term>
+
+          <listitem>
+            <para>Members of this role are allowed to access the Audit
+            Repository.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <para>Press Create to create the new user or Cancel to quit without
+      creating the user.</para>
+
+      <para><emphasis role="bold">ATTENTION:</emphasis> Modifications of 
+      User Configuration may take up to half an hour to become
+      effective!</para>
+    </section>
+
+    <section>
+      <title>Edit/Update a User Profile</title>
+
+      <para>To edit a user profile click at the <inlinemediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/edit.gif" format="GIF"  />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/edit.gif" format="GIF"  />
+          </imageobject>
+        </inlinemediaobject> (Edit) next to the user.</para>
+
+       <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/edit_user.png" format="PNG"  align="center" />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/edit_user.png" format="PNG"  align="center" />
+          </imageobject>
+        </mediaobject>
+
+      <para>The roles are checked or unchecked by clicking in the appropriate
+      box. A <inlinemediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/checkmcm.gif" format="GIF"  />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/checkmcm.gif" format="GIF"  />
+          </imageobject>
+        </inlinemediaobject> in the box indicate, that the user has this role.
+      The different roles are:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>WebUser</term>
+
+          <listitem>
+            <para>A user in this role is allowed to use this web
+            interface.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>WebAdmin</term>
+
+          <listitem>
+            <para>A user in this role has admin rights in the web interface.
+            To have WebAdmin rights the user also has to have the WebUser
+            rights.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Admin</term>
+
+          <listitem>
+            <para>This role is used to allow configuration access via the JMX
+            Console.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>AuditRep</term>
+
+          <listitem>
+            <para>Members of this role are allowed to access the Audit
+            Repository.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <para>To update the user profile press Update or Cancel to quit without
+      changing the roles for the user.</para>
+
+      <para><emphasis role="bold">ATTENTION:</emphasis> Modifications of the
+      User Configuration may take up to half an hour to become
+      effective!</para>
+    </section>
+
+    <section>
+      <title>Delete a user</title>
+
+      <para>To delete a user from dcm4chee-web click the <inlinemediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/delete.gif" format="GIF"  />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/delete.gif" format="GIF"  />
+          </imageobject>
+        </inlinemediaobject> (Delete) next to the user.</para>
+
+      <para>A confirmation pop-up window will appear.  Press OK to delete the user or Cancel to quit without deleting the
+      user.</para>
+
+      <para><emphasis role="bold">ATTENTION:</emphasis> Modifications of the
+      User Configuration may take up to half an hour to become
+      effective!</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Audit Repository</title>
+
+    <para>The "Audit Record Repository List View" is divided into three
+    logical parts:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>The Search Section</para>
+      </listitem>
+
+      <listitem>
+        <para>The List Section</para>
+      </listitem>
+
+      <listitem>
+        <para>The Selection Section</para>
+      </listitem>
+    </itemizedlist>
+
+     <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/arr_list_view.png" format="PNG"  align="center" />
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="../shared/images/arr_list_view.png" format="PNG"  align="center" />
+        </imageobject>
+      </mediaobject>
+
+    <section>
+      <title>List Section</title>
+
+      <para>The list section shows the result from the search and selection
+      done in the left side of the window. The columns in the list are:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>Audit Event</term>
+
+          <listitem>
+            <para>The type of the event logged in the audit repository and
+            shown in the list.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Host</term>
+
+          <listitem>
+            <para>The name of the host that sent the audit message.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Timestamp</term>
+
+          <listitem>
+            <para>The timestamp of the event. The format is: yyyy-mm-dd
+            hh:mm:ss.sss</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Information</term>
+
+          <listitem>
+            <para>A short description of the event.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
+
+    <section>
+      <title>Search Section</title>
+
+      <para>In the search section it is possible to search for one of the
+      following values, or for a combination of the following values. It is
+      not possible to type in part of a search value or to truncate a value in
+      the search fields. If a value is unknown, it is possible to use the
+      search facility in the folder part to find the exact value to use in
+      this section.</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>Results to return</term>
+
+          <listitem>
+            <para>Typing in a figure in this field indicates how many results
+            that should be shown on one page in the list.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Patient Name</term>
+
+          <listitem>
+            <para>The exact name of the patient that should be used in the
+            search. </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Patient ID</term>
+
+          <listitem>
+            <para>The exact patient ID that should be used in the search.
+            </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>AE Title</term>
+
+          <listitem>
+            <para>The exact AE Title that should be used in the search.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Username</term>
+
+          <listitem>
+            <para>The exact username that should be used in the search.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Host</term>
+
+          <listitem>
+            <para>The hostname that should be used in the search.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>TimeStamp</term>
+
+          <listitem>
+            <para>The two values (from and to) for exact time stamp, should be
+            used in the search. The format is "yyyy-mm-dd hh:mm:ss.sss" – only
+            whole values can be typed in (no truncation).</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
+
+    <section>
+      <title>The selection section</title>
+
+      <para>In this section you can filter your results by choosing (one or
+      several) audit log event types:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>ActorConfig</term>
+
+          <listitem>
+            <para>Generated for any configuration changes related to the
+            actor.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>ActorStartStop</term>
+
+          <listitem>
+            <para>Start-up and shutdown of any actor. Is distinct from
+            hardware power-up and shutdown.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>AuditLogUsed</term>
+
+          <listitem>
+            <para>The audit trail repository has been accessed or modified by
+            something other than the arrival of audit trail messages.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>BeginStoringInstances</term>
+
+          <listitem>
+            <para>Begin storing SOP Instances for a study. This may be a mix
+            of instances.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>DICOMInstancesDeleted</term>
+
+          <listitem>
+            <para>SOP Instances are deleted from a specific study.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>DICOMInstancesUsed</term>
+
+          <listitem>
+            <para>Study is created, modified, or accessed. This report on
+            addition of new instances to existing studies as well as creation
+            of new studies.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>DicomQuery</term>
+
+          <listitem>
+            <para>A query has been received.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Export</term>
+
+          <listitem>
+            <para>Any export of PHI on media, either removable physical media
+            such as CD-ROM or electronic transfer of files such as email. Any
+            printing activity, paper or film, local or remote, that prints
+            PHI.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Import</term>
+
+          <listitem>
+            <para>Any import of PHI on media, either removable physical media
+            such as CD-ROM or electronic transfers of files such as email.
+            </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>InstancesStored</term>
+
+          <listitem>
+            <para>Instances for a particular study have been stored on this
+            system.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>NetworkEntry</term>
+
+          <listitem>
+            <para>Mobile machine joins or leaves secure domain.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>OrderRecord</term>
+
+          <listitem>
+            <para>Order record created, accessed, modified or deleted.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>PatientRecord</term>
+
+          <listitem>
+            <para>Patient record created, modified, or accessed.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>ProcedureRecord</term>
+
+          <listitem>
+            <para>Procedure record created, modified, accessed or
+            deleted.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>SecurityAlert</term>
+
+          <listitem>
+            <para>A secure node authentication failure has occurred during TLS
+            negotiation, e.g. invalid certificate.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>StudyDeleted</term>
+
+          <listitem>
+            <para>Shows events that have deleted studies.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>UserAuthenticated</term>
+
+          <listitem>
+            <para>Shows events related to user authentication.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
+
+    <section>
+      <title>Audit Record Detail View</title>
+
+      <para>To se the detailed information from the list section click one of
+      the events in the first column (Audit Event) or the
+      XML-hyperlink.</para>
+
+      <para>The Audit Record Detailed View shows the host name, time and
+      parameters for the event. The parameters will be different for different
+      types of events.</para>
+
+       <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/arr_detail_view.png" format="PNG"  align="center" />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/arr_detail_view.png" format="PNG"  align="center" />
+          </imageobject>
+        </mediaobject>
+
+      <para>The information can also be shown in XML format.</para>
+
+       <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/arr_xml_view.png" format="PNG"  align="center" />
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="../shared/images/arr_xml_view.png" format="PNG" align="center" />
+         </imageobject>
+        </mediaobject>
+ 
+    </section>
+  </section>
+</chapter>

@@ -1,0 +1,59 @@
+.PS
+boxwid=1.2
+
+copy "sequence.pic";
+
+# Object definition
+actor(M,"Modality");
+object(S,"DICOM Server");
+object(P,"MPPS SCP");
+object(W,"MWL SCP");
+object(E,"Exception Mgt");
+object(U,"MPPS SCU");
+actor(O,"Order Filler");
+step();
+active(S);
+step();
+
+# Modality Procedure Discontinued
+active(M);
+message(M,S,"N-SET(mpps)");
+active(S);
+message(S,P,"handle(mpps)");
+inactive(S);
+inactive(M);
+active(P);
+message(P,W,"notify(mpps)");
+active(W);
+message(W,W,"*update(DISCONTINUED)");
+inactive(W);
+message(P,U,"notify(mpps)");
+active(U);
+async();
+message(U,U,"*queue(mpps)");
+sync();
+active(U);
+message(U,O,"N-SET(mpps)");
+inactive(U);
+inactive(U);
+active(O);
+step();
+inactive(O);
+message(P,E,"notify(mpps)");
+inactive(P);
+active(E);
+lconstraint(E,"{wrong wl entry selected}");
+message(E,E,"*deleteSeries(uid)");
+inactive(E);
+step();
+
+# Object lifeline completion
+complete(S);
+complete(M);
+complete(P);
+complete(W);
+complete(E);
+complete(U);
+complete(O);
+
+.PE

@@ -1,0 +1,81 @@
+.PS
+boxwid=1.2
+
+copy "sequence.pic";
+
+# Object definition
+actor(M,"Modality");
+object(S,"DICOM Server");
+object(P,"MPPS SCP");
+object(T,"MPPS2ORM");
+object(H,"HL7 Send");
+actor(O,"Order Filler");
+step();
+active(S);
+step();
+
+active(M);
+message(M,S,"N-CREATE(mpps)");
+active(S);
+message(S,P,"handle(mpps)");
+inactive(S);
+active(P);
+inactive(M);
+message(P,T,"notify(mpps)");
+inactive(P);
+active(T);
+message(T,H,"{Order Status = IP}" \
+"forward(ORM^O01)" \
+"");
+active(H);
+inactive(T);
+async();
+message(H,H,"*queue(ORM^O01)");
+sync();
+active(H);
+message(H,O,"ORM^O01");
+inactive(H);
+inactive(H);
+active(O);
+active(M);
+message(M,S,"N-SET(mpps)");
+inactive(O)
+active(S);
+message(S,P,"handle(mpps)");
+inactive(S);
+active(P);
+inactive(M);
+message(P,T,"notify(mpps)");
+inactive(P);
+active(T);
+comment(T,,up 0.6 right 0.1,wid 1.5 ht 0.85 "Order Status depends" \
+"on MPPS Status:" \
+"IN PROGRESS -> IP" \
+"COMPLETED -> CM" \
+"DISCONTINUED -> DC");
+message(T,H, "{Order Status = IP|CM|DC}" \
+"forward(ORM^O01)" \
+"");
+active(H);
+inactive(T);
+async();
+message(H,H,"*queue(ORM^O01)");
+sync();
+active(H);
+message(H,O,"ORM^O01");
+inactive(H);
+inactive(H);
+active(O);
+step();
+inactive(O);
+step();
+
+# Object lifeline completion
+complete(S);
+complete(T);
+complete(O);
+complete(M);
+complete(P);
+complete(H);
+
+.PE
