@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>ORU HL7 Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.hl7.ORUService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ORUService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getMessageTypes"
+      setMethod="setMessageTypes">
+      <description>Comma separated list of Message Types handled by this Service.
+      </description>
+      <name>MessageTypes</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ORU^R01" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStylesheetURL"
+      setMethod="setStylesheetURL">
+      <description>Stylesheet for HL7 ORU^R01 to DICOM SR mapping.
+      </description>
+      <name>StylesheetURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:xsl/hl7/orbis_oru2sr.xsl" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" 
+      getMethod="getStorePriority"
+      setMethod="setStorePriority">
+      <description>Store priority. Enumerated Values: LOW, MEDIUM, HIGH.
+      </description>
+      <name>StorePriority</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="MEDIUM"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getExportManagerName"
+      setMethod="setExportManagerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>ExportManagerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=ExportManager" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getHL7ServerName"
+      setMethod="setHL7ServerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>HL7ServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=HL7Server" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
+    

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dcm4jboss-attribute-coercion SYSTEM "dcm4jboss-attribute-coercion.dtd">
+
+<dcm4jboss-attribute-coercion>
+<!-- see samples of coercion rules in dcm4jboss-attribute-coercion.dtd -->
+</dcm4jboss-attribute-coercion>

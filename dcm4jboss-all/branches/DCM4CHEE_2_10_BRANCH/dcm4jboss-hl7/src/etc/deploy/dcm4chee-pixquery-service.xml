@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-pixquery-service.xml 3319 2007-05-07 21:53:52Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee-hl7.jar"/>
+
+  <mbean code="org.dcm4chex.archive.hl7.PIXQueryService" 
+	     name="dcm4chee.archive:service=PIXQuery"
+	     xmbean-dd="xmdesc/dcm4chee-pixquery-xmbean.xml">
+    <depends optional-attribute-name="HL7SendServiceName"
+      >dcm4chee.archive:service=HL7Send</depends>
+  </mbean>
+</server>

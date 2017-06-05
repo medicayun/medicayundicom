@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-mwlscp-service.xml 2852 2006-10-13 09:39:45Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.mwlscp.MWLFindScpService"
+    name="dcm4chee.archive:service=MWLFindScp"
+    xmbean-dd="xmdesc/dcm4chee-mwlscp-xmbean.xml">
+    <depends>dcm4chee.archive:service=AuditLogger</depends>
+    <depends>dcm4chee.archive:service=DcmServer</depends>
+    <depends>dcm4chee.archive:service=MPPSScp</depends>
+  </mbean>
+</server>

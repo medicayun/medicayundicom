@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-checkstudypat-service.xml 3341 2007-05-12 17:19:22Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.CheckStudyPatientService"
+    name="dcm4chee.archive:service=CheckStudyPatientService"
+    xmbean-dd="xmdesc/dcm4chee-checkstudypat-xmbean.xml">
+    <depends optional-attribute-name="SchedulerServiceName"
+      >dcm4chee.archive:service=Scheduler</depends>
+    <attribute name="TimerIDCheckStudyPatient">CheckStudyPatient</attribute>
+  </mbean>
+</server>

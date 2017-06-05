@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description><![CDATA[Teaching File and Clinical Trial Export Manager.]]></description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.tce.ExportManagerService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ExportManagerService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getCallingAET"
+      setMethod="setCallingAET">
+      <description>Calling AE title of the Storage SCU.
+      </description>
+      <name>CallingAETitle</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DCM4CHEE" />
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getExportSelectorTitles"
+      setMethod="setExportSelectorTitles">
+      <description><![CDATA[Document Title of Export Selection Key Object
+      (Manifest) considered by this service.
+      Format: CODE_VALUE^CODING_SCHEME_DESIGNATOR.
+      Separate multiple values by new line. NONE = service disabled.
+      Default:
+         TCE001^IHERADTF,
+         TCE002^IHERADTF,
+         TCE007^IHERADTF,
+         113019^99DCM4CHE]]>
+      </description>
+      <name>ExportSelectorTitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="
+         TCE001^IHERADTF
+         TCE002^IHERADTF
+         TCE007^IHERADTF
+         113019^99DCM4CHE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDelayReasons"
+      setMethod="setDelayReasons">
+      <description><![CDATA[Recognized Delay Reasons Codes
+      Format: CODE_VALUE^CODING_SCHEME_DESIGNATOR.
+      Separate multiple values by new line. NONE = ignore Delay Reason Codes in
+      Export Selection Key Object.
+      Default:
+       TCE011^IHERADTF,
+       TCE012^IHERADTF,
+       TCE013^IHERADTF,
+       TCE014^IHERADTF,
+       TCE015^IHERADTF,
+       TCE016^IHERADTF,
+       TCE017^IHERADTF,
+       TCE018^IHERADTF]]>
+      </description>
+      <name>DelayReasons</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="
+         TCE011^IHERADTF
+         TCE012^IHERADTF
+         TCE013^IHERADTF
+         TCE014^IHERADTF
+         TCE015^IHERADTF
+         TCE016^IHERADTF
+         TCE017^IHERADTF
+         TCE018^IHERADTF"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDispositionConfigFile"
+      setMethod="setDispositionConfigFile">
+      <description><![CDATA[Configuration file, which maps
+      different Document Titles or Key Object Descriptions of the manifest
+      to different configurations about destination and de-identification.
+      A relative path name is resolved relative to
+      <i>archive-install-directory</i>/server/default/.]]>  
+      </description>
+      <name>DispositionConfigFile</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="conf/dcm4chee-tce.conf"/>
+      </descriptors>
+   </attribute>
+    <attribute access="read-write" getMethod="getPersonNameMapping" setMethod="setPersonNameMapping">
+      <description><![CDATA[Mapping login user name to Person Name to get Observer Person.<br>
+        Separate each mapping with newline or semicolon.<br>
+      	Format: &lt;user&gt;:&lt;PersonName&gt; (e.g. Smith^John or Smith^John^^Dr^)<br>
+      	If this mapping is disabled with NONE or a user is not mapped the PersonName will be created with following rule:<br>
+      	&lt;callingAET&gt;^&lt;user&gt; (e.g. DCM4CHEE^admin).]]>
+      </description>
+      <name>PersonNameMapping</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isDeleteKeyObjects"
+      setMethod="setDeleteKeyObjects">
+      <description>Enable/disable deletion of Key Objects after export.
+      </description>
+      <name>DeleteKeyObjectsAfterExport</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getExportDelay"
+      setMethod="setExportDelay">
+      <description>Delay in milliseconds before export process starts.
+      </description>
+      <name>ExportDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="2000"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAcTimeout"
+      setMethod="setAcTimeout">
+      <description>A-Associate accept timeout in milliseconds. 0 = no timeout.
+      </description>
+      <name>AcceptTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10000"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDimseTimeout"
+      setMethod="setDimseTimeout">
+      <description>DIMSE message timeout in milliseconds. 0 = no timeout.
+      </description>
+      <name>DIMSETimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="60000"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSoCloseDelay"
+      setMethod="setSoCloseDelay">
+      <description>Socket close delay in milliseconds after an A-Release response.
+      </description>
+      <name>SocketCloseDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="50"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getBufferSize"
+      setMethod="setBufferSize">
+      <description>Size of byte buffer used for copying data from TCP channel to file.
+      </description>
+      <name>BufferSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="8192"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getConcurrency"
+      setMethod="setConcurrency">
+      <description>Maximum number of concurrent processed Export Requests.
+      </description>
+      <name>Concurrency</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStoreScpServiceName"
+      setMethod="setStoreScpServiceName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>StoreScpServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=StoreScp"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getQueueName"
+      setMethod="setQueueName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>QueueName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ExportManager"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getJmsServiceName"
+      setMethod="setJmsServiceName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>JMSServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=JMS"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getEjbProviderURL"
+      setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      Use LOCAL if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EJBProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAuditLoggerName"
+      setMethod="setAuditLoggerName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=AuditLogger"/>
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description><![CDATA[Clear configuration cache.<br>
+      				Force to reread disposition configuration files. ]]></description>
+      <name>clearConfigCache</name>
+      <return-type>void</return-type>
+   </operation>   
+   <operation impact="INFO">
+      <description>List Dispositions configured in DispositionConfigFile</description>
+      <name>listConfiguredDispositions</name>
+      <return-type>java.util.Collection</return-type>
+   </operation>   
+   <operation impact="INFO">
+      <description>Get Observer Person Name for username</description>
+      <name>getObserverPerson</name>
+      <parameter>
+        <name>user</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>   
+   <operation impact="ACTION">
+      <description>Send Export Selector to specified destination</description>
+      <name>storeExportSelection</name>
+      <parameter>
+        <name>manifest</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <parameter>
+        <name>prior</name>
+        <type>int</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>   
+   
+   <!-- Notifications -->
+   <notification>
+        <description>The notification sent before export of instances.</description>
+        <name>javax.management.Notification</name>
+        <notification-type>org.dcm4chex.archive.notif.BeginTransfering</notification-type>
+   </notification>   
+</mbean>
+

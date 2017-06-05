@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-movescu-service.xml 938 2004-01-26 22:47:15Z gunterze $ -->
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  DICOM Storage Service Configuration                                   -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+  <mbean code="org.dcm4chex.service.MoveScuService" 
+	name="dcm4chex:service=MoveScu,aet=MOVE_SCU">
+
+    <!-- Do NOT uncomment this line if the service is deployed
+    in the same jboss instance as the MoveQueue EJB. Otherwise
+    in VM calls to go over RMI!
+        
+    <attribute name="EjbProviderURL">jnp://localhost:1099</attribute>
+    -->
+
+    <!-- 
+    Specifies JNDI name used to look up the datasource.
+    Name after "java:/" must match with <jndi-name> attribute of 
+    JDBC Datasource configuration deployment file (*-ds.xml) 
+	-->
+    <attribute name="DataSource">java:/DefaultDS</attribute>    
+
+    <!-- 
+    Specifies number and intervalls of retries of failed Move Requests
+    by a list of comma separated <number>'x'<interval> pairs. The
+    intervall can be specified in milliseconds (##), seconds (##s),
+    minutes (##m), hours (##h) or days (##d).
+    
+    For example:
+       
+    <attribute name="RetryIntervalls">5x1m,12x5m,24x1h,7x1d</attribute>
+    
+    Retry every minute for the first 5 retries,
+    then every 5 minutes for one hour,
+    then every hour for one day,
+    then every 24 hours for an week, 
+    then give up.
+	-->
+    <attribute name="RetryIntervalls">5x1m,12x5m,24x1h,7x1d</attribute>    
+
+    <!-- 
+    Specifies maximal number of concurrently invoked move requests.
+	-->
+    <attribute name="MaxConcurrentMoves">1</attribute>
+  </mbean>
+
+  <mbean code="org.jboss.varia.scheduler.Scheduler" 
+	 name="dcm4chex:service=Scheduler,name=Scheduler of MoveScu">
+
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the MoveOrderQueue EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/MoveOrderQueue,service=EJB</depends>
+        
+    <!-- 
+    Value must match with name attribute of MoveScuService mbean (s.above)!
+	-->
+    <attribute name="SchedulableMBean">dcm4chex:service=MoveScu,aet=MOVE_SCU</attribute>
+
+    <!-- 
+    Specifies intervall in milliseconds for polling for new Move Orders in DB.
+	-->
+    <attribute name="SchedulePeriod">60000</attribute>
+
+    <attribute name="StartAtStartup">true</attribute>
+    <attribute name="SchedulableMBeanMethod">run</attribute>
+    <attribute name="InitialStartDate">NOW</attribute>
+    <attribute name="InitialRepetitions">-1</attribute>
+  </mbean>
+
+</server>
+

@@ -1,0 +1,157 @@
+<project name="dcm4jboss-wado" default="war">
+
+	<property file="build.properties"/>
+
+	<!-- Override with your JBoss dist location -->
+	<property name="jboss.dir" value="${user.home}/jboss-3.2.6" />
+	<property name="jboss.lib.dir" value="${jboss.dir}/lib"/>
+	<property name="jboss-jmx.jar" value="${jboss.lib.dir}/jboss-jmx.jar"/>
+	<property name="jboss.server.lib.dir" value="${jboss.dir}/server/default/lib"/>
+	<property name="log4j.jar" value="${jboss.server.lib.dir}/log4j.jar"/>
+	<property name="j2ee.jar" value="${jboss.server.lib.dir}/jboss-j2ee.jar"/>
+	<property name="tomcat.dir" value="${jboss.dir}/server/default/deploy/jbossweb-tomcat50.sar"/>
+	<property name="servlet-api.jar" value="${tomcat.dir}/servlet-api.jar"/>
+	<property name="commons-beanutils.jar" value="${tomcat.dir}/commons-beanutils.jar"/>
+
+    <!-- Override with your dcm4che dist location -->
+	<property name="dcm4che.home" value="../dcm4che14/build"/>		
+	<property name="dcm4che.jar" value="${dcm4che.home}/lib/dcm4che.jar"/>		
+
+	<!-- Override with your dcm4jboss-ejb working directory -->
+	<property name="dcm4jboss-ejb.dir" value="../dcm4jboss-ejb/target" />
+	<property name="dcm4jboss-ejb-client.jar" value="${dcm4jboss-ejb.dir}/common/lib/dcm4jboss-ejb-client.jar" />
+
+	<!-- Override with your dcm4jboss-sar working directory -->
+	<property name="dcm4jboss-sar.dir" value="../dcm4jboss-sar/target" />
+	<property name="dcm4jboss.jar" value="${dcm4jboss-sar.dir}/lib/dcm4jboss.jar" />
+	
+	<property name="lib.dir" value="lib" />
+	<property name="mogio.jar" value="${lib.dir}/mogio.jar" />
+	
+	<property name="target.dir" value="target"/>
+	<property name="product" value="${ant.project.name}"/>
+	<property name="war.file" value="${target.dir}/deploy/${product}.war"/>
+	<property name="jar.file" value="${target.dir}/lib/${product}.jar"/>
+
+	<property name="javasrc.dir" value="src/java"/>
+	<property name="classes.dir" value="${target.dir}/classes"/>
+	<property name="web.dir" value="src/web"/>
+	<property name="etc.dir" value="src/etc"/>
+	<property name="service.xml.file" value="${etc.dir}/deploy/${product}-service.xml"/>
+	<property name="xmbean.xml.file" value="${etc.dir}/config/xmdesc/${product}-xmbean.xml"/>
+	
+	<property name="deploy.root" value="${jboss.dir}/server/pacs"/>
+	<property name="war.deploy.dir" value="${deploy.root}/deploy"/>
+	<property name="jar.deploy.dir" value="${deploy.root}/lib"/>
+	<property name="service.deploy.dir" value="${deploy.root}/deploy"/>
+	<property name="xmbean.deploy.dir" value="${deploy.root}/conf/xmdesc"/>
+
+	<property name="test.dir" value="test"/>
+	<property name="test.src.dir" value="${test.dir}/java"/>
+	<property name="test.classes.dir" value="${test.dir}/classes"/>
+	<property name="test.reports" value="${test.dir}/reports"/>
+	
+	<path id="master-classpath">
+		<pathelement location="${jboss.lib.dir}/jboss-system.jar"/>
+		<pathelement location="${jboss-jmx.jar}"/>
+		<pathelement location="${servlet-api.jar}"/>
+		<pathelement location="${j2ee.jar}"/>
+		<pathelement location="${log4j.jar}"/>
+		<pathelement location="${commons-beanutils.jar}"/>
+		<pathelement location="${dcm4che.jar}"/>
+		<pathelement location="${dcm4jboss-ejb-client.jar}"/>
+		<pathelement location="${dcm4jboss.jar}"/>
+		<pathelement location="${mogio.jar}"/>
+	</path>
+
+	<path id="test-classpath">
+		<pathelement location="${classes.dir}"/>
+		<pathelement location="${test.classes.dir}"/>
+		<pathelement location="${mogio.jar}"/>
+	</path>
+
+	<property name="debug" value="on"/>
+	<property name="deprecation" value="on"/>
+
+	<target name="clean">
+		<delete dir="${target.dir}"/>
+		<delete dir="${test.reports}"/>
+	</target>
+
+ 	<target name="classes">
+		<mkdir dir="${classes.dir}"/>
+		
+		<javac debug="${debug}" deprecation="${deprecation}" destdir="${classes.dir}" srcdir="${javasrc.dir}">
+			<classpath refid="master-classpath"/>
+		</javac>
+	</target>
+
+	<target name="war" depends="classes">
+		<mkdir dir="${target.dir}/deploy/"/>
+		<war warfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
+			<fileset dir="${web.dir}">
+				<exclude name="WEB-INF/web.xml" />
+			</fileset>
+			
+			<classes dir="${classes.dir}">
+				<include name="org/**/*.class" />
+	     		<exclude name="**/mbean/**" />
+			</classes>
+		</war>
+	</target>
+	
+	<target name="jar" depends="classes">
+		<mkdir dir="${target.dir}/lib/"/>
+	    <jar jarfile="${jar.file}">
+	     	<manifest>
+					<attribute name="Implementation-Title" value="dcm4jboss-wado"/>
+					<attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+					<attribute name="Implementation-Vendor" value="Tiani Medgraph AG"/>
+	     	</manifest>
+	     	<fileset dir="${classes.dir}">
+	     		<include name="**/mbean/**" />
+	     		<include name="**/common/**" />
+	        </fileset>
+	     </jar>
+	</target>
+
+	<target name="deploy" depends="war,jar,deploy-only"/>
+	
+	<target name="deploy-only">
+		<copy file="${war.file}" todir="${war.deploy.dir}" />
+		<copy file="${jar.file}" todir="${jar.deploy.dir}" />
+		<copy file="${service.xml.file}" todir="${service.deploy.dir}" />
+		<copy file="${xmbean.xml.file}" todir="${xmbean.deploy.dir}" />
+	</target>
+
+ 	<target name="testclasses" depends="classes">
+		<mkdir dir="${test.classes.dir}"/>
+		
+		<javac debug="${debug}" deprecation="${deprecation}" destdir="${test.classes.dir}" srcdir="${test.src.dir}">
+			<classpath refid="test-classpath"/>
+		</javac>
+	</target>
+
+    <target name="test" depends="testclasses">
+      <mkdir dir="${test.reports}"/>
+      <junit printsummary="true" fork="yes" dir=".">
+         <classpath>
+	    	<path refid="test-classpath"/>
+         	<pathelement location="${target.classes}"/>
+          </classpath>
+         <formatter type="xml" />
+         <test name="org.dcm4chex.wado.mbean.cache.WADOCacheImplTest"
+         	todir="${test.reports}"/>
+         <test name="org.dcm4chex.wado.mbean.cache.FileToDelContainerTest"
+         	todir="${test.reports}"/>
+      </junit>
+    </target>
+
+    <target name="test-report" depends="test">
+      <junitreport todir="${test.reports}">
+         <fileset dir="${test.reports}" includes="TEST-*.xml"/>
+         <report format="frames" todir="${test.reports}/html"/>
+      </junitreport>
+    </target>
+	
+</project>

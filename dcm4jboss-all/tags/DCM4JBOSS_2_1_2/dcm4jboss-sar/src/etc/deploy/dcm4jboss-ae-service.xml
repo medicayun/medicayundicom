@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-ae-service.xml 1394 2005-01-10 01:13:02Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.AEService" 
+	name="tiani.archive:service=AE"
+	xmbean-dd="xmdesc/dcm4jboss-ae-xmbean.xml">	
+    <depends>
+      tiani.archive:service=AuditLogger
+    </depends> 
+  </mbean>
+</server>

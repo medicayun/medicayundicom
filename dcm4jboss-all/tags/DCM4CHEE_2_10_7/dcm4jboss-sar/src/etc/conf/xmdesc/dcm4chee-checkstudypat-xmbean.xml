@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Check Study Patient Service. 
+   		Check the Patient information of a study against received patient info.
+	</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.CheckStudyPatientService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>CheckStudyPatientService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write" getMethod="getTaskInterval" setMethod="setTaskInterval">
+      <description>Interval in which to  check for images for consistency.
+          &lt;br&gt;Format: 
+			 &lt;br&gt;&lt;i&gt;interval&lt;/i&gt; or NEVER
+          &lt;br&gt;&lt;i&gt;interval&lt;/i&gt; = ##s (in seconds), ##m (in minutes), ##h (in hours).
+      </description>
+      <name>TaskInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getSourceAET" setMethod="setSourceAET">
+      <description>Filter studies received from this AET. Type '*' to disable this filter.</description>
+      <name>SourceAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="*"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getStudyStatus" setMethod="setStudyStatus">
+      <description>Filter studies with this status. Type '*' to disable this filter.</description>
+      <name>StudyStatus</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="*"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getSuccessStudyStatus" setMethod="setSuccessStudyStatus">
+      <description>Update study status if new Patient is created for this study. Type 'NONE' to disable status update.</description>
+      <name>SuccessStudyStatus</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getCheckedStudyStatus" setMethod="setCheckedStudyStatus">
+      <description>Update study status if study is checked but patient info doesnt differ. Type 'NONE' to disable status update.</description>
+      <name>CheckedStudyStatus</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getErrorStudyStatus" setMethod="setErrorStudyStatus">
+      <description>Update study status if an error occured for this study. Type 'NONE' to disable status update.</description>
+      <name>ErrorStudyStatus</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write" getMethod="getIssuer" setMethod="setIssuer">
+      <description>Issuer of patient ID for new Patient</description>
+      <name>IssuerOfPatientID</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DCM4CHEE"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getLimitNumberOfStudiesPerTask" setMethod="setLimitNumberOfStudiesPerTask">
+      <description>Maximum number of studies that are checked in one task.
+      </description>
+      <name>LimitNumberOfStudiesPerTask</name>
+      <type>int</type>
+      <descriptors>
+         <value value="100"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getSchedulerServiceName"
+      setMethod="setSchedulerServiceName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>SchedulerServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=Scheduler"/>
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getTimerIDCheckStudyPatient"
+      setMethod="setTimerIDCheckStudyPatient">
+      <description>The timer ID for scheduler of checking study patient.
+      </description>
+      <name>TimerIDCheckStudyPatient</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="CheckStudyPatient" />
+      </descriptors>
+   </attribute>
+
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+
+   <operation impact="ACTION">
+      <description>Get number of studies with patient coercion.</description>
+      <name>findStudiesWithPatientCoercion</name>
+      <return-type>int</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Check consistency of study .</description>
+      <name>check</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+
+</mbean>
+    

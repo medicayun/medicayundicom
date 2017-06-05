@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>HL7 Server</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4jboss-hl7srv.ser"/>
+      <currencyTimeLimit value="0"/>
+      <state-action-on-update value="keep-running"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.hl7.HL7ServerService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>HL7ServerService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getPort"
+      setMethod="setPort">
+      <description>TCP listening port.
+      </description>
+      <name>Port</name>
+      <type>int</type>
+      <descriptors>
+         <state-action-on-update value="restart"/>
+         <value value="2300" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getProtocolName"
+      setMethod="setProtocolName">
+      <description>Enable TLS mode: mllp, mllp-tls, mllp-tls.aes,
+      mllp-tls.3des or mllp-tls.nodes.
+      </description>
+      <name>ProtocolName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <state-action-on-update value="restart"/>
+         <value value="mllp" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getKeyStoreURL"
+      setMethod="setKeyStoreURL">
+      <description>URL of key store containing key used in SSL handshake,
+         when running in TLS mode.
+      </description>
+      <name>KeyStoreURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:identity.p12" />
+      </descriptors>
+   </attribute>
+   <attribute access="write-only"
+      setMethod="setKeyStorePassword">
+      <description>The password for access to key store,
+      specified by attribute KeyStoreURL.
+      </description>
+      <name>KeyStorePassword</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="passwd" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getTrustStoreURL"
+      setMethod="setTrustStoreURL">
+      <description>URL of trust store containing accepted certificates,
+         when running in TLS mode.
+      </description>
+      <name>TrustStoreURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:cacerts.jks" />
+      </descriptors>
+   </attribute>
+   <attribute access="write-only"
+      setMethod="setTrustStorePassword">
+      <description>The password for access to trust store,
+      specified by attribute TrustStoreURL.
+      </description>
+      <name>TrustStorePassword</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="passwd" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAuditLoggerName"
+      setMethod="setAuditLoggerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chex:service=AuditLogger" />
+      </descriptors>
+   </attribute>
+   &defattr;
+
+   <!-- Operations -->
+   &defops;
+   <operation impact="ACTION">
+      <description>Register HL7 Message Handler</description>
+      <name>registerApplication</name>
+      <parameter>
+        <description>Message Type</description>
+        <name>messageType</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Trigger Event</description>
+        <name>triggerEvent</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Message Handler</description>
+        <name>handler</name>
+        <type>ca.uhn.hl7v2.app.Application</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+</mbean>
+    

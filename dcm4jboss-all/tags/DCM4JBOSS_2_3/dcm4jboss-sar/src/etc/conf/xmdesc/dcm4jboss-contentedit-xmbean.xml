@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>ContentEdit service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.ContentEditService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ContentEditService</name>
+   </constructor>
+
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+<!-- create -->
+   <operation impact="ACTION">
+      <description>create new patient.
+      </description>
+      <name>createPatient</name>
+      <parameter>
+        <description>Dataset with patient info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>org.dcm4che.data.Dataset</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>create new study.
+      </description>
+      <name>createStudy</name>
+      <parameter>
+        <description>Dataset with study info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <parameter>
+        <description>Primary key of patient for the new study.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>org.dcm4che.data.Dataset</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>create new series.
+      </description>
+      <name>createSeries</name>
+      <parameter>
+        <description>Dataset with series info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <parameter>
+        <description>Primary key of study for the new series.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>org.dcm4che.data.Dataset</return-type>
+   </operation>
+<!-- merge patient -->
+   <operation impact="ACTION">
+      <description>merge patient.
+      </description>
+      <name>mergePatients</name>
+      <parameter>
+        <description>Primary key of resulting patient</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <parameter>
+        <description>Array of pks of patient to merge.</description>
+        <name>pks</name>
+        <type>[I</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+<!-- update -->  
+   <operation impact="ACTION">
+      <description>update patient.
+      </description>
+      <name>updatePatient</name>
+      <parameter>
+        <description>Dataset with patient info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>update study.
+      </description>
+      <name>updateStudy</name>
+      <parameter>
+        <description>Dataset with study info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>update series.
+      </description>
+      <name>updateSeries</name>
+      <parameter>
+        <description>Dataset with series info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+<!-- delete -->
+   <operation impact="ACTION">
+      <description>delete patient.
+      </description>
+      <name>deletePatient</name>
+      <parameter>
+        <description>Primary key of patient to delete.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>delete study.
+      </description>
+      <name>deleteStudy</name>
+      <parameter>
+        <description>Primary key of study to delete.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>delete series.
+      </description>
+      <name>deleteSeries</name>
+      <parameter>
+        <description>Primary key of series to delete.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>delete instance.
+      </description>
+      <name>deleteInstance</name>
+      <parameter>
+        <description>Primary key of instance to delete.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+<!-- move -->
+   <operation impact="ACTION">
+      <description>move study.
+      </description>
+      <name>moveStudies</name>
+      <parameter>
+        <description>Array of pks of studies to move.</description>
+        <name>pks</name>
+        <type>[I</type>
+      </parameter>
+      <parameter>
+        <description>Primary key of target patient</description>
+        <name>ds</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>move series.
+      </description>
+      <name>moveSeries</name>
+      <parameter>
+        <description>Array of pks of steries to move.</description>
+        <name>pks</name>
+        <type>[I</type>
+      </parameter>
+      <parameter>
+        <description>Primary key of target study</description>
+        <name>ds</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>move instances.
+      </description>
+      <name>moveInstances</name>
+      <parameter>
+        <description>Array of pks of instances to move.</description>
+        <name>pks</name>
+        <type>[I</type>
+      </parameter>
+      <parameter>
+        <description>Primary key of target series</description>
+        <name>ds</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   
+</mbean>

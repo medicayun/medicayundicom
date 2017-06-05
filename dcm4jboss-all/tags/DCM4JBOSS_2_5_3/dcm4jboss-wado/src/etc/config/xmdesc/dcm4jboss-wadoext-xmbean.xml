@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Extended WADO Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.wado.mbean.ExtendedWADOService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ExtendedWADOService</name>
+   </constructor>
+
+   <attribute access="read-write"
+      getMethod="isCacheEnabled"
+      setMethod="setCacheEnabled">
+      <description>Enable/disable caching.
+      </description>
+      <name>CacheEnabled</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCacheRoot"
+      setMethod="setCacheRoot">
+      <description>Root directory where documents are stored for caching.
+      </description>
+      <name>CacheRoot</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="wado_ext_cache" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getNumberOfCacheFolders"
+      setMethod="setNumberOfCacheFolders">
+      <description>Number of subfolders for separating caching files.
+      		(to avoid too many files in a single directory!)
+      </description>
+      <name>NumberOfCacheFolders</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10" />
+      </descriptors>
+   </attribute>
+   
+    <attribute access="read-write"
+      getMethod="getMinFreeSpace"
+      setMethod="setMinFreeSpace">
+      <description>Min space that must be available on cache drive (MB = 1000000 Bytes, GB = 1000MB).
+      </description>
+      <name>MinFreeSpace</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="10MB" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="getPreferredFreeSpace"
+      setMethod="setPreferredFreeSpace">
+      <description>Preferred free disk space (MB = 1000000 Bytes, GB = 1000MB).
+      </description>
+      <name>PreferredFreeSpace</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="20MB" />
+      </descriptors>
+    </attribute>
+
+   <attribute access="read-write"
+      getMethod="getFreeDiskSpaceInterval"
+      setMethod="setFreeDiskSpaceInterval">
+      <description>Interval in which the available disk space is checked and, if necessary,
+      	  the cache is cleaned.
+          Format: ##m (in minutes), ##h (in hours), ##d (in days).
+          NEVER (= disable media scheduling).          
+      </description>
+      <name>FreeDiskSpaceInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="10m" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="getFileSystemMgtName"
+      setMethod="setFileSystemMgtName">
+      <description>For internal use. Don't change!
+      </description>
+      <name>FileSystemMgtName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="tiani.archive:service=FileSystemMgt" />
+      </descriptors>
+   </attribute>
+    <attribute access="read-write"
+      getMethod="getStudyInfoServiceName"
+      setMethod="setStudyInfoServiceName">
+      <description>For internal use. Don't change!
+      </description>
+      <name>StudyInfoServiceName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="tiani.archive:service=StudyInfoService" />
+      </descriptors>
+   </attribute>
+
+   <!-- Operations -->
+   &defaultOperations;
+  
+   <operation impact="INFO">
+      <description>Show free disk space</description>
+      <name>showFreeSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Clear Cache</description>
+      <name>clearCache</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Free Disk Space.
+      Delete old files from cache to free disk space.
+      </description>
+      <name>freeDiskSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Get WADO response object</description>
+      <name>getWADOObject</name>
+      <parameter>
+        <description>Value object of the request.</description>
+        <name>reqVO</name>
+        <type>org.dcm4chex.wado.common.WADORequestObject</type>
+      </parameter>
+      <return-type>org.dcm4chex.wado.common.WADOResponseObject</return-type>
+   </operation>
+   
+</mbean>

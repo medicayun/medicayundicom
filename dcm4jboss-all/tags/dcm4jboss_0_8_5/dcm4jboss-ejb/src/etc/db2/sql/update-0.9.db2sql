@@ -1,0 +1,9 @@
+-- Update DB from dcm4jboss-0.7.x/0.8.x to dcm4jboss-0.9.x
+
+CONNECT TO tiani;
+SET CURRENT SCHEMA TIANI;
+
+DROP TABLE move_order;
+DROP SEQUENCE move_order_pk_seq;
+
+TERMINATE;

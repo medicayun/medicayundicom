@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-dcmsrv-service.xml 1929 2005-08-30 14:54:54Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.DcmServerService" 
+         name="tiani.archive:service=DcmServer"
+         xmbean-dd="xmdesc/dcm4jboss-dcmsrv-xmbean.xml">
+    <depends>jboss.j2ee:service=EJB,jndiName=ejb/Storage</depends>
+    <depends>jboss.j2ee:service=EJB,jndiName=ejb/FileSystemMgt</depends>
+    <depends>tiani.archive:service=TLSConfig</depends>
+    <depends>tiani.archive:service=AuditLogger</depends>
+  </mbean>
+</server>

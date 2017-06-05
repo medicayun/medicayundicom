@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>HL7 Send Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.hl7.ADTService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>HL7SendService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getSendingApplication"
+      setMethod="setSendingApplication">
+      <description>Sending Application in transmitted messages.
+      </description>
+      <name>SendingApplication</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DCM4JBOSS" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSendingFacility"
+      setMethod="setSendingFacility">
+      <description>Sending Facility in transmitted messages.
+      </description>
+      <name>SendingFacility</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DCM4JBOSS" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getForwardingRules"
+      setMethod="setForwardingRules">
+      <description>List of forwarding rules.
+      Format:=['['CONDITION[,..]']'](DESTINATION[,..]|NONE)
+      CONDITION:=(sending|receiving|msgtype)[!]=value['|'...]    
+      DESTINATION:=APPLICATION^FACILITY
+      </description>
+      <name>ForwardingRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="[sending=PACS_NODEXX^DCM4JBOSS]PACS_CENTRAL^DCM4JBOSS" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRetryIntervalls"
+      setMethod="setRetryIntervalls">
+      <description>Number and intervalls of retries of failed 
+      HL7 forward requests by a list of comma separated NUMBERxINTERVAL pairs.
+      The intervall can be specified in seconds (##s), minutes (##m),
+      hours (##h) or days (##d).
+      </description>
+      <name>RetryIntervalls</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="5x1m,12x5m,24x1h,7x1d" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getConcurrency"
+      setMethod="setConcurrency">
+      <description>Maximal number of concurrent forwarded messages.
+      </description>
+      <name>Concurrency</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAcTimeout"
+      setMethod="setAcTimeout">
+      <description>Acknowledge timeout in ms. 0 = no timeout.
+      </description>
+      <name>AcTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSoCloseDelay"
+      setMethod="setSoCloseDelay">
+      <description>Socket close delay in ms after receive of acknowledge message.
+      </description>
+      <name>SoCloseDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="50" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getHL7ServerName"
+      setMethod="setHL7ServerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>HL7ServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=HL7Server" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getTLSConfigName"
+      setMethod="setTLSConfigName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>TLSConfigName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=TLSConfig" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getQueueName"
+      setMethod="setQueueName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>QueueName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="HL7Send" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Forward HL7 message according configured Forwarding Rules</description>
+      <name>forward</name>
+      <parameter>
+        <description>HL7 message as byte array</description>
+        <name>hl7msg</name>
+        <type>[B</type>
+      </parameter>
+      <return-type>int</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Send HL7 message to specified destination</description>
+      <name>sendTo</name>
+      <parameter>
+        <description>HL7 message as byte array</description>
+        <name>hl7msg</name>
+        <type>[B</type>
+      </parameter>
+      <parameter>
+        <description>Destination. Format: ReceivingApplication^ReceivingFacility</description>
+        <name>receiving</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Send/Forward HL7 message with message Type and Patient data</description>
+      <name>sendHL7PatientXXX</name>
+      <parameter>
+        <description>Patient data (Dataset)</description>
+        <name>patient</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <parameter>
+        <description>Type of message (ADT^A02,ADT^A03,..)</description>
+        <name>msgType</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Sending. Format: SendingApplication^SendingFacility</description>
+        <name>patient</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Destination. Format: ReceivingApplication^ReceivingFacility</description>
+        <name>destination</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Select false if the message should be sent directly or true to send via forwarding rules.</description>
+        <name>useForward</name>
+        <type>boolean</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Send/Forward HL7 Patient Merge message.</description>
+      <name>sendHL7PatientMerge</name>
+      <parameter>
+        <description>Dominant Patient data (Dataset)</description>
+        <name>dominant</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <parameter>
+        <description>List of prior patients</description>
+        <name>priorPats</name>
+        <type>[Lorg.dcm4che.data.Dataset;</type>
+      </parameter>
+      <parameter>
+        <description>Sending. Format: SendingApplication^SendingFacility</description>
+        <name>patient</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Destination. Format: ReceivingApplication^ReceivingFacility</description>
+        <name>destination</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Enable/disable forwarding (using forward rules) instead of send direct (local)</description>
+        <name>useForward</name>
+        <type>boolean</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   
+</mbean>
+    

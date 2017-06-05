@@ -1,0 +1,114 @@
+<project name="dcm4chee-xdsquery" default="sar">
+
+	<property file="../build.properties"/>
+	<property file="build.properties"/>
+
+	<property name="javac.debug" value="on"/>
+	<property name="javac.deprecation" value="off"/>
+	<property name="javac.optimize" value="on"/>
+	<property name="javac.source" value="1.5"/>
+	<property name="javac.target" value="1.5"/>
+
+	<property name="version" value="2.13.3"/>
+	<!-- Override with your JBoss dist location -->
+	<property name="jboss.home" value="${user.home}/jboss-4.2.2.GA" />
+	<property name="jboss.server.home" value="${jboss.home}/server/default"/>
+	<!-- Override with your dcm4chee-sar working directory -->
+	<property name="dcm4chee-sar.home" value="../dcm4jboss-sar" />
+	<property name="dcm4chee-sar.lib" value="${dcm4chee-sar.home}/lib" />
+
+	<property name="lib.dir" value="lib"/>
+	
+	<property name="target.dir" value="target"/>
+	<property name="product" value="${ant.project.name}"/>
+	<property name="jar.file" value="${target.dir}/lib/${product}.jar"/>
+	<property name="sar.file" value="${target.dir}/deploy/${product}.sar"/>
+
+	<property name="javasrc.dir" value="src/java"/>
+	<property name="classes.dir" value="${target.dir}/classes"/>
+	<property name="etc.dir" value="src/etc"/>
+	
+	<!-- deploy properties. Overwrite deploy.root with your running application instance. -->
+	<property name="deploy.root" value="${jboss.home}/server/pacs"/>
+	<property name="service.deploy.dir" value="${deploy.root}/deploy"/>
+
+	<path id="class.path">
+		<fileset dir="${jboss.home}/lib">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${jboss.server.home}/lib">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<pathelement location="${dcm4chee-sar.lib}/dcm4che-audit-2.0.13.jar"/>		
+	</path>
+
+	<target name="clean">
+		<delete dir="${target.dir}"/>
+	</target>
+    <target name="init">
+    	<tstamp>
+            <format property="TODAY" pattern="dd.MM.yyyy"/>
+        </tstamp>
+    </target>
+
+ 	<target name="compile" depends="init">
+		<mkdir dir="${classes.dir}"/>
+		
+		<javac
+			destdir="${classes.dir}"
+			srcdir="${javasrc.dir}"
+			classpathref="class.path"
+			debug="${javac.debug}"
+			deprecation="${javac.deprecation}"
+			optimize="${javac.optimize}"
+			source="${javac.source}"
+			target="${javac.target}"
+		>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<copy todir="${classes.dir}">
+			<fileset dir="${javasrc.dir}" includes="*.properties"/>
+		</copy>
+		<mkdir dir="${target.dir}/lib/"/>
+	    <jar jarfile="${jar.file}">
+	     	<manifest>
+					<attribute name="Implementation-Title" value="dcm4chee-xdsquery"/>
+					<attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+					<attribute name="Implementation-Vendor" value="AGFA Healthcare"/>
+	     	</manifest>
+	     	<fileset dir="${classes.dir}" />
+	     </jar>
+	</target>
+	<target name="sar" depends="jar">
+		<mkdir dir="${target.dir}/sarpkg/lib"/>
+		<mkdir dir="${target.dir}/sarpkg/classes"/>
+		<mkdir dir="${target.dir}/sarpkg/META-INF"/>
+		<mkdir dir="${target.dir}/deploy/"/>
+		<copy todir="${target.dir}/sarpkg/lib">
+			<fileset dir="${lib.dir}" includes="*.jar"/>
+			<fileset dir="${target.dir}/lib" includes="*.jar"/>
+		</copy>
+		<copy todir="${target.dir}/sarpkg/META-INF">
+			<fileset dir="${etc.dir}/META-INF" />
+		</copy>
+	    <jar jarfile="${sar.file}" basedir="${target.dir}/sarpkg" >
+	     	<manifest>
+					<attribute name="Implementation-Title" value="dcm4chee-xdsquery"/>
+					<attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+					<attribute name="Implementation-Vendor" value="AGFA Healthcare"/>
+	     	</manifest>
+	     </jar>
+	</target>
+
+	<target name="deploy" depends="sar,deploy-only"/>
+	
+	<target name="deploy-only">
+		<copy file="${sar.file}" todir="${service.deploy.dir}" />
+	</target>
+
+</project>

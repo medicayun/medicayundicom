@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-movescu-service.xml 1119 2004-05-21 09:50:27Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.movescu.MoveScuService" 
+	name="dcm4chex:service=MoveScu"
+	xmbean-dd="xmdesc/dcm4jboss-movescu-xmbean.xml">
+  </mbean>
+
+  <mbean code="org.jboss.varia.scheduler.Scheduler" 
+	 name="dcm4chex:service=Scheduler,name=Scheduler of MoveScu"
+	 xmbean-dd="xmdesc/dcm4jboss-movescu-scheduler-xmbean.xml">
+
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the MoveOrderQueue EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/MoveOrderQueue,service=EJB</depends>
+    <depends>jboss.j2ee:jndiName=ejb/MoveOrder,service=EJB</depends>
+  </mbean>
+</server>
+

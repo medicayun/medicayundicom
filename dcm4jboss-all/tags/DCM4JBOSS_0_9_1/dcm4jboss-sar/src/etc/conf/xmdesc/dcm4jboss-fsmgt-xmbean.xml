@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>File System Management Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4jboss-fsmgt.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.FileSystemMgtService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>FileSystemMgtService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getDirectoryPathList"
+      setMethod="setDirectoryPathList">
+      <description>List directories/mount points on this DICOM Node.
+      Use ';' on Windows and ':' on Unix-like platforms to separate
+      multiple directory path names. Relative path names are
+      resolved relative to INSTALL_DIR/server/pacs/.
+      </description>
+      <name>DirectoryPathList</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="archive" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStorageDirectory"
+      setMethod="setStorageDirectory">
+      <description>Specifies Directory currently used for storage of new
+      received DICOM Instances by the Storage SCP on this DICOM Node. Must
+      be listed in DirectoryPathList.
+      </description>
+      <name>StorageDirectory</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="archive" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRetrieveAETs"
+      setMethod="setRetrieveAETs">
+      <description>Retrieve AETs associated with this DICOM Node. Multiple values have to be separated by \. 
+      </description>
+      <name>LocalRetrieveAETs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="QR_SCP" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDefaultHighWaterMark"
+      setMethod="setDefaultHighWaterMark">
+      <description>Default High Water Mark. Format: ##.#MB or ##.#GB,
+      with 1MB = 1000000 Bytes and 1GB = 1000MB.
+      </description>
+      <name>DefaultHighWaterMark</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="10GB" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getEjbProviderURL"
+      setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EjbProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="INFO">
+      <description>Determines if the specified File System is
+      accessable on this DICOM Node</description>
+      <name>isLocalFileSystem</name>
+      <parameter>
+        <description>Directory Path</description>
+        <name>DirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Returns File System Info about current Storage Directory.
+      </description>
+      <name>getStorageFileSystem</name>
+      <return-type>org.dcm4chex.archive.ejb.interfaces.FileSystemDTO</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Select next Storage Directory from Directory Path List.</description>
+      <name>nextStorageDirectory</name>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Purge unreferenced Files</description>
+      <name>purgeFiles</name>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>List configured File Systems</description>
+      <name>listFileSystems</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Add new File System Configuration</description>
+      <name>addFileSystem</name>
+      <parameter>
+        <description>Directory Path (use / as delimiter)</description>
+        <name>DirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Associated Retrieve AETs (use \ as delimiter)</description>
+        <name>RetrieveAETs</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>High Water Mark. Format: ##.#MB or ##.#GB</description>
+        <name>HighWaterMark</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>org.dcm4chex.archive.ejb.interfaces.FileSystemDTO</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Update Retrieve AETs of File System Configuration</description>
+      <name>updateRetrieveAETs</name>
+      <parameter>
+        <description>Directory Path (use / as delimiter)</description>
+        <name>DirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>New Associated Retrieve AETs (use \ as delimiter)</description>
+        <name>RetrieveAETs</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>org.dcm4chex.archive.ejb.interfaces.FileSystemDTO</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Update High Water Mark of File System Configuration</description>
+      <name>updateHighWaterMark</name>
+      <parameter>
+        <description>Directory Path (use / as delimiter)</description>
+        <name>DirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>New High Water Mark. Format: ##.#MB or ##.#GB</description>
+        <name>HighWaterMark</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>org.dcm4chex.archive.ejb.interfaces.FileSystemDTO</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Remove File System Configuration</description>
+      <name>removeFileSystem</name>
+      <parameter>
+        <description>Directory Path (use / as delimiter)</description>
+        <name>DirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+</mbean>

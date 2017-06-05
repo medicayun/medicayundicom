@@ -1,0 +1,52 @@
+-- Update DB from dcm4chee-2.15.x to dcm4chee-2.16.x
+
+CREATE INDEX inst_created ON instance(created_time);
+
+ALTER TABLE study_on_fs ADD (mark_to_delete BIT);
+
+UPDATE study_on_fs SET mark_to_delete=0;
+ALTER TABLE study_on_fs MODIFY mark_to_delete BIT NOT NULL;
+
+CREATE INDEX mark_to_delete ON study_on_fs(mark_to_delete);
+
+ALTER TABLE patient ADD (
+   pat_fn_sx VARCHAR(250) BINARY,
+   pat_gn_sx VARCHAR(250) BINARY);
+CREATE INDEX pat_fn_sx ON patient(pat_fn_sx);
+CREATE INDEX pat_gn_sx ON patient(pat_gn_sx);
+
+ALTER TABLE study ADD (
+   ref_phys_fn_sx VARCHAR(250) BINARY,
+   ref_phys_gn_sx VARCHAR(250) BINARY);
+CREATE INDEX ref_phys_fn_sx ON study(ref_phys_fn_sx);
+CREATE INDEX ref_phys_gn_sx ON study(ref_phys_gn_sx);
+
+ALTER TABLE series ADD (
+   perf_phys_fn_sx VARCHAR(250) BINARY,
+   perf_phys_gn_sx VARCHAR(250) BINARY);
+CREATE INDEX perf_phys_fn_sx ON series(perf_phys_fn_sx);
+CREATE INDEX perf_phys_gn_sx ON series(perf_phys_gn_sx);
+
+ALTER TABLE series_req ADD (
+   req_phys_fn_sx VARCHAR(250) BINARY,
+   req_phys_gn_sx VARCHAR(250) BINARY);
+CREATE INDEX ser_req_phys_fn_sx ON series_req(req_phys_fn_sx);
+CREATE INDEX ser_req_phys_gn_sx ON series_req(req_phys_gn_sx);
+
+ALTER TABLE verify_observer ADD (
+   observer_fn_sx VARCHAR(250) BINARY,
+   observer_gn_sx VARCHAR(250) BINARY);
+CREATE INDEX observer_fn_sx ON verify_observer(observer_fn_sx);
+CREATE INDEX observer_gn_sx ON verify_observer(observer_gn_sx);
+
+ALTER TABLE mwl_item ADD (
+   perf_phys_fn_sx VARCHAR(250) BINARY,
+   perf_phys_gn_sx VARCHAR(250) BINARY);
+CREATE INDEX mwl_perf_phys_fn_sx ON mwl_item(perf_phys_fn_sx);
+CREATE INDEX mwl_perf_phys_gn_sx ON mwl_item(perf_phys_gn_sx);
+
+ALTER TABLE gpsps_perf ADD (
+   hum_perf_fn_sx VARCHAR(250) BINARY,
+   hum_perf_gn_sx VARCHAR(250) BINARY);
+CREATE INDEX gpsps_perf_fn_sx ON gpsps_perf(hum_perf_fn_sx);
+CREATE INDEX gpsps_perf_gn_sx ON gpsps_perf(hum_perf_gn_sx);

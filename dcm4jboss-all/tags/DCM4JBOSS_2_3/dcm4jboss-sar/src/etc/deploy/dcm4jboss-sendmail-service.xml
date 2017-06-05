@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-sendmail-service.xml 1683 2005-04-13 12:29:23Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.SendMailService" 
+	     name="tiani.archive:service=Sendmail"
+	     xmbean-dd="xmdesc/dcm4jboss-sendmail-xmbean.xml">
+    <depends>
+      tiani.archive:service=Queue,name=Sendmail
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+  </mbean>
+</server>

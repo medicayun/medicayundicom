@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>DICOM Query/Retrieve SCP</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4jboss-qrscp.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.qrscp.QueryRetrieveScpService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>QueryRetrieveScpService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getCallingAETs"
+      setMethod="setCallingAETs">
+      <description>Accepted Calling AETs. "ANY" = accept any.
+      </description>
+      <name>CallingAETs</name>
+      <type>[Ljava.lang.String;</type>
+      <descriptors>
+         <value value="ANY" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCalledAETs"
+      setMethod="setCalledAETs">
+      <description>Accepted Called AETs.
+      </description>
+      <name>CalledAETs</name>
+      <type>[Ljava.lang.String;</type>
+      <descriptors>
+         <value value="QR_SCP" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRetrieveAETs"
+      setMethod="setRetrieveAETs">
+      <description>RetrieveAETs associated with local accessable Files.
+      Usually equal or a sub-set of accepted Called AETs.
+      </description>
+      <name>RetrieveAETs</name>
+      <type>[Ljava.lang.String;</type>
+      <descriptors>
+         <value value="QR_SCP" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptPatientRootFind"
+      setMethod="setAcceptPatientRootFind">
+      <description>Support Patient Root Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptPatientRootFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptPatientRootMove"
+      setMethod="setAcceptPatientRootMove">
+      <description>Support Patient Root Query/Retrieve Information Model - MOVE SOP Class
+      </description>
+      <name>AcceptPatientRootMove</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptStudyRootFind"
+      setMethod="setAcceptStudyRootFind">
+      <description>Support Study Root Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptStudyRootFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptStudyRootMove"
+      setMethod="setAcceptStudyRootMove">
+      <description>Support Study Root Query/Retrieve Information Model - MOVE SOP Class
+      </description>
+      <name>AcceptStudyRootMove</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptPatientStudyOnlyFind"
+      setMethod="setAcceptPatientStudyOnlyFind">
+      <description>Support Patient Study Only Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptPatientStudyOnlyFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptPatientStudyOnlyMove"
+      setMethod="setAcceptPatientStudyOnlyMove">
+      <description>Support Patient Study Only Query/Retrieve Information Model - MOVE SOP Class
+      </description>
+      <name>AcceptPatientStudyOnlyMove</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptExplicitVRLE"
+      setMethod="setAcceptExplicitVRLE">
+      <description>Accept DICOM objects encoded in Explicit Value Representation Little Endian Transfer Syntax.
+      </description>
+      <name>AcceptExplicitVRLE</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isSendPendingMoveRSP"
+      setMethod="setSendPendingMoveRSP">
+      <description>Return optional C-MOVE RSP DICOM Message with Pending Status.
+      </description>
+      <name>SendPendingMoveRSP</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isRetrieveLastReceived"
+      setMethod="setRetrieveLastReceived">
+      <description>Select last received instances for retrieval, in the case
+      that several instances with equal SOP Instance UID were received.
+      </description>
+      <name>RetrieveLastReceived</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isForwardAsMoveOriginator"
+      setMethod="setForwardAsMoveOriginator">
+      <description>Use Calling AET of requesting MOVE SCU instead own (Called) AET
+      when opening an Association to other MOVE SCP for forwarding a MOVE RQ.
+      </description>
+      <name>ForwardAsMoveOriginator</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAcTimeout"
+      setMethod="setAcTimeout">
+      <description>A-ASSOCIATE AC timeout in ms. 0 = no timeout.
+      </description>
+      <name>AcTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDimseTimeout"
+      setMethod="setDimseTimeout">
+      <description>DIMSE message timeout in ms. 0 = no timeout.
+      </description>
+      <name>DimseTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="60000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSoCloseDelay"
+      setMethod="setSoCloseDelay">
+      <description>Socket close delay in ms after A-RELEASE RSP.
+      </description>
+      <name>SoCloseDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="500" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getBufferSize"
+      setMethod="setBufferSize">
+      <description>Size of buffer used to copy data file to TCP channel.
+      No need to change default value: 512.
+      </description>
+      <name>BufferSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="512" />
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getDataSourceJndiName"
+      setMethod="setDataSourceJndiName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DataSourceJndiName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="java:/DefaultDS" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDcmServerName"
+      setMethod="setDcmServerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DcmServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chex:service=DcmServer" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
+

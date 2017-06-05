@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-auditlog-service.xml 1119 2004-05-21 09:50:27Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.AuditLoggerService" 
+         name="dcm4chex:service=AuditLogger"
+         xmbean-dd="xmdesc/dcm4jboss-auditlog-xmbean.xml">
+  </mbean>
+</server>

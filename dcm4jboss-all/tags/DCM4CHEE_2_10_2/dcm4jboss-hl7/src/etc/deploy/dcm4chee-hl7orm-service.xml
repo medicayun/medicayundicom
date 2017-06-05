@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-hl7orm-service.xml 2531 2006-06-20 14:49:49Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee-hl7.jar"/>
+  <mbean code="org.dcm4chex.archive.hl7.ORMService" 
+         name="dcm4chee.archive:service=HL7Service,type=ORM"
+         xmbean-dd="xmdesc/dcm4chee-hl7orm-xmbean.xml">
+    <depends>
+      dcm4chee.archive:service=HL7Server
+    </depends>
+    <depends>
+      dcm4chee.archive:service=DeviceService
+    </depends>
+  </mbean>
+</server>

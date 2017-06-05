@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-keyobject-service.xml 2212 2006-01-12 13:38:23Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.KeyObjectService" 
+         name="tiani.archive:service=KeyObjectService"
+         xmbean-dd="xmdesc/dcm4jboss-keyobject-xmbean.xml">
+  </mbean>
+
+</server>

@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Content Edit service. Identifies where patient information and study information updates are sent and received. Use the values in ReceivingApplication and ReceivingFacility attributes or the 
+         SendingApplication or SendingFacility attributes to configure specific
+         forwarding rules in the HL7SendService for patient information updates received from this
+         Content Edit Service. Use the values in the CalledAETitle and the CallingAETitle attributes to configure
+         specific forwarding rules in the StudyMgtScu Service for study information updates
+         received from this Content Edit Service.
+      </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.ContentEditService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ContentEditService</name>
+   </constructor>
+
+   <attribute access="read-write" getMethod="getReceivingApplication" setMethod="setReceivingApplication">
+      <description>Identifies the Receiving Application in HL7 messages that are  directed to
+         the HL7SendService to notify other applications about patient information
+         updates. The values in the ReceivingApplication attribute may be used to configure specific
+         forwarding rules in the HL7SendService for HL7 messages that are  received from this
+         Content Edit Service.   
+      </description>
+      <name>ReceivingApplication</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getReceivingFacility" setMethod="setReceivingFacility">
+      <description>Identifies the Receiving Facility in HL7 messages that are directed to
+         the HL7SendService to notify other applications about patient information
+         updates.
+      The values in the ReceivingFacility attribute may be used to configure specific
+         forwarding rules in the HL7SendService for HL7 messages that are  received from this
+         Content Edit Service.</description>
+      <name>ReceivingFacility</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="TIANI"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getSendingApplication" setMethod="setSendingApplication">
+      <description>Identifies the Sending Application in HL7 messages that are  directed to
+         the HL7SendService to notify other applications about patient information
+         updates.
+      The values in the SendingApplication attribute may be used to configure specific
+         forwarding rules in the HL7SendService for HL7 messages that are  received from this
+         Content Edit Service.</description>
+      <name>SendingApplication</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getSendingFacility" setMethod="setSendingFacility">
+      <description>Identifies the Sending Facility in HL7 messages that are directed to
+         HL7SendService to notify other applications about patient information
+         updates.
+      The values in the SendingFacility attribute may be used to configure specific
+         forwarding rules in the HL7SendService for HL7 messages that are  received from this
+         Content Edit Service.</description>
+      <name>SendingFacility</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="TIANI"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getCalledAET" setMethod="setCalledAET">
+      <description>Called AE title in DICOM messages that are directed to the StudyMgtScuService
+         to notify other applications about study information updates.
+         The CalledAETitle may be used to configure
+         specific forwarding rules in StudyMgtScu Service for DICOM messages
+         received from this Content Edit Service.
+      </description>
+      <name>CalledAETitle</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getCallingAET" setMethod="setCallingAET">
+      <description>Calling AET in DICOM message directed to StudyMgtScuService
+         to notify other Applications about Study Information Updates.
+      The CallingAETitle may be used to configure
+         specific forwarding rules in StudyMgtScu Service for DICOM messages
+         received from this Content Edit Service.
+      </description>
+      <name>CallingAETitle</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getEjbProviderURL" setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EjbProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getHL7SendServiceName" setMethod="setHL7SendServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>HL7SendServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=HL7Send"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getStudyMgtScuServiceName" setMethod="setStudyMgtScuServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>StudyMgtScuServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=StudyMgtScu"/>
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+<!-- create -->
+   <operation impact="ACTION">
+      <description>create new patient.
+      </description>
+      <name>createPatient</name>
+      <parameter>
+        <description>Dataset with patient info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>org.dcm4che.data.Dataset</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>create new study.
+      </description>
+      <name>createStudy</name>
+      <parameter>
+        <description>Dataset with study info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <parameter>
+        <description>Primary key of patient for the new study.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>org.dcm4che.data.Dataset</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>create new series.
+      </description>
+      <name>createSeries</name>
+      <parameter>
+        <description>Dataset with series info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <parameter>
+        <description>Primary key of study for the new series.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>org.dcm4che.data.Dataset</return-type>
+   </operation>
+<!-- merge patient -->
+   <operation impact="ACTION">
+      <description>merge patient.
+      </description>
+      <name>mergePatients</name>
+      <parameter>
+        <description>Primary key of resulting patient</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <parameter>
+        <description>Array of pks of patient to merge.</description>
+        <name>pks</name>
+        <type>[I</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+<!-- update -->  
+   <operation impact="ACTION">
+      <description>update patient.
+      </description>
+      <name>updatePatient</name>
+      <parameter>
+        <description>Dataset with patient info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>update study.
+      </description>
+      <name>updateStudy</name>
+      <parameter>
+        <description>Dataset with study info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>update series.
+      </description>
+      <name>updateSeries</name>
+      <parameter>
+        <description>Dataset with series info</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+<!-- mark as deleted/undeleted -->
+   <operation impact="ACTION">
+      <description>mark PATIENT/STUDY/SERIES/INSTANCE as deleted or undeleted.
+      </description>
+      <name>markAsDeleted</name>
+      <parameter>
+        <description>Entity type (PATIENT,STUDY,SERIES or INSTANCE)</description>
+        <name>type</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Primary key to mark as deleted.</description>
+        <name>pk</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <description>Delete (true) or undelete (false). 
+        	Series of an MPPS of status IncorrectWorklistEntry cant be undeleted!
+        </description>
+        <name>delete</name>
+        <type>boolean</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+
+<!-- delete -->
+   <operation impact="ACTION">
+      <description>delete patient.
+      </description>
+      <name>deletePatient</name>
+      <parameter>
+        <description>Primary key of patient to delete.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>delete study.
+      </description>
+      <name>deleteStudy</name>
+      <parameter>
+        <description>Primary key of study to delete.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>delete series.
+      </description>
+      <name>deleteSeries</name>
+      <parameter>
+        <description>Primary key of series to delete.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>delete instance.
+      </description>
+      <name>deleteInstance</name>
+      <parameter>
+        <description>Primary key of instance to delete.</description>
+        <name>pk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+<!-- move -->
+   <operation impact="ACTION">
+      <description>move study.
+      </description>
+      <name>moveStudies</name>
+      <parameter>
+        <description>Array of pks of studies to move.</description>
+        <name>pks</name>
+        <type>[I</type>
+      </parameter>
+      <parameter>
+        <description>Primary key of target patient</description>
+        <name>ds</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>move series.
+      </description>
+      <name>moveSeries</name>
+      <parameter>
+        <description>Array of pks of steries to move.</description>
+        <name>pks</name>
+        <type>[I</type>
+      </parameter>
+      <parameter>
+        <description>Primary key of target study</description>
+        <name>ds</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>move instances.
+      </description>
+      <name>moveInstances</name>
+      <parameter>
+        <description>Array of pks of instances to move.</description>
+        <name>pks</name>
+        <type>[I</type>
+      </parameter>
+      <parameter>
+        <description>Primary key of target series</description>
+        <name>ds</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   
+</mbean>

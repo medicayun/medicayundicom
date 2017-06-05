@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Compression Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.CompressionService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>CompressionService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getMaxConcurrentCodec"
+      setMethod="setMaxConcurrentCodec">
+      <description>Maximal number of concurrent compression/decompression of images.
+      </description>
+      <name>MaxConcurrentCodec</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getTaskInterval"
+      setMethod="setTaskInterval">
+      <description>Interval in which DB is checked for images to compress.
+          Format: INTERVAL['!'FROM'-'TO] or 'NEVER'
+          INTERVAL: ##s (in seconds), ##m (in minutes), ##h (in hours).
+          FROM,TO: start and end hour (0-23) when no compression should be performed.
+          'NEVER' = disable auto compression).
+      </description>
+      <name>TaskInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER" />
+      </descriptors>
+   </attribute>
+
+
+   <attribute access="read-write"
+      getMethod="getLimitNumberOfFilesPerTask"
+      setMethod="setLimitNumberOfFilesPerTask">
+      <description>Max. number of files that are compressed in one task.
+      </description>
+      <name>LimitNumberOfFilesPerTask</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1000" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getCompressionRules"
+      setMethod="setCompressionRules">
+      <description>Specifies compression codec and delay for individual SOP Classes.
+      	&lt;br&gt;Format: sop-class-name-or-uid':'codec':'delay
+      	&lt;br&gt;code: {'JPLL'|'JLSL'|'J2KR'}
+        &lt;br&gt;'JPLL': JPEG Loss Less
+        &lt;br&gt;'JLSL': JPEG-LS Loss Less
+        &lt;br&gt;'J2KR': JPEG 2000 Loss Less
+        &lt;br&gt;delay := ##'d' (in days)
+      </description>
+      <name>CompressionRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ComputedRadiographyImageStorage:JLSL:5d,DigitalXRayImageStorageForPresentation:JLSL:5d,DigitalXRayImageStorageForProcessing:JLSL:5d,DigitalMammographyXRayImageStorageForPresentation:JLSL:5d,DigitalMammographyXRayImageStorageForProcessing:JLSL:5d,CTImageStorage:JLSL:5d,MRImageStorage:JLSL:5d,UltrasoundImageStorage:JLSL:5d,UltrasoundMultiframeImageStorage:JLSL:5d,UltrasoundImageStorageRetired:JLSL:5d,UltrasoundMultiframeImageStorageRetired:JLSL:5d,SecondaryCaptureImageStorage:JLSL:5d,XRayAngiographicImageStorage:JLSL:5d,XRayRadiofluoroscopicImageStorage:JLSL:5d,NuclearMedicineImageStorage:JLSL:5d" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="isVerifyCompression"
+      setMethod="setVerifyCompression">
+      <description>Enables/Disables verification of compressed file.
+      </description>
+      <name>VerifyCompression</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getTempDir"
+      setMethod="setTempDir">
+      <description>Directory used to spool decompressed files for 
+      compression verification. Relative path names are resolved relative to
+      INSTALL_DIR/server/pacs/.
+      </description>
+      <name>TempDir</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="tmp" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getKeepTempFileIfVerificationFails"
+      setMethod="setKeepTempFileIfVerificationFails">
+      <description>Interval how long files decompressed for verification
+      shall remain for further analysing, if the decompressed pixel data
+      differs from the pixel data in the original file.
+      Format: ##m (in minutes), ##h (in hours), ##d (in days)
+      </description>
+      <name>KeepTempFileIfVerificationFails</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="1d" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getFileSystemMgtName"
+      setMethod="setFileSystemMgtName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>FileSystemMgtName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=FileSystemMgt" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Check for files to compress.</description>
+      <name>checkForTempFilesToDelete</name>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Check for temporary image files to delete.</description>
+      <name>checkForFilesToCompress</name>
+      <return-type>void</return-type>
+   </operation>
+  
+</mbean>
+    

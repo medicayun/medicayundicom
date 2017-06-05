@@ -1,0 +1,35 @@
+--- drftpd-1.1.4/src/se/mog/io/UnixFileSystem.c~	2003-10-27 01:18:52.000000000 +0100
++++ drftpd-1.1.4/src/se/mog/io/UnixFileSystem.c	2005-08-25 17:54:33.362300740 +0200
+@@ -6,7 +6,7 @@
+ #include <sys/param.h>
+ #include <sys/mount.h>
+ #else /* LINUX */
+-#include <sys/vfs.h>
++#include <sys/statvfs.h>
+ #endif
+ 
+ JNIEXPORT jobject JNICALL Java_se_mog_io_FileSystem_getFileSystem
+@@ -30,8 +30,8 @@
+ 
+   const char *path = (*env)->GetStringUTFChars(env, jpath, 0);
+ 
+-  struct statfs buf;
+-  statfs(path, &buf);
++  struct statvfs buf;
++  statvfs(path, &buf);
+ 
+   (*env)->ReleaseStringUTFChars(env, jpath, path);
+ 
+@@ -41,10 +41,10 @@
+   jfieldID fid;
+   
+   fid = (*env)->GetFieldID(env, diskFreeSpaceClass, "freeBytes", "J");
+-  (*env)->SetLongField(env, diskFreeSpace, fid, (long  long)buf.f_bavail * (long  long)buf.f_bsize);
++  (*env)->SetLongField(env, diskFreeSpace, fid, (long  long)buf.f_bavail * (long  long)buf.f_frsize);
+ 
+   fid = (*env)->GetFieldID(env, diskFreeSpaceClass, "totalBytes", "J");
+-  (*env)->SetLongField(env, diskFreeSpace, fid, (long  long)buf.f_blocks * (long  long)buf.f_bsize);
++  (*env)->SetLongField(env, diskFreeSpace, fid, (long  long)buf.f_blocks * (long  long)buf.f_frsize);
+ 
+ 
+   return diskFreeSpace;

@@ -1,0 +1,163 @@
+*** target/xdoclet/META-INF-hsql/jbosscmp-jdbc.xml	Tue Feb 10 14:26:58 2004
+--- target/xdoclet/META-INF-oracle/jbosscmp-jdbc.xml	Tue Feb 10 16:08:16 2004
+***************
+*** 4,10 ****
+  <jbosscmp-jdbc>
+     <defaults>
+       <datasource>java:/DefaultDS</datasource>
+!      <datasource-mapping>Hypersonic SQL</datasource-mapping>
+       <create-table>false</create-table>
+     </defaults>
+  
+--- 4,10 ----
+  <jbosscmp-jdbc>
+     <defaults>
+       <datasource>java:/DefaultDS</datasource>
+!      <datasource-mapping>Oracle9i</datasource-mapping>
+       <create-table>false</create-table>
+     </defaults>
+  
+***************
+*** 77,83 ****
+  
+          </cmp-field>
+  
+! 	<entity-command name="hsqldb-fetch-key">
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+--- 77,84 ----
+  
+          </cmp-field>
+  
+! 	<entity-command name="oracle-table-sequence" class="org.jboss.ejb.plugins.cmp.jdbc.keygen.JDBCOracleCreateCommand">
+! 	     <attribute name="sequence">mwl_item_pk_seq</attribute>
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+***************
+*** 129,135 ****
+  
+          </cmp-field>
+  
+! 	<entity-command name="hsqldb-fetch-key">
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+--- 130,137 ----
+  
+          </cmp-field>
+  
+! 	<entity-command name="oracle-table-sequence" class="org.jboss.ejb.plugins.cmp.jdbc.keygen.JDBCOracleCreateCommand">
+! 	     <attribute name="sequence">instance_pk_seq</attribute>
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+***************
+*** 205,211 ****
+  
+          </cmp-field>
+  
+! 	<entity-command name="hsqldb-fetch-key">
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+--- 207,214 ----
+  
+          </cmp-field>
+  
+! 	<entity-command name="oracle-table-sequence" class="org.jboss.ejb.plugins.cmp.jdbc.keygen.JDBCOracleCreateCommand">
+! 	     <attribute name="sequence">patient_pk_seq</attribute>
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+***************
+*** 272,278 ****
+  
+          </cmp-field>
+  
+! 	<entity-command name="hsqldb-fetch-key">
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+--- 275,282 ----
+  
+          </cmp-field>
+  
+! 	<entity-command name="oracle-table-sequence" class="org.jboss.ejb.plugins.cmp.jdbc.keygen.JDBCOracleCreateCommand">
+! 	     <attribute name="sequence">study_pk_seq</attribute>
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+***************
+*** 324,330 ****
+  
+          </cmp-field>
+  
+! 	<entity-command name="hsqldb-fetch-key">
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+--- 328,335 ----
+  
+          </cmp-field>
+  
+! 	<entity-command name="oracle-table-sequence" class="org.jboss.ejb.plugins.cmp.jdbc.keygen.JDBCOracleCreateCommand">
+! 	     <attribute name="sequence">series_pk_seq</attribute>
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+***************
+*** 407,413 ****
+  			</read-ahead>
+  	     </query>
+  
+! 	<entity-command name="hsqldb-fetch-key">
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+--- 412,419 ----
+  			</read-ahead>
+  	     </query>
+  
+! 	<entity-command name="oracle-table-sequence" class="org.jboss.ejb.plugins.cmp.jdbc.keygen.JDBCOracleCreateCommand">
+! 	     <attribute name="sequence">move_pk_seq</attribute>
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+***************
+*** 454,460 ****
+  
+          </cmp-field>
+  
+! 	<entity-command name="hsqldb-fetch-key">
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+--- 460,467 ----
+  
+          </cmp-field>
+  
+! 	<entity-command name="oracle-table-sequence" class="org.jboss.ejb.plugins.cmp.jdbc.keygen.JDBCOracleCreateCommand">
+! 	     <attribute name="sequence">files_pk_seq</attribute>
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+***************
+*** 491,497 ****
+  
+          </cmp-field>
+  
+! 	<entity-command name="hsqldb-fetch-key">
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+--- 498,505 ----
+  
+          </cmp-field>
+  
+! 	<entity-command name="oracle-table-sequence" class="org.jboss.ejb.plugins.cmp.jdbc.keygen.JDBCOracleCreateCommand">
+! 	     <attribute name="sequence">code_pk_seq</attribute>
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->

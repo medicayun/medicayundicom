@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-auditlog-service.xml 1069 2004-03-24 20:47:32Z gunterze $ -->
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  Audit Log Configuration                                              -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<server>
+
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+   <mbean code="org.dcm4chex.service.AuditLoggerService" 
+         name="dcm4chex:service=AuditLogger,actorName=PACS_TIANI">
+    <attribute name="SyslogHost">localhost</attribute>
+    <attribute name="SyslogPort">4000</attribute>
+    <attribute name="Facility">authpriv</attribute>         
+
+    <attribute name="LogActorConfig">true</attribute>
+    <attribute name="LogActorStartStop">true</attribute>
+    <attribute name="LogBeginStoringInstances">true</attribute>
+    <attribute name="LogDicomQuery">true</attribute>
+    <attribute name="LogInstancesSent">true</attribute>
+    <attribute name="LogInstancesStored">true</attribute>
+    <attribute name="LogSecurityAlert">true</attribute>
+    <attribute name="LogUserAuthenticated">true</attribute>
+    <attribute name="LogExport">true</attribute>
+
+  </mbean>
+
+</server>
+

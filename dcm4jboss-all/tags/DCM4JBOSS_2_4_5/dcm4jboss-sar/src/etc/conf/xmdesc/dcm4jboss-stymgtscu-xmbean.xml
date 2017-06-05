@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Private Study Management Service SCU Service to forward 
+   messages received by private Study Management Service SCP Service
+   </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate" />
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.stymgt.StudyMgtScuService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>StudyMgtScuService</name>
+   </constructor>
+
+   <!-- Attributes -->
+    <attribute access="read-write"
+      getMethod="getForwardingRules"
+      setMethod="setForwardingRules">
+      <description>List of forwarding rules.
+      Format:=['['CONDITION[,..]']'](AET[,..]|NONE)
+      CONDITION:=('calling'|'called'|'command')[!]=VALUE['|'...]
+      command-VALUE:=('N_CREATE_RQ'|'N_SET_RQ'|'N_DELETE_RQ'|'N_ACTION_RQ(1)'|'N_ACTION_RQ(2)')      
+      </description>
+      <name>ForwardingRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="[calling=PACS_TIANI]PACS_CENTRAL" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isRetryIfNoSuchSOPInstance"
+      setMethod="setRetryIfNoSuchSOPInstance">
+      <description>Retry forward if SCP returns status 0112H (No Such SOP Instance).
+      </description>
+      <name>RetryIfNoSuchSOPInstance</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCallingAET"
+      setMethod="setCallingAET">
+      <description>Calling AET used in Association Request.
+      </description>
+      <name>CallingAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRetryIntervalls"
+      setMethod="setRetryIntervalls">
+      <description>Number and intervalls of retries of failed 
+      forward requests by a list of comma separated NUMBERxINTERVAL pairs.
+      The intervall can be specified in seconds (##s), minutes (##m),
+      hours (##h) or days (##d).
+      </description>
+      <name>RetryIntervalls</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="5x1m,12x5m,24x1h,7x1d" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getConcurrency"
+      setMethod="setConcurrency">
+      <description>Maximal number of concurrent forwarded messages.
+      </description>
+      <name>Concurrency</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAcTimeout"
+      setMethod="setAcTimeout">
+      <description>A-ASSOCIATE AC timeout in ms. 0 = no timeout.
+      </description>
+      <name>AcTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDimseTimeout"
+      setMethod="setDimseTimeout">
+      <description>DIMSE message timeout in ms. 0 = no timeout.
+      </description>
+      <name>DimseTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="60000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSoCloseDelay"
+      setMethod="setSoCloseDelay">
+      <description>Socket close delay in ms after A-RELEASE RSP.
+      </description>
+      <name>SoCloseDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="50" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getQueueName"
+      setMethod="setQueueName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>QueueName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="StudyMgtScu" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStudyMgtScpServiceName"
+      setMethod="setStudyMgtScpServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>StudyMgtScpServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=StudyMgtScp" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getTLSConfigName"
+      setMethod="setTLSConfigName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>TLSConfigName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=TLSConfig" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Forward DIMSE according configured Forwarding Rules</description>
+      <name>forward</name>
+      <parameter>
+        <description>Original Calling AET</description>
+        <name>origCallingAET</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Original Called AET</description>
+        <name>origCalledAET</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Command Field</description>
+        <name>cmdfield</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <description>Action Type ID</description>
+        <name>actionTypeID</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <description>Data Set</description>
+        <name>dataset</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>int</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Invoke N_CREATE at remote AE.</description>
+      <name>ncreate</name>
+      <parameter>
+        <description>AET of Remote AE</description>
+        <name>aet</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Data Set</description>
+        <name>dataset</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+   </operation>
+   <operation impact="ACTION">
+      <description>Invoke N_SET at remote AE.</description>
+      <name>nset</name>
+      <parameter>
+        <description>AET of Remote AE</description>
+        <name>aet</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Data Set</description>
+        <name>dataset</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+   </operation>
+   <operation impact="ACTION">
+      <description>Invoke N_ACTION at remote AE.</description>
+      <name>naction</name>
+      <parameter>
+        <description>AET of Remote AE</description>
+        <name>aet</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Action Type ID</description>
+        <name>actionTypeID</name>
+        <type>int</type>
+      </parameter>
+      <parameter>
+        <description>Data Set</description>
+        <name>dataset</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+   </operation>
+   <operation impact="ACTION">
+      <description>Invoke N_DELETE at remote AE.</description>
+      <name>ndelete</name>
+      <parameter>
+        <description>AET of Remote AE</description>
+        <name>aet</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+   </operation>
+   
+</mbean>

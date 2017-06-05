@@ -1,0 +1,254 @@
+CREATE DB tiani;
+CONNECT TO tiani;
+
+SET CURRENT SCHEMA TIANI;
+
+CREATE SEQUENCE ae_pk_seq;
+CREATE TABLE ae (
+	pk          	INTEGER PRIMARY KEY NOT NULL,
+	aet          	VARCHAR(254) NOT NULL,
+	hostname     	VARCHAR(254) NOT NULL,
+	port			INTEGER NOT NULL,
+	cipher_suites  	VARCHAR(254)
+);
+CREATE UNIQUE INDEX aet ON ae(aet);
+
+CREATE SEQUENCE code_pk_seq;
+CREATE TABLE code (
+	pk          	INTEGER PRIMARY KEY NOT NULL,
+	code_value     	VARCHAR(254) NOT NULL,
+	code_designator	VARCHAR(254) NOT NULL,
+	code_version   	VARCHAR(254),
+	code_meaning   	VARCHAR(254)
+);
+CREATE INDEX code_value ON code(code_value,code_designator);
+
+CREATE SEQUENCE patient_pk_seq;
+CREATE TABLE patient (
+	pk          	INTEGER PRIMARY KEY NOT NULL,
+	merge_fk        INTEGER,
+	pat_id         	VARCHAR(254),
+	pat_id_issuer  	VARCHAR(254),
+	pat_name    	VARCHAR(254),
+	pat_name_up    	GENERATED ALWAYS AS (UPPER(pat_name)),
+	pat_birthdate  	DATE,
+	pat_sex		  	VARCHAR(254),
+	pat_attrs		BLOB(64000),
+FOREIGN KEY (merge_fk) REFERENCES patient(pk)
+);
+CREATE INDEX pat_merge_fk ON patient(merge_fk);
+CREATE INDEX pat_id ON patient(pat_id, pat_id_issuer);
+CREATE INDEX pat_name ON patient(pat_name_up);
+CREATE INDEX pat_birthdate ON patient(pat_birthdate);
+CREATE INDEX pat_sex ON patient(pat_sex);
+
+CREATE SEQUENCE study_pk_seq;
+CREATE TABLE study (
+	pk              INTEGER PRIMARY KEY  NOT NULL,
+	patient_fk      INTEGER,
+	study_iuid      VARCHAR(254) NOT NULL,
+	study_id        VARCHAR(254),
+	study_datetime	TIMESTAMP,
+	accession_no	VARCHAR(254),
+	ref_physician   VARCHAR(254),
+	ref_physician_up GENERATED ALWAYS AS (UPPER(ref_physician)),
+	mods_in_study	VARCHAR(254),
+	num_series		INTEGER,
+	num_instances	INTEGER,
+	retrieve_aets	VARCHAR(254),
+	availability	INTEGER,
+	created_time	TIMESTAMP,
+	updated_time	TIMESTAMP,
+	study_attrs		BLOB(64000),
+FOREIGN KEY (patient_fk) REFERENCES patient(pk)
+);
+CREATE INDEX patient_fk ON study(patient_fk);
+CREATE UNIQUE INDEX study_iuid ON study(study_iuid);
+CREATE INDEX study_id ON study(study_id);
+CREATE INDEX study_datetime ON study(study_datetime);
+CREATE INDEX accession_no ON study(accession_no);
+CREATE INDEX ref_physician ON study(ref_physician_up);
+
+CREATE SEQUENCE mpps_pk_seq;
+CREATE TABLE mpps (
+	pk          	INTEGER PRIMARY KEY NOT NULL,
+	patient_fk		INTEGER,
+	drcode_fk		INTEGER,
+	mpps_iuid		VARCHAR(254) NOT NULL,
+	mpps_status		INTEGER,
+	mpps_attrs		BLOB(64000),
+FOREIGN KEY (patient_fk) REFERENCES patient(pk),
+FOREIGN KEY (drcode_fk) REFERENCES code(pk)
+);
+CREATE UNIQUE INDEX mpps_iuid ON mpps (mpps_iuid);
+CREATE INDEX mpps_patient_fk ON mpps(patient_fk);
+
+CREATE SEQUENCE series_pk_seq;
+CREATE TABLE series (
+	pk              INTEGER PRIMARY KEY  NOT NULL,
+	study_fk		INTEGER,
+	mpps_fk			INTEGER,
+	series_iuid     VARCHAR(254) NOT NULL,
+	series_no		VARCHAR(254),
+	modality		VARCHAR(254),
+	pps_start		TIMESTAMP,
+	pps_iuid		VARCHAR(254),
+	num_instances	INTEGER,
+	retrieve_aets	VARCHAR(254),
+	availability	INTEGER,
+	hidden			SMALLINT,
+	created_time	TIMESTAMP,
+	updated_time	TIMESTAMP,
+	series_attrs	BLOB(64000),
+FOREIGN KEY (study_fk) REFERENCES study(pk),
+FOREIGN KEY (mpps_fk) REFERENCES mpps(pk)
+);
+CREATE INDEX study_fk ON series(study_fk);
+CREATE INDEX series_mpps_fk ON series(mpps_fk);
+CREATE UNIQUE INDEX series_iuid ON series(series_iuid);
+CREATE INDEX series_no ON series(series_no);
+CREATE INDEX modality ON series(modality);
+CREATE INDEX series_pps_start ON series(pps_start);
+CREATE INDEX series_pps_iuid ON series (pps_iuid);
+
+CREATE SEQUENCE instance_pk_seq;
+CREATE TABLE instance (
+	pk              INTEGER PRIMARY KEY  NOT NULL,
+	series_fk		INTEGER,
+	srcode_fk		INTEGER,
+	sop_iuid		VARCHAR(254) NOT NULL,
+	sop_cuid		VARCHAR(254) NOT NULL,
+	inst_no			VARCHAR(254),
+	sr_complete		VARCHAR(254),
+	sr_verified		VARCHAR(254),
+	retrieve_aets	VARCHAR(254),
+	availability	INTEGER,
+	commitment		SMALLINT,
+	inst_attrs		BLOB(64000),
+FOREIGN KEY (series_fk) REFERENCES series(pk),
+FOREIGN KEY (srcode_fk) REFERENCES code(pk)
+);
+CREATE INDEX series_fk ON instance(series_fk);
+CREATE UNIQUE INDEX sop_iuid ON instance(sop_iuid);
+CREATE INDEX sop_cuid ON instance(sop_cuid);
+CREATE INDEX inst_no ON instance(inst_no);
+CREATE INDEX sr_complete ON instance(sr_complete);
+CREATE INDEX sr_verified ON instance(sr_verified);
+
+
+CREATE SEQUENCE filesystem_pk_seq;
+CREATE TABLE filesystem (
+	pk              INTEGER PRIMARY KEY  NOT NULL,
+	dirpath			VARCHAR(254) NOT NULL,
+	retrieve_aets	VARCHAR(254) NOT NULL,
+	disk_usage		BIGINT DEFAULT 0 NOT NULL,
+	highwater_mark	BIGINT DEFAULT 0 NOT NULL
+);
+CREATE UNIQUE INDEX dirpath ON filesystem(dirpath);
+CREATE INDEX retrieve_aets ON filesystem(retrieve_aets);
+
+CREATE SEQUENCE files_pk_seq;
+CREATE TABLE files (
+	pk              INTEGER PRIMARY KEY  NOT NULL,
+	instance_fk     INTEGER,
+	filesystem_fk	INTEGER,
+	filepath		VARCHAR(254) NOT NULL,
+	file_tsuid      VARCHAR(254) NOT NULL,
+	file_md5        VARCHAR(254),
+	file_size       INTEGER,
+FOREIGN KEY (instance_fk)	REFERENCES instance(pk),
+FOREIGN KEY (filesystem_fk)	REFERENCES filesystem(pk)
+);
+CREATE INDEX instance_fk ON files(instance_fk);
+CREATE INDEX filesystem_fk ON files(filesystem_fk);
+
+CREATE SEQUENCE mwl_item_pk_seq;
+CREATE TABLE mwl_item (
+	pk          	INTEGER PRIMARY KEY NOT NULL,
+	patient_fk      INTEGER,
+	sps_id			VARCHAR(254) NOT NULL,
+	start_datetime	TIMESTAMP NOT NULL,
+	station_aet     VARCHAR(254) NOT NULL,
+	modality	    VARCHAR(254) NOT NULL,
+	perf_physician  VARCHAR(254),
+	perf_physician_up GENERATED ALWAYS AS (UPPER(perf_physician)),
+	req_proc_id    	VARCHAR(254) NOT NULL,
+	accession_no	VARCHAR(254),
+	item_attrs		BLOB(64000),
+FOREIGN KEY (patient_fk) REFERENCES patient(pk)
+);
+CREATE INDEX mwl_patient_fk ON mwl_item(patient_fk);
+CREATE UNIQUE INDEX mwl_sps_id ON mwl_item(sps_id);
+CREATE INDEX mwl_start_time ON mwl_item(start_datetime);
+CREATE INDEX mwl_station_aet ON mwl_item(station_aet);
+CREATE INDEX mwl_modality ON mwl_item(modality);
+CREATE INDEX mwl_perf_physician ON mwl_item(perf_physician_up);
+CREATE INDEX mwl_req_proc_id ON mwl_item(req_proc_id);
+CREATE INDEX mwl_accession_no ON mwl_item(accession_no);
+
+CREATE SEQUENCE audit_record_pk_seq;
+CREATE TABLE audit_record(
+	pk          	INTEGER PRIMARY KEY  NOT NULL,
+	msg_type 		VARCHAR(254),
+	host_name 		VARCHAR(254),
+	host_name_up    GENERATED ALWAYS AS (UPPER(host_name)),	
+	time_stamp 		TIMESTAMP,
+	aet 			VARCHAR(254),
+	user_name 		VARCHAR(254),
+	patient_name	VARCHAR(254),
+	patient_name_up GENERATED ALWAYS AS (UPPER(patient_name)),	
+	patient_id 		VARCHAR(254),
+	xml_data 		CLOB(64000)
+);
+CREATE INDEX arr_msg_type ON audit_record(msg_type);
+CREATE INDEX arr_host_name ON audit_record(host_name_up);
+CREATE INDEX arr_time_stamp ON audit_record(time_stamp);
+CREATE INDEX arr_aet ON audit_record(aet);
+CREATE INDEX arr_user_name ON audit_record(user_name);
+CREATE INDEX arr_patient_name ON audit_record(patient_name_up);
+CREATE INDEX arr_patient_id ON audit_record(patient_id);
+
+CREATE TABLE users(
+	user_id		VARCHAR(254) PRIMARY KEY NOT NULL,
+	passwd 		VARCHAR(254)
+);
+CREATE TABLE roles(
+	user_id		VARCHAR(254) NOT NULL,
+	roles	 	VARCHAR(254),
+FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+CREATE INDEX user_id ON roles(user_id);
+INSERT INTO users VALUES('admin','admin');
+INSERT INTO roles VALUES('admin','JBossAdmin');
+INSERT INTO roles VALUES('admin','WebAdmin');
+INSERT INTO roles VALUES('admin','arr-user');
+
+GRANT ALL PRIVILEGES ON TABLE ae TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE code TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE patient TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE study TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE mpps TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE series TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE instance TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE filesystem TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE files TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE mwl_item TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE audit_record TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE users TO USER tiani;
+GRANT ALL PRIVILEGES ON TABLE roles TO USER tiani;
+
+GRANT USAGE ON SEQUENCE ae_pk_seq TO USER tiani;
+GRANT USAGE ON SEQUENCE code_pk_seq TO USER tiani;
+GRANT USAGE ON SEQUENCE patient_pk_seq TO USER tiani;
+GRANT USAGE ON SEQUENCE study_pk_seq TO USER tiani;
+GRANT USAGE ON SEQUENCE mpps_pk_seq TO USER tiani;
+GRANT USAGE ON SEQUENCE series_pk_seq TO USER tiani;
+GRANT USAGE ON SEQUENCE instance_pk_seq TO USER tiani;
+GRANT USAGE ON SEQUENCE filesystem_pk_seq TO USER tiani;
+GRANT USAGE ON SEQUENCE files_pk_seq TO USER tiani;
+GRANT USAGE ON SEQUENCE mwl_item_pk_seq TO USER tiani;
+GRANT USAGE ON SEQUENCE audit_record_pk_seq TO USER tiani;
+
+UPDATE DB CFG USING APPLHEAPSZ 1536;
+
+TERMINATE;

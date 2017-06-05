@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: jboss-service.xml 964 2004-02-11 20:15:27Z gunterze $ -->
+
+<server>
+
+<classpath codebase="lib"
+	archives="dcm4che.jar,dcm4jboss-ejb-client.jar,dcm4jboss-jdbc.jar"/>
+
+  <mbean code="org.dcm4chex.service.AEService" 
+	name="dcm4chex:service=AE">
+  </mbean>
+
+  <mbean code="org.dcm4chex.service.DcmServerService" 
+    name="dcm4chex:service=DcmServer,name=DCMSRV">
+
+    <!--
+    Set maximal number of simultaneously conncected DICOM clients.
+    -->
+    <attribute name="MaxClients">10</attribute>
+    
+    <!--
+    Specifies if server running in tls mode:
+    dicom           native dicom
+    dicom-tls       dicom over TLS
+    dicom-tls.3des  dicom over TLS with triple DES EDE CBC encryption
+    dicom-tls.nodes dicom over TLS without encryption
+    -->
+    <attribute name="ProtocolName">dicom</attribute>
+    
+    <!--
+    Specifies TCP port on which the DICOM server is listening.
+    -->
+    <attribute name="Port">2350</attribute>
+    
+    <!--
+    Specifies Timeout in ms, the DICOM server will wait after accepting the
+    TCP connect for the A-ASSOCIATE RQ. "0" means, there is no Timeout,
+    so the server would wait as long the TCP connection will not be closed from
+    the peer application.
+    -->
+    <attribute name="RqTimeout">5000</attribute>
+    
+    <!--
+    Specifies Timeout in ms, the DICOM server will wait after the receive of
+    DIMSE message on an established association. "0" means, there is no Timeout.
+    -->
+    <attribute name="DimseTimeout">0</attribute>
+    
+    <!--
+    Specifies Timeout in ms, the DICOM server will wait after sending
+    a A-RELEASE RSP or an A-ABORT RQ for DIMSE message on an established
+    association.  "0" means, there is no Timeout.
+    -->
+    <attribute name="SoCloseDelay">500</attribute>
+    
+    <!--
+    Specifies maximal PDU package length for receiving PDUs.
+    -->
+    <attribute name="MaxPDULength">16352</attribute>
+    
+    <!--
+    Specifies if Command and Data PDVs can be packed in one PDU.
+    Warning: well-known bugs of some DICOM implementions in support
+    of this performance improving DICOM feature
+    -->
+    <attribute name="PackPDVs">false</attribute>
+    
+    <!--
+    Defines file containing key used in SSL handshake, when running in TLS mode.
+    Relative path names are resolved using jboss server directory as base directory.
+    -->
+    <attribute name="KeyFile">conf/tls/identity.p12</attribute>
+    
+    <!--
+    Defines password for access to key file, specified by attribute KeyFile 
+    -->
+    <attribute name="KeyPasswd">passwd</attribute>
+    
+   <!--
+    Defines file containing accepted certificates, when running in TLS mode
+    Relative path names are resolved using jboss server directory as base directory.
+    -->
+    <attribute name="CacertsFile">conf/tls/cacerts.jks</attribute>
+    
+    <!--
+    Defines password for access to cacerts file, specified by attribute CacertsFile 
+    -->
+    <attribute name="CacertsPasswd">passwd</attribute>
+  </mbean>
+
+  <mbean code="org.dcm4chex.service.StoreScpService" 
+	name="dcm4chex:service=StoreScp,aet=STORE_SCP">
+
+    <depends optional-attribute-name="DcmServerName">
+        dcm4chex:service=DcmServer,name=DCMSRV
+    </depends>
+    
+    <!-- Do NOT uncomment this line if the service is deployed
+    in the same jboss instance as the Storage EJB. Otherwise
+    in VM calls to go over RMI!
+        
+    <attribute name="EjbProviderURL">jnp://localhost:1099</attribute>
+    -->
+
+    <attribute name="RetrieveAETs">QR_SCP</attribute>
+
+    <attribute name="MaskWarningAsSuccessForCallingAETs"></attribute>
+
+    <attribute name="ForwardAETs"></attribute>
+
+    <attribute name="UpdateDatabaseMaxRetries">2</attribute>
+
+    <attribute name="StorageDirs">archive</attribute>
+
+    <attribute name="CallingAETs">__any__</attribute>
+
+    <attribute name="ComputedRadiographyImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalXRayImageStorageForPresentation">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalXRayImageStorageForProcessing">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalMammographyXRayImageStorageForPresentation">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalMammographyXRayImageStorageForProcessing">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalIntraoralXRayImageStorageForPresentation">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalIntraoralXRayImageStorageForProcessing">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="CtImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="UltrasoundMultiframeImageStorageRetired">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="UltrasoundMultiframeImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MrImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="EnhancedMRImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MrSpectroscopyStorage">-</attribute>
+    <attribute name="NuclearMedicineImageStorageRetired">-</attribute>
+    <attribute name="UltrasoundImageStorageRetired">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="UltrasoundImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="SecondaryCaptureImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MultiframeSingleBitSecondaryCaptureImageStorage">-</attribute>
+    <attribute name="MultiframeGrayscaleByteSecondaryCaptureImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MultiframeGrayscaleWordSecondaryCaptureImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MultiframeColorSecondaryCaptureImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="HardcopyGrayscaleImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="HardcopyColorImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="StandaloneOverlayStorage">-</attribute>
+    <attribute name="StandaloneCurveStorage">-</attribute>
+    <attribute name="TwelveLeadECGWaveformStorage">-</attribute>
+    <attribute name="GeneralECGWaveformStorage">-</attribute>
+    <attribute name="AmbulatoryECGWaveformStorage">-</attribute>
+    <attribute name="HemodynamicWaveformStorage">-</attribute>
+    <attribute name="CardiacElectrophysiologyWaveformStorage">-</attribute>
+    <attribute name="BasicVoiceAudioWaveformStorage">-</attribute>
+    <attribute name="StandaloneModalityLUTStorage">-</attribute>
+    <attribute name="StandaloneVOILUTStorage">-</attribute>
+    <attribute name="GrayscaleSoftcopyPresentationStateStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="XRayAngiographicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="XRayRadiofluoroscopicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="XRayAngiographicBiPlaneImageStorageRetired">-</attribute>
+    <attribute name="NuclearMedicineImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="RawDataStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="VlImageStorageRetired">-</attribute>
+    <attribute name="VlMultiframeImageStorageRetired">-</attribute>
+    <attribute name="VlEndoscopicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="VlMicroscopicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="VlSlideCoordinatesMicroscopicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="VlPhotographicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="BasicTextSR">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="EnhancedSR">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="ComprehensiveSR">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MammographyCADSR">-</attribute>
+    <attribute name="KeyObjectSelectionDocument">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="PositronEmissionTomographyImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="StandalonePETCurveStorage">-</attribute>
+    <attribute name="RtImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="RtDoseStorage">-</attribute>
+    <attribute name="RtStructureSetStorage">-</attribute>
+    <attribute name="RtBeamsTreatmentRecordStorage">-</attribute>
+    <attribute name="RtPlanStorage">-</attribute>
+    <attribute name="RtTreatmentSummaryRecordStorage">-</attribute>
+    
+  </mbean>
+
+  <mbean code="org.dcm4chex.service.QueryRetrieveScpService" 
+	name="dcm4chex:service=QueryRetrieveScp,aet=QR_SCP">
+
+    <depends optional-attribute-name="DcmServerName">
+    	dcm4chex:service=DcmServer,name=DCMSRV
+    </depends>
+    
+    <attribute name="DataSource">java:/DefaultDS</attribute>    
+
+    <attribute name="CallingAETs">__any__</attribute>
+
+    <attribute name="SendPendingMoveRSP">true</attribute>    
+
+    <attribute name="PatientRootFind">-</attribute>
+    <attribute name="StudyRootFind">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="PatientStudyOnlyFind">-</attribute>
+    <attribute name="PatientRootMove">-</attribute>
+    <attribute name="StudyRootMove">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="PatientStudyOnlyMove">-</attribute>         
+  </mbean>
+
+  <mbean code="org.dcm4chex.service.MoveScuService" 
+	name="dcm4chex:service=MoveScu,aet=MOVE_SCU">
+
+    <!-- Do NOT uncomment this line if the service is deployed
+    in the same jboss instance as the MoveQueue EJB. Otherwise
+    in VM calls to go over RMI!
+        
+    <attribute name="EjbProviderURL">jnp://localhost:1099</attribute>
+    -->
+
+    <!-- 
+    Specifies JNDI name used to look up the datasource.
+    Name after "java:/" must match with <jndi-name> attribute of 
+    JDBC Datasource configuration deployment file (*-ds.xml) 
+	-->
+    <attribute name="DataSource">java:/DefaultDS</attribute>    
+
+    <!-- 
+    Specifies number and intervalls of retries of failed Move Requests
+    by a list of comma separated <number>'x'<interval> pairs. The
+    intervall can be specified in milliseconds (##), seconds (##s),
+    minutes (##m), hours (##h) or days (##d).
+    
+    For example:
+       
+    <attribute name="RetryIntervalls">5x1m,12x5m,24x1h,7x1d</attribute>
+    
+    Retry every minute for the first 5 retries,
+    then every 5 minutes for one hour,
+    then every hour for one day,
+    then every day (=24 hours) for one week, 
+    then give up.
+	-->
+    <attribute name="RetryIntervalls">5x1m,12x5m,24x1h,7x1d</attribute>    
+
+    <!-- 
+    Specifies maximal number of concurrently invoked move requests.
+	-->
+    <attribute name="MaxConcurrentMoves">1</attribute>
+
+  </mbean>
+
+  <mbean code="org.jboss.varia.scheduler.Scheduler" 
+	 name="dcm4chex:service=Scheduler,name=Scheduler of MoveScu">
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the MoveOrderQueue EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/MoveOrderQueue,service=EJB</depends>
+        
+    <!-- 
+    Value must match with name attribute of MoveScuService mbean (s.above)!
+	-->
+    <attribute name="SchedulableMBean">dcm4chex:service=MoveScu,aet=MOVE_SCU</attribute>
+
+    <!-- 
+    Specifies intervall in milliseconds for polling for new Move Orders in DB.
+	-->
+    <attribute name="SchedulePeriod">60000</attribute>
+
+    <attribute name="StartAtStartup">true</attribute>
+    <attribute name="SchedulableMBeanMethod">run</attribute>
+    <attribute name="InitialStartDate">NOW</attribute>
+    <attribute name="InitialRepetitions">-1</attribute>
+  </mbean>
+
+	<mbean code="org.dcm4chex.service.MWLFindScpService" 
+		name="dcm4chex:service=MWLFindScp,aet=MWL_SCP">
+	
+	    <depends optional-attribute-name="DcmServerName">
+	    	dcm4chex:service=DcmServer,name=DCMSRV
+	    </depends>
+	    
+	    <attribute name="DataSource">java:/DefaultDS</attribute>    
+	    
+	    <attribute name="CallingAETs">__any__</attribute>
+	
+	    <attribute name="TransferSyntaxes">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+	</mbean>
+</server>
+

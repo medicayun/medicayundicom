@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-stymgtscp-service.xml 11388 2009-05-14 10:53:14Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.stymgt.StudyMgtScpService"
+    name="dcm4chee.archive:service=StudyMgtScp"
+    xmbean-dd="xmdesc/dcm4chee-stymgtscp-xmbean.xml">
+    <!-- TO DO Cannot declare dependency on ContentEditService because
+         ContentEditService depends on StudyMgtScu which depends itself
+         on StudyMgtScp -->
+    <attribute name="ContentEditServiceName"
+      >dcm4chee.archive:service=ContentEditService</attribute>
+    <depends optional-attribute-name="AEServiceName"
+      >dcm4chee.archive:service=AE</depends>
+    <depends optional-attribute-name="AuditLoggerName"
+      >dcm4chee.archive:service=AuditLogger</depends>
+    <depends optional-attribute-name="DcmServerName"
+      >dcm4chee.archive:service=DcmServer</depends>
+  </mbean>
+</server>

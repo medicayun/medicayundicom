@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-mpps2orm-service.xml 2016 2005-10-12 15:14:41Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss-hl7.jar"/>
+
+  <mbean code="org.dcm4chex.archive.hl7.MPPS2ORMService" 
+	     name="tiani.archive:service=MPPS2ORM"
+	     xmbean-dd="xmdesc/dcm4jboss-mpps2orm-xmbean.xml">
+    <depends>tiani.archive:service=MPPSScp</depends>
+    <depends>tiani.archive:service=HL7Send</depends>
+  </mbean>
+</server>
+

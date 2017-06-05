@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Audit Logger</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4jboss-auditlog.ser"/>
+      <currencyTimeLimit value="0"/>
+      <state-action-on-update value="keep-running"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.AuditLoggerService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>AuditLoggerService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getActorName"
+      setMethod="setActorName">
+      <description>Actor Name in emited Audit Trail Messages.
+      </description>
+      <name>ActorName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSyslogHost"
+      setMethod="setSyslogHost">
+      <description>Hostname of Audit Record Repository.
+      </description>
+      <name>SyslogHost</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="localhost" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSyslogPort"
+      setMethod="setSyslogPort">
+      <description>UDP Port of Audit Record Repository.
+      </description>
+      <name>SyslogPort</name>
+      <type>int</type>
+      <descriptors>
+         <value value="4000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getFacility"
+      setMethod="setFacility">
+      <description>Syslog Facility.
+      </description>
+      <name>Facility</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="authpriv" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogActorConfig"
+      setMethod="setLogActorConfig">
+      <description>Emit ActorConfig Audit Messages.
+      </description>
+      <name>LogActorConfig</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogActorStartStop"
+      setMethod="setLogActorStartStop">
+      <description>Emit ActorStartStop Audit Messages.
+      </description>
+      <name>LogActorStartStop</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogBeginStoringInstances"
+      setMethod="setLogBeginStoringInstances">
+      <description>Emit BeginStoringInstances Audit Messages.
+      </description>
+      <name>LogBeginStoringInstances</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogDicomQuery"
+      setMethod="setLogDicomQuery">
+      <description>Emit DicomQuery Audit Messages.
+      </description>
+      <name>LogDicomQuery</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogInstancesSent"
+      setMethod="setLogInstancesSent">
+      <description>Emit InstancesSent Audit Messages.
+      </description>
+      <name>LogInstancesSent</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogSecurityAlert"
+      setMethod="setLogSecurityAlert">
+      <description>Emit SecurityAlert Audit Messages.
+      </description>
+      <name>LogSecurityAlert</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogUserAuthenticated"
+      setMethod="setLogUserAuthenticated">
+      <description>Emit UserAuthenticated Audit Messages.
+      </description>
+      <name>LogUserAuthenticated</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogExport"
+      setMethod="setLogExport">
+      <description>Emit Export Audit Messages.
+      </description>
+      <name>LogExport</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   &defattr;
+
+   <!-- Operations -->
+   &defops;
+   <operation impact="INFO">
+      <description>Get Audit Logger</description>
+      <name>getAuditLogger</name>
+      <return-type>org.dcm4che.auditlog.AuditLogger</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Log Configuration Change</description>
+      <name>logActorConfig</name>
+      <parameter>
+        <description>Description</description>
+        <name>desc</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Configuration Type</description>
+        <name>type</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+</mbean>

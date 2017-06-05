@@ -1,0 +1,165 @@
+STRONG {
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+	font-weight : bold;
+}
+
+H1 {
+	font : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 12px;
+	font-weight : bold;
+	letter-spacing : 3px;
+}
+H2 {
+	font : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+	font-weight : bold;
+	letter-spacing : 2px;
+	text-decoration : none;
+}
+
+H3 {
+	font : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+	font-weight : normal;
+	letter-spacing : 2px;
+	color : Red;
+	font-position: center center;
+}
+
+H4 {
+	font : normal 9px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color : 666666;
+	vertical-align: middle;
+
+}
+
+P {
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 9px;
+	vertical-align: middle;
+}
+
+table {
+	background : transparent;
+	font : normal 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-decoration : none;
+}
+
+table.dcm4jboss_header {
+	background : #dddddd;
+	border : 0;
+	padding : 0;
+}
+
+table.folder_header {
+	background : #eeeeee;
+}
+
+table.folder_search {
+	background : #eeeeee;
+}
+
+table.folder_overview {
+	background : #eeeeee;
+	color : red;
+}
+table.patient_line {
+	background : #f8f8f8;
+} 
+table.study_line {
+	background : #eaeaff;
+} 
+table.series_line {
+	background : #e8ffe8;
+} 
+table.instance_line {
+	background : #ffffef;
+} 
+table.file_line {
+	background : #ffffff;
+} 
+
+td.tab {
+	background : #cccccc;
+	border-style: none none outset none;
+} 
+
+td.tab-selected {
+	background : #eeeeee;
+	border-style: inset inset none inset;
+} 
+
+td.patient_mark {
+	background : #cccccc;
+	color : black;
+} 
+td.study_mark {
+	background : #ccccff;
+	color : black;
+} 
+td.series_mark {
+	background : #ccffcc;
+	color : black;
+} 
+td.instance_mark {
+	background : #ffffcc;
+	color : black;
+} 
+
+td.logo {
+	color : blue;
+}
+
+a.tab {
+	color : red
+}
+
+img.logo {	
+	background : green;
+}
+
+BODY {
+	color : #666666;
+}
+
+
+P {
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+}
+
+A       {text-decoration: none; font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 11px;}
+A:hover {text-decoration: underline; color: #FF0000}
+
+UL, LI {
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+	list-style : disc;
+	list-style-position : inside;
+}
+
+B {
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+	font : bold;
+}
+
+HR {
+	color : Silver;
+	font : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+}
+
+BLOCKQUOTE {
+	color : Red;
+	font : BankGothic Md BT;
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 11px;
+	font-style : normal;
+	font-variant : small-caps;
+	font-weight : bold;
+	letter-spacing : 2px;
+	text-transform : none;
+}

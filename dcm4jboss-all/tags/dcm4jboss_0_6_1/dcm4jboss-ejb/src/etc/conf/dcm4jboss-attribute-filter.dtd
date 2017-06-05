@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+This is the XML DTD for the dcm4jboss attribute filter descriptor.
+
+Minimal descriptor for DICOM Standard Conformance of Query/Retrieve Service:
+  <dcm4jboss-attribute-filter>
+    <patient>
+      <attr tag="(0008,0005)"/>
+      <attr tag="(0010,0010)"/>
+      <attr tag="(0010,0020)"/>
+    </patient>
+
+    <study>
+      <attr tag="(0008,0005)"/>
+      <attr tag="(0008,0020)"/>
+      <attr tag="(0008,0030)"/>
+      <attr tag="(0008,0050)"/>
+      <attr tag="(0020,000D)"/>
+      <attr tag="(0020,0010)"/>
+    </study>
+
+    <series>
+      <attr tag="(0008,0005)"/>
+      <attr tag="(0008,0060)"/>
+      <attr tag="(0020,000E)"/>
+      <attr tag="(0020,0011)"/>
+    </series>
+
+    <instance>
+      <attr tag="(0008,0005)"/>
+      <attr tag="(0008,0018)"/>
+      <attr tag="(0020,0013)"/>
+    </instance>
+  </dcm4jboss-attribute-filter>
+-->
+
+<!ELEMENT dcm4jboss-attribute-filter (patient, study, series, instance)>
+<!ELEMENT patient (attr)*>
+<!ELEMENT study (attr)*>
+<!ELEMENT series (attr)*>
+<!ELEMENT instance (attr)*>
+<!ELEMENT attr EMPTY>
+
+<!ATTLIST attr tag CDATA #REQUIRED>

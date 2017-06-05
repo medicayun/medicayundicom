@@ -1,0 +1,5 @@
+#Override with your JBoss dist location
+jboss.home=${user.home}/jboss-4.0.4.GA
+
+#Override with your dcm4chee-arr-3.0 location
+dcm4chee-arr.home=${user.home}/dcm4chee/dcm4chee-arr

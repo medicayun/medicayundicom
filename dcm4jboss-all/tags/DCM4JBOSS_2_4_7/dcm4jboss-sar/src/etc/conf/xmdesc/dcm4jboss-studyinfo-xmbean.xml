@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Study Information Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.StudyInfoService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>StudyInfoService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Retrieve Study information.</description>
+      <name>retrieveStudyInfo</name>
+      <parameter>
+      	<description>Query level (STUDY,SERIES or IMAGE)</description>
+        <name>level</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+      	<description>UID for level (Study Instance UID, Series Instance UID, SOP Instance UID)</description>
+        <name>UID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>org.dcm4che.data.Dataset</return-type>
+   </operation>   
+   <operation impact="INFO">
+      <description>Check if given Date is outdated for study.</description>
+      <name>checkOutdated</name>
+      <parameter>
+      	<description>Date to check</description>
+        <name>date</name>
+        <type>java.util.Date</type>
+      </parameter>
+      <parameter>
+      	<description>Query level (STUDY,SERIES or IMAGE)</description>
+        <name>level</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+      	<description>UID for level (Study Instance UID, Series Instance UID, SOP Instance UID)</description>
+        <name>UID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>   
+   
+</mbean>
+    

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-ae-service.xml 1048 2004-03-14 22:43:43Z gunterze $ -->
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  Application Entity Service Configuration                                   -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+<mbean code="org.dcm4chex.service.AEService" 
+	name="dcm4chex:service=AE">
+	
+    <depends optional-attribute-name="AuditLoggerName">
+      dcm4chex:service=AuditLogger,actorName=PACS_TIANI
+    </depends>
+    
+</mbean>
+
+</server>
+

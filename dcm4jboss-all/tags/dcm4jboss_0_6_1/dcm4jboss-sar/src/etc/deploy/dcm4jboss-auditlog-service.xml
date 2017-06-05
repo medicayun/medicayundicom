@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-auditlog-service.xml 1054 2004-03-18 20:30:55Z gunterze $ -->
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  Audit Log Configuration                                              -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<server>
+
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+   <mbean code="org.dcm4chex.service.AuditLoggerService" 
+         name="dcm4chex:service=AuditLogger,actorName=PACS_TIANI">
+    <attribute name="SyslogHost">localhost</attribute>
+    <attribute name="SyslogPort">514</attribute>
+    <attribute name="Facility">authpriv</attribute>         
+  </mbean>
+
+</server>
+

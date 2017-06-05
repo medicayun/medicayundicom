@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="test/java"/>
+	<classpathentry kind="src" path="target/xdoclet/java"/>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="src" path="src/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/dcm4che14"/>
+	<classpathentry kind="var" path="CACTUS_HOME/lib/cactus-1.7.jar"/>
+	<classpathentry kind="var" path="CACTUS_HOME/lib/junit-3.8.1.jar"/>
+	<classpathentry exported="true" kind="var" path="JBOSS_HOME/server/default/lib/jboss-j2ee.jar" sourcepath="/JBOSS_SRC/jmx/src/main"/>
+	<classpathentry kind="var" path="JBOSS_HOME/lib/concurrent.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

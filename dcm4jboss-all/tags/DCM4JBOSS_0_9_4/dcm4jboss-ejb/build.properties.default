@@ -1,0 +1,15 @@
+#Override with your dcm4che dist location
+dcm4che.home=../dcm4che14/build
+
+#Override with your XDoclet dist location
+xdoclet.home=${user.home}/xdoclet-1.2.1
+
+#Override with your Cactus dist location
+cactus.home=${user.home}/jakarta-cactus-13-1.5
+
+#Override with your JBoss dist location
+jboss.home=${user.home}/jboss-3.2.6
+
+#Uncomment to skip patch task (=not available on Windows)
+#meta-inf-oracle.notRequired=true
+#meta-inf-db2.notRequired=true

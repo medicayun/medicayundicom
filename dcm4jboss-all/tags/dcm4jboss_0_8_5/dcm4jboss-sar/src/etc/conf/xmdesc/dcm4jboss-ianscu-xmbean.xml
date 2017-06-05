@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Move SCU Service to process Move Orders</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4jboss-ianscu.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.ianscu.IANScuService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>IanScuService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getNotifiedAETs"
+      setMethod="setNotifiedAETs">
+      <description>Comma separated list of AETs of notified AEs.
+      "NONE" = do not notify any AE.
+      </description>
+      <name>NotifiedAETs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCallingAET"
+      setMethod="setCallingAET">
+      <description>Calling AET used in Association Request.
+      </description>
+      <name>CallingAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="IAN_SCU" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRetryIntervalls"
+      setMethod="setRetryIntervalls">
+      <description>Number and intervalls of retries of failed 
+      Instance Available or Study Content Notification requests
+      by a list of comma separated NUMBERxINTERVAL pairs. The
+      intervall can be specified in seconds (##s), minutes (##m), hours (##h)
+      or days (##d).
+      </description>
+      <name>RetryIntervalls</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="5x1m,12x5m,24x1h,7x1d" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isOfferInstanceAvailableNotification"
+      setMethod="setOfferInstanceAvailableNotification">
+      <description>Offer Instance Available Notification Service in 
+      Association Request.
+      </description>
+      <name>OfferInstanceAvailableNotification</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isOfferStudyContentNotification"
+      setMethod="setOfferStudyContentNotification">
+      <description>Offer Basic Study Content Notification Service in 
+      Association Request.
+      </description>
+      <name>OfferStudyContentNotification</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isPreferInstanceAvailableNotification"
+      setMethod="setPreferInstanceAvailableNotification">
+      <description>Prefer use of Instance Available Notification Service if
+      Instance Available Notification and Basic Study Content Notification
+      Service is supported by remote AE.
+      </description>
+      <name>PreferInstanceAvailableNotification</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getScnPriority"
+      setMethod="setScnPriority">
+      <description>Priority used in Basic Study Content Notification Requests.
+      0=medium, 1=high, 2=low.
+      </description>
+      <name>ScnPriority</name>
+      <type>int</type>
+      <descriptors>
+         <value value="0" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDataSourceJndiName"
+      setMethod="setDataSourceJndiName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DataSourceJndiName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="java:/DefaultDS" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStoreScpServiceName"
+      setMethod="setStoreScpServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>StoreScpServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chex:service=StoreScp" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   
+</mbean>

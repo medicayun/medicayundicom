@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-echo-service.xml 1677 2005-04-08 10:50:04Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.EchoService" 
+	name="tiani.archive:service=ECHOService"
+	xmbean-dd="xmdesc/dcm4jboss-echo-xmbean.xml">	
+    <depends>
+      tiani.archive:service=TLSConfig
+    </depends> 
+  </mbean>
+</server>

@@ -1,0 +1,116 @@
+
+h2. Description
+
+GPWL Feed Service. Used to add entries to the General Purpose Worklist, triggered by received MPPS N-Set messages.
+   
+
+h2. Attributes
+
+
+h4. [#LogStationAETitles] {anchor:LogStationAETitles}
+
+List of the AE titles for Modalities for which
+      XMLized MPPS attributes are logged into files 
+      <i>AET</i>/<i>timestamp</i>-mpps.xml in the log directory.
+      Useful for creation of XSL stylesheets for GP Work Item creation.
+      Separate multiple values by \ (backslash).  
+      
+  
+*Default Value:* {{MESA_MOD\MODALITY1\MR3T}}
+
+
+h4. [#PGPStationAETitles] {anchor:PGPStationAETitles}
+
+List of the AE titles for Modalities which
+      emits MPPS messages according the <i>Presentation of Grouped Procedure (PGP)</i>
+      defined by the <i>IHE Radiology Technical Framework</i>.
+      Separate multiple values by \ (backslash).  
+      
+  
+*Default Value:* {{MESA_MOD\MODALITY1\MR3T}}
+
+
+h4. [#AppendCaseStationAETitles] {anchor:AppendCaseStationAETitles}
+
+List of the AE titles for Modalities which
+      emits MPPS messages according the <i>Append Case</i>, with multiple
+      MPPS objects refering the same Scheduled Procedure Step, 
+      <i>Relationship between Scheduled and Performed Procedure Steps</i>
+      defined by <i>IHE Radiology Technical Framework</i>.
+      Separate multiple values by \ (backslash).  
+      
+  
+*Default Value:* {{MESA_MOD\MODALITY1\MR3T}}
+
+
+h4. [#WorkItemConfigDirectory] {anchor:WorkItemConfigDirectory}
+
+Directory where configuration files for
+      creation of work items are located: if XSL stylesheet "mpps2gpwl.xsl" 
+      exists in this directory or in a sub-directory equal to the AE Title of 
+      the modality, a work item will be created on receive of the last object
+      refered in the final MPPS, according these stylesheet.
+      A relative path name is resolved relative to
+      <i>archive-install-directory</i>/server/default/.  
+      
+  
+*Default Value:* {{conf/dcm4chee-ae}}
+
+
+h4. [#EjbProviderURL] {anchor:EjbProviderURL}
+
+Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      
+  
+*Default Value:* {{LOCAL}}
+
+
+h4. [#IANScuServiceName] {anchor:IANScuServiceName}
+
+Used internally. Do not modify.
+      
+  
+*Default Value:* {{dcm4chee.archive:service=IANScu}}
+
+
+h4. [#Name] {anchor:Name}
+
+The class name of the MBean
+
+h4. [#State] {anchor:State}
+
+The status of the MBean
+
+h4. [#StateString] {anchor:StateString}
+
+The status of the MBean in text form
+
+h2. Operations
+
+
+h4. [#reloadStylesheets] {anchor:reloadStylesheets}
+  
+Reload Stylesheets
+
+h4. [#create] {anchor:create}
+  
+Standard MBean lifecycle method
+
+h4. [#start] {anchor:start}
+  
+The start lifecycle operation
+
+h4. [#stop] {anchor:stop}
+  
+The stop lifecycle operation
+
+h4. [#destroy] {anchor:destroy}
+  
+The destroy lifecycle operation
+
+h4. [#jbossInternalLifecycle] {anchor:jbossInternalLifecycle}
+  
+The detyped lifecycle operation (for internal use only)
+
+h2. Notifications

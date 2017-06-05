@@ -1,0 +1,17 @@
+DROP TABLE files;
+DROP TABLE instance;
+DROP TABLE series;
+DROP TABLE study;
+DROP TABLE patient;
+DROP TABLE code;
+DROP TABLE move_order;
+DROP TABLE ae;
+
+
+DROP SEQUENCE move_pk_seq;
+DROP SEQUENCE code_pk_seq;
+DROP SEQUENCE patient_pk_seq;
+DROP SEQUENCE study_pk_seq;
+DROP SEQUENCE series_pk_seq;
+DROP SEQUENCE instance_pk_seq;
+DROP SEQUENCE files_pk_seq;

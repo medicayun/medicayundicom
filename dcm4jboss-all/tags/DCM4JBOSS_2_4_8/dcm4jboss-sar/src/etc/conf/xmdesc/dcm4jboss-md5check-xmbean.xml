@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Compression Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.MD5CheckService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MD5CheckService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getTaskInterval"
+      setMethod="setTaskInterval">
+      <description>Interval in which (local) files are checked for MD5 checksum.
+          Format: INTERVAL['!'FROM'-'TO] or 'NEVER'
+          INTERVAL: ##s (in seconds), ##m (in minutes), ##h (in hours).
+          FROM,TO: start and end hour (0-23) when no md5 check should be performed.
+          'NEVER' = disable md5 check).
+      </description>
+      <name>TaskInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getMaxCheckedBefore"
+      setMethod="setMaxCheckedBefore">
+      <description>Max. amount of time from last check.
+      		##w (in weeks), ##d (in days), ##h (in hours)
+      </description>
+      <name>MaxCheckedBefore</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="1w" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getLimitNumberOfFilesPerTask"
+      setMethod="setLimitNumberOfFilesPerTask">
+      <description>Max. number of files that are checked in one task.
+      </description>
+      <name>LimitNumberOfFilesPerTask</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1000" />
+      </descriptors>
+   </attribute>
+
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+
+   <operation impact="ACTION">
+      <description>Check MD5 checksum of files.</description>
+      <name>check</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+
+</mbean>
+    

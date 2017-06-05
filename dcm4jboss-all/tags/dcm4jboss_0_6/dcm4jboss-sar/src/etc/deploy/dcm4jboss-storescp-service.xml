@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-storescp-service.xml 1025 2004-03-02 23:55:32Z gunterze $ -->
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  DICOM Storage Service Configuration                                  -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+<mbean code="org.dcm4chex.service.StoreScpService" 
+	name="dcm4chex:service=StoreScp,aet=STORE_SCP">
+
+    <depends optional-attribute-name="DcmServerName">
+        dcm4chex:service=DcmServer,name=DCMSRV
+    </depends>
+    
+    <attribute name="DataSource">java:/DefaultDS</attribute>    
+    
+    <!-- Do NOT uncomment this line if the service is deployed
+    in the same jboss instance as the Storage EJB. Otherwise
+    in VM calls to go over RMI!
+        
+    <attribute name="EjbProviderURL">jnp://localhost:1099</attribute>
+    -->
+
+    <!-- 
+    Defines a list of DICOM Application Entity Title(s) that identify the
+    location from which composite object instance(s) received by this
+    Storage SCP, may be retrieved on the network. At least, one AET must be
+    specified. Multiple values must be separated by '\' characters.
+    For each listed AET, there shall be a corresponding Network configuration
+    (Host, Port) entry in the AE configuration table! 
+	-->
+    <attribute name="RetrieveAETs">QR_SCP</attribute>
+
+	<!--
+	Defines an optional list of DICOM Application Entity Title(s) of
+	Storage SCUs, to which a success status shall be replied in the case
+	of Coercion of Data Elements - instead the warning status according DICOM.
+	Multiple values must be separated by '\' characters.
+	-->
+    <attribute name="MaskWarningAsSuccessForCallingAETs"></attribute>
+    
+    <!-- 
+    Defines an optional list of DICOM Application Entity Title(s) to which 
+    composite object instance(s) received by this Storage SCP are forwarded,
+    conditionally from the Application Entity Title of the Storage SCU.
+    
+    Each entry may associate zero, one or several calling AETs with one or
+    several destination AETs - with ':' as delimiter between calling AET(s) and
+    destination AET(s) and '\' as delimiter between multiple AETs. Multiple
+    entries can be separated by ',' or line breaks.
+    
+    An entry without calling AET(s) specifies default forward destination
+    AET(s), in case, that the actual calling AET of the Storage SCU does
+    not match which any calling AET specified by other entries.
+    
+    Sample:
+    <attribute name="ForwardAETs">
+    	STORE_SCU_A:DEST_AET_1\DEST_AET_2
+    	STORE_SCU_B\STORE_SCU_C:DEST_AET_3
+    	:DEST_AET_1
+    </attribute>
+	
+    For each listed Forward Destination AET, there must be a corresponding
+    Network configuration (Host, Port) entry in the AE configuration table!
+	-->
+    <attribute name="ForwardAETs"></attribute>
+
+    <!-- 
+    Defines a list of directory path(s) - e.g. mounted filesystems - where
+    composite object instance(s) received by this Storage SCP are stored.
+    Relative path names will be interpretated as relative to JBoss server home
+    directory (e.g.: JBOSS_HOME/server/pacs).
+    At least, one directory path must be specified. Multiple values must be
+    separated by line breaks.
+    If multiple directories are specified, the storage location alternates
+    every day (at midnight). There may be several entries with the same
+    directory path to configure an asymetric distribution of received objects
+    among different storage locations.
+    -->
+    <attribute name="StorageDirs">archive</attribute>
+
+    <!--
+    Defines maximal number of retries to update DB records for new received
+    objects, before a Processing Failure is returned to the Storage SCU. 
+    -->
+    <attribute name="UpdateDatabaseMaxRetries">2</attribute>
+
+	<!--
+	Specifies time-out in ms for receiving the A-ASSOCIATE-AC PDU after
+	transmission of the A-ASSOCIATE-RQ to open an association
+	to the Storage Commitment SCU for sending the N-EVENT-REPORT
+	containing the Storage Commitment Result.
+	-->
+    <attribute name="AcTimeout">5000</attribute>
+
+    <attribute name="CallingAETs">__any__</attribute>
+
+    <attribute name="ComputedRadiographyImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalXRayImageStorageForPresentation">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalXRayImageStorageForProcessing">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalMammographyXRayImageStorageForPresentation">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalMammographyXRayImageStorageForProcessing">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalIntraoralXRayImageStorageForPresentation">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="DigitalIntraoralXRayImageStorageForProcessing">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="CtImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="UltrasoundMultiframeImageStorageRetired">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="UltrasoundMultiframeImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MrImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="EnhancedMRImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MrSpectroscopyStorage">-</attribute>
+    <attribute name="NuclearMedicineImageStorageRetired">-</attribute>
+    <attribute name="UltrasoundImageStorageRetired">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="UltrasoundImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="SecondaryCaptureImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MultiframeSingleBitSecondaryCaptureImageStorage">-</attribute>
+    <attribute name="MultiframeGrayscaleByteSecondaryCaptureImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MultiframeGrayscaleWordSecondaryCaptureImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MultiframeColorSecondaryCaptureImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="HardcopyGrayscaleImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="HardcopyColorImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="StandaloneOverlayStorage">-</attribute>
+    <attribute name="StandaloneCurveStorage">-</attribute>
+    <attribute name="TwelveLeadECGWaveformStorage">-</attribute>
+    <attribute name="GeneralECGWaveformStorage">-</attribute>
+    <attribute name="AmbulatoryECGWaveformStorage">-</attribute>
+    <attribute name="HemodynamicWaveformStorage">-</attribute>
+    <attribute name="CardiacElectrophysiologyWaveformStorage">-</attribute>
+    <attribute name="BasicVoiceAudioWaveformStorage">-</attribute>
+    <attribute name="StandaloneModalityLUTStorage">-</attribute>
+    <attribute name="StandaloneVOILUTStorage">-</attribute>
+    <attribute name="GrayscaleSoftcopyPresentationStateStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="XRayAngiographicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="XRayRadiofluoroscopicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="XRayAngiographicBiPlaneImageStorageRetired">-</attribute>
+    <attribute name="NuclearMedicineImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="RawDataStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="VlImageStorageRetired">-</attribute>
+    <attribute name="VlMultiframeImageStorageRetired">-</attribute>
+    <attribute name="VlEndoscopicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="VlMicroscopicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="VlSlideCoordinatesMicroscopicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="VlPhotographicImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="BasicTextSR">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="EnhancedSR">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="ComprehensiveSR">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="MammographyCADSR">-</attribute>
+    <attribute name="KeyObjectSelectionDocument">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="PositronEmissionTomographyImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="StandalonePETCurveStorage">-</attribute>
+    <attribute name="RtImageStorage">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="RtDoseStorage">-</attribute>
+    <attribute name="RtStructureSetStorage">-</attribute>
+    <attribute name="RtBeamsTreatmentRecordStorage">-</attribute>
+    <attribute name="RtPlanStorage">-</attribute>
+    <attribute name="RtTreatmentSummaryRecordStorage">-</attribute>
+    <attribute name="StorageCommitmentPushModel">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+</mbean>
+
+</server>
+

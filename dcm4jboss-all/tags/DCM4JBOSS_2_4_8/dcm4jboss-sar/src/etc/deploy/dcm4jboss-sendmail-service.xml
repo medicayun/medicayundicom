@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-sendmail-service.xml 1763 2005-06-01 23:39:31Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="tiani.archive:service=Queue,name=Sendmail">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>
+
+  <mbean code="org.dcm4chex.archive.mbean.SendMailService" 
+	     name="tiani.archive:service=Sendmail"
+	     xmbean-dd="xmdesc/dcm4jboss-sendmail-xmbean.xml">
+    <depends>
+      tiani.archive:service=Queue,name=Sendmail
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+  </mbean>
+</server>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-ppsexceptionmgt-service.xml 2191 2006-01-03 15:39:47Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="tiani.archive:service=Queue,name=PPSExceptionMgt">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>
+
+  <mbean code="org.dcm4chex.archive.mbean.PPSExceptionMgtService" 
+         name="tiani.archive:service=PPSExceptionMgtService"
+         xmbean-dd="xmdesc/dcm4jboss-ppsexceptionmgt-xmbean.xml">
+    <depends>
+      tiani.archive:service=Queue,name=PPSExceptionMgt
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+    <depends>tiani.archive:service=DcmServer</depends>
+  </mbean>
+</server>

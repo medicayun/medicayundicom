@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>DICOM Modality Performed Procedure Step SCP</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4jboss-mwlscp.ser"/>
+      <currencyTimeLimit value="0"/>
+      <state-action-on-update value="keep-running"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.mwlscp.MWLScpService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MWLScpService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getCalledAETs"
+      setMethod="setCalledAETs">
+      <description>Accepted Called AETs.
+      </description>
+      <name>CalledAETs</name>
+      <type>[Ljava.lang.String;</type>
+      <descriptors>
+         <value value="MWL_SCP" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCallingAETs"
+      setMethod="setCallingAETs">
+      <description>Accepted Calling AETs. "ANY" = accept any.
+      </description>
+      <name>CallingAETs</name>
+      <type>[Ljava.lang.String;</type>
+      <descriptors>
+         <value value="ANY" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptExplicitVRLE"
+      setMethod="setAcceptExplicitVRLE">
+      <description>Accept DICOM objects encoded in Explicit Value Representation Little Endian Transfer Syntax.
+      </description>
+      <name>AcceptExplicitVRLE</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDataSourceJndiName"
+      setMethod="setDataSourceJndiName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DataSourceJndiName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="java:/DefaultDS" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDcmServerName"
+      setMethod="setDcmServerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DcmServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chex:service=DcmServer" />
+      </descriptors>
+   </attribute>
+   &defattr;
+
+   <!-- Operations -->
+   &defops;
+</mbean>
+

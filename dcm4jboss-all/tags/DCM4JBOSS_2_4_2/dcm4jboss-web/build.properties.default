@@ -1,0 +1,11 @@
+#Override with your dcm4che dist location
+dcm4che.home=../dcm4che14/build
+
+#Override with your JBoss dist location
+jboss.home=${user.home}/jboss-4.0.2
+
+#Maverik
+maverick.dir=/usr/local/maverick
+
+#opt-domify
+opt-domify.dir=/usr/local/opt-domify

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>DICOM Storage SCP</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4jboss-storescp.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.storescp.StoreScpService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>StoreScpService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getCallingAETs"
+      setMethod="setCallingAETs">
+      <description>Accepted Calling AETs. "ANY" = accept any.
+      </description>
+      <name>CallingAETs</name>
+      <type>[Ljava.lang.String;</type>
+      <descriptors>
+         <value value="ANY" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaskWarningAsSuccessForCallingAETs"
+      setMethod="setMaskWarningAsSuccessForCallingAETs">
+      <description>Comma separated list of AETs of Storage SCUs, to which a success
+      status shall be replied in the case of Coercion of Data Elements
+      instead the warning status according DICOM. "NONE" = no Calling AET.
+      </description>
+      <name>MaskWarningAsSuccessForCallingAETs</name>
+      <type>[Ljava.lang.String;</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCalledAETs"
+      setMethod="setCalledAETs">
+      <description>Accepted Called AETs.
+      </description>
+      <name>CalledAETs</name>
+      <type>[Ljava.lang.String;</type>
+      <descriptors>
+         <value value="STORE_SCP" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRetrieveAETs"
+      setMethod="setRetrieveAETs">
+      <description>RetrieveAETs associated with stored DICOM objects.
+      </description>
+      <name>RetrieveAETs</name>
+      <type>[Ljava.lang.String;</type>
+      <descriptors>
+         <value value="QR_SCP" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCompressionRules"
+      setMethod="setCompressionRules">
+      <description>List of image compression rules.
+      Format:=['['CONDITION[,..]']']COMPRESSION
+      CONDITION:=(calling|called|pmi|cuid)[!]=value['|'...]    
+      COMPRESSION:=(NONE|JPEGLossless|JPEGLSLossless|JPEG2000Lossless)
+      </description>
+      <name>CompressionRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="[calling=SAMPLE_SCU1|SAMPLE_SCU2,pmi!=RGB]JPEGLossless;NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getForwardingRules"
+      setMethod="setForwardingRules">
+      <description>List of forwarding rules.
+      Format:=['['CONDITION[,..]']'](AET[,..]|'NONE')
+      CONDITION:=(calling|called)[!]=AET['|'..]   
+      </description>
+      <name>ForwardingRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="[calling=SAMPLE_SCU1|SAMPLE_SCU2]SAMPLE_SCP3,SAMPLE_SCP4;NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getForwardPriority"
+      setMethod="setForwardPriority">
+      <description>Forwarding Priority. 0=medium, 1=high, 2=low.
+      </description>
+      <name>ForwardPriority</name>
+      <type>int</type>
+      <descriptors>
+         <value value="0" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStorageRules"
+      setMethod="setStorageRules">
+      <description>List of storage rules.
+      Format:=['['CONDITION[,..]']']DIRPATH
+      CONDITION:=(calling|called)[!]=AET['|'..]   
+      </description>
+      <name>StorageRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="[calling=SAMPLE_SCU1|SAMPLE_SCU2]archive2;archive" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getUpdateDatabaseMaxRetries"
+      setMethod="setUpdateDatabaseMaxRetries">
+      <description>Maximal number of retries to update DB records for new received
+      objects, before a Processing Failure is returned to the Storage SCU.
+      </description>
+      <name>UpdateDatabaseMaxRetries</name>
+      <type>int</type>
+      <descriptors>
+         <value value="2" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptStorageCommitment"
+      setMethod="setAcceptStorageCommitment">
+      <description>Support Storage Commitment Push Model SOP Class.
+      </description>
+      <name>AcceptStorageCommitment</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptExplicitVRLE"
+      setMethod="setAcceptExplicitVRLE">
+      <description>Accept DICOM objects encoded in Explicit Value Representation Little Endian Transfer Syntax.
+      </description>
+      <name>AcceptExplicitVRLE</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEG2000Lossless"
+      setMethod="setAcceptJPEG2000Lossless">
+      <description>Accept DICOM images encoded in JPEG 2000 Lossless Transfer Syntax.
+      </description>
+      <name>AcceptJPEG2000Lossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEG2000Lossy"
+      setMethod="setAcceptJPEG2000Lossy">
+      <description>Accept DICOM images encoded in JPEG 2000 Lossy Transfer Syntax.
+      </description>
+      <name>AcceptJPEG2000Lossy</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLSLossless"
+      setMethod="setAcceptJPEGLSLossless">
+      <description>Accept DICOM images encoded in JPEG-LS Lossless Transfer Syntax.
+      </description>
+      <name>AcceptJPEGLSLossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLSLossy"
+      setMethod="setAcceptJPEGLSLossy">
+      <description>Accept DICOM images encoded in JPEG-LS Lossy Transfer Syntax.
+      </description>
+      <name>AcceptJPEGLSLossy</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLossless"
+      setMethod="setAcceptJPEGLossless">
+      <description>Accept DICOM images encoded in JPEG Lossless First-Order Prediction Transfer Syntax.
+      </description>
+      <name>AcceptJPEGLossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLossless14"
+      setMethod="setAcceptJPEGLossless14">
+      <description>Accept DICOM images encoded in JPEG Lossless (Process 14) Transfer Syntax.
+      </description>
+      <name>AcceptJPEGLossless14</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGBaseline"
+      setMethod="setAcceptJPEGBaseline">
+      <description>Accept DICOM images encoded in JPEG Baseline Transfer Syntax.
+      </description>
+      <name>AcceptJPEGBaseline</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGExtended"
+      setMethod="setAcceptJPEGExtended">
+      <description>Accept DICOM images encoded in JPEG Extended Transfer Syntax.
+      </description>
+      <name>AcceptJPEGExtended</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptRLELossless"
+      setMethod="setAcceptRLELossless">
+      <description>Accept DICOM images encoded in RLE Lossless Transfer Syntax.
+      </description>
+      <name>AcceptRLELossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAcTimeout"
+      setMethod="setAcTimeout">
+      <description>A-ASSOCIATE AC timeout in ms. 0 = no timeout.
+      </description>
+      <name>AcTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDimseTimeout"
+      setMethod="setDimseTimeout">
+      <description>DIMSE message timeout in ms. 0 = no timeout.
+      </description>
+      <name>DimseTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="60000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSoCloseDelay"
+      setMethod="setSoCloseDelay">
+      <description>Socket close delay in ms after A-RELEASE RSP.
+      </description>
+      <name>SoCloseDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="500" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getBufferSize"
+      setMethod="setBufferSize">
+      <description>Size of buffer used to copy data from TCP channel to file.
+      No need to change default value: 512.
+      </description>
+      <name>BufferSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="512" />
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getEjbProviderURL"
+      setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EjbProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDataSourceJndiName"
+      setMethod="setDataSourceJndiName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DataSourceJndiName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="java:/DefaultDS" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDcmServerName"
+      setMethod="setDcmServerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DcmServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chex:service=DcmServer" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
+

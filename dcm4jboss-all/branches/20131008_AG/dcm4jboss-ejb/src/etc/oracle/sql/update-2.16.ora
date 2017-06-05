@@ -1,0 +1,52 @@
+-- Update DB from dcm4chee-2.15.x to dcm4chee-2.16.x
+
+CREATE INDEX inst_created ON instance(created_time);
+
+ALTER TABLE study_on_fs ADD (mark_to_delete NUMBER(1));
+
+UPDATE study_on_fs SET mark_to_delete=0;
+ALTER TABLE study_on_fs MODIFY mark_to_delete NOT NULL;
+
+CREATE INDEX mark_to_delete ON study_on_fs(mark_to_delete);
+
+ALTER TABLE patient ADD (
+   pat_fn_sx VARCHAR(255),
+   pat_gn_sx VARCHAR(255));
+CREATE INDEX pat_fn_sx ON patient(pat_fn_sx);
+CREATE INDEX pat_gn_sx ON patient(pat_gn_sx);
+
+ALTER TABLE study ADD (
+   ref_phys_fn_sx VARCHAR(255),
+   ref_phys_gn_sx VARCHAR(255));
+CREATE INDEX ref_phys_fn_sx ON study(ref_phys_fn_sx);
+CREATE INDEX ref_phys_gn_sx ON study(ref_phys_gn_sx);
+
+ALTER TABLE series ADD (
+   perf_phys_fn_sx VARCHAR(255),
+   perf_phys_gn_sx VARCHAR(255));
+CREATE INDEX perf_phys_fn_sx ON series(perf_phys_fn_sx);
+CREATE INDEX perf_phys_gn_sx ON series(perf_phys_gn_sx);
+
+ALTER TABLE series_req ADD (
+   req_phys_fn_sx VARCHAR(255),
+   req_phys_gn_sx VARCHAR(255));
+CREATE INDEX ser_req_phys_fn_sx ON series_req(req_phys_fn_sx);
+CREATE INDEX ser_req_phys_gn_sx ON series_req(req_phys_gn_sx);
+
+ALTER TABLE verify_observer ADD (
+   observer_fn_sx VARCHAR(255),
+   observer_gn_sx VARCHAR(255));
+CREATE INDEX observer_fn_sx ON verify_observer(observer_fn_sx);
+CREATE INDEX observer_gn_sx ON verify_observer(observer_gn_sx);
+
+ALTER TABLE mwl_item ADD (
+   perf_phys_fn_sx VARCHAR(255),
+   perf_phys_gn_sx VARCHAR(255));
+CREATE INDEX mwl_perf_phys_fn_sx ON mwl_item(perf_phys_fn_sx);
+CREATE INDEX mwl_perf_phys_gn_sx ON mwl_item(perf_phys_gn_sx);
+
+ALTER TABLE gpsps_perf ADD (
+   hum_perf_fn_sx VARCHAR(255),
+   hum_perf_gn_sx VARCHAR(255));
+CREATE INDEX gpsps_perf_fn_sx ON gpsps_perf(hum_perf_fn_sx);
+CREATE INDEX gpsps_perf_gn_sx ON gpsps_perf(hum_perf_gn_sx);

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-gpwlfeed-service.xml 1673 2005-04-07 09:49:53Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.gpwlscp.GPWLFeedService" 
+	     name="tiani.archive:service=GPWLFeed"
+	     xmbean-dd="xmdesc/dcm4jboss-gpwlfeed-xmbean.xml">
+    <depends>
+      tiani.archive:service=MPPSScp
+    </depends>
+  </mbean>
+</server>

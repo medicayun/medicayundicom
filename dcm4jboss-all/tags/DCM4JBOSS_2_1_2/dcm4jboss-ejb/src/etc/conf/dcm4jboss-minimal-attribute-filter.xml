@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dcm4jboss-attribute-filter SYSTEM "dcm4jboss-attribute-filter.dtd">
+<dcm4jboss-attribute-filter>
+    <filter level="PATIENT">
+        <attr tag="00080005"/> <!-- Specific Character Set -->
+        <attr tag="00100010"/> <!--  Patient's Name -->
+        <attr tag="00100020"/> <!--  Patient ID -->
+    </filter>
+    <filter level="STUDY">
+        <attr tag="00080005"/> <!-- Specific Character Set -->
+        <attr tag="00080020"/> <!-- Study Date -->
+        <attr tag="00080030"/> <!-- Study Time -->
+        <attr tag="00080050"/> <!-- Accession Number -->
+        <attr tag="0020000D" coerce="false"/> <!-- Study Instance UID -->
+        <attr tag="00200010"/> <!-- Study ID -->
+    </filter>
+    <filter level="SERIES">
+        <attr tag="00080060"/> <!-- Modality -->
+        <attr tag="0020000E" coerce="false"/> <!-- Series Instance UID -->
+        <attr tag="00200011"/> <!-- Series Number -->
+    </filter>
+    <filter level="IMAGE">
+        <attr tag="00080018"/> <!-- SOP Instance UID -->
+        <attr tag="00200013"/> <!-- Instance Number -->
+    </filter>
+</dcm4jboss-attribute-filter>

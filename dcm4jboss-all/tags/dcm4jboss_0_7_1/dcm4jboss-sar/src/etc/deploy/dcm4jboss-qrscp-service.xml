@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-qrscp-service.xml 1004 2004-02-21 22:32:43Z gunterze $ -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+<mbean code="org.dcm4chex.service.QueryRetrieveScpService" 
+	name="dcm4chex:service=QueryRetrieveScp,aet=QR_SCP">
+
+    <depends optional-attribute-name="DcmServerName">
+    	dcm4chex:service=DcmServer,name=DCMSRV
+    </depends>
+    
+    <attribute name="DataSource">java:/DefaultDS</attribute>    
+
+	<!--
+	Specifies which file is selected for retrieval, if the storage service
+	associated to this Q/R service received several instances with equal
+	SOP Instance UID, resulting in several files with copies of the same
+	DICOM Composite Object.
+	-->
+    <attribute name="RetrieveLastReceived">true</attribute>
+
+	<!--
+	Specifies if the C-MOVE SCP shall send optional C-MOVE RSP DICOM Messages
+	with Pending Status to the C-MOVE SCU during the retrieve process.
+	-->
+    <attribute name="SendPendingMoveRSP">true</attribute>
+
+	<!--
+	Specifies time-out in ms for receiving the A-ASSOCIATE-AC PDU after
+	transmission of the A-ASSOCIATE-RQ to open an association
+	to the move destination AE.
+	-->
+    <attribute name="AcTimeout">5000</attribute>
+    
+    <attribute name="CallingAETs">__any__</attribute>
+
+    <attribute name="PatientRootFind">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="StudyRootFind">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="PatientStudyOnlyFind">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="PatientRootMove">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="StudyRootMove">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+    <attribute name="PatientStudyOnlyMove">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>         
+</mbean>
+
+</server>
+

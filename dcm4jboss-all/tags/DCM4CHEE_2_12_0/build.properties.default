@@ -1,0 +1,14 @@
+#Override with your XDoclet dist location
+xdoclet.home=${user.home}/xdoclet-1.2.3
+
+#Override with your Cactus dist location
+cactus.home=${user.home}/jakarta-cactus-13-1.7
+
+#Override with your local Maven2 repository
+m2.repos=${user.home}/.m2/repository
+
+#Override with your JBoss dist location
+jboss.home=${user.home}/jboss-4.2.1.GA
+
+#Override with your FOP dist location
+fop.home=${user.home}/fop-0.20.5

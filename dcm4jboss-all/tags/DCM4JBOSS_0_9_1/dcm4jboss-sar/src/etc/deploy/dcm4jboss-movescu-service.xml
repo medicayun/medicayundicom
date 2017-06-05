@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-movescu-service.xml 1154 2004-08-26 19:36:20Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.movescu.MoveScuService" 
+	     name="dcm4chex:service=MoveScu"
+	     xmbean-dd="xmdesc/dcm4jboss-movescu-xmbean.xml">
+    <depends>
+      dcm4chex:service=Queue,name=MoveScu
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+  </mbean>
+</server>
+

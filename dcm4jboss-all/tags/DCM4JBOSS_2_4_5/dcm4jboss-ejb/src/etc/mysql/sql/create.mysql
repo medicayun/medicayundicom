@@ -1,0 +1,380 @@
+CREATE TABLE ae (
+	pk          	INTEGER AUTO_INCREMENT PRIMARY KEY,
+	aet          	VARCHAR(250) BINARY NOT NULL,
+	hostname     	VARCHAR(250) BINARY NOT NULL,
+	port			INTEGER NOT NULL,
+	cipher_suites  	VARCHAR(250) BINARY
+);
+CREATE UNIQUE INDEX aet ON ae(aet);
+
+CREATE TABLE code (
+	pk          	INTEGER AUTO_INCREMENT PRIMARY KEY,
+	code_value     	VARCHAR(250) BINARY NOT NULL,
+	code_designator	VARCHAR(250) BINARY NOT NULL,
+	code_version   	VARCHAR(250) BINARY,
+	code_meaning   	VARCHAR(250) BINARY
+);
+CREATE INDEX code_value ON code(code_value,code_designator);
+
+CREATE TABLE patient (
+	pk          	INTEGER AUTO_INCREMENT PRIMARY KEY,
+	merge_fk		INTEGER,
+	pat_id         	VARCHAR(250) BINARY,
+	pat_id_issuer  	VARCHAR(250) BINARY,
+	pat_name    	VARCHAR(250),
+	pat_birthdate  	DATE,
+	pat_sex		  	VARCHAR(250) BINARY,
+	pat_attrs		BLOB,
+FOREIGN KEY (merge_fk) REFERENCES patient(pk)
+);
+CREATE INDEX pat_merge_fk ON patient(merge_fk);
+CREATE INDEX pat_id ON patient(pat_id, pat_id_issuer);
+CREATE INDEX pat_name ON patient(pat_name);
+CREATE INDEX pat_birthdate ON patient(pat_birthdate);
+CREATE INDEX pat_sex ON patient(pat_sex);
+
+CREATE TABLE study (
+	pk              INTEGER AUTO_INCREMENT PRIMARY KEY,
+	patient_fk      INTEGER,
+	study_iuid      VARCHAR(250) BINARY NOT NULL,
+	study_id        VARCHAR(250) BINARY,
+	study_datetime	DATETIME,
+	accession_no	VARCHAR(250) BINARY,
+	ref_physician   VARCHAR(250),
+	mods_in_study	VARCHAR(250) BINARY,
+	num_series		INTEGER,
+	num_instances	INTEGER,
+	ext_retr_aet	VARCHAR(250) BINARY,
+	retrieve_aets	VARCHAR(250) BINARY,
+	fileset_iuid	VARCHAR(250) BINARY,
+	fileset_id		VARCHAR(250) BINARY,
+	availability	INTEGER,
+	checked_time	DATETIME,
+	updated_time	DATETIME,
+	created_time	DATETIME,
+	study_attrs		BLOB,
+FOREIGN KEY (patient_fk) REFERENCES patient(pk)
+);
+CREATE INDEX patient_fk ON study(patient_fk);
+CREATE UNIQUE INDEX study_iuid ON study(study_iuid);
+CREATE INDEX study_id ON study(study_id);
+CREATE INDEX study_datetime ON study(study_datetime);
+CREATE INDEX accession_no ON study(accession_no);
+CREATE INDEX ref_physician ON study(ref_physician);
+CREATE INDEX study_checked ON study(checked_time);
+CREATE INDEX study_created ON study(created_time);
+
+CREATE TABLE mpps (
+	pk          		INTEGER AUTO_INCREMENT PRIMARY KEY,
+	patient_fk      	INTEGER,
+	drcode_fk			INTEGER,
+	mpps_iuid			VARCHAR(250) BINARY NOT NULL,
+	pps_start			DATETIME,
+	station_aet			VARCHAR(250) BINARY,
+	modality	    	VARCHAR(250) BINARY,
+	accession_no		VARCHAR(250) BINARY,
+	mpps_status			INTEGER NOT NULL,
+	mpps_attrs			BLOB,
+FOREIGN KEY (patient_fk) REFERENCES patient(pk),
+FOREIGN KEY (drcode_fk) REFERENCES code(pk)
+);
+CREATE UNIQUE INDEX mpps_iuid ON mpps (mpps_iuid);
+CREATE INDEX mpps_patient_fk ON mpps(patient_fk);
+CREATE INDEX mpps_pps_start ON mpps (pps_start);
+CREATE INDEX mpps_station_aet ON mpps (station_aet);
+CREATE INDEX mpps_modality ON mpps (modality);
+CREATE INDEX mpps_accession_no ON mpps (accession_no);	
+
+CREATE TABLE series (
+	pk              INTEGER AUTO_INCREMENT PRIMARY KEY,
+	study_fk		INTEGER,
+	mpps_fk			INTEGER,
+	series_iuid     VARCHAR(250) BINARY NOT NULL,
+	series_no		VARCHAR(250) BINARY,
+	modality		VARCHAR(250) BINARY,
+	pps_start		DATETIME,
+	pps_iuid		VARCHAR(250) BINARY,
+	num_instances	INTEGER,
+	src_aet			VARCHAR(250) BINARY,
+	ext_retr_aet	VARCHAR(250) BINARY,
+	retrieve_aets	VARCHAR(250) BINARY,
+	fileset_iuid	VARCHAR(250) BINARY,
+	fileset_id		VARCHAR(250) BINARY,
+	availability	INTEGER,
+	hidden			TINYINT,
+	created_time	DATETIME,
+	updated_time	DATETIME,
+	series_attrs	BLOB,
+FOREIGN KEY (study_fk) REFERENCES study(pk),
+FOREIGN KEY (mpps_fk) REFERENCES mpps(pk)
+);
+CREATE INDEX study_fk ON series(study_fk);
+CREATE INDEX series_mpps_fk ON series(mpps_fk);
+CREATE UNIQUE INDEX series_iuid ON series(series_iuid);
+CREATE INDEX series_no ON series(series_no);
+CREATE INDEX modality ON series(modality);
+CREATE INDEX series_pps_start ON series(pps_start);
+CREATE INDEX series_pps_iuid ON series (pps_iuid);
+CREATE INDEX series_src_aet ON series (src_aet);
+CREATE INDEX series_created ON series(created_time);
+
+CREATE TABLE series_req (
+	pk              INTEGER AUTO_INCREMENT PRIMARY KEY,
+	series_fk       INTEGER,
+	req_proc_id     VARCHAR(250) BINARY,
+	sps_id          VARCHAR(250) BINARY,
+FOREIGN KEY (series_fk) REFERENCES series(pk)
+);
+CREATE INDEX ser_req_series_fk ON series_req(series_fk);
+CREATE INDEX ser_req_proc_id ON series_req(req_proc_id);
+CREATE INDEX ser_req_sps_id ON series_req(sps_id);	
+
+CREATE TABLE media (
+	pk          		INTEGER AUTO_INCREMENT PRIMARY KEY,
+	fileset_iuid		VARCHAR(250) BINARY NOT NULL,
+	fileset_id			VARCHAR(250) BINARY,
+	media_rq_iuid		VARCHAR(250) BINARY,
+	media_status		INTEGER NOT NULL,
+	media_status_info	VARCHAR(250) BINARY,
+	media_usage			BIGINT NOT NULL,
+	created_time		DATETIME,
+	updated_time		DATETIME
+);
+CREATE UNIQUE INDEX fileset_iuid ON media(fileset_iuid);
+CREATE INDEX media_status ON media(media_status);
+
+CREATE TABLE instance (
+	pk              	INTEGER AUTO_INCREMENT PRIMARY KEY,
+	series_fk			INTEGER,
+	srcode_fk			INTEGER,
+	media_fk			INTEGER,
+	sop_iuid			VARCHAR(250) BINARY NOT NULL,
+	sop_cuid			VARCHAR(250) BINARY NOT NULL,
+	inst_no				VARCHAR(250) BINARY,
+	content_datetime	DATETIME,
+	sr_complete			VARCHAR(250) BINARY,
+	sr_verified			VARCHAR(250) BINARY,
+	ext_retr_aet		VARCHAR(250) BINARY,
+	retrieve_aets		VARCHAR(250) BINARY,
+	availability		INTEGER,
+	commitment			TINYINT,
+	inst_attrs			BLOB,
+FOREIGN KEY (series_fk)	REFERENCES series(pk),
+FOREIGN KEY (srcode_fk)	REFERENCES code(pk),
+FOREIGN KEY (media_fk)	REFERENCES media(pk)
+);
+CREATE INDEX series_fk ON instance(series_fk);
+CREATE INDEX srcode_fk ON instance(srcode_fk);
+CREATE INDEX media_fk ON instance(media_fk);
+CREATE UNIQUE INDEX sop_iuid ON instance(sop_iuid);
+CREATE INDEX sop_cuid ON instance(sop_cuid);
+CREATE INDEX inst_no ON instance(inst_no);
+CREATE INDEX content_datetime ON instance(content_datetime);
+CREATE INDEX sr_complete ON instance(sr_complete);
+CREATE INDEX sr_verified ON instance(sr_verified);
+CREATE INDEX ext_retr_aet ON instance(ext_retr_aet);
+CREATE INDEX commitment ON instance(commitment);
+
+CREATE TABLE filesystem (
+	pk          	INTEGER AUTO_INCREMENT PRIMARY KEY,
+	dirpath			VARCHAR(250) BINARY NOT NULL,
+	retrieve_aet	VARCHAR(250) BINARY NOT NULL
+);
+CREATE UNIQUE INDEX dirpath ON filesystem(dirpath);
+CREATE INDEX retrieve_aet ON filesystem(retrieve_aet);
+
+CREATE TABLE files (
+	pk              INTEGER AUTO_INCREMENT PRIMARY KEY,
+	instance_fk     INTEGER,
+	filesystem_fk	INTEGER,
+	filepath		VARCHAR(250) BINARY NOT NULL,
+	file_tsuid      VARCHAR(250) BINARY NOT NULL,
+	file_md5        VARCHAR(250) BINARY,
+	file_size       INTEGER,
+	file_status     INTEGER,
+	md5_check_time	DATETIME,
+	created_time	DATETIME,
+FOREIGN KEY (instance_fk)	REFERENCES instance(pk),
+FOREIGN KEY (filesystem_fk)	REFERENCES filesystem(pk)
+);
+CREATE INDEX instance_fk ON files(instance_fk);
+CREATE INDEX filesystem_fk ON files(filesystem_fk);
+CREATE INDEX file_tsuid ON files(file_tsuid);
+CREATE INDEX md5_check_time ON files(md5_check_time);
+CREATE INDEX file_created ON files(created_time);
+CREATE INDEX file_status ON files(file_status);
+
+CREATE TABLE study_on_fs (
+	pk              INTEGER AUTO_INCREMENT PRIMARY KEY,
+	study_fk		INTEGER,
+	filesystem_fk	INTEGER,
+	access_time		DATETIME NOT NULL,
+FOREIGN KEY (study_fk) REFERENCES study(pk),
+FOREIGN KEY (filesystem_fk) REFERENCES filesystem(pk)
+);
+CREATE UNIQUE INDEX i_study_on_fs ON study_on_fs(filesystem_fk,study_fk);
+
+CREATE TABLE mwl_item (
+	pk          	INTEGER AUTO_INCREMENT PRIMARY KEY,
+	patient_fk      INTEGER,
+	sps_status      INTEGER,
+	sps_id			VARCHAR(250) BINARY,
+	start_datetime	DATETIME NOT NULL,
+	station_aet     VARCHAR(250) BINARY NOT NULL,
+	modality	    VARCHAR(250) BINARY NOT NULL,
+	perf_physician  VARCHAR(250),
+	req_proc_id    	VARCHAR(250) BINARY NOT NULL,
+	accession_no	VARCHAR(250) BINARY,
+	item_attrs		BLOB,
+FOREIGN KEY (patient_fk) REFERENCES patient(pk)
+);
+CREATE INDEX mwl_patient_fk ON mwl_item(patient_fk);
+CREATE INDEX sps_status ON mwl_item(sps_status);
+CREATE UNIQUE INDEX mwl_sps_id ON mwl_item(sps_id);
+CREATE INDEX mwl_start_time ON mwl_item(start_datetime);
+CREATE INDEX mwl_station_aet ON mwl_item(station_aet);
+CREATE INDEX mwl_modality ON mwl_item(modality);
+CREATE INDEX mwl_perf_physician ON mwl_item(perf_physician);
+CREATE INDEX mwl_req_proc_id ON mwl_item(req_proc_id);
+CREATE INDEX mwl_accession_no ON mwl_item(accession_no);
+
+CREATE TABLE gpsps (
+	pk              INTEGER AUTO_INCREMENT PRIMARY KEY,
+	patient_fk      INTEGER,
+	code_fk         INTEGER,
+	gpsps_iuid      VARCHAR(250) BINARY NOT NULL,
+	gpsps_tuid      VARCHAR(250) BINARY,
+	start_datetime  DATETIME NOT NULL,
+	end_datetime    DATETIME,
+	gpsps_status    INTEGER,
+	gpsps_prior     INTEGER,
+	in_availability INTEGER,
+	item_attrs      BLOB,
+FOREIGN KEY (patient_fk) REFERENCES patient(pk),
+FOREIGN KEY (code_fk) REFERENCES code(pk)
+);
+CREATE INDEX gpsps_patient_fk ON gpsps(patient_fk);
+CREATE INDEX gpsps_code_fk ON gpsps(code_fk);
+CREATE UNIQUE INDEX gpsps_iuid ON gpsps(gpsps_iuid);
+CREATE INDEX gpsps_tuid ON gpsps(gpsps_tuid);
+CREATE INDEX gpsps_start_time ON gpsps(start_datetime);
+CREATE INDEX gpsps_end_time ON gpsps(end_datetime);
+CREATE INDEX gpsps_status ON gpsps(gpsps_status);
+CREATE INDEX gpsps_prior ON gpsps(gpsps_prior);
+CREATE INDEX in_availability ON gpsps(in_availability);
+
+CREATE TABLE rel_gpsps_appcode (
+	gpsps_fk       INTEGER,
+	appcode_fk     INTEGER,
+FOREIGN KEY (gpsps_fk) REFERENCES gpsps(pk),
+FOREIGN KEY (appcode_fk) REFERENCES code(pk)
+);
+CREATE INDEX appcode_gpsps_fk ON rel_gpsps_appcode(gpsps_fk);
+CREATE INDEX gpsps_appcode_fk ON rel_gpsps_appcode(appcode_fk);
+
+CREATE TABLE rel_gpsps_devname (
+	gpsps_fk       INTEGER,
+	devname_fk     INTEGER,
+FOREIGN KEY (gpsps_fk) REFERENCES gpsps(pk),
+FOREIGN KEY (devname_fk) REFERENCES code(pk)
+);
+CREATE INDEX devname_gpsps_fk ON rel_gpsps_devname(gpsps_fk);
+CREATE INDEX gpsps_devname_fk ON rel_gpsps_devname(devname_fk);
+
+CREATE TABLE rel_gpsps_devclass (
+	gpsps_fk       INTEGER,
+	devclass_fk     INTEGER,
+FOREIGN KEY (gpsps_fk) REFERENCES gpsps(pk),
+FOREIGN KEY (devclass_fk) REFERENCES code(pk)
+);
+CREATE INDEX devclass_gpsps_fk ON rel_gpsps_devclass(gpsps_fk);
+CREATE INDEX gpsps_devclass_fk ON rel_gpsps_devclass(devclass_fk);
+
+CREATE TABLE rel_gpsps_devloc (
+	gpsps_fk       INTEGER,
+	devloc_fk  INTEGER,
+FOREIGN KEY (gpsps_fk) REFERENCES gpsps(pk),
+FOREIGN KEY (devloc_fk) REFERENCES code(pk)
+);
+CREATE INDEX devloc_gpsps_fk ON rel_gpsps_devloc(gpsps_fk);
+CREATE INDEX gpsps_devloc_fk ON rel_gpsps_devloc(devloc_fk);
+
+CREATE TABLE gpsps_perf (
+	pk                 INTEGER AUTO_INCREMENT PRIMARY KEY,
+	gpsps_fk           INTEGER,
+	code_fk            INTEGER,
+	human_perf_name    VARCHAR(250),
+FOREIGN KEY (gpsps_fk) REFERENCES gpsps(pk),
+FOREIGN KEY (code_fk) REFERENCES code(pk)
+);
+CREATE INDEX gpsps_perf_sps_fk ON gpsps_perf(gpsps_fk);
+CREATE INDEX gpsps_perf_code_fk ON gpsps_perf(code_fk);
+CREATE INDEX gpsps_perf_name ON gpsps_perf(human_perf_name);
+
+CREATE TABLE gpsps_req (
+	pk          	INTEGER AUTO_INCREMENT PRIMARY KEY,
+	gpsps_fk        INTEGER,
+	req_proc_id		VARCHAR(250) BINARY,
+	accession_no	VARCHAR(250) BINARY,
+FOREIGN KEY (gpsps_fk) REFERENCES gpsps(pk)
+);
+CREATE INDEX gpsps_req_gpsps_fk ON gpsps_req(gpsps_fk);
+CREATE INDEX gpsps_req_proc_id ON gpsps_req(req_proc_id);
+CREATE INDEX gpsps_req_acc_no ON gpsps_req(accession_no);	
+
+CREATE TABLE device (
+	pk          	INTEGER AUTO_INCREMENT PRIMARY KEY,
+	station_name    VARCHAR(250) BINARY NOT NULL,
+	station_aet     VARCHAR(250) BINARY NOT NULL,
+	modality		VARCHAR(250) BINARY NOT NULL
+);
+CREATE UNIQUE INDEX station_name ON device(station_name);
+
+CREATE TABLE rel_dev_proto (
+	device_fk      INTEGER,
+	prcode_fk      INTEGER,
+FOREIGN KEY (device_fk) REFERENCES device(pk),
+FOREIGN KEY (prcode_fk) REFERENCES code(pk)
+);
+CREATE INDEX device_fk ON rel_dev_proto(device_fk);
+CREATE INDEX prcode_fk ON rel_dev_proto(prcode_fk);
+
+CREATE TABLE audit_record(
+	pk 				INTEGER AUTO_INCREMENT PRIMARY KEY,
+	msg_type 		VARCHAR(250) BINARY,
+	host_name 		VARCHAR(250) BINARY,
+	time_stamp 		DATETIME,
+	aet 			VARCHAR(250) BINARY,
+	user_name 		VARCHAR(250) BINARY,
+	patient_name	VARCHAR(250) BINARY,
+	patient_id 		VARCHAR(250) BINARY,
+	xml_data 		BLOB
+);
+CREATE INDEX arr_msg_type ON audit_record(msg_type);
+CREATE INDEX arr_host_name ON audit_record(host_name);
+CREATE INDEX arr_time_stamp ON audit_record(time_stamp);
+CREATE INDEX arr_aet ON audit_record(aet);
+CREATE INDEX arr_user_name ON audit_record(user_name);
+CREATE INDEX arr_patient_name ON audit_record(patient_name);
+CREATE INDEX arr_patient_id ON audit_record(patient_id);
+
+CREATE TABLE users(
+	user_id		VARCHAR(250) BINARY PRIMARY KEY,
+	passwd 		VARCHAR(250) BINARY
+);
+CREATE TABLE roles(
+	user_id		VARCHAR(250) BINARY,
+	roles	 	VARCHAR(250) BINARY,
+FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+CREATE INDEX user_id ON roles(user_id);
+
+INSERT INTO users VALUES('admin','admin');
+INSERT INTO roles VALUES('admin','JBossAdmin');
+INSERT INTO roles VALUES('admin','WebUser');
+INSERT INTO roles VALUES('admin','WebAdmin');
+INSERT INTO roles VALUES('admin','arr-user');
+INSERT INTO users VALUES('user','user');
+INSERT INTO roles VALUES('user','WebUser');
+
+INSERT INTO ae (aet,hostname,port) VALUES('PACS_TIANI','localhost',2350);

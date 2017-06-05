@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-forward-service.xml 1156 2004-08-27 16:22:47Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.movescu.ForwardService" 
+	     name="dcm4chex:service=Forward"
+	     xmbean-dd="xmdesc/dcm4jboss-forward-xmbean.xml">
+    <depends>
+      dcm4chex:service=StoreScp
+    </depends>
+	<depends>
+	  dcm4chex:service=Queue,name=MoveScu
+	</depends>
+	<depends>
+	  jboss.mq:service=InvocationLayer,type=JVM
+	</depends>
+  </mbean>
+</server>

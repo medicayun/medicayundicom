@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-contentedit-service.xml 1596 2005-03-14 12:29:40Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.ContentEditService" 
+         name="tiani.archive:service=ContentEditService"
+         xmbean-dd="xmdesc/dcm4jboss-contentedit-xmbean.xml">
+  </mbean>
+
+</server>

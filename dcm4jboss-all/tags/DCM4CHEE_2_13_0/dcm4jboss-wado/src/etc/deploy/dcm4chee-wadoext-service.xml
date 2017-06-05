@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-wadoext-service.xml 3341 2007-05-12 17:19:22Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.wado.mbean.ExtendedWADOService"
+    name="dcm4chee.archive:service=WADOExtService"
+    xmbean-dd="xmdesc/dcm4chee-wadoext-xmbean.xml">
+    <depends optional-attribute-name="FileSystemMgtName"
+      >dcm4chee.archive:service=FileSystemMgt</depends>
+    <depends optional-attribute-name="SchedulerServiceName"
+      >dcm4chee.archive:service=Scheduler</depends>
+    <depends optional-attribute-name="StudyInfoServiceName"
+      >dcm4chee.archive:service=StudyInfoService</depends>
+    <attribute name="TimerID">CheckFreeDiskSpaceWadoExt</attribute>
+  </mbean>
+</server>

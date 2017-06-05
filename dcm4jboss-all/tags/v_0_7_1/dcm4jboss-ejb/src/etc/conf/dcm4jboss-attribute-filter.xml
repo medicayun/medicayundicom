@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dcm4jboss-attribute-filter SYSTEM "dcm4jboss-attribute-filter.dtd">
+<dcm4jboss-attribute-filter>
+  <patient>
+<!-- Specific Character Set -->
+    <attr tag="(0008,0005)"/>
+<!-- Patient's Name -->
+    <attr tag="(0010,0010)"/>
+<!-- Patient ID -->
+    <attr tag="(0010,0020)"/>
+<!-- Issuer of Patient ID -->
+    <attr tag="(0010,0021)"/>
+<!-- Patient's Birth Date -->
+    <attr tag="(0010,0030)"/>
+<!-- Patient's Sex -->
+    <attr tag="(0010,0040)"/>
+  </patient>
+  
+  <study>
+<!-- Specific Character Set -->
+    <attr tag="(0008,0005)"/>
+<!-- Study Date -->
+    <attr tag="(0008,0020)"/>
+<!-- Study Time -->
+    <attr tag="(0008,0030)"/>
+<!-- Accession Number -->
+    <attr tag="(0008,0050)"/>
+<!-- Referring Physician Name -->
+    <attr tag="(0008,0090)"/>
+<!-- Study Description -->
+    <attr tag="(0008,1030)"/>
+<!-- Procedure Code Seq -->
+    <attr tag="(0008,1032)"/>
+<!-- Study Instance UID -->
+    <attr tag="(0020,000D)"/>
+<!-- Study ID -->
+    <attr tag="(0020,0010)"/>
+  </study>
+  
+  <series>
+<!-- Specific Character Set -->
+    <attr tag="(0008,0005)"/>
+<!-- Series Date -->
+    <attr tag="(0008,0021)"/>
+<!-- Series Time -->
+    <attr tag="(0008,0031)"/>
+<!-- Modality -->
+    <attr tag="(0008,0060)"/>
+<!-- Series Description -->
+    <attr tag="(0008,103E)"/>
+<!-- Referenced Performed Procedure Step Sequence -->
+    <attr tag="(0008,1111)"/>
+<!-- Body Part Examined -->
+    <attr tag="(0018,0015)"/>
+<!-- Series Instance UID -->
+    <attr tag="(0020,000E)"/>
+<!-- Series Number -->
+    <attr tag="(0020,0011)"/>
+<!-- Laterality -->
+    <attr tag="(0020,0060)"/>
+<!-- Performed Procedure Step Start Date -->
+    <attr tag="(0040,0244)"/>
+<!-- Performed Procedure Step Start Time -->
+    <attr tag="(0040,0245)"/>
+<!-- Request Attributes Sequence -->
+    <attr tag="(0040,0275)"/>
+  </series>
+  
+  <instance>
+<!-- Specific Character Set -->
+    <attr tag="(0008,0005)"/>
+<!-- Image Type -->
+    <attr tag="(0008,0008)"/>
+<!-- SOP Class UID -->
+    <attr tag="(0008,0016)"/>
+<!-- SOP Instance UID -->
+    <attr tag="(0008,0018)"/>
+<!-- Content Date -->
+    <attr tag="(0008,0023)"/>
+<!-- Content Time -->
+    <attr tag="(0008,0033)"/>
+<!-- Referenced Series Sequence -->
+    <attr tag="(0008,1115)"/>
+<!-- Instance Number -->
+    <attr tag="(0020,0013)"/>
+<!-- Photometric Interpretation -->
+    <attr tag="(0028,0004)"/>
+<!-- Number of Frames -->
+    <attr tag="(0028,0008)"/>
+<!-- Rows -->
+    <attr tag="(0028,0010)"/>
+<!-- Columns -->
+    <attr tag="(0028,0011)"/>
+<!-- Bits Allocated -->
+    <attr tag="(0028,0100)"/>
+<!-- Observation DateTime -->
+    <attr tag="(0040,A032)"/>
+<!-- Concept Name Code Sequence -->
+    <attr tag="(0040,A043)"/>
+<!-- Verifying Observer Sequence -->
+    <attr tag="(0040,A073)"/>
+<!-- Referenced Request Sequence -->
+    <attr tag="(0040,A370)"/>
+<!-- Completion Flag -->
+    <attr tag="(0040,A491)"/>
+<!-- Verification Flag -->
+    <attr tag="(0040,A493)"/>
+<!-- Presentation Label -->
+    <attr tag="(0070,0080)"/>
+<!-- Presentation Description -->
+    <attr tag="(0070,0081)"/>
+<!-- Presentation Creation Date -->
+    <attr tag="(0070,0082)"/>
+<!-- Presentation Creation Time -->
+    <attr tag="(0070,0083)"/>
+<!-- Presentation Creator s Name -->
+    <attr tag="(0070,0084)"/>
+  </instance>
+  
+</dcm4jboss-attribute-filter>

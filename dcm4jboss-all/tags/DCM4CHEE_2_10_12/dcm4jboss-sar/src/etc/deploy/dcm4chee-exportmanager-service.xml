@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-exportmanager-service.xml 2852 2006-10-13 09:39:45Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="dcm4chee.archive:service=Queue,name=ExportManager">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>
+   
+  <mbean code="org.dcm4chex.archive.tce.ExportManagerService" 
+	     name="dcm4chee.archive:service=ExportManager"
+	     xmbean-dd="xmdesc/dcm4chee-exportmanager-xmbean.xml">
+    <depends>dcm4chee.archive:service=AuditLogger</depends>
+    <depends>dcm4chee.archive:service=StoreScp</depends>
+    <depends>dcm4chee.archive:service=Queue,name=ExportManager</depends>
+    <depends>dcm4chee.archive:service=JMS</depends>
+  </mbean>
+</server>
+

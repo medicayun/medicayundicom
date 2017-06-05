@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-fsmgt-service.xml 1492 2005-02-07 01:02:03Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.FileSystemMgtService" 
+	name="tiani.archive:service=FileSystemMgt"
+	xmbean-dd="xmdesc/dcm4jboss-fsmgt-xmbean.xml">
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the FileSystemMgt EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/FileSystemMgt,service=EJB</depends>
+  </mbean>
+
+</server>
+
+

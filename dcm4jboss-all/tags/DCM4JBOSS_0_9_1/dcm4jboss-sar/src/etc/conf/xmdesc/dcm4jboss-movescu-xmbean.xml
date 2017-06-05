@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Move SCU Service to process Move Orders</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4jboss-movescu.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.movescu.MoveScuService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MoveSCUService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getCallingAET"
+      setMethod="setCallingAET">
+      <description>(Calling) AET of Move SCU.
+      </description>
+      <name>CallingAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="MOVE_SCU" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCalledAET"
+      setMethod="setCalledAET">
+      <description>AET of default MOVE SCP. Only effective, if a
+      Move Order does not specify a Retrieve AET.
+      </description>
+      <name>CalledAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="QR_SCP" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRetryIntervalls"
+      setMethod="setRetryIntervalls">
+      <description>Number and intervalls of retries of failed Move Requests
+      by a list of comma separated NUMBERxINTERVAL pairs. The
+      intervall can be specified in seconds (##s), minutes (##m), hours (##h)
+      or days (##d).
+      </description>
+      <name>RetryIntervalls</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="5x1m,12x5m,24x1h,7x1d" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getConcurrency"
+      setMethod="setConcurrency">
+      <description>Maximal number of concurrent invoked Move Requests.
+      </description>
+      <name>Concurrency</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDataSourceJndiName"
+      setMethod="setDataSourceJndiName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DataSourceJndiName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="java:/DefaultDS" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   
+</mbean>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-checkstudypat-service.xml 2715 2006-08-28 09:51:01Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.CheckStudyPatientService" 
+	name="dcm4chee.archive:service=CheckStudyPatientService"
+	xmbean-dd="xmdesc/dcm4chee-checkstudypat-xmbean.xml">
+
+  </mbean>
+
+</server>
+
+

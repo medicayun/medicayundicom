@@ -1,0 +1,328 @@
+<project name="dcm4jboss-ejb" default="jar">
+	<property file="build.properties"/>
+	<property name="version" value="DEV"/>
+
+    <!--property name="datasource.mapping" value="Hypersonic SQL"/-->
+    <!--property name="datasource.mapping" value="mySQL"/-->
+    <property name="datasource.mapping" value="PostgreSQL 7.2"/>
+    <!--property name="datasource.name" value="java:/DefaultDS"/-->
+    <!--property name="datasource.name" value="java:/MySqlDS"/-->
+    <property name="datasource.name" value="java:/PostgresDS"/>
+			
+    <!-- Override with your JBoss/Web server bundle dist location -->
+	<property name="dcm4che.home" value="${user.home}/work/dcm4che14/build"/>		
+	<property name="dcm4che.jar" value="${dcm4che.home}/lib/dcm4che.jar"/>		
+
+    <!-- Override with your JBoss/Web server bundle dist location -->
+	<property name="jboss.home" value="${user.home}/jboss-3.2.1"/>		
+	<property name="jboss.conf" value="${jboss.home}/server/default"/>		
+	<property name="jboss.deploy" value="${jboss.conf}/deploy"/>		
+	<property name="ejb.jar" value="${jboss.conf}/lib/jboss-j2ee.jar"/>		
+	<property name="log4j.jar" value="${jboss.conf}/lib/log4j.jar"/>		
+
+	<path id="base.path">
+		<pathelement location="${ejb.jar}"/>
+		<pathelement location="${log4j.jar}"/>
+		<pathelement location="${dcm4che.jar}"/>
+	</path>
+
+	<path id="jboss.client.path">
+		<fileset dir="${jboss.home}/client">
+			<include name="*.jar"/>
+		</fileset>
+		<pathelement location="${log4j.jar}"/>
+		<pathelement location="${dcm4che.jar}"/>
+	</path>
+	
+    <!-- Override with your XDoclet bundle dist location -->
+	<property name="xdoclet.home" value="${user.home}/xdoclet"/>
+	<path id="xdoclet.path">
+		<fileset dir="${xdoclet.home}/lib">
+			<include name="*.jar"/>
+		</fileset>
+		<path refid="base.path"/>
+	</path>
+	
+    <!-- Override with your Cactus bundle dist location -->
+    <property name="cactus.home" value="${user.home}/jakarta-cactus-13-1.4.1"/>
+    <property name="cactus.lib" value="${cactus.home}/lib"/>
+	<fileset id="cactus.container.jars" dir="${cactus.lib}">
+      	<include name="aspectjrt-*.jar"/>
+        <include name="cactus-*.jar"/>
+        <include name="commons-logging-*.jar"/>
+        <include name="junit-*.jar"/>
+        <exclude name="cactus-ant-*.jar"/>
+	</fileset>
+	<path id="cactus.client.path">
+		<fileset refid="cactus.container.jars"/>
+		<fileset dir="${cactus.lib}">
+    	  	<include name="commons-httpclient*.jar"/>
+    	</fileset>
+		<path refid="base.path"/>
+	</path>
+	
+	<path id="build.path">
+		<fileset dir="${cactus.lib}">
+    	  	<include name="cactus-*.jar"/>
+		</fileset>
+		<path refid="base.path"/>
+	</path>
+	
+	<property name="src.java" value="${basedir}/src/java"/>
+	<property name="src.conf" value="${basedir}/src/conf"/>
+	<property name="test.dir" value="${basedir}/test"/>
+	<property name="test.java" value="${test.dir}/java"/>
+	<property name="test.web-inf" value="${test.dir}/WEB-INF"/>
+	<property name="test.conf" value="${test.dir}/conf"/>
+	<property name="test.data" value="${test.dir}/data"/>
+
+	<property name="target.dir" value="${basedir}/target"/>
+	<property name="target.xdoclet" value="${target.dir}/xdoclet"/>
+	<property name="target.java" value="${target.xdoclet}/java"/>
+	<property name="target.meta-inf" value="${target.xdoclet}/META-INF"/>
+	<property name="target.classes" value="${target.dir}/classes"/>
+	<property name="target.deploy" value="${target.dir}/deploy"/>
+	<property name="target.test.web-inf" value="${target.dir}/test/WEB-INF"/>
+	<property name="target.reports" value="${target.dir}/reports"/>
+
+	<property name="dist" value="${ant.project.name}-${version}"/>
+	
+	
+   	<!-- =================================================================== -->
+    <!-- Initialize                                                          -->
+    <!-- =================================================================== -->
+    
+    <target name="init">
+    	<tstamp>
+            <format property="TODAY" pattern="d-MM-yy"/>
+        </tstamp>
+        <taskdef
+            name="xdoclet"
+            classname="xdoclet.DocletTask"
+            classpathref="xdoclet.path"
+            />
+        <taskdef
+            name="ejbdoclet"
+            classname="xdoclet.modules.ejb.EjbDocletTask"
+            classpathref="xdoclet.path"
+            />
+        <taskdef
+            name="webdoclet"
+            classname="xdoclet.modules.web.WebDocletTask"
+            classpathref="xdoclet.path"
+            />
+        <taskdef
+            name="jmxdoclet"
+            classname="xdoclet.modules.jmx.JMXDocletTask"
+            classpathref="xdoclet.path"
+            />
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Prepares the directory structure                                    -->
+    <!-- =================================================================== -->
+    <target name="prepare" depends="init">
+        <mkdir dir="${target.classes}"/>
+        <mkdir dir="${target.java}"/>
+        <mkdir dir="${target.meta-inf}"/>
+        <mkdir dir="${target.deploy}"/>
+        <mkdir dir="${target.test.web-inf}"/>
+        <mkdir dir="${target.reports}"/>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Invoke XDoclet's ejbdoclet                                          -->
+    <!-- =================================================================== -->
+    <target name="ejbdoclet" depends="prepare" unless="xdoclet.skip">
+
+        <ejbdoclet
+            destdir="${target.java}"
+            excludedtags="@version,@author,@todo"
+            addedtags="@xdoclet-generated at ${TODAY},@copyright The XDoclet Team,@author XDoclet,@version ${version}"
+            ejbspec="2.0"
+            force="${xdoclet.force}"
+            verbose="false"
+            >
+
+            <fileset dir="${src.java}">
+                <include name="**/*Bean.java"/>
+            </fileset>
+
+            <packageSubstitution packages="entity,session" substituteWith="interfaces"/>
+
+            <remoteinterface/>
+            <localinterface/>
+            <homeinterface/>
+            <localhomeinterface/>
+
+            <!--dataobject/-->
+            <!--valueobject/-->
+
+            <!--entitypk/-->
+
+            <entitycmp/>
+            <!--entitybmp/-->
+            <session/>
+
+            <!--dao>
+                <packageSubstitution packages="ejb" substituteWith="dao"/>
+            </dao-->
+
+            <!--utilobject cacheHomes="true" includeGUID="false"/-->
+
+            <deploymentdescriptor
+                destdir="${target.meta-inf}"
+                validatexml="true"
+                description="dcm4jboss archive EJBs"
+                >
+                <!--configParam name="clientjar" value="blah.jar"/-->
+            </deploymentdescriptor>
+
+
+            <jboss
+                version="3.2"
+                unauthenticatedPrincipal="nobody"
+                xmlencoding="UTF-8"
+                destdir="${target.meta-inf}"
+                validatexml="true"
+                datasource="${datasource.name}"
+                typeMapping="${datasource.mapping}"                  
+                createTable="false"                  
+                />
+            
+        </ejbdoclet>
+
+    </target>
+
+   	<!-- =================================================================== -->
+   	<!-- Compiles the source code                                            -->
+   	<!-- =================================================================== -->
+   
+   	<target name="compile" depends="ejbdoclet">
+		<javac
+        	destdir="${target.classes}"
+			debug="${javac.debug}"
+         	deprecation="off"
+         	optimize="on"
+         	classpathref="build.path"
+      	>
+        	<src path="${target.java}"/>
+         	<src path="${src.java}"/>
+         	<src path="${test.java}"/>
+      	</javac>
+   	</target>
+   	
+   <!-- =================================================================== -->
+   <!-- Creates the ejb-jar                                                 -->
+   <!-- =================================================================== -->
+    <target name="jar" depends="compile">
+        <jar jarfile="${target.deploy}/${dist}.jar">
+        	<metainf dir="${target.meta-inf}"/>
+        	<fileset dir="${target.classes}">
+                <exclude name="**/*Test.class"/>
+            </fileset>
+        	<fileset dir="${src.conf}"/>
+        </jar>
+    </target>
+    
+   <!-- =================================================================== -->
+   <!-- Creates the test-war                                                -->
+   <!-- =================================================================== -->
+    <target name="test-war" depends="compile">
+    	<copy file="${test.web-inf}/web.xml" todir="${target.test.web-inf}">
+    		<filterset>
+                <filter token="EJB_JAR" value="${dist}.jar"/>
+            </filterset>
+		</copy>    		
+        <war
+            warfile="${target.deploy}/test.war"
+            webxml="${target.test.web-inf}/web.xml"
+        >
+            <classes dir="${target.classes}">
+                <include name="**/*Test.class"/>
+            </classes>
+            <lib refid="cactus.container.jars"/>
+        </war>
+    </target>
+    
+
+   	<!-- =================================================================== -->
+   	<!-- Deploy                                          	                 -->
+   	<!-- =================================================================== -->
+    <target name="deploy" depends="jar, test-war">
+    	<copy file="${target.deploy}/${dist}.jar" todir="${jboss.deploy}"/>
+    	<copy file="${target.deploy}/test.war" todir="${jboss.deploy}"/>
+    </target>
+    
+   	<!-- =================================================================== -->
+   	<!-- undeploy                                          	                 -->
+   	<!-- =================================================================== -->
+    <target name="undeploy">
+    	<delete file="${jboss.deploy}/test.war"/>
+    	<delete file="${jboss.deploy}/${dist}.jar"/>
+    </target>
+
+   	<!-- =================================================================== -->
+   	<!-- Run tests                                                           -->
+   	<!-- =================================================================== -->
+    <target name="test" depends="deploy" description="Run the junit tests">
+      <antcall target="test-cactus"/>
+      <antcall target="test-client"/>
+      <antcall target="test-report"/>
+    </target>
+
+    <target name="test-report">
+      <junitreport todir="${target.reports}">
+         <fileset dir="${target.reports}" includes="TEST-*.xml"/>
+         <report format="frames" todir="${target.reports}/html"/>
+      </junitreport>
+    </target>
+           
+    <target name="test-cactus">
+      <junit printsummary="true" fork="yes">
+         <classpath>
+	    	<path refid="cactus.client.path"/>
+         	<pathelement location="${target.classes}"/>
+         	<pathelement location="${test.conf}"/>
+         </classpath>
+         <formatter type="xml" />
+         <test name="org.dcm4chex.archive.ejb.entity.CodeBeanTest"
+         	todir="${target.reports}"/>
+         <test name="org.dcm4chex.archive.ejb.entity.PatientBeanTest"
+         	todir="${target.reports}"/>
+         <test name="org.dcm4chex.archive.ejb.entity.StudyBeanTest"
+         	todir="${target.reports}"/>
+         <test name="org.dcm4chex.archive.ejb.entity.SeriesBeanTest"
+         	todir="${target.reports}"/>
+         <test name="org.dcm4chex.archive.ejb.entity.InstanceBeanTest"
+         	todir="${target.reports}"/>
+         <test name="org.dcm4chex.archive.ejb.entity.MediaBeanTest"
+         	todir="${target.reports}"/>
+         <test name="org.dcm4chex.archive.ejb.entity.FileBeanTest"
+         	todir="${target.reports}"/>
+      </junit>
+    </target>
+    
+    <target name="test-client">
+      <junit printsummary="true" fork="yes" dir="${test.data}">
+         <classpath>
+	    	<path refid="jboss.client.path"/>
+         	<pathelement location="${target.classes}"/>
+         	<pathelement location="${test.conf}"/>
+         </classpath>
+         <formatter type="xml" />
+         <test name="org.dcm4chex.archive.ejb.session.StorageBeanTest"
+         	todir="${target.reports}"/>
+      </junit>
+    </target>
+    
+   	<!-- =================================================================== -->
+   	<!-- Cleans up the current build                                         -->
+   	<!-- =================================================================== -->
+   
+   	<target name="clean">
+     	<delete dir="${target.dir}"/>
+   	</target>
+	
+	
+</project>

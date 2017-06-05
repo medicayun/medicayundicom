@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-mwlscu-service.xml 2852 2006-10-13 09:39:45Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.mwlscu.MWLScuService" 
+         name="dcm4chee.archive:service=MWLScu"
+         xmbean-dd="xmdesc/dcm4chee-mwlscu-xmbean.xml">
+    <depends>dcm4chee.archive:service=TLSConfig</depends>
+    <depends>jboss.j2ee:jndiName=ejb/MWLManager,service=EJB</depends>
+  </mbean>
+
+</server>

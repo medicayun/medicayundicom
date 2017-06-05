@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>RID (Retrieve Information for Display) Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.wado.mbean.RIDService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>RIDService</name>
+   </constructor>
+
+   <attribute access="read-write"
+      getMethod="getCacheRoot"
+      setMethod="setCacheRoot">
+      <description>Root directory where documents are stored for caching.
+      </description>
+      <name>CacheRoot</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ihe_rid_cache" />
+      </descriptors>
+   </attribute>
+ 
+   <attribute access="read-write"
+      getMethod="getWaveformCorrection"
+      setMethod="setWaveformCorrection">
+      <description>Waveform Correction factor.
+      </description>
+      <name>WaveformCorrection</name>
+      <type>float</type>
+      <descriptors>
+         <value value="1" />
+      </descriptors>
+   </attribute>
+ 
+    <attribute access="read-write"
+      getMethod="getMinFreeSpace"
+      setMethod="setMinFreeSpace">
+      <description>Min space that must be available on cache drive (MB = 1000000 Bytes, GB = 1000MB).
+      </description>
+      <name>MinFreeSpace</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="10MB" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="getPreferredFreeSpace"
+      setMethod="setPreferredFreeSpace">
+      <description>Preferred free disk space (MB = 1000000 Bytes, GB = 1000MB).
+      </description>
+      <name>PreferredFreeSpace</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="20MB" />
+      </descriptors>
+    </attribute>
+
+   <attribute access="read-write"
+      getMethod="getFreeDiskSpaceInterval"
+      setMethod="setFreeDiskSpaceInterval">
+      <description>Interval in which the available disk space is checked and, if necessary,
+      	  the cache is cleaned.
+          Format: ##m (in minutes), ##h (in hours), ##d (in days).
+          NEVER (= disable media scheduling).          
+      </description>
+      <name>FreeDiskSpaceInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="10m" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="getECGSopCuids"
+      setMethod="setECGSopCuids">
+      <description>List of SOP Class UIDs that are used to find ECG documents (seperated with semicolon or newline).
+      Use either the SOP Class UID or the symbolic name! Use an empty value to reset this list.
+      </description>
+      <name>ECGSopCuids</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="" />
+      </descriptors>
+    </attribute>
+
+    <attribute access="read-write"
+      getMethod="getRadiologyConceptNames"
+      setMethod="setRadiologyConceptNames">
+      <description>List of Concept Name Codes to find Radiology SR documents.
+      Format: codeValue:codeSchemeDesignator;....
+      </description>
+      <name>RadiologyConceptNames</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="" />
+      </descriptors>
+    </attribute>
+    <attribute access="read-write"
+      getMethod="getCardiologyConceptNames"
+      setMethod="setCardiologyConceptNames">
+      <description>List of Concept Name Codes to find Cardiology SR documents.
+      Format: codeValue:codeSchemeDesignator;....
+      </description>
+      <name>CardiologyConceptNames</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="" />
+      </descriptors>
+    </attribute>
+    
+    <attribute access="read-write"
+      getMethod="isEncapsulatedPDFSupport"
+      setMethod="setEncapsulatedPDFSupport">
+      <description>Enables/disables support of encapsulated PDF documents.
+      </description>
+      <name>EncapsulatedPDFSupport</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+    </attribute>
+
+    <attribute access="read-write"
+      getMethod="getRadiologyPDFConceptCodeNames"
+      setMethod="setRadiologyPDFConceptCodeNames">
+      <description>List of Concept Name Codes to find Radiology PDF documents (DICOM Encapsulation of PDF Documents).
+      Format: codeValue:codeSchemeDesignator;....
+      </description>
+      <name>RadiologyPDFConceptCodeNames</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="11541-0:LN" />
+      </descriptors>
+    </attribute>
+    <attribute access="read-write"
+      getMethod="getCardiologyPDFConceptCodeNames"
+      setMethod="setCardiologyPDFConceptCodeNames">
+      <description>List of Concept Name Codes to find Cardiology PDF documents (DICOM Encapsulation of PDF Documents).
+      Format: codeValue:codeSchemeDesignator;....
+      </description>
+      <name>CardiologyPDFConceptCodeNames</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="11522-0;28032-1:LN" />
+      </descriptors>
+    </attribute>
+    <attribute access="read-write"
+      getMethod="getECGPDFConceptCodeNames"
+      setMethod="setECGPDFConceptCodeNames">
+      <description>List of Concept Name Codes to find ECG PDF documents (DICOM Encapsulation of PDF Documents).
+      Format: codeValue:codeSchemeDesignator;....
+      </description>
+      <name>ECGPDFConceptCodeNames</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="11524-6:LN" />
+      </descriptors>
+    </attribute>
+
+    <attribute access="read-write"
+      getMethod="getWadoURL"
+      setMethod="setWadoURL">
+      <description>URL to WADO service to get images for reports.
+      </description>
+      <name>WadoURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="http://localhost:8080/dcm4jboss-wado/wado" />
+      </descriptors>
+    </attribute>
+
+    <attribute access="read-write"
+      getMethod="getRIDSummaryXsl"
+      setMethod="setRIDSummaryXsl">
+      <description>Path and name of XSL file to render RID Summary request.
+      </description>
+      <name>RIDSummaryXsl</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="xsl/IHEDocumentList.xsl" />
+      </descriptors>
+    </attribute>
+    
+    <attribute access="read-write"
+      getMethod="isUseXSLInstruction"
+      setMethod="setUseXSLInstruction">
+      <description>Enables XSL processing instruction in xml file.
+      </description>
+      <name>UseXSLInstruction</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+    </attribute>
+ 
+    <attribute access="read-write"
+      getMethod="getFileSystemMgtName"
+      setMethod="setFileSystemMgtName">
+      <description>For internal use. Don't change!
+      </description>
+      <name>FileSystemMgtName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="tiani.archive:service=FileSystemMgt" />
+      </descriptors>
+   </attribute>
+  
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="INFO">
+      <description>Show free disk space</description>
+      <name>showFreeSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Clear Cache</description>
+      <name>clearCache</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Free Disk Space.
+      Delete old files from cache to free disk space.
+      </description>
+      <name>freeDiskSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Retrieve Information for Display (Summary)</description>
+      <name>getRIDSummary</name>
+      <parameter>
+        <description>Value object of the request.</description>
+        <name>reqVO</name>
+        <type>org.dcm4chex.wado.common.RIDRequestObject</type>
+      </parameter>
+      <return-type>org.dcm4chex.wado.common.WADOResponseObject</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Retrieve Document for Display</description>
+      <name>getRIDDocument</name>
+      <parameter>
+        <description>Value object of the request.</description>
+        <name>reqVO</name>
+        <type>org.dcm4chex.wado.common.RIDRequestObject</type>
+      </parameter>
+      <return-type>org.dcm4chex.wado.common.WADOResponseObject</return-type>
+   </operation>
+  
+</mbean>

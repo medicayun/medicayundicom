@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Compression Service. The Compression Service supports delayed, lossless compression
+of received images. This is an alternative to immediately compressing images when received. (The lossless compression rules are configured by the 
+&lt;b&gt;CompressionRules&lt;/b&gt; attribute
+in the StorageSCP service.) The value of the &lt;b&gt;MaxConcurrentCodec&lt;/b&gt; attribute in the Compression Service also effects the on-the-fly
+compression and decompression during the receive and retrieve of images by the
+StorageSCP and QueryRetrieveSCP  services. (For details, see the MaxConcurrentCodec attribute below.)</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.CompressionService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>CompressionService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write" getMethod="getMaxConcurrentCodec" setMethod="setMaxConcurrentCodec">
+      <description>Maximum number of concurrent tasks for compressing and decompressing images.
+      When the default value is of MaxConcurrentCodec is 1, all
+compression and decompression operations are serialized. For example, if
+on-the-fly compression during an image receive is activated, and three modalities
+concurrently send uncompressed images to the archive, only one image
+received from one modality is compressed at the same time. This significantly reduces the receiving performance. The
+used codec allocates memory for uncompressed pixel data of at least
+one frame, so without limiting the maximum number of concurrent
+compression tasks, memory consumption could become unacceptable. You will receive an out of memory error if the memory consumption exceeds the configured -Xmx value in
+the &lt;&lt;i&gt;archive-install-directory&lt;/i&gt;&gt;/bin/run.conf file).</description>
+      <name>MaxConcurrentCodec</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1"/>
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write" getMethod="getTaskInterval" setMethod="setTaskInterval">
+      <description>Interval in which the database is checked for images to compress.
+          &lt;br&gt;Format: 
+			 &lt;br&gt;&lt;i&gt;interval&lt;/i&gt;!&lt;i&gt;from&lt;/i&gt;-&lt;i&gt;to&lt;/i&gt; or NEVER
+          &lt;br&gt;&lt;i&gt;interval&lt;/i&gt; = ##s (in seconds), ##m (in minutes), ##h (in hours).
+          &lt;br&gt;&lt;i&gt;from&lt;/i&gt; = start hour (0-23) when no compression should be performed &lt;br&gt;&lt;i&gt;to&lt;/i&gt; = end hour (0-23) when no compression should be performed
+          &lt;br&gt;NEVER = disable automatic compression &lt;br&gt;Example:10s!9-17 means every 10 seconds, poll the database and check for images to compress, except between the hours of 9:00am and 5:00pm. By setting this type of TaskInterval, you can ensure compression of images happens outside of peak imaging hours. </description>
+      <name>TaskInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER"/>
+      </descriptors>
+   </attribute>
+
+
+   <attribute access="read-write" getMethod="getLimitNumberOfFilesPerTask" setMethod="setLimitNumberOfFilesPerTask">
+      <description>Maximum number of files that are compressed in one task.</description>
+      <name>LimitNumberOfFilesPerTask</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1000"/>
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write" getMethod="getCompressionRules" setMethod="setCompressionRules">
+      <description>Specifies compression rules and delay for individual SOP Classes.
+      	&lt;br&gt;Format: 
+			&lt;br&gt;&lt;i&gt;sop-class-name-or-uid&lt;/i&gt;:&lt;i&gt;compression&lt;/i&gt;:&lt;i&gt;delay&lt;/i&gt;&lt;br&gt;&lt;i&gt;sop-class-name-or-uid&lt;/i&gt; = the UID of the SOP class, or a string name defined in the dictionary.xml file under uids type="SOPClass"
+      	&lt;br&gt;&lt;i&gt;compression&lt;/i&gt; = JPLL|JLSL|J2KR
+        &lt;br&gt;JPLL -JPEG lossless
+        &lt;br&gt;JLSL - JPEG-LS lossless
+        &lt;br&gt;J2KR - JPEG 2000 lossless
+        &lt;br&gt;&lt;i&gt;delay&lt;/i&gt; = ##d (in days) &lt;br&gt;Example:&lt;br&gt;ComputedRadiographyImageStorage:JLSL:5d means for the Computed Radiography Image Storage SOP class, compress with JPEG-LS lossless compression every 5 days.
+      </description>
+      <name>CompressionRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ComputedRadiographyImageStorage:JLSL:5d,DigitalXRayImageStorageForPresentation:JLSL:5d,DigitalXRayImageStorageForProcessing:JLSL:5d,DigitalMammographyXRayImageStorageForPresentation:JLSL:5d,DigitalMammographyXRayImageStorageForProcessing:JLSL:5d,CTImageStorage:JLSL:5d,MRImageStorage:JLSL:5d,UltrasoundImageStorage:JLSL:5d,UltrasoundMultiframeImageStorage:JLSL:5d,UltrasoundImageStorageRetired:JLSL:5d,UltrasoundMultiframeImageStorageRetired:JLSL:5d,SecondaryCaptureImageStorage:JLSL:5d,XRayAngiographicImageStorage:JLSL:5d,XRayRadiofluoroscopicImageStorage:JLSL:5d,NuclearMedicineImageStorage:JLSL:5d"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="isVerifyCompression" setMethod="setVerifyCompression">
+      <description>Enables the verification of the compressed file.
+      </description>
+      <name>VerifyCompression</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getTempDir" setMethod="setTempDir">
+      <description>Directory used to spool decompressed files for 
+      compression verification. Relative path names are resolved relative to
+      &lt;i&gt;archive-install-directory&lt;/i&gt;/server/pacs/.
+      </description>
+      <name>TempDirectory</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="tmp"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getKeepTempFileIfVerificationFails" setMethod="setKeepTempFileIfVerificationFails">
+      <description>Defines how long files that were decompressed for verification
+      remain for further analysis before being deleted, if the decompressed pixel data
+      differs from the pixel data in the original file.
+      &lt;br&gt;Format: &lt;br&gt;##m (in minutes), ##h (in hours), ##d (in days)
+      </description>
+      <name>KeepTempFileIfVerificationFails</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="1d"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="isAutoPurge" setMethod="setAutoPurge">
+      <description>Enables deletion after a file is compressed.
+      				The file is deleted if the cache where the compressed file is located is below the &lt;b&gt;MinimumFreeDiskSpace&lt;/b&gt; attribute in the FileSystemMgt service.
+      				The deletion process is limited to the cache where the compressed file is stored.
+      </description>
+      <name>AutoDelete</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>	
+   <attribute access="read-write" getMethod="getFileSystemMgtName" setMethod="setFileSystemMgtName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>FileSystemMgtName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=FileSystemMgt"/>
+      </descriptors>
+   </attribute>
+
+
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Check for files to compress.</description>
+      <name>checkForTempFilesToDelete</name>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Check for temporary image files to delete.</description>
+      <name>checkForFilesToCompress</name>
+      <return-type>void</return-type>
+   </operation>
+  
+</mbean>
+    

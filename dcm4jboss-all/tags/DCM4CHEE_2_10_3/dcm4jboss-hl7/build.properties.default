@@ -1,0 +1,11 @@
+#Override with your dcm4che dist location
+dcm4che.home=../dcm4che14/build
+
+#Override with your dcm4chee-ejb working directory
+dcm4chee-ejb.home=../dcm4jboss-ejb
+
+#Override with your dcm4chee-sar working directory
+dcm4chee-sar.home=../dcm4jboss-sar
+
+#Override with your JBoss dist location
+jboss.home=${user.home}/jboss-4.0.4.GA

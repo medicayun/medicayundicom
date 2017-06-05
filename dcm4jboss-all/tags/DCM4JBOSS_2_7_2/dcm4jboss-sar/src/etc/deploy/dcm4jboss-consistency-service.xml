@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-consistency-service.xml 1655 2005-03-29 15:23:32Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.ConsistenceCheckService" 
+	name="tiani.archive:service=ConsistencyService"
+	xmbean-dd="xmdesc/dcm4jboss-consistency-xmbean.xml">
+
+  </mbean>
+
+</server>
+
+

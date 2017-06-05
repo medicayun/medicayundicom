@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-dcmsrv-service.xml 886 2003-11-22 20:37:23Z gunterze $ -->
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  DICOM Server Service Configuration                                   -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+<mbean code="org.dcm4chex.service.DcmServerService" 
+    name="dcm4chex:service=DcmServer,name=DCMSRV">
+
+    <!--
+    Set maximal number of simultaneously conncected DICOM clients.
+    -->
+    <attribute name="MaxClients">10</attribute>
+    
+    <!--
+    Specifies if server running in tls mode:
+    dicom           native dicom
+    dicom-tls       dicom over TLS
+    dicom-tls.3des  dicom over TLS with triple DES EDE CBC encryption
+    dicom-tls.nodes dicom over TLS without encryption
+    -->
+    <attribute name="ProtocolName">dicom</attribute>
+    
+    <!--
+    Specifies TCP port on which the DICOM server is listening.
+    -->
+    <attribute name="Port">2350</attribute>
+    
+    <!--
+    Specifies Timeout in ms, the DICOM server will wait after accepting the
+    TCP connect for the A-ASSOCIATE RQ. "0" means, there is no Timeout,
+    so the server would wait as long the TCP connection will not be closed from
+    the peer application.
+    -->
+    <attribute name="RqTimeout">5000</attribute>
+    
+    <!--
+    Specifies Timeout in ms, the DICOM server will wait after the receive of
+    DIMSE message on an established association. "0" means, there is no Timeout.
+    -->
+    <attribute name="DimseTimeout">0</attribute>
+    
+    <!--
+    Specifies Timeout in ms, the DICOM server will wait after sending
+    a A-RELEASE RSP or an A-ABORT RQ for DIMSE message on an established
+    association.  "0" means, there is no Timeout.
+    -->
+    <attribute name="SoCloseDelay">500</attribute>
+    
+    <!--
+    Specifies maximal PDU package length for receiving PDUs.
+    -->
+    <attribute name="MaxPDULength">16352</attribute>
+    
+    <!--
+    Specifies if Command and Data PDVs can be packed in one PDU.
+    Warning: well-known bugs of some DICOM implementions in support
+    of this performance improving DICOM feature
+    -->
+    <attribute name="PackPDVs">false</attribute>
+    
+    <!--
+    Defines file containing key used in SSL handshake, when running in TLS mode.
+    Relative path names are resolved using jboss server directory as base directory.
+    -->
+    <attribute name="KeyFile">conf/tls/identity.p12</attribute>
+    
+    <!--
+    Defines password for access to key file, specified by attribute KeyFile 
+    -->
+    <attribute name="KeyPasswd">passwd</attribute>
+    
+   <!--
+    Defines file containing accepted certificates, when running in TLS mode
+    Relative path names are resolved using jboss server directory as base directory.
+    -->
+    <attribute name="CacertsFile">conf/tls/cacerts.jks</attribute>
+    
+    <!--
+    Defines password for access to cacerts file, specified by attribute CacertsFile 
+    -->
+    <attribute name="CacertsPasswd">passwd</attribute>
+</mbean>
+
+
+</server>
+

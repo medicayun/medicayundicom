@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description><![CDATA[DICOM Storage SCP. Provides a DICOM storage service to receive DICOM objects from remote
+   DICOM applications. Typically these objects are images received from modalities. You can also configure
+	what DICOM SOP classes are accepted by the StoreScp service using the <b>AcceptedImageSOPClasses</b> and 
+	<b>AcceptedOtherSOPClasses</b> atributes. The tiani.archive=DCMServer
+    must be deployed first because the StoreScp registers itself against this server.]]>
+ </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.storescp.StoreScpService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>StoreScpService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getCalledAETs"
+      setMethod="setCalledAETs">
+      <description>List of accepted called AE titles, separated by \(backslash). 
+      For example, DCM4JBOSS\DCM4JBOSS2.
+      </description>
+      <name>CalledAETitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DCM4JBOSS"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCallingAETs"
+      setMethod="setCallingAETs">
+      <description>List of accepted calling AE titles, separated by \(backslash).
+      ANY = accept any. 
+      </description>
+      <name>CallingAETitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ANY"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCoerceWarnCallingAETs"
+      setMethod="setCoerceWarnCallingAETs">
+      <description>List of the AE titles for the Storage SCUs for which
+      a warning status, B000, is returned if data elements were coerced. 
+      Separate multiple values by \(backslash).
+      NONE = no calling AE titles.  
+      </description>
+      <name>WarnForCoercedAETitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptMissingPatientID"
+      setMethod="setAcceptMissingPatientID">
+      <description><![CDATA[Accept storage of objects/images without patient ID]]>
+      </description>
+      <name>AcceptMissingPatientID</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptMissingPatientName"
+      setMethod="setAcceptMissingPatientName">
+      <description><![CDATA[Accept storage of objects/images without patient name]]>
+      </description>
+      <name>AcceptMissingPatientName</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getIgnorePatientIDCallingAETs"
+      setMethod="setIgnorePatientIDCallingAETs">
+      <description>List of the AE titles for the Storage SCUs for which the
+      Patient ID in received objects is ignored. Usually used together with
+      attribute "GeneratePatientID" to generate a new Patient ID for such objects.   
+      Separate multiple values by \(backslash).
+      NONE = no calling AE titles.  
+      </description>
+      <name>IgnorePatientIDAETitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getGeneratePatientID"
+      setMethod="setGeneratePatientID">
+      <description><![CDATA[Generate a patient ID from a hash of the patient name and
+          birth date and/or study instance uid, if the received study has no patient ID or
+          if the object is received from an AE listed in "IgnorePatientIDAETitles".
+          <br>Use ### and/or $$$ as a placeholder for the decimal hash value of patient name and/or study instance uid.
+          For example, PACS-##########.
+          <br>NONE = do not generate patient IDs. But, this means media creation will fail.]]>
+      </description>
+      <name>GeneratePatientID</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS-##########"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getIssuerOfPatientIDRules"
+      setMethod="setIssuerOfPatientIDRules">
+      <description><![CDATA[List of rules used to add the Issuer Of PatientID value if not contained
+      in the received object, if the Patient ID matches the specified regular
+      expression. Multiple rules are separated by new lines.
+      Format: 
+      <br><i>regExpression</i>:<i>issuer</i>
+      <br>Example:
+      <br>^PACS- \d*:DCM4JBOSS 
+      <br>If no regular expression is specified,
+      the issuer is added for all patient IDs.]]>
+      </description>
+      <name>IssuerOfPatientIDRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="^PACS-\d*:DCM4JBOSS"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isStudyDateInFilePath"
+      setMethod="setStudyDateInFilePath">
+      <description><![CDATA[Use Study Date in received objects to structure directories of the storage file system.
+      Otherwise - or if the received object does not contain a Study Date - the current date, when receiving the object, is used.
+      (s.a. attributes YearInFilePath, MonthInFilePath, DayInFilePath, HourInFilePath)]]>
+      </description>
+      <name>StudyDateInFilePath</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isYearInFilePath"
+      setMethod="setYearInFilePath">
+      <description><![CDATA[Use the year of Study or receiving Date to structure directories of the storage file system.
+      (s.a. attributes StudyDateInFilePath, MonthInFilePath, DayInFilePath, HourInFilePath)]]>
+      </description>
+      <name>YearInFilePath</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isMonthInFilePath"
+      setMethod="setMonthInFilePath">
+      <description><![CDATA[Use the year of Study or receiving Date to structure directories of the storage file system.
+      (s.a. attributes StudyDateInFilePath, YearInFilePath, DayInFilePath, HourInFilePath)]]>
+      </description>
+      <name>MonthInFilePath</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isDayInFilePath"
+      setMethod="setDayInFilePath">
+      <description><![CDATA[Use the year of Study or receiving Date to structure directories of the storage file system.
+      (s.a. attributes StudyDateInFilePath, YearInFilePath, MonthInFilePath, HourInFilePath)]]>
+      </description>
+      <name>DayInFilePath</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isHourInFilePath"
+      setMethod="setHourInFilePath">
+      <description><![CDATA[Use the year of Study or receiving Date to structure directories of the storage file system.
+      (s.a. attributes StudyDateInFilePath, YearInFilePath, MonthInFilePath, DayInFilePath)]]>
+      </description>
+      <name>HourInFilePath</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isMd5sum"
+      setMethod="setMd5sum">
+      <description><![CDATA[Generates MD5 file check sum during storage and 
+      keep it in DB record]]>
+      </description>
+      <name>Md5sum</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isStoreDuplicateIfDiffMD5"
+      setMethod="setStoreDuplicateIfDiffMD5">
+      <description><![CDATA[Store a duplicate object if the MD5 sum of the
+      new object differs from the MD5 sum of the existing file. If the MD5 sum
+      does not match, the files may be corrupted.]]>
+      </description>
+      <name>StoreDuplicatesIfDifferentMD5</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isStoreDuplicateIfDiffHost"
+      setMethod="setStoreDuplicateIfDiffHost">
+      <description><![CDATA[Store duplicate objects if the existing files are <b>NOT</b> located 
+      on this host.]]>
+      </description>
+      <name>StoreDuplicatesIfDifferentHost</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCompressionRules"
+      setMethod="setCompressionRules">
+      <description><![CDATA[List of image compression rules. Note that the value of the <b>MaxConcurrentCodec</b> attribute in the Compression Service also effects the on-the-fly
+compression and decompression during the store of images by the
+StoreSCP service.
+      <br>Format:
+      <br>[<i>condition</i>!=<i>value</i>]<i>compression</i>
+      <br>where
+      <br><i>condition</i>&#8212;when to apply the compression rule. Separate
+      multiple <i>condition</i>!=<i>value</i> statements with a comma. The possible condition 
+      values are:
+      <br>calling - called AE title. Apply the rule to the called AE titles listed as values.
+      <br>called - called AE title. Apply the rule to the calling AE titles listed as values.
+      <br>pmi - photometric interpretation.
+      <br>cuid - SOP Class UID. Apply the rule for the SOP Class UIDs listed as values.
+      <br>imgtype - type of image. Apply the rule to the image types listed as values, such as RGB.
+      <br>
+      <br><i>value</i>&#8212;the value of the condition. Each condition can
+      have multiple values, separated by | (pipe).For example, 
+      <code>[calling!=SCU1|SCU2]</code>
+      <br>    
+      <br><i>compression</i>&#8212;the type of compression to apply to each condition!=value pair, separated by a space.
+      Possible values are:
+      <br>NONE - do not apply compression.
+      <br>JPLL - JPEG Lossless
+      <br>JLSL - JPEG-LS Lossless
+      <br>J2KR - JPEG 2000 Lossless
+      ]]>
+      </description>
+      <name>CompressionRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="[calling=SAMPLE_SCU1|SAMPLE_SCU2,pmi!=RGB,imgtype!=LOCALIZER]JLSL;NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getOutOfResourcesThreshold"
+      setMethod="setOutOfResourcesThreshold">
+      <description>Minimum available disk space in the storage directory to accept
+      received objects. If the available disk space falls below this value,
+      storage of received objects is rejected with the error "Out Of Resource".
+      </description>
+      <name>OutOfResourcesThreshold</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="30MB"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isSerializeDBUpdate"
+      setMethod="setSerializeDBUpdate">
+      <description><![CDATA[Serialize updates of DB records for received objects. Decreases Storage Performance!]]>
+      </description>
+      <name>SerializeDBUpdate</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getUpdateDatabaseMaxRetries"
+      setMethod="setUpdateDatabaseMaxRetries">
+      <description>Maximum number of retries to update the database records 
+      for new received objects, before a processing failure is returned to 
+      the Storage SCU.
+      </description>
+      <name>UpdateDatabaseMaximumRetries </name>
+      <type>int</type>
+      <descriptors>
+         <value value="2"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-only"
+      getMethod="getMaxCountUpdateDatabaseRetries">
+      <description>Maximum number of retries actually performed to update the
+      database records for new received objects.
+      </description>
+      <name>UpdateDatabasePerformedRetries</name>
+      <type>int</type>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getUpdateDatabaseRetryInterval"
+      setMethod="setUpdateDatabaseRetryInterval">
+      <description>Delay in milliseconds between retries to update the 
+      database records for new received objects.
+      </description>
+      <name>UpdateDatabaseRetryInterval</name>
+      <type>long</type>
+      <descriptors>
+         <value value="0"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getImageCUIDs"
+      setMethod="setImageCUIDs">
+      <description><![CDATA[List of image SOP Classes that the Store SCP service accepts, separated by semi-colons. The difference between AcceptedImageSOPClasses and 
+AcceptedOtherSOPClasses is the set of transfer syntax offered in the presentation context. AcceptedOtherSOPClasses always uses implicit 
+(explicit) VR little endian, while AcceptedImageSOPClasses can use all selected image transfer syntax options, such as AcceptJPEGLossless.<br>
+Use either the SOP Class UID or the symbolic name:
+<br>HardcopyGrayscaleImageStorage
+<br>HardcopyColorImageStorage
+<br>ComputedRadiographyImageStorage
+<br>DigitalXRayImageStorageForPresentation
+            <br>DigitalXRayImageStorageForProcessing
+<br>DigitalMammographyXRayImageStorageForPresentation
+            <br>DigitalMammographyXRayImageStorageForProcessing
+				<br>DigitalIntraoralXRayImageStorageForPresentation
+            <br>DigitalIntraoralXRayImageStorageForProcessing
+            <br>CTImageStorage
+				<br>UltrasoundMultiframeImageStorageRetired
+            <br>UltrasoundMultiframeImageStorage
+				<br>MRImageStorage
+            <br>EnhancedMRImageStorage
+            <br>NuclearMedicineImageStorageRetired
+            <br>UltrasoundImageStorageRetired
+				<br>UltrasoundImageStorage
+            <br>SecondaryCaptureImageStorage
+            <br>MultiframeSingleBitSecondaryCaptureImageStorage
+            <br>MultiframeGrayscaleByteSecondaryCaptureImageStorage
+            <br>MultiframeGrayscaleWordSecondaryCaptureImageStorage
+            <br>MultiframeColorSecondaryCaptureImageStorage
+            <br>XRayAngiographicImageStorage
+            <br>XRayRadiofluoroscopicImageStorage
+            <br>XRayAngiographicBiPlaneImageStorageRetired
+            <br>NuclearMedicineImageStorage
+				<br>VLImageStorageRetired
+            <br>VLMultiframeImageStorageRetired
+            <br>VLEndoscopicImageStorage
+				<br>VLMicroscopicImageStorage
+            <br>VLSlideCoordinatesMicroscopicImageStorage
+            <br>VLPhotographicImageStorage
+            <br>PositronEmissionTomographyImageStorage
+				<br>RTImageStorage
+<br>To map your own symbolic names to SOP classes or add more SOP Classes as possible values, use the dictionary.xml file.
+    ]]>
+      </description>
+      <name>AcceptedImageSOPClasses</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="HardcopyGrayscaleImageStorage;HardcopyColorImageStorage;
+         	ComputedRadiographyImageStorage;DigitalXRayImageStorageForPresentation;
+            DigitalXRayImageStorageForProcessing;DigitalMammographyXRayImageStorageForPresentation;
+            DigitalMammographyXRayImageStorageForProcessing;DigitalIntraoralXRayImageStorageForPresentation;
+            DigitalIntraoralXRayImageStorageForProcessing;
+            CTImageStorage;UltrasoundMultiframeImageStorageRetired;
+            UltrasoundMultiframeImageStorage;MRImageStorage;
+            EnhancedMRImageStorage;
+            NuclearMedicineImageStorageRetired;
+            UltrasoundImageStorageRetired;UltrasoundImageStorage;
+            SecondaryCaptureImageStorage;
+            MultiframeSingleBitSecondaryCaptureImageStorage;
+            MultiframeGrayscaleByteSecondaryCaptureImageStorage;
+            MultiframeGrayscaleWordSecondaryCaptureImageStorage;
+            MultiframeColorSecondaryCaptureImageStorage;
+            XRayAngiographicImageStorage;
+            XRayRadiofluoroscopicImageStorage;
+            XRayAngiographicBiPlaneImageStorageRetired;
+            NuclearMedicineImageStorage;VLImageStorageRetired;
+            VLMultiframeImageStorageRetired;
+            VLEndoscopicImageStorage;VLMicroscopicImageStorage;
+            VLSlideCoordinatesMicroscopicImageStorage;
+            VLPhotographicImageStorage;
+            PositronEmissionTomographyImageStorage;RTImageStorage"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getOtherCUIDs"
+      setMethod="setOtherCUIDs">
+      <description><![CDATA[List of other non-image SOP Classes that the Store SCP service accepts. The difference between AcceptedImageSOPClasses and 
+AcceptedOtherSOPClasses is the set of transfer syntax offered in the presentation context. AcceptedOtherSOPClasses always uses implicit 
+(explicit) VR little endian, while AcceptedImageSOPClasses can use all selected image transfer syntax options, such as AcceptJPEGLossless.<br>
+Use either the SOP Class UID or the symbolic name:
+<br>BasicTextSR
+             <br>EnhancedSR<br>ComprehensiveSR
+				 <br>MammographyCADSR
+             <br>GrayscaleSoftcopyPresentationStateStorage
+             <br>KeyObjectSelectionDocument
+				 <br>RTDoseStorage
+             <br>RTStructureSetStorage
+				 <br>RTBeamsTreatmentRecordStorage
+             <br>RTPlanStorage
+				 <br>RTBrachyTreatmentRecordStorage
+             <br>RTTreatmentSummaryRecordStorage
+				 <br>RawDataStorage
+             <br>AmbulatoryECGWaveformStorage
+             <br>BasicVoiceAudioWaveformStorage
+             <br>CardiacElectrophysiologyWaveformStorage
+             <br>GeneralECGWaveformStorage
+				 <br>HemodynamicWaveformStorage
+             <br>TwelveLeadECGWaveformStorage
+			 <br>EncapsulatedPDFStorage
+		     <br>TianiEncapsulatedDocumentStorage
+<br>To map your own symbolic names to SOP classes or add more SOP Classes as possible values, use the dictionary.xml file.
+    ]]>
+      </description>
+      <name>AcceptedOtherSOPClasses</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="BasicTextSR;
+             EnhancedSR;
+             ComprehensiveSR;
+             MammographyCADSR;
+             GrayscaleSoftcopyPresentationStateStorage;
+             KeyObjectSelectionDocument;
+             RTDoseStorage;
+             RTStructureSetStorage;
+             RTBeamsTreatmentRecordStorage;
+             RTPlanStorage;
+             RTBrachyTreatmentRecordStorage;
+             RTTreatmentSummaryRecordStorage;
+             RawDataStorage;
+             AmbulatoryECGWaveformStorage;
+             BasicVoiceAudioWaveformStorage;
+             CardiacElectrophysiologyWaveformStorage;
+             GeneralECGWaveformStorage;
+             HemodynamicWaveformStorage;
+             TwelveLeadECGWaveformStorage;
+             EncapsulatedPDFStorage;
+             TianiEncapsulatedDocumentStorage"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptExplicitVRLE"
+      setMethod="setAcceptExplicitVRLE">
+      <description>Accept DICOM objects encoded in Explicit Value Representation Little Endian Transfer Syntax.
+      </description>
+      <name>AcceptExplicitVRLE</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEG2000Lossless"
+      setMethod="setAcceptJPEG2000Lossless">
+      <description>Accept DICOM images encoded in JPEG 2000 Lossless Transfer Syntax.
+      </description>
+      <name>AcceptJPEG2000Lossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEG2000Lossy"
+      setMethod="setAcceptJPEG2000Lossy">
+      <description>Accept DICOM images encoded in JPEG 2000 Lossy Transfer Syntax.
+      </description>
+      <name>AcceptJPEG2000Lossy</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLSLossless"
+      setMethod="setAcceptJPEGLSLossless">
+      <description>Accept DICOM images encoded in JPEG-LS Lossless Transfer Syntax.
+      </description>
+      <name>AcceptJPEGLSLossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLSLossy"
+      setMethod="setAcceptJPEGLSLossy">
+      <description>Accept DICOM images encoded in JPEG-LS Lossy Transfer Syntax.
+      </description>
+      <name>AcceptJPEGLSLossy</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLossless"
+      setMethod="setAcceptJPEGLossless">
+      <description>Accept DICOM images encoded in JPEG Lossless (Process 14) 
+      First-Order Prediction Transfer Syntax. (DICOM JPEG Lossless default TS)
+      </description>
+      <name>AcceptJPEGLossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLossless14"
+      setMethod="setAcceptJPEGLossless14">
+      <description>Accept DICOM images encoded in JPEG Lossless (Process 14) Transfer Syntax.
+      </description>
+      <name>AcceptJPEGLossless14</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGBaseline"
+      setMethod="setAcceptJPEGBaseline">
+      <description>Accept DICOM images encoded in JPEG Baseline Transfer Syntax.
+      </description>
+      <name>AcceptJPEGBaseline</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGExtended"
+      setMethod="setAcceptJPEGExtended">
+      <description>Accept DICOM images encoded in JPEG Extended Transfer Syntax.
+      </description>
+      <name>AcceptJPEGExtended</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptRLELossless"
+      setMethod="setAcceptRLELossless">
+      <description>Accept DICOM images encoded in RLE Lossless Transfer Syntax.
+      </description>
+      <name>AcceptRLELossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isCheckIncorrectWorklistEntry"
+      setMethod="setCheckIncorrectWorklistEntry">
+      <description>Check if a received instance should be ignored due to 'Incorrect Worklist Entry Selected'.
+      </description>
+      <name>CheckIncorrectWorklistEntry</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxPDULength"
+      setMethod="setMaxPDULength">
+      <description>Maximum protocol data unit (PDU) package length for receiving PDUs.
+      Attention: This property should be set to equal values for all DICOM SCP
+      services with same called AE Title(s)! Otherwise it is non-deterministic,
+      which configured value is effective! 
+      </description>
+      <name>MaximumPDULength</name>
+      <type>int</type>
+      <descriptors>
+         <value value="16352"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxOpsInvoked"
+      setMethod="setMaxOpsInvoked">
+      <description>The maximum number of outstanding operations and/or
+      sub-operations it allows the Association-requester to invoke asynchronously.
+      A value of zero indicates an unlimited number of outstanding operations.
+      Attention: This property should be set to equal values for all DICOM SCP
+      services with same called AE Title(s)! Otherwise it is non-deterministic,
+      which configured value is effective! 
+      </description>
+      <name>MaximumOperationsInvoked</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxOpsPerformed"
+      setMethod="setMaxOpsPerformed">
+      <description>The maximum number of outstanding operations and/or
+      sub-operations it allows the Association-requester to perform asynchronously.
+      A value of zero indicates an unlimited number of outstanding operations.
+      Attention: This property should be set to equal values for all DICOM SCP
+      services with same called AE Title(s)! Otherwise it is non-deterministic,
+      which configured value is effective! 
+      </description>
+      <name>MaximumOperationsPerformed</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getBufferSize"
+      setMethod="setBufferSize">
+      <description>Size of byte buffer used for copying data from TCP channel to file.
+      </description>
+      <name>BufferSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="8192"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getLogCallingAETs"
+      setMethod="setLogCallingAETs">
+      <description><![CDATA[List of the AE titles for the Storage SCUs for which
+      XMLized object attributes are logged into files 
+      <i>AET</i>/<i>timestamp</i>-cstorerq.xml in the log directory.
+      Useful for creation of XSL stylesheets for attribute coercion.
+      Separate multiple values by \ (backslash).
+      NONE = no calling AE titles.]]>  
+      </description>
+      <name>LogAETitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCoerceConfigDir"
+      setMethod="setCoerceConfigDir">
+      <description><![CDATA[Directory where configuration files for
+      attribute coercion are located: if XSL stylesheet "cstorerq.xsl" 
+      exists in a sub-directory equal to the AE Title of a Storage SCU, 
+      attributes from this SCU will be coerced  according these stylesheets.
+      A relative path name is resolved relative to
+      <i>archive-install-directory</i>/server/default/.]]>  
+      </description>
+      <name>CoerceConfigDirectory</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="conf/dcm4jboss-ae"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getEjbProviderURL"
+      setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      Use LOCAL if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EJBProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getFileSystemMgtName"
+      setMethod="setFileSystemMgtName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>FileSystemMgtName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=FileSystemMgt"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDcmServerName"
+      setMethod="setDcmServerName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>DcmServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=DcmServer"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getTLSConfigName"
+      setMethod="setTLSConfigName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>TLSConfigName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=TLSConfig"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAuditLoggerName"
+      setMethod="setAuditLoggerName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=AuditLogger"/>
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+     <description>Reset Update Database - Performed Retries to 0.</description>
+     <name>resetMaxCountUpdateDatabaseRetries</name>
+     <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Reload Stylesheets</description>
+      <name>reloadStylesheets</name>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Import a DICOM file (internal use only)</description>
+      <name>importFile</name>
+      <parameter>
+        <description>Transfer object for File</description>
+        <name>fileDTO</name>
+        <type>org.dcm4chex.archive.ejb.interfaces.FileDTO</type>
+      </parameter>
+      <parameter>
+        <description>Dataset.</description>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <parameter>
+        <description>SeriesStored Notification object to collect instances stored for a series.</description>
+        <name>seriesStored</name>
+        <type>org.dcm4chex.archive.notif.SeriesStored</type>
+      </parameter>
+      <parameter>
+        <description>Force series related database update after import.</description>
+        <name>doSeriesStored</name>
+        <type>boolean</type>
+      </parameter>
+      <parameter>
+        <description>Enable/Disable sending SeriesStored notification after DB update on series level.</description>
+        <name>sendNotification</name>
+        <type>boolean</type>
+      </parameter>
+      <return-type>org.dcm4chex.archive.notif.SeriesStored</return-type>
+   </operation>
+
+   <!-- Notifications -->
+</mbean>
+

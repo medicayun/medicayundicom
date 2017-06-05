@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<!--
+    $Id: maverick.xml 1022 2004-03-01 13:30:54Z umbertoc $
+    $Source$
+-->
+<maverick version="2.0" default-view-type="domify"
+default-transform-type="xslt">
+  <modules>
+    <view-factory type="domify" provider="org.infohazard.maverick.opt.view.DomifyViewFactory" />
+  </modules>
+
+  <views>
+    <view id="folder" name="folder">
+      <transform path="folder.xsl" />
+    </view>
+    <view id="error" name="error">
+   	  <transform path="error.xsl" />
+    </view>
+  </views>
+
+  <commands>
+    <command name="folder">
+      <controller class="org.dcm4chex.archive.web.maverick.FolderCtrl" />
+      <view ref="folder" />
+    </command>
+
+    <command name="foldersubmit">
+      <controller
+      class="org.dcm4chex.archive.web.maverick.FolderSubmitCtrl" />
+      <view ref="folder" />
+    </command>
+
+    <command name="expandPat">
+      <controller
+      class="org.dcm4chex.archive.web.maverick.ExpandPatientCtrl" />
+
+	  <view name="success" type="redirect" path="folder.m"/>
+    </command>
+
+    <command name="collapsePat">
+      <controller
+      class="org.dcm4chex.archive.web.maverick.CollapsePatientCtrl" />
+
+	  <view name="success" type="redirect" path="folder.m"/>
+    </command>
+
+    <command name="expandStudy">
+      <controller
+      class="org.dcm4chex.archive.web.maverick.ExpandStudyCtrl" />
+
+	  <view name="success" type="redirect" path="folder.m"/>
+    </command>
+
+    <command name="collapseStudy">
+      <controller
+      class="org.dcm4chex.archive.web.maverick.CollapseStudyCtrl" />
+
+	  <view name="success" type="redirect" path="folder.m"/>
+    </command>
+
+    <command name="expandSeries">
+      <controller
+      class="org.dcm4chex.archive.web.maverick.ExpandSeriesCtrl" />
+
+	  <view name="success" type="redirect" path="folder.m"/>
+    </command>
+
+    <command name="collapseSeries">
+      <controller class="org.dcm4chex.archive.web.maverick.CollapseSeriesCtrl" />
+	  <view name="success" type="redirect" path="folder.m"/>
+    </command>
+    
+    <command name="patientEdit">
+        <controller class="org.dcm4chex.archive.web.maverick.PatientEditCtrl" />    
+	    <view name="success">
+    	  <transform path="patient_edit.xsl" />
+	    </view>
+     </command>
+
+    <command name="patientUpdate">
+        <controller class="org.dcm4chex.archive.web.maverick.PatientUpdateCtrl" />    
+	    <view type="redirect" path="folder.m" name="success"/>        
+     </command>
+
+	<!-- ****** AE related commands ******-->
+
+    <command name="ae">
+        <controller class="org.dcm4chex.archive.web.maverick.ae.AEListCtrl" />    
+	    <view name="success">
+    	  <transform path="ae_list.xsl" />
+	    </view>
+     </command>
+
+    <command name="aeedit">
+        <controller class="org.dcm4chex.archive.web.maverick.ae.AEEditCtrl" />    
+	    <view name="success">
+    	  <transform path="ae_edit.xsl" />
+	    </view>
+      <view ref="error" />
+     </command>
+
+    <command name="aeeditsubmit">
+        <controller class="org.dcm4chex.archive.web.maverick.ae.AEEditSubmitCtrl" />    
+	    <view name="success" type="redirect" path="ae.m"/>
+        <view ref="error" />
+     </command>
+     
+    <command name="aenew">
+    	<controller class="org.dcm4chex.archive.web.maverick.ae.AENewCtrl" />    
+	    <view name="success">
+    	  <transform path="ae_new.xsl" />
+	    </view>
+      <view ref="error" />
+     </command>
+
+    <command name="aenewsubmit">
+        <controller class="org.dcm4chex.archive.web.maverick.ae.AENewSubmitCtrl" />    
+        <view name="success" type="redirect" path="ae.m"/>
+      <view ref="error" />
+     </command>
+
+    <command name="aedelete">
+    	<controller class="org.dcm4chex.archive.web.maverick.ae.AEDeleteCtrl" />    
+	    <view name="success" type="redirect" path="ae.m"/>
+	    <view ref="error" />
+     </command>
+
+	<!-- ****** END AE related commands ******-->
+     
+  </commands>
+</maverick>
+

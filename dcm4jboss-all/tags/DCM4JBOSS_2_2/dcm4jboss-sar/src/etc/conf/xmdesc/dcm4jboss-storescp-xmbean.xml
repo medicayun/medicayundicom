@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>DICOM Storage SCP</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate" />
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.storescp.StoreScpService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>StoreScpService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getCalledAETs"
+      setMethod="setCalledAETs">
+      <description>Accepted Called AET(s).
+      Separate multiple values by '\'(backslash). 
+      </description>
+      <name>CalledAETs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCallingAETs"
+      setMethod="setCallingAETs">
+      <description>Accepted Calling AETs.
+      "ANY" = accept any. Separate multiple values by '\'(backslash). 
+      </description>
+      <name>CallingAETs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ANY" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCoerceWarnCallingAETs"
+      setMethod="setCoerceWarnCallingAETs">
+      <description>List of AETs of Storage SCUs, to which
+      a warning status B000 is returned if Data Elements was coerced.
+      "NONE" = none Calling AET. Separate multiple values by '\'(backslash). 
+      </description>
+      <name>CoerceWarnCallingAETs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isStoreDuplicateIfDiffMD5"
+      setMethod="setStoreDuplicateIfDiffMD5">
+      <description>Store duplicate objects, if MD5 sum of new object differs
+      from MD5 sum of existing files.</description>
+      <name>StoreDuplicateIfDiffMD5</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isStoreDuplicateIfDiffHost"
+      setMethod="setStoreDuplicateIfDiffHost">
+      <description>Store duplicate objects, if existing files are NOT located 
+      on this host.
+      </description>
+      <name>StoreDuplicateIfDiffHost</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCompressionRules"
+      setMethod="setCompressionRules">
+      <description>List of image compression rules.
+      Format:=['['CONDITION[,..]']']COMPRESSION
+      CONDITION:=(calling|called|pmi|cuid|imgtype)[!]=value['|'...]    
+      COMPRESSION:=(NONE|JPLL|JLSL|J2KR)
+      </description>
+      <name>CompressionRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="[calling=SAMPLE_SCU1|SAMPLE_SCU2,pmi!=RGB,imgtype!=LOCALIZER]JLSL;NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getOutOfResourcesThreshold"
+      setMethod="setOutOfResourcesThreshold">
+      <description>Minimal Available Disk Space in Storage Directory to accept
+      received Objects. If the available Disk Space falls below this value,
+      storage of received objects is rejected with Error Status "Out Of Resource".
+      </description>
+      <name>OutOfResourcesThreshold</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="30MB" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getUpdateDatabaseMaxRetries"
+      setMethod="setUpdateDatabaseMaxRetries">
+      <description>Maximal number of retries to update DB records for new received
+      objects, before a Processing Failure is returned to the Storage SCU.
+      </description>
+      <name>UpdateDatabaseMaxRetries</name>
+      <type>int</type>
+      <descriptors>
+         <value value="2" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-only"
+      getMethod="getMaxCountUpdateDatabaseRetries">
+      <description>Maximal number of actually performed retries to update DB records for new received
+      objects.
+      </description>
+      <name>MaxCountUpdateDatabaseRetries</name>
+      <type>int</type>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getUpdateDatabaseRetryInterval"
+      setMethod="setUpdateDatabaseRetryInterval">
+      <description>Delay in ms between retries to update DB records for new received objects.
+      </description>
+      <name>UpdateDatabaseRetryInterval</name>
+      <type>long</type>
+      <descriptors>
+         <value value="0" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptExplicitVRLE"
+      setMethod="setAcceptExplicitVRLE">
+      <description>Accept DICOM objects encoded in Explicit Value Representation Little Endian Transfer Syntax.
+      </description>
+      <name>AcceptExplicitVRLE</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEG2000Lossless"
+      setMethod="setAcceptJPEG2000Lossless">
+      <description>Accept DICOM images encoded in JPEG 2000 Lossless Transfer Syntax.
+      </description>
+      <name>AcceptJPEG2000Lossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEG2000Lossy"
+      setMethod="setAcceptJPEG2000Lossy">
+      <description>Accept DICOM images encoded in JPEG 2000 Lossy Transfer Syntax.
+      </description>
+      <name>AcceptJPEG2000Lossy</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLSLossless"
+      setMethod="setAcceptJPEGLSLossless">
+      <description>Accept DICOM images encoded in JPEG-LS Lossless Transfer Syntax.
+      </description>
+      <name>AcceptJPEGLSLossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLSLossy"
+      setMethod="setAcceptJPEGLSLossy">
+      <description>Accept DICOM images encoded in JPEG-LS Lossy Transfer Syntax.
+      </description>
+      <name>AcceptJPEGLSLossy</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLossless"
+      setMethod="setAcceptJPEGLossless">
+      <description>Accept DICOM images encoded in JPEG Lossless (Process 14) 
+      First-Order Prediction Transfer Syntax. (DICOM JPEG Lossless default TS)
+      </description>
+      <name>AcceptJPEGLossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGLossless14"
+      setMethod="setAcceptJPEGLossless14">
+      <description>Accept DICOM images encoded in JPEG Lossless (Process 14) Transfer Syntax.
+      </description>
+      <name>AcceptJPEGLossless14</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGBaseline"
+      setMethod="setAcceptJPEGBaseline">
+      <description>Accept DICOM images encoded in JPEG Baseline Transfer Syntax.
+      </description>
+      <name>AcceptJPEGBaseline</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptJPEGExtended"
+      setMethod="setAcceptJPEGExtended">
+      <description>Accept DICOM images encoded in JPEG Extended Transfer Syntax.
+      </description>
+      <name>AcceptJPEGExtended</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptRLELossless"
+      setMethod="setAcceptRLELossless">
+      <description>Accept DICOM images encoded in RLE Lossless Transfer Syntax.
+      </description>
+      <name>AcceptRLELossless</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxPDULength"
+      setMethod="setMaxPDULength">
+      <description>Maximal PDU package length for receiving PDUs.
+      </description>
+      <name>MaxPDULength</name>
+      <type>int</type>
+      <descriptors>
+         <value value="16352" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getBufferSize"
+      setMethod="setBufferSize">
+      <description>Size of buffer used to copy data from TCP channel to file.
+      No need to change default value: 512.
+      </description>
+      <name>BufferSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="512" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getEjbProviderURL"
+      setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EjbProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getFileSystemMgtName"
+      setMethod="setFileSystemMgtName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>FileSystemMgtName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=FileSystemMgt" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDcmServerName"
+      setMethod="setDcmServerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DcmServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=DcmServer" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getTLSConfigName"
+      setMethod="setTLSConfigName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>TLSConfigName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=TLSConfig" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAuditLoggerName"
+      setMethod="setAuditLoggerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=AuditLogger" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   <operation impact="ACTION">
+     <description>Reset MaxCountUpdateDatabaseRetries to 0.</description>
+     <name>resetMaxCountUpdateDatabaseRetries</name>
+     <return-type>void</return-type>
+	</operation>
+   &defaultOperations;
+
+   <!-- Notifications -->
+   <notification>
+      <description>Emitted after association release with collected info
+      about received objects in that association
+      </description>
+      <name>javax.management.Notification</name>
+      <notification-type>org.dcm4chex.archive.dcm.storescp</notification-type>
+   </notification>
+</mbean>
+

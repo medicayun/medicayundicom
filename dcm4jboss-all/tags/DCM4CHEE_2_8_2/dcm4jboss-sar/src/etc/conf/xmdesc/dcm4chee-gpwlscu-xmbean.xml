@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>General Purpose Worklist SCU</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.gpwlscu.GPWLScuService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>GPWLScuService</name>
+   </constructor>
+
+    <attribute access="read-write" getMethod="getCallingAET" setMethod="setCallingAET">
+      <description>The calling AE title.
+      </description>
+      <name>CallingAETitle</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DCM4CHEE"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getCalledAET" setMethod="setCalledAET">
+      <description>The AE title of the general purpose worklist used for find. Use LOCAL
+      if the DICOM general purpose worklist is provided by the archive and can be accessed
+      directly from the database. 
+      </description>
+      <name>CalledAETitle</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL"/>
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-only" getMethod="isLocal">
+      <description>This value is is set to true if the &lt;b&gt;CalledAETitle&lt;/b&gt; attribute is set to LOCAL.
+      </description>
+      <name>Local</name>
+      <type>boolean</type>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getAcTimeout" setMethod="setAcTimeout">
+      <description>A-Associate accept timeout in milliseconds. 0 = no timeout.
+      </description>
+      <name>AcceptTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10000"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getDimseTimeout" setMethod="setDimseTimeout">
+      <description>DIMSE message timeout in ms. 0 = no timeout.
+      </description>
+      <name>DIMSETimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="60000"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getSoCloseDelay" setMethod="setSoCloseDelay">
+      <description>Socket close delay in milliseconds after an A-Release response.
+      </description>
+      <name>SocketCloseDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="50"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getMaxPDUlen" setMethod="setMaxPDUlen">
+      <description>Maximum protocol data unit (PDU) package length for receiving PDUs, in bytes.
+      
+      </description>
+      <name>MaximumPDULength</name>
+      <type>int</type>
+      <descriptors>
+         <value value="16352"/>
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getPriority" setMethod="setPriority">
+      <description>Priority for C-Find requests. Enumerated Values: LOW, MEDIUM, HIGH.
+      </description>
+      <name>Priority</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="MEDIUM"/>
+      </descriptors>
+   </attribute>
+
+   <!-- Operations -->
+   &defaultOperations;
+
+   <operation impact="ACTION">
+      <description>Get a list of general purpose worklist entries.
+      </description>
+      <name>findGPWLEntries</name>
+      <parameter>
+        <description>Dataset for C-Find</description>
+        <name>searchDS</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>java.util.List</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description>Delete a general purpose worklist entry.
+      </description>
+      <name>deleteGPWLEntry</name>
+      <parameter>
+        <description>ID of general purpose worklist entry (Scheduled Procedure Step ID)</description>
+        <name>spsID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+ 
+</mbean>

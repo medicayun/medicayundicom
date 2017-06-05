@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Compression Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.ConsistenceCheckService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ConsistenceCheckService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getTaskInterval"
+      setMethod="setTaskInterval">
+      <description>Interval in which DB is checked for images to compress.
+          Format: INTERVAL['!'FROM'-'TO] or 'NEVER'
+          INTERVAL: ##s (in seconds), ##m (in minutes), ##h (in hours).
+          FROM,TO: start and end hour (0-23) when no compression should be performed.
+          'NEVER' = disable auto compression).
+      </description>
+      <name>TaskInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getMinStudyAge"
+      setMethod="setMinStudyAge">
+      <description>Min. study age that will be checked.
+      		##w (in weeks), ##d (in days), ##h (in hours)
+      </description>
+      <name>MinStudyAge</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="1d" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxStudyAge"
+      setMethod="setMaxStudyAge">
+      <description>Max. study age that will be checked.
+      		##w (in weeks), ##d (in days), ##h (in hours)
+      </description>
+      <name>MaxStudyAge</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="4w" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getMaxCheckedBefore"
+      setMethod="setMaxCheckedBefore">
+      <description>Max. amount of time from last check.
+      		##w (in weeks), ##d (in days), ##h (in hours)
+      </description>
+      <name>MaxCheckedBefore</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="1w" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getLimitNumberOfStudiesPerTask"
+      setMethod="setLimitNumberOfStudiesPerTask">
+      <description>Max. number of studies that are checked in one task.
+      </description>
+      <name>LimitNumberOfStudiesPerTask</name>
+      <type>int</type>
+      <descriptors>
+         <value value="100" />
+      </descriptors>
+   </attribute>
+
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+
+   <operation impact="ACTION">
+      <description>Check consistency of studies.</description>
+      <name>check</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+
+</mbean>
+    

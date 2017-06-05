@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-studystatus-service.xml 2144 2005-12-12 17:19:59Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+  <mbean code="org.dcm4chex.archive.mbean.StudyStatusService" 
+	     name="tiani.archive:service=StudyStatus"
+	     xmbean-dd="xmdesc/dcm4jboss-studystatus-xmbean.xml">
+    <depends>
+      tiani.archive:service=PPSScp
+    </depends>
+  </mbean>
+</server>
+

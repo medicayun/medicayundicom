@@ -1,0 +1,43 @@
+-- Update DB from dcm4chee-2.18.x to dcm4chee-2.19.x
+
+ALTER TABLE files ADD orig_md5 TEXT;
+
+-- DCMEE-1761
+alter table patient
+  alter column created_time type timestamp with time zone,
+  alter column updated_time type timestamp with time zone;
+alter table study
+  alter column created_time type timestamp with time zone,
+  alter column updated_time type timestamp with time zone,
+  alter column checked_time type timestamp with time zone;
+alter table mpps 
+  alter column created_time type timestamp with time zone,
+  alter column updated_time type timestamp with time zone;
+alter table series
+  alter column created_time type timestamp with time zone,
+  alter column updated_time type timestamp with time zone;
+alter table media 
+  alter column created_time type timestamp with time zone,
+  alter column updated_time type timestamp with time zone;
+alter table instance 
+  alter column created_time type timestamp with time zone,
+  alter column updated_time type timestamp with time zone;
+alter table files 
+  alter column created_time type timestamp with time zone,
+  alter column md5_check_time type timestamp with time zone;
+alter table study_on_fs 
+  alter column access_time type timestamp with time zone;
+alter table mwl_item 
+  alter column created_time type timestamp with time zone,
+  alter column updated_time type timestamp with time zone;
+alter table gppps 
+  alter column created_time type timestamp with time zone,
+  alter column updated_time type timestamp with time zone;
+alter table ups 
+  alter column created_time type timestamp with time zone,
+  alter column updated_time type timestamp with time zone;
+alter table priv_instance 
+  alter column created_time type timestamp with time zone;
+alter table published_study 
+  alter column created_time type timestamp with time zone,
+  alter column updated_time type timestamp with time zone;

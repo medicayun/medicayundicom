@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>AE Configuration Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.EchoService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>EchoService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getCallingAET"
+      setMethod="setCallingAET">
+      <description>Calling AET that is used in echo association.
+      </description>
+      <name>CallingAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getTLSConfigName"
+      setMethod="setTLSConfigName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>TLSConfigName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=TLSConfig" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   <operation impact="ACTION">
+     <description>Send echo request to AET</description>
+     <name>echo</name>
+     <parameter>
+       <description>AET to test</description>
+       <name>aet</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <parameter>
+       <description>nr of echos for this check</description>
+       <name>nrOfTests</name>
+       <type>java.lang.Integer</type>
+     </parameter>
+     <return-type>java.lang.String</return-type>
+	</operation>
+   <operation impact="ACTION">
+     <description>Send echo request to AE</description>
+     <name>echo</name>
+     <parameter>
+       <description>AE Configuration to test</description>
+       <name>AEData</name>
+       <type>org.dcm4chex.archive.ejb.jdbc.AEData</type>
+     </parameter>
+     <parameter>
+       <description>nr of echos for this check</description>
+       <name>nrOfTests</name>
+       <type>java.lang.Integer</type>
+     </parameter>
+     <return-type>java.lang.String</return-type>
+	</operation>
+   <operation impact="ACTION">
+     <description>Send echo request to all configured AEs</description>
+     <name>echoAll</name>
+     <return-type>[Ljava.lang.String;</return-type>
+	</operation>
+   &defaultOperations;
+</mbean>
+

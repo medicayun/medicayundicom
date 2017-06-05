@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>AE Configuration Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="Never"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.AEService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>AEService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-only"
+      getMethod="getAEs">
+      <description>Configured AEs.
+      </description>
+      <name>AEs</name>
+      <type>[Ljava.lang.String;</type>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAuditLoggerName"
+      setMethod="setAuditLoggerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chex:service=AuditLogger" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   <operation impact="ACTION">
+     <description>Add AE Configuration</description>
+     <name>addAE</name>
+     <parameter>
+       <description>PROTOCOL://AET@HOST:PORT</description>
+       <name>url</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <return-type>void</return-type>
+	</operation>
+   <operation impact="ACTION">
+     <description>Remove AE Configuration</description>
+     <name>addAE</name>
+     <parameter>
+       <description>AET</description>
+       <name>aet</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <return-type>void</return-type>
+	</operation>
+   &defaultOperations;
+</mbean>
+

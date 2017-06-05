@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-fsmgt-service.xml 3327 2007-05-09 13:49:53Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+    name="dcm4chee.archive:service=Queue,name=PurgeStudy">
+    <attribute name="ReceiversImpl">org.jboss.mq.server.ReceiversImplLinkedList</attribute>
+    <depends optional-attribute-name="DestinationManager"
+      >jboss.mq:service=DestinationManager</depends>
+  </mbean>
+  <mbean code="org.dcm4chex.archive.mbean.FileSystemMgtService"
+    name="dcm4chee.archive:service=FileSystemMgt"
+    xmbean-dd="xmdesc/dcm4chee-fsmgt-xmbean.xml">
+    <depends optional-attribute-name="AEServiceName"
+      >dcm4chee.archive:service=AE</depends>
+    <depends optional-attribute-name="SchedulerServiceName"
+      >dcm4chee.archive:service=Scheduler</depends>
+    <depends optional-attribute-name="JMSServiceName"
+      >dcm4chee.archive:service=JMS</depends>
+    <depends>dcm4chee.archive:service=Queue,name=PurgeStudy</depends>
+    <attribute name="PurgeStudyQueueName">PurgeStudy</attribute>
+    <!-- Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+    Use LOCAL if EJBs are deployed in same JBoss instance -->
+    <attribute name="EJBProviderURL">LOCAL</attribute>
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the FileSystemMgt EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/FileSystemMgt,service=EJB</depends>
+  </mbean>
+</server>

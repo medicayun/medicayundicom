@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-migration-service.xml 2597 2006-07-07 14:10:21Z javawilli $ -->
+<server>
+    <classpath codebase="lib" archives="dcm4chee.jar"/>
+
+    <mbean code="org.dcm4chex.archive.mbean.MigrationUpdateService"
+        name="dcm4chee.archive:service=MigrationUpdate" xmbean-dd="xmdesc/dcm4chee-migration-xmbean.xml">
+		<depends>jboss.j2ee:jndiName=ejb/MigrationUpdate,service=EJB</depends>
+        <depends>dcm4chee.archive:service=TLSConfig</depends>
+    </mbean>
+</server>

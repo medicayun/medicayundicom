@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-hl7srv-service.xml 1047 2004-03-14 22:41:26Z gunterze $ -->
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  DICOM Server Service Configuration                                   -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss-hl7.jar hapi-0.4.1.jar"/>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7ServerService" 
+    name="dcm4chex:service=HL7Server,name=HL7SRV">
+
+    <depends optional-attribute-name="AuditLoggerName">
+      dcm4chex:service=AuditLogger,actorName=PACS_TIANI
+    </depends>
+
+    <!--
+    Specifies if server running in tls mode:
+    mllp            native Minimal Lower Level Protocol
+    mllp-tls        mllp over TLS
+    mllp-tls.aes    mllp over TLS with AES 128 CBC or triple DES EDE CBC encryption
+    mllp-tls.3des   mllp over TLS with triple DES EDE CBC encryption
+    mllp-tls.nodes  mllp over TLS without encryption
+    -->
+    <attribute name="ProtocolName">mllp</attribute>
+
+    <!--
+    Specifies TCP port on which the HL7 server is listening.
+    -->
+    <attribute name="Port">2300</attribute>
+    
+    <!--
+    Defines URL of key store containing key used in SSL handshake, when running in TLS mode.
+    -->
+    <attribute name="KeyStoreURL">resource:identity.p12</attribute>
+    
+    <!--
+    Defines password for access to key store, specified by attribute KeyStoreURL 
+    -->
+    <attribute name="KeyStorePassword">passwd</attribute>
+    
+    <!--
+    Defines URL of trust store containing accepted certificates, when running in TLS mode
+    -->
+    <attribute name="TrustStoreURL">resource:cacerts.jks</attribute>
+    
+    <!--
+    Defines password for access to trust store, specified by attribute TrustStoreURL 
+    -->
+    <attribute name="TrustStorePassword">passwd</attribute>
+</mbean>
+
+
+</server>
+

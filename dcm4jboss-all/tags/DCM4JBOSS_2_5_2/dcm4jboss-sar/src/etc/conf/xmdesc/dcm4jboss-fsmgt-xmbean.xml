@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>File System Management Service. Specifies the location of
+file systems in which DICOM objects received from the Store SCP Server 
+are stored. You can also set up rules to delete the most infrequently
+accessed studies.</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.FileSystemMgtService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>FileSystemMgtService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write" getMethod="getDirectoryPathList" setMethod="setDirectoryPathList">
+      <description>List directories (mount points) on this DICOM node.
+      To separate multiple directories, use ; (semi-colon) on Windows and 
+      : (colon) on UNIX-like platforms. Relative path names are
+      resolved relative to the archive-install-directory/server/pacs/. 
+      To mark the directory used for storage of newly received DICOM Instances 
+      by the Storage SCP on this DICOM node, 
+      add * (asterisk) to the end of the directory path name.
+      </description>
+      <name>DirectoryPaths</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="archive*"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getReadOnlyDirectoryPathList" setMethod="setReadOnlyDirectoryPathList">
+      <description>List read-only directories (mount points) on this 
+      DICOM node. To separate multiple directories, use ; (semi-colon) on Windows and 
+      : (colon) on UNIX-like platforms. Relative path names are
+      resolved relative to the archive-install-directory/server/pacs/.
+      NONE = no read-only directory or mount point.
+      </description>
+      <name>ReadOnlyDirectoryPaths</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getRetrieveAET" setMethod="setRetrieveAET">
+      <description>Retrieve the AE title associated with this DICOM Node. 
+      Note that only one retrieve AE title can be associated with one file system.</description>
+      <name>RetrieveAETitle</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getMinFreeDiskSpace" setMethod="setMinFreeDiskSpace">
+      <description><![CDATA[Minimum free disk space.
+      The storage directory, or cache, switches to the next entry in  
+      <b>Directory Paths</b>, if the amount of free disk space falls below this value.
+      1MB = 1000000 bytes, 1GB = 1000MB.]]>   
+      </description>
+      <name>MinimumFreeDiskSpace</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="50MB"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getMountFailedCheckFile" setMethod="setMountFailedCheckFile">
+      <description>If the specified file exists, this signals a failed mount.
+      </description>
+      <name>MountFailedCheckFile</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NO_MOUNT"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="isMakeStorageDirectory" setMethod="setMakeStorageDirectory">
+      <description>Make a storage directory, or cache, if one does not already exist.
+      </description>
+      <name>MakeStorageDirectory</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getFreeDiskSpaceLowerThreshold" setMethod="setFreeDiskSpaceLowerThreshold">
+      <description>Defines lower threshold of free disk space for 
+          deleting the most infrequently accessed studies.
+          If the average free disk space on the storage directories falls below 
+          MinimumFreeDiskSpace x FreeDiskSpaceLowerThreshold, the most
+          infrequently accessed studies are deleted.
+      </description>
+      <name>FreeDiskSpaceLowerThreshold</name>
+      <type>float</type>
+      <descriptors>
+         <value value="1.5"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getFreeDiskSpaceUpperThreshold" setMethod="setFreeDiskSpaceUpperThreshold">
+      <description>Defines the upper threshold of free disk space for 
+          deleting the most infrequently accessed studies.
+          The most infrequently accessed studies are deleted until the 
+          average free disk space on the storage directories exceeds 
+          MinimumFreeDiskSpace x FreeDiskSpaceUpperThreshold.
+      </description>
+      <name>FreeDiskSpaceUpperThreshold</name>
+      <type>float</type>
+      <descriptors>
+         <value value="2.0"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="isFlushStudiesExternalRetrievable" setMethod="setFlushStudiesExternalRetrievable">
+      <description>Enables deletion of studies in local cache if the studies
+      are retrieveable from an external Retrieve AE. Database entries for
+      the studies are not removed.
+      </description>
+      <name>DeleteStudiesExternallyRetrievable</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="isFlushStudiesOnMedia" setMethod="setFlushStudiesOnMedia">
+      <description>Enables the deletion studies in local cache that are
+      stored on media (offline storage). Database entries for the studies are not
+      be removed. 
+      </description>
+      <name>DeleteLocalStudiesStoredOnMedia</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="isDeleteStudiesStorageNotCommited" setMethod="setDeleteStudiesStorageNotCommited">
+      <description>Enables deletion of the most infrequently accessed studies for
+          which no storage commitment request was received. Enabling this feature
+          deletes the studies and the database entries, so the study is completely 
+          removed from the system. We recommend extreme caution
+          when using this feature.
+      </description>
+      <name>DeleteStudiesFromSystem</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getStudyCacheTimeout" setMethod="setStudyCacheTimeout">
+      <description><![CDATA[Defines how long a study is not accessed before it will
+      be deleted from cache if it matches one of the configured conditions:
+      Delete Studies Externally Retrievable, Delete Studies On Media, or 
+      Delete Studies from System.
+      <br>Format: 
+      <br>##h (in hours) | ##d (in days) | ##w (in weeks) | NEVER
+      <br>NEVER = deletion of studies is only triggered by running out of disk space.
+      <br>Example:
+      <br>52w = any studies that have not been accessed for 52 weeks or more can be
+      deleted if they match the preconfigured conditions.]]>
+      </description>
+      <name>StudyAgeForDeletion</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getPurgeFilesInterval" setMethod="setPurgeFilesInterval">
+      <description>Interval in which unreferenced files are deleted. The 
+      Delete Files Interval must be less than the Free Disk Space Interval.
+      Format: ##s (in seconds), ##m (in minutes), ##h (in hours)
+      NEVER = never delete unreferenced files.
+      </description>
+      <name>DeleteFilesInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="1m"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getLimitNumberOfFilesPerTask" setMethod="setLimitNumberOfFilesPerTask">
+      <description>Limit the number of unreferenced files that are deleted in one 
+      delete task.</description>
+      <name>DeleteFilesLimit</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1000"/>
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write" getMethod="getFreeDiskSpaceInterval" setMethod="setFreeDiskSpaceInterval">
+      <description>Interval in which free disk space checked to 
+      see whether the deletion of the most infrequently accessed
+      studies should be triggered. The Free Disk Space Interval must be
+      greater than Delete Files Interval.
+      Format: ##s (in seconds), ##m (in minutes), ##h (in hours).
+      NEVER = do not delete of studies.          
+      </description>
+      <name>FreeDiskSpaceInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="isFreeDiskSpaceOnDemand" setMethod="setFreeDiskSpaceOnDemand">
+      <description>Enables the "free disk space on demand" feature.
+    Services such as the StorageSCP use this flag to permit or omit 
+    the call of free disk space after their work.
+      </description>
+      <name>FreeDiskSpaceOnDemand</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="isPurgeFilesAfterFreeDiskSpace" setMethod="setPurgeFilesAfterFreeDiskSpace">
+      <description>Enables deletion of files after free disk space has processed.
+      </description>
+      <name>DeleteFilesAfterFreeDiskSpace</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isSendIANs"
+      setMethod="setSendIANs">
+      <description>Enables sending Instance Availability Notifications after free disk space.
+      </description>
+      <name>SendIANs</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write" getMethod="getEjbProviderURL" setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EJBProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL"/>
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="INFO">
+      <description>Determines if the specified directory or mount point is
+      accessible on this DICOM node</description>
+      <name>isLocalFileSystem</name>
+      <parameter>
+        <description>Directory Path</description>
+        <name>DirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Used internally</description>
+      <name>fileSystemDirPaths</name>
+      <return-type>[Ljava.lang.String;</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Show free disk space on the local directories or mount points.</description>
+      <name>showAvailableDiskSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Select the storage directory or mount point
+      where the free disk space is less than the Minimum Free Disk Space</description>
+      <name>selectStorageFileSystem</name>
+      <return-type>org.dcm4chex.archive.mbean.FileSystemInfo</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Purge unreferenced Files</description>
+      <name>purgeFiles</name>
+      <return-type>void</return-type>
+   </operation>   
+   <operation impact="ACTION">
+      <description>Delete unreferenced files on specific directories or mount points.</description>
+      <name>purgeFiles</name>
+      <parameter>
+        <description>Directory path of filesystem.
+        			Delete all directories or mount points if the parameter is null.
+        </description>
+        <name>purgeDirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>   
+   <operation impact="INFO">
+      <description>Locate SOP Instance. Return a File object, if the instance
+      is locally available, or the hostname as String object if a file
+      of the instance is located on another host.</description>
+      <name>locateInstance</name>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.Object</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Locate SOP Instance. Return a Dataset object, if the instance
+      is locally available. The attributes of the dataset are updated with the attributes from database.</description>
+      <name>getDatasourceOfInstance</name>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>org.dcm4che.net.DataSource</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Check if it is necessary to free disk space.
+      </description>
+      <name>checkFreeDiskSpaceNecessary</name>
+      <return-type>boolean</return-type>
+   </operation>   
+   <operation impact="ACTION">
+      <description>Free disk space by deleting old studies.
+      Deletes all older files on study level that fullfill the freeDiskSpacePolicy.
+      Returns the number of released studies.
+      </description>
+      <name>freeDiskSpace</name>
+      <return-type>long</return-type>
+   </operation>   
+   <operation impact="INFO">
+      <description>get file size of study.
+      </description>
+      <name>showStudySize</name>
+      <parameter>
+        <description>Study pk</description>
+        <name>studyPk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>long</return-type>
+   </operation>   
+   
+</mbean>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-hpscp-service.xml 1909 2005-08-17 17:24:52Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.hpscp.HPScpService" 
+         name="tiani.archive:service=HPScp"
+         xmbean-dd="xmdesc/dcm4jboss-hpscp-xmbean.xml">
+    <depends>
+      tiani.archive:service=DcmServer
+    </depends>
+  </mbean>
+</server>

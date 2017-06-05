@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-ppsscu-service.xml 1682 2005-04-12 16:13:40Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.ppsscp.PPSScuService" 
+	     name="tiani.archive:service=PPSScu"
+	     xmbean-dd="xmdesc/dcm4jboss-ppsscu-xmbean.xml">
+    <depends>
+      tiani.archive:service=PPSScp
+    </depends>
+    <depends>
+      tiani.archive:service=Queue,name=PPSScu
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+  </mbean>
+</server>
+

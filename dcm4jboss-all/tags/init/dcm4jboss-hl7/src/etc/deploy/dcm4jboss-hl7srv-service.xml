@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-hl7srv-service.xml 1010 2004-02-24 17:24:09Z gunterze $ -->
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  DICOM Server Service Configuration                                   -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss-hl7.jar hapi-0.4.1.jar"/>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7ServerService" 
+    name="dcm4chex:service=HL7Server,name=HL7SRV">
+
+    <!--
+    Specifies TCP port on which the DICOM server is listening.
+    -->
+    <attribute name="Port">2350</attribute>
+    
+</mbean>
+
+
+</server>
+

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4chee-xdsi-service.xml 2853 2006-10-13 11:59:11Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.xdsi.XDSIService"
+    name="dcm4chee.archive:service=XDS-I"
+    xmbean-dd="xmdesc/dcm4chee-xdsi-xmbean.xml">
+    <depends>dcm4chee.archive:service=AuditLogger</depends>
+    <depends>dcm4chee.archive:service=HL7Send</depends>
+  </mbean>
+</server>

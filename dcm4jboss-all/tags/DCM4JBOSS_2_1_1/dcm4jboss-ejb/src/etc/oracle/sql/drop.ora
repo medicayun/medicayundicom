@@ -1,0 +1,32 @@
+DROP TABLE roles;
+DROP TABLE users;
+DROP TABLE audit_record;
+DROP TABLE rel_dev_proto;
+DROP TABLE device;
+DROP TABLE mwl_item;
+DROP TABLE study_on_fs;
+DROP TABLE files;
+DROP TABLE filesystem;
+DROP TABLE instance;
+DROP TABLE media;
+DROP TABLE series;
+DROP TABLE mpps;
+DROP TABLE study;
+DROP TABLE patient;
+DROP TABLE code;
+DROP TABLE ae;
+
+
+DROP SEQUENCE ae_pk_seq;
+DROP SEQUENCE code_pk_seq;
+DROP SEQUENCE patient_pk_seq;
+DROP SEQUENCE study_pk_seq;
+DROP SEQUENCE mpps_pk_seq;
+DROP SEQUENCE series_pk_seq;
+DROP SEQUENCE media_pk_seq;
+DROP SEQUENCE instance_pk_seq;
+DROP SEQUENCE files_pk_seq;
+DROP SEQUENCE filesystem_pk_seq;
+DROP SEQUENCE mwl_item_pk_seq;
+DROP SEQUENCE device_pk_seq;
+DROP SEQUENCE audit_record_pk_seq;

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-ianscu-service.xml 1394 2005-01-10 01:13:02Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.ianscu.IANScuService" 
+	     name="tiani.archive:service=IANScu"
+	     xmbean-dd="xmdesc/dcm4jboss-ianscu-xmbean.xml">
+    <depends>
+      tiani.archive:service=StoreScp
+    </depends>
+    <depends>
+      tiani.archive:service=Queue,name=IANScu
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+  </mbean>
+</server>
+

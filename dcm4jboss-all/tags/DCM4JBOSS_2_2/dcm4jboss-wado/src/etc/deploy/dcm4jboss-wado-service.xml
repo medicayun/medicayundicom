@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-wado-service.xml 1398 2005-01-10 01:20:00Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.wado.mbean.WADOService" 
+         name="tiani.archive:service=WADOService"
+         xmbean-dd="xmdesc/dcm4jboss-wado-xmbean.xml">
+  </mbean>
+</server>

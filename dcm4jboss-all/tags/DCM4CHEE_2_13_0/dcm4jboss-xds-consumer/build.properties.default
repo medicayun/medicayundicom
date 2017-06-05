@@ -1,0 +1,12 @@
+#javac options
+javac.debug=on
+javac.deprecation=off
+javac.optimize=on
+javac.source=1.4
+javac.target=1.4
+
+#Override with your JBoss dist location
+jboss.home=${user.home}/jboss-4.2.2.GA
+
+#Overide with your jboss deployment dir
+deploy.root=${user.home}/dcm4chee-standalone-mysql-2.10.13/server/default

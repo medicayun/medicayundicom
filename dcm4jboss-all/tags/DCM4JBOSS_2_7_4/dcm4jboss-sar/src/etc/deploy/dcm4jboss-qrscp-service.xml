@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-qrscp-service.xml 2079 2005-11-16 17:36:45Z gunterze $ -->
+<server>
+    <classpath codebase="lib" archives="dcm4jboss.jar"/>
+    <mbean code="org.dcm4chex.archive.dcm.qrscp.QueryRetrieveScpService"
+        name="tiani.archive:service=QueryRetrieveScp" xmbean-dd="xmdesc/dcm4jboss-qrscp-xmbean.xml">
+        <depends>tiani.archive:service=AE</depends>
+        <depends>tiani.archive:service=DcmServer</depends>
+        <depends>tiani.archive:service=FileSystemMgt</depends>
+        <depends>tiani.archive:service=StgCmtScuScp</depends>
+    </mbean>
+</server>

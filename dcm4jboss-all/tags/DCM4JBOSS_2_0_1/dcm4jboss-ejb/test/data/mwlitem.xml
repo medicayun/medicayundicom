@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dataset [
+<!ELEMENT dataset (attr|seq)*>
+<!ELEMENT attr (#PCDATA)>
+<!ELEMENT seq (item)*>
+<!ELEMENT item (attr|seq)*>
+<!ATTLIST attr tag CDATA #REQUIRED>
+<!ATTLIST seq tag CDATA #REQUIRED>
+]>
+<dataset>
+<!-- Specific Character Set -->
+  <attr tag="(0008,0005)">ISO_IR 100</attr>
+<!-- Scheduled Procedure Step Sequence -->
+  <seq tag="(0040,0100)">
+    <item>
+<!-- Scheduled Station AE Title -->
+      <attr tag="(0040,0001)">STATION_AET</attr>
+<!-- Scheduled Procedure Step Start Date -->
+      <attr tag="(0040,0002)">20040210</attr>
+<!-- Scheduled Procedure Step Start Time -->
+      <attr tag="(0040,0003)">0910</attr>
+<!-- Modality -->
+      <attr tag="(0008,0060)">CT</attr>
+<!-- Scheduled Performing Physician's Name -->
+      <attr tag="(0040,0006)">Performing^Physician</attr>
+<!-- Scheduled Procedure Step Description -->
+      <attr tag="(0040,0007)">Scheduled Procedure Step Description</attr>
+<!-- Scheduled Procedure Step Location -->
+      <attr tag="(0040,0011)">Scheduled Procedure Step Location</attr>
+<!-- Scheduled Protocol Code Sequence -->
+      <seq tag="(0040,0008)">
+        <item>
+<!-- Code Value -->
+          <attr tag="(0008,0100)">PROT-1234</attr>
+<!-- Coding Scheme Designator -->
+          <attr tag="(0008,0102)">99DCM4CHE</attr>
+<!-- Code Meaning -->
+          <attr tag="(0008,0104)">Code Meaning of PROT-1234</attr>
+        </item>
+      </seq>
+<!-- Pre-Medication -->
+			<attr tag="(0040,0012)">Pre-Medication</attr>
+<!-- Scheduled Procedure Step ID -->
+			<attr tag="(0040,0009)">SPS-1234</attr>
+<!-- Requested Contrast Agent -->
+			<attr tag="(0032,1070)">Requested Contrast Agent</attr>
+<!-- Scheduled Procedure Step Status -->
+			<attr tag="(0040,0020)">SCHEDULED</attr>
+    </item>		
+  </seq>
+<!-- Requested Procedure ID -->
+	<attr tag="(0040,1001)">RP-1234</attr>
+<!-- Requested Procedure Description -->
+	<attr tag="(0032,1060)">Requested Procedure Description</attr>
+<!-- Requested Procedure Code Sequence -->
+	<seq tag="(0032,1064)">
+    <item>
+<!-- Code Value -->
+      <attr tag="(0008,0100)">PROC-1234</attr>
+<!-- Coding Scheme Designator -->
+      <attr tag="(0008,0102)">99DCM4CHE</attr>
+<!-- Code Meaning -->
+      <attr tag="(0008,0104)">Code Meaning of PROC-1234</attr>
+    </item>
+	</seq>
+<!-- Study Instance UID -->
+	<attr tag="(0020,000D)">1.2.40.0.13.1.999.1234</attr>
+<!-- Requested Procedure Priority -->
+	<attr tag="(0040,1003)">MEDIUM</attr>
+<!-- Accession Number -->
+	<attr tag="(0008,0050)">ACC-1234</attr>
+<!-- Requesting Physician -->
+	<attr tag="(0032,1032)">Requesting^Physician</attr>
+<!-- Requesting Service -->
+	<attr tag="(0032,1033)">Requesting Service</attr>
+<!-- Referring Physician's Name -->
+	<attr tag="(0008,0090)">Referring^Physician</attr>
+<!-- Admission ID -->
+	<attr tag="(0038,0010)">ADM-1234</attr>
+<!-- Current Patient Location -->
+	<attr tag="(0038,0300)">Current Patient Location</attr>
+<!-- Patient's Name -->
+	<attr tag="(0010,0010)">Patient^Name</attr>
+<!-- Patient ID -->
+	<attr tag="(0010,0020)">Patient ID</attr>
+<!-- Patients Birth Date -->
+	<attr tag="(0010,0030)">19320214</attr>
+<!-- Patient's Sex -->
+	<attr tag="(0010,0040)">F</attr>
+<!-- Patient's Weight -->
+	<attr tag="(0010,1030)">75</attr>
+<!-- Confidentiality constraint on patient data -->
+	<attr tag="(0040,3001)">V</attr>
+<!-- Patient State -->
+	<attr tag="(0038,0500)">Patient State</attr>
+<!-- Pregnancy Status -->
+	<attr tag="(0010,21C0)">0001</attr>
+<!-- Medical Alerts -->
+	<attr tag="(0010,2000)">Medical Alerts</attr>
+<!-- Contrast Allergies -->
+	<attr tag="(0010,2110)">Contrast Allergies</attr>
+<!-- Special Needs -->
+	<attr tag="(0038,0050)">Special Needs</attr>
+</dataset>

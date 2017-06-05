@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+This is the XML DTD for the dcm4chee attribute filter descriptor.
+
+Minimal descriptor for DICOM Standard Conformance of Query/Retrieve Service:
+  <dcm4chee-attribute-filter>
+    <filter level="PATIENT">
+      <attr tag="00080005"/>
+      <attr tag="00100010"/>
+      <attr tag="00100020"/>
+    </filter>
+
+    <filter level="STUDY">
+      <attr tag="00080005"/>
+      <attr tag="00080020"/>
+      <attr tag="00080030"/>
+      <attr tag="00080050"/>
+      <attr tag="0020000D"/>
+      <attr tag="00200010"/>
+    </filter>
+
+    <filter level="SERIES">
+      <attr tag="00080060"/>
+      <attr tag="0020000E"/>
+      <attr tag="00200011"/>
+    </filter>
+
+    <filter level="IMAGE">
+      <attr tag="00080018"/>
+      <attr tag="00200013"/>
+    </filter>
+  </dcm4chee-attribute-filter>
+-->
+
+<!ELEMENT dcm4chee-attribute-filter (filter)*>
+<!ELEMENT filter (attr)*>
+<!ELEMENT attr EMPTY>
+<!ATTLIST filter level (PATIENT | STUDY | SERIES | IMAGE) #REQUIRED>
+<!ATTLIST attr tag CDATA #REQUIRED>
+<!ATTLIST attr coerce (true | false ) #IMPLIED>

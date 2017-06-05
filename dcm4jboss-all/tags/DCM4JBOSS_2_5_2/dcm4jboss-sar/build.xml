@@ -1,0 +1,362 @@
+<project name="dcm4jboss-sar" default="jar">
+	<!-- Allow user to adjust build properties without
+	modifying this build script.
+	--> 
+	<property file="build.properties"/>
+	
+	<property name="version" value="2.5.2"/>
+	<property name="javac.debug" value="on"/>
+
+	<property name="bin.dir" value="${basedir}/bin"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
+	<property name="src.dir" value="${basedir}/src"/>
+	<property name="src.java" value="${src.dir}/java"/>
+	<property name="src.etc" value="${src.dir}/etc"/>
+
+	<property name="target.dir" value="${basedir}/target"/>
+	<property name="target.bin" value="${target.dir}/bin"/>
+	<property name="target.classes" value="${target.dir}/classes"/>
+	<property name="target.deploy" value="${target.dir}/deploy"/>
+	<property name="target.lib" value="${target.dir}/lib"/>
+
+	<property name="dist.name" value="dcm4jboss-${version}"/>
+	<property name="dist.dir" value="${target.dir}/${dist.name}"/>
+
+    <!-- Override with your dcm4che dist location -->
+	<property name="dcm4che.home" value="../dcm4che14/build"/>		
+	<property name="dcm4che.jar" value="${dcm4che.home}/lib/dcm4che.jar"/>		
+
+    <!-- Override with your dcm4jboss-ejb dist location -->
+	<property name="dcm4jboss-ejb.home" value="../dcm4jboss-ejb"/>		
+	<property name="dcm4jboss-ejb.target" value="${dcm4jboss-ejb.home}/target"/>		
+	<property name="dcm4jboss-ejb.src" value="${dcm4jboss-ejb.home}/src"/>		
+
+    <!-- Override with your dcm4jboss-web dist location -->
+	<property name="dcm4jboss-web.home" value="../dcm4jboss-web"/>		
+	<property name="dcm4jboss-web.target" value="${dcm4jboss-web.home}/target"/>		
+
+    <!-- Override with your dcm4jboss-arr dist location -->
+	<property name="dcm4jboss-arr.home" value="../dcm4jboss-arr"/>		
+
+    <!-- Override with your dcm4jboss-hl7 dist location -->
+	<property name="dcm4jboss-hl7.home" value="../dcm4jboss-hl7"/>		
+
+    <!-- Override with your dcm4jboss-wado dist location -->
+	<property name="dcm4jboss-wado.home" value="../dcm4jboss-wado"/>		
+	<property name="dcm4jboss-wado.target" value="${dcm4jboss-wado.home}/target"/>		
+	
+    <!-- Override with your FOP dist location -->
+    <property name="fop.home" value="${user.home}/fop-0.20.5"/>
+
+    <!-- Override with your JBoss/Web server bundle dist location -->
+	<property name="jboss.home" value="${user.home}/jboss-4.0.2"/>		
+	<property name="jboss.server" value="${jboss.home}/server"/>		
+	<property name="jboss.server.home" value="${jboss.home}/server/default"/>		
+	<property name="jboss.deploy" value="${jboss.server.home}/deploy"/>		
+
+	<path id="base.path">
+		<pathelement location="${dcm4che.jar}"/>
+		<pathelement location="${dcm4jboss-ejb.target}/common/lib/dcm4jboss-ejb-client.jar"/>
+		<pathelement location="${dcm4jboss-ejb.target}/hsql/lib/dcm4jboss-jdbc-hsql.jar"/>
+		<pathelement location="${dcm4jboss-ejb.target}/hsql/deploy/dcm4jboss-ejb-hsql.jar"/>
+		<pathelement location="${lib.dir}/mogio.jar"/>
+		<pathelement location="${jboss.home}/bin/twiddle.jar"/>
+		<pathelement location="${jboss.home}/client/jmx-rmi-connector-client.jar"/>
+		<fileset dir="${jboss.home}/lib">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${jboss.server.home}/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+   	<!-- =================================================================== -->
+    <!-- Initialize                                                          -->
+    <!-- =================================================================== -->
+    
+    <target name="init">
+    	<tstamp>
+            <format property="TODAY" pattern="dd.MM.yyyy"/>
+        </tstamp>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Prepares the directory structure                                    -->
+    <!-- =================================================================== -->
+    <target name="prepare" depends="init">
+        <mkdir dir="${target.classes}"/>
+        <mkdir dir="${target.bin}"/>
+        <mkdir dir="${target.lib}"/>
+        <mkdir dir="${target.deploy}"/>
+        <mkdir dir="${dist.dir}"/>
+   </target>
+
+   	<!-- =================================================================== -->
+   	<!-- Compiles the source code                                            -->
+   	<!-- =================================================================== -->   
+   	<target name="compile" depends="prepare">
+		<javac
+        	destdir="${target.classes}"
+			debug="${javac.debug}"
+         	deprecation="off"
+         	optimize="on"
+         	classpathref="base.path"
+      	>
+         	<src path="${src.java}"/>
+      	</javac>
+   	</target>
+
+   	<!-- =================================================================== -->
+   	<!-- build jar                                        -->
+   	<!-- =================================================================== -->
+   
+   	<target name="jar" depends="compile">
+        <jar jarfile="${target.lib}/dcm4jboss.jar">
+        	<manifest>
+        		<attribute name="Class-Path" value="dcm4che.jar dcm4jboss-ejb-client.jar dcm4jboss-jdbc.jar"/>
+				<attribute name="Implementation-Title" value="dcm4jboss"/>
+				<attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+				<attribute name="Implementation-Vendor" value="Tiani Medgraph AG"/>
+        	</manifest>
+        	<fileset dir="${target.classes}" excludes="org/jboss/**"/>
+        </jar>
+   		<zip destfile="${target.bin}/twiddle.jar">
+   			<zipfileset src="${jboss.home}/bin/twiddle.jar" excludes="org/jboss/console/twiddle/Twiddle.class"/>
+   			<fileset dir="${target.classes}" includes="org/jboss/**"/>
+   		</zip>
+    </target>
+
+ 
+    <!-- =================================================================== -->
+   	<!-- Pack distributions                                                  -->
+   	<!-- =================================================================== -->
+   
+   	<target name="dist" depends="jar">
+   		<copy todir="${dist.dir}">
+   			<fileset dir="${dcm4jboss-ejb.target}">
+   				<include name="common/**"/>
+   				<include name="hsql/**"/>
+   				<include name="psql/**"/>
+   				<include name="mysql/**"/>
+   				<include name="oracle/**"/>
+   				<include name="db2/**"/>
+   				<exclude name="**/test.war"/>
+   			</fileset>
+   			<fileset dir="${dcm4jboss-ejb.src}/etc">
+   				<include name="*/sql/*"/>
+   				<include name="*/conf/login-config.xml"/>
+   				<include name="*/deploy/**/*.xml"/>
+   				<include name="hsql/data/hypersonic/localDB.*"/>
+   			</fileset>
+   			<fileset dir="${dcm4jboss-arr.home}/target">
+   				<include name="common/**"/>
+   				<include name="hsql/**"/>
+   				<include name="psql/**"/>
+   				<include name="mysql/**"/>
+   				<include name="oracle/**"/>
+   				<include name="db2/**"/>
+   			</fileset>
+   		</copy>
+   		<copy todir="${dist.dir}/common">
+   			<fileset dir="${dcm4che.home}">
+   				<include name="lib/dcm4che.jar"/>
+   			</fileset>
+   			<fileset dir="${dcm4jboss-ejb.src}/etc">
+   				<include name="conf/*.xml"/>
+   				<include name="conf/*.dtd"/>
+   				<include name="deploy/ejb-deployer.xml"/>
+   				<include name="deploy/jmx-console.war/**"/>
+   			</fileset>
+   			<fileset dir="${dcm4jboss-ejb.home}">
+   				<include name="test/data/mwlitem.xml"/>
+   			</fileset>
+  			<fileset dir="${src.etc}">
+   				<include name="bin/*"/>
+   				<include name="conf/*.jks"/>
+   				<include name="conf/*.p12"/>
+  				<include name="conf/gpwl/*.xml"/>
+  				<include name="conf/xmdesc/*.xml"/>
+  				<include name="conf/xsl/**"/>
+   				<include name="deploy/*.xml"/>
+   				<include name="deploy/jms/*.xml"/>
+   			</fileset>
+  			<fileset dir="${dcm4jboss-arr.home}/src/etc">
+   				<include name="conf/xmdesc/*.xml"/>
+   				<include name="deploy/*.xml"/>
+   			</fileset>
+  			<fileset dir="${basedir}">
+   				<include name="bin/*"/>
+   				<include name="lib/*"/>
+   			</fileset>
+   			<fileset dir="${target.dir}">
+   				<include name="bin/*"/>
+   				<include name="lib/*"/>
+   			</fileset>
+   		</copy>
+
+   		<!-- WEB -->
+   		<available file="${dcm4jboss-web.home}" property="dcm4jboss-web.home.present"/>
+   		<antcall target="web-dist"/>
+   		<!-- HL7 -->
+   		<available file="${dcm4jboss-hl7.home}" property="dcm4jboss-hl7.home.present"/>
+   		<antcall target="hl7-dist"/>
+   		<!-- WADO -->
+   		<available file="${dcm4jboss-wado.home}" property="dcm4jboss-wado.home.present"/>
+   		<antcall target="wado-dist"/>
+   			
+   		<zip
+   			destfile="${target.dir}/${dist.name}.zip"
+   			basedir="${target.dir}"
+   			includes="${dist.name}/**"
+   		/>
+
+   		<antcall target="standalone-dist">
+      		<param name="db.name" value="hsql"/>
+    	</antcall>
+   		<antcall target="standalone-dist">
+      		<param name="db.name" value="psql"/>
+    	</antcall>
+   		<antcall target="standalone-dist">
+      		<param name="db.name" value="mysql"/>
+    	</antcall>
+   		<antcall target="standalone-dist">
+      		<param name="db.name" value="oracle"/>
+    	</antcall>
+   		<antcall target="standalone-dist">
+      		<param name="db.name" value="db2"/>
+    	</antcall>
+    </target>
+    
+   	<target name="standalone-dist">
+   		<property name="dist.standalone" value="dcm4jboss-standalone-${db.name}-${version}"/>
+   		<zip destfile="${target.dir}/${dist.standalone}.zip">
+			<zipfileset dir="${dist.dir}/common" prefix="${dist.standalone}/server/pacs">
+				<exclude name="bin/**"/>
+				<exclude name="lib/jboss-common.jar"/>
+				<exclude name="test/**"/>
+			</zipfileset>
+			<zipfileset dir="${dist.dir}/${db.name}" prefix="${dist.standalone}/server/pacs">
+				<exclude name="sql/**"/>
+			</zipfileset>
+			<zipfileset dir="${dist.dir}/common" prefix="${dist.standalone}" filemode="755">
+				<include name="bin/*.sh"/>
+			</zipfileset>
+			<zipfileset dir="${dist.dir}/common" prefix="${dist.standalone}">
+				<include name="bin/**"/>
+				<exclude name="bin/*.sh"/>
+				<include name="lib/jboss-common.jar"/>
+				<include name="test/**"/>
+			</zipfileset>
+			<zipfileset dir="${dist.dir}/${db.name}" prefix="${dist.standalone}">
+				<include name="sql/**"/>
+			</zipfileset>
+			<zipfileset dir="${jboss.home}" prefix="${dist.standalone}" filemode="755">
+				<include name="bin/*.sh"/>
+			</zipfileset>
+			<zipfileset dir="${jboss.home}" prefix="${dist.standalone}">
+				<include name="bin/*"/>
+				<exclude name="bin/*.sh"/>
+				<exclude name="bin/run.log"/>
+				<exclude name="bin/run.conf"/>
+				<exclude name="bin/twiddle.jar"/>
+				<include name="lib/**"/>
+				<exclude name="lib/jboss-common.jar"/>
+				<include name="client/getopt.jar"/>
+				<include name="client/jbossall-client.jar"/>
+				<include name="client/log4j.jar"/>
+			</zipfileset>
+			<zipfileset dir="${jboss.home}/docs/examples/jms" prefix="${dist.standalone}/server/pacs">
+				<include name="conf/jbossmq-state.xml"/>
+			</zipfileset>
+			<zipfileset dir="${jboss.server.home}" prefix="${dist.standalone}/server/pacs">
+				<include name="conf/**"/>
+				<exclude name="conf/log4j.xml"/>
+				<exclude name="conf/login-config.xml"/>
+				<!-- include name="deploy/ejb-deployer.xml"/-->
+				<include name="deploy/jbossweb-tomcat55.sar/**"/>
+				<include name="deploy/jboss-ws4ee.sar/**"/>
+				<include name="deploy/jms/jvm-il-service.xml"/>
+				<include name="deploy/jmx-console.war/**"/>
+				<exclude name="deploy/jmx-console.war/inspectMBean.jsp"/>
+				<exclude name="deploy/jmx-console.war/WEB-INF/*.xml"/>
+				<include name="deploy/jbossjca-service.xml"/>
+				<include name="deploy/jboss-local-jdbc.rar"/>
+				<include name="deploy/jmx-invoker-service.xml"/>
+				<include name="lib/activation.jar"/>
+				<include name="lib/bcel.jar"/>
+				<include name="lib/bsh-1.3.0.jar"/>
+				<include name="lib/bsh-deployer.jar"/>
+				<include name="lib/commons-logging.jar"/>
+				<include name="lib/hsqldb.jar"/>
+				<include name="lib/hsqldb-plugin.jar"/>
+				<include name="lib/javax.servlet.jar"/>
+				<include name="lib/javax.servlet.jsp.jar"/>
+				<include name="lib/jboss.jar"/>
+				<include name="lib/jboss-common-jdbc-wrapper.jar"/>
+				<include name="lib/jboss-j2ee.jar"/>
+				<include name="lib/jboss-jaxrpc.jar"/>
+				<include name="lib/jboss-jca.jar"/>
+				<include name="lib/jboss-jsr77.jar"/>
+				<include name="lib/jboss-management.jar"/>
+				<include name="lib/jbossmq.jar"/>
+				<include name="lib/jbosssx.jar"/>
+				<include name="lib/jboss-transaction.jar"/>
+				<include name="lib/jmx-adaptor-plugin.jar"/>
+				<include name="lib/jnpserver.jar"/>
+				<include name="lib/jpl-pattern.jar"/>
+				<include name="lib/jpl-util.jar"/>
+				<include name="lib/log4j.jar"/>
+				<include name="lib/mail.jar"/>
+			</zipfileset>
+			<zipfileset dir="${fop.home}/build" prefix="${dist.standalone}/server/pacs/lib">
+				<include name="fop.jar"/>				
+			</zipfileset>
+			<zipfileset dir="${fop.home}" prefix="${dist.standalone}/server/pacs">
+				<include name="lib/avalon-framework-cvs-20020806.jar"/>				
+				<include name="lib/batik.jar"/>				
+			</zipfileset>
+		</zip>
+   	</target>
+
+    <!-- WEB distribution -->
+    <target name="web-dist" if="dcm4jboss-web.home.present">
+    	<echo>Deploy WEB</echo>
+   		<copy todir="${dist.dir}/common">
+   			<fileset dir="${dcm4jboss-web.target}">
+   				<include name="deploy/*.war"/>
+   			</fileset>
+   		</copy>
+    </target>
+	
+    <!-- HL7 distribution -->
+    <target name="hl7-dist" if="dcm4jboss-hl7.home.present">
+    	<echo>Deploy HL7</echo>
+   		<copy todir="${dist.dir}/common">
+  			<fileset dir="${dcm4jboss-hl7.home}/target">
+   				<include name="lib/dcm4jboss-hl7.jar"/>
+   			</fileset>
+  			<fileset dir="${dcm4jboss-hl7.home}/src/etc">
+   				<include name="deploy/*.xml"/>
+   				<include name="conf/xmdesc/*.xml"/>
+   				<include name="conf/xsl/hl7/*.xsl"/>
+   			</fileset>
+   		</copy>
+    </target>
+	
+    <!-- WADO distribution -->
+    <target name="wado-dist" if="dcm4jboss-wado.home.present">
+    	<echo>Deploy WADO</echo>
+		<ant antfile="${dcm4jboss-wado.home}/build.xml" target="deploy" inheritAll="false" >
+			<property name="deploy.root" value="${dist.dir}/common"/>
+		</ant>
+    </target>
+   	<!-- =================================================================== -->
+   	<!-- Cleans up the current build                                         -->
+   	<!-- =================================================================== -->
+   
+   	<target name="clean">
+     	<delete dir="${target.dir}"/>
+   	</target>
+	
+    
+</project>

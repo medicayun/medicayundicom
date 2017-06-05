@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>File System Management Service. Specifies the location of
+file systems in which DICOM objects received from the Store SCP Server 
+are stored. You can also set up rules to delete the most infrequently
+accessed studies.</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.FileSystemMgtService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>FileSystemMgtService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write" 
+      getMethod="getRetrieveAET"
+      setMethod="setRetrieveAET">
+      <description>Retrieve AE title associated with this DICOM Node. 
+      There must be at least one configured file system suitable for storage 
+      (ONLINE, RW) associated with this AE title.
+      </description>
+      <name>RetrieveAETitle</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DCM4CHEE"/>
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write" 
+      getMethod="getDefStorageDir"
+      setMethod="setDefStorageDir">
+      <description><![CDATA[Default Storage Directory, used if there is no
+      File system entry configured for given Retrieve AET.
+      A relative path name is resolved relative to
+      <i>archive-install-directory</i>/server/default/.]]>
+      </description>
+      <name>DefaultStorageDirectory</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="archive"/>
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write" 
+      getMethod="getMinFreeDiskSpace"
+      setMethod="setMinFreeDiskSpace">
+      <description><![CDATA[Minimum free disk space. If the free available disk space
+      on the current storage file system falls below this value, the next
+      configured file system becomes the current storage system.
+      1MB = 1000000 bytes, 1GB = 1000MB.]]>   
+      </description>
+      <name>MinimumFreeDiskSpace</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="50MB"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCheckFreeDiskSpaceInterval"
+      setMethod="setCheckFreeDiskSpaceInterval">
+      <description><![CDATA[Interval for checking free available disk
+      space on current storage file system against minimum value specified by
+      <i>MinimumFreeDiskSpace<i>. Format: ##m (in minutes) | ##s (in seconds).
+      If the free available disk space falls below <i>MinimumFreeDiskSpace<i> x
+      <i>CheckFreeDiskSpaceThreshold<i>, the check is performed for each
+      received object - and is no longer controlled by the configured interval.
+      ]]>
+      </description>
+      <name>CheckFreeDiskSpaceInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="60s"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCheckFreeDiskSpaceThreshold"
+      setMethod="setCheckFreeDiskSpaceThreshold">
+      <description><![CDATA[Defines lower threshold of free disk space for 
+          checking free available disk space. If the free available disk space
+          falls below <i>MinimumFreeDiskSpace<i> x <i>CheckFreeDiskSpaceThreshold<i>,
+          the check is performed for each received object - and is no longer
+          controlled by <i>CheckFreeDiskSpaceInterval<i>.]]>
+      </description>
+      <name>CheckFreeDiskSpaceThreshold</name>
+      <type>float</type>
+      <descriptors>
+         <value value="5."/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDeleterThresholds"
+      setMethod="setDeleterThresholds">
+      <description><![CDATA[Defines thresholds dependent on hour of day, for deleting the most
+        infrequently accessed studies. Format: HOUR:##MB or HOUR:##GB or HOUR:##h,
+        multiple thresholds with different (start) hour separated by ';'.
+        E.g.: 7:1h;19:24h => free space for expected data volume received in 24 hours between
+        7pm and 7am. Between 7am and 7pm only delete studies if the available free space falls below
+        the expected data volume received in one hour.]]>
+      </description>
+      <name>DeleterThresholds</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="7:1h;19:24h"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getExpectedDataVolumnePerDay"
+      setMethod="setExpectedDataVolumnePerDay">
+      <description><![CDATA[Expected data volume per day. Used to transform time based deleter
+      thresholds (s. DeleterThresholds) into disk space size to free.]]>
+      </description>
+      <name>ExpectedDataVolumnePerDay</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="100MB"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAdjustExpectedDataVolumnePerDay"
+      setMethod="setAdjustExpectedDataVolumnePerDay">
+      <description><![CDATA[Update value of attribute ExpectedDataVolumnePerDay at midnight,
+      if data volumne received during last 24 hours exceeds its current value.]]>
+      </description>
+      <name>AdjustExpectedDataVolumnePerDay</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isFlushStudiesExternalRetrievable"
+      setMethod="setFlushStudiesExternalRetrievable">
+      <description>Enables deletion of studies in local cache if the studies
+      are retrieveable from an external Retrieve AE. Database entries for
+      the studies are not removed.
+      </description>
+      <name>DeleteStudiesExternallyRetrievable</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isFlushStudiesOnMedia"
+      setMethod="setFlushStudiesOnMedia">
+      <description>Enables the deletion studies in local cache that are
+      stored on media (offline storage). Database entries for the studies are not
+      be removed. 
+      </description>
+      <name>DeleteLocalStudiesStoredOnMedia</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isFlushOnROFsAvailable"
+      setMethod="setFlushOnROFsAvailable">
+      <description>Enables the deletion studies in local cache that have a valid copy
+      stored on a read only filesystem. Database entries for the studies are not
+      be removed. 
+      </description>
+      <name>DeleteLocalStudiesCopyAvailable</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getValidFileStatus" setMethod="setValidFileStatus">
+      <description><![CDATA[Defines the 'VALID' File Status if <tt>isFlushOnROFsAvailable</tt> is enabled.<p/> 
+      		This value is used to check if a valid study copy is available on RO Filesystem.<br/>
+      		(all instances of a study must be also stored on a RO filesystem with this filestatus.)
+      		<dl>
+    		<dt>Use one of the following stati:</dt>
+    		<dd>DEFAULT</dd>
+    		<dd>TO_ARCHIVE</dd>
+    		<dd>ARCHIVED</dd>
+    		</dl>
+    		]]> 
+      </description>
+      <name>ValidFileStatus</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DEFAULT"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isDeleteStudiesStorageNotCommited"
+      setMethod="setDeleteStudiesStorageNotCommited">
+      <description>Enables deletion of the most infrequently accessed studies for
+          which no storage commitment request was received. Enabling this feature
+          deletes the studies and the database entries, so the study is completely 
+          removed from the system. We recommend extreme caution
+          when using this feature.
+      </description>
+      <name>DeleteStudiesFromSystem</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStudyCacheTimeout"
+      setMethod="setStudyCacheTimeout">
+      <description><![CDATA[Defines how long a study is not accessed before it will
+      be deleted from cache if it matches one of the configured conditions:
+      Delete Studies Externally Retrievable, Delete Studies On Media, or 
+      Delete Studies from System.
+      <br>Format: 
+      <br>##h (in hours) | ##d (in days) | ##w (in weeks) | NEVER
+      <br>NEVER = deletion of studies is only triggered by running out of disk space.
+      <br>Example:
+      <br>52w = any studies that have not been accessed for 52 weeks or more can be
+      deleted if they match the preconfigured conditions.]]>
+      </description>
+      <name>StudyAgeForDeletion</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPurgeFilesInterval"
+      setMethod="setPurgeFilesInterval">
+      <description>Interval in which unreferenced files are deleted. Unreferenced files are the result
+      of deleting instances from the web trash folder.
+      Format: ##s (in seconds), ##m (in minutes), ##h (in hours)
+      NEVER = never delete unreferenced files.
+      </description>
+      <name>DeleteFilesInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="1m"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getLimitNumberOfFilesPerTask"
+      setMethod="setLimitNumberOfFilesPerTask">
+      <description>Limit the number of unreferenced files that are deleted in one 
+      delete task.</description>
+      <name>DeleteFilesLimit</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1000"/>
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getFreeDiskSpaceInterval"
+      setMethod="setFreeDiskSpaceInterval">
+      <description>Interval in which free disk space checked to 
+      see whether the deletion of the most infrequently accessed
+      studies should be triggered.
+      Format: ##s (in seconds), ##m (in minutes), ##h (in hours).
+      NEVER = do not delete of studies.          
+      </description>
+      <name>FreeDiskSpaceInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="5m"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isFreeDiskSpaceOnDemand"
+      setMethod="setFreeDiskSpaceOnDemand">
+      <description>Enables the "free disk space on demand" feature.
+    Services such as the StorageSCP use this flag to permit or omit 
+    the call of free disk space after their work.
+      </description>
+      <name>FreeDiskSpaceOnDemand</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isPurgeFilesAfterFreeDiskSpace"
+      setMethod="setPurgeFilesAfterFreeDiskSpace">
+      <description>Enables purging of (web) deleted files after free disk space has processed.
+      </description>
+      <name>DeleteFilesAfterFreeDiskSpace</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getMountFailedCheckFile"
+      setMethod="setMountFailedCheckFile">
+      <description>If the specified file exists, this signals a failed mount.
+      </description>
+      <name>MountFailedCheckFile</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NO_MOUNT"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isMakeStorageDirectory"
+      setMethod="setMakeStorageDirectory">
+      <description>Create storage directory, if no one exists.
+      </description>
+      <name>MakeStorageDirectory</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isWADOExcludePrivateAttributes"
+      setMethod="setWADOExcludePrivateAttributes">
+      <description><![CDATA[Excludes private Attributes from Datasets returned
+      by WADO Service]]>
+      </description>
+      <name>WADOExcludePrivateAttributes</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getOnSwitchStorageFilesystemInvoke"
+      setMethod="setOnSwitchStorageFilesystemInvoke">
+      <description><![CDATA[Executes specified command when the current
+      storage file system becomes full and is switch to the next configured.
+      '%1' will be replaced by the directory path of the previous,
+      '%2' with the directory path of the new storage file system.
+       ]]>
+      </description>
+      <name>OnSwitchStorageFilesystemInvoke</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isDeleteFilesWhenUnavailable"
+      setMethod="setDeleteFilesWhenUnavailable">
+      <description><![CDATA[Enable/Disable deletion of files off a filesystem thats availability is changed to UNAVAIL.]]>
+      </description>
+      <name>DeleteFilesWhenUnavailable</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getRetryIntervalsForJmsOrder"
+      setMethod="setRetryIntervalsForJmsOrder">
+      <description><![CDATA[Number and interval of retries made for
+      failed JMS order, e.g., purgeFile.
+      <br>Format:
+      <br>Comma separated list of <i>number</i>x<i>interval</i> pairs.
+      <br>The interval can be specified in seconds (##s),
+      minutes (##m), hours (##h) or days (##d).
+      <br>Example: 
+      <br>5x1m,10x10m means retry a total of 5 times, one minute
+      apart for each retry; then retry a total of 10 times, 10 minutes 
+      apart for each retry.]]>
+      </description>
+      <name>RetryIntervalsForJmsOrder</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="5x1m,12x5m,24x1h,7x1d" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getBufferSize"
+      setMethod="setBufferSize">
+      <description>Size of byte buffer used by WADO/RID service for copying data
+      from file to TCP channel.
+      </description>
+      <name>BufferSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="8192"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getEjbProviderURL"
+      setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EJBProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPurgeStudyQueueName"
+      setMethod="setPurgeStudyQueueName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>PurgeStudyQueueName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PurgeStudy"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getJmsServiceName"
+      setMethod="setJmsServiceName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>JMSServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=JMS"/>
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getSchedulerServiceName"
+      setMethod="setSchedulerServiceName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>SchedulerServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=Scheduler"/>
+      </descriptors>
+   </attribute>  
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="INFO">
+      <description>Show all configured file systems.
+      </description>
+      <name>showAllFileSystems</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Show configured ONLINE,RW file systems.
+      </description>
+      <name>showOnlineFileSystems</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Show configured NEARLINE,RW file systems.
+      </description>
+      <name>showNearlineFileSystems</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description> Add ONLINE,RW file system to configuration and link it with
+      already configured ONLINE,RW file systems.
+      </description>
+      <name>addOnlineFileSystem</name>
+      <parameter>
+        <description>Directory/Mount Point of new File System</description>
+        <name>dirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Associated User Info</description>
+        <name>user info</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description> Add NEARLINE,RW file system to configuration and link it with
+      already configured NEARLINE,RW file systems.
+      </description>
+      <name>addNearlineFileSystem</name>
+      <parameter>
+        <description>Directory/Mount Point of new File System</description>
+        <name>dirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Associated User Info</description>
+        <name>user info</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Add file system to configuration.
+      </description>
+      <name>addFileSystem</name>
+      <parameter>
+        <description>Directory/Mount Point</description>
+        <name>dirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Associated Retrieve AET</description>
+        <name>aet</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Availability (ONLINE | NEARLINE | OFFLINE | UNAVAILABLE)
+        </description>
+        <name>availability</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Status (RW+ | RW | RO)
+        </description>
+        <name>status</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Associated User Info</description>
+        <name>user info</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>org.dcm4chex.archive.ejb.interfaces.FileSystemDTO</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Update file system configuration.
+      </description>
+      <name>updateFileSystem</name>
+      <parameter>
+        <description>Directory/Mount Point</description>
+        <name>dirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Associated Retrieve AET</description>
+        <name>aet</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Availability ONLINE | NEARLINE | OFFLINE | UNAVAILABLE)
+        </description>
+        <name>availability</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Status (RW+ | RW | RO)
+        </description>
+        <name>status</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Associated User Info</description>
+        <name>user info</name>
+        <type>java.lang.String</type>
+      </parameter>
+   </operation>
+   <operation impact="ACTION">
+      <description> Link 2 File Systems. One file system can be linked
+        to several previous, but only to one next file system.
+      </description>
+      <name>linkFileSystems</name>
+      <parameter>
+        <description>Directory/Mount Point of previous File System</description>
+        <name>prevDirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Directory/Mount Point of next File System</description>
+        <name>nextDirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+   </operation>
+   <operation impact="ACTION">
+      <description> Remove file system configuration. Will fail if there
+        are already files stored on this file system.
+      </description>
+      <name>removeFileSystem</name>
+      <parameter>
+        <description>Directory/Mount Point of the File System</description>
+        <name>dirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Select Storage File System</description>
+      <name>selectStorageFileSystem</name>
+      <return-type>org.dcm4chex.archive.ejb.interfaces.FileSystemDTO</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[Update Availability of a file system.<br>
+      		This method updates the availability of all instances, series and studies that have files on this filesystem!<br>
+      		If DeleteFilesWhenUnavailable is enabled and the filessystem gets UNAVAILABLE, all files of this FS will be deleted!<br>
+      		Return true if update/delete was performed (when availability of FS has been changed)
+      			]]>
+      </description>
+      <name>updateFileSystemAvailability</name>
+      <parameter>
+        <description>Directory/Mount Point</description>
+        <name>dirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Availability of the filesystem. One of "ONLINE", "NEARLINE",
+            "OFFLINE" or "UNAVAILABLE"</description>
+        <name>availability</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[Delete all files for given (unavailable!) filesystem!<br>
+      				Throws an IllegalStateException if filesystems availability is not UNAVAILABLE!
+      			]]>
+      </description>
+      <name>deleteFilesOnFS</name>
+      <parameter>
+        <description>Directory/Mount Point</description>
+        <name>dirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[Check filesystem if files are available!<br>
+      				Return 1 if all files are available, -1 if filesystem is empty and 0 if some files are not available!
+      			]]>
+      </description>
+      <name>checkFilesOnFS</name>
+      <parameter>
+        <description>Directory/Mount Point</description>
+        <name>dirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>int</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Purge unreferenced private Files</description>
+      <name>purgePrivateFiles</name>
+      <return-type>int</return-type>
+   </operation>   
+   <operation impact="ACTION">
+      <description>Delete unreferenced files on specific directories or mount points.</description>
+      <name>purgePrivateFiles</name>
+      <parameter>
+        <description>Directory path of filesystem.
+        			Delete all directories or mount points if the parameter is null.
+        </description>
+        <name>purgeDirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>int</return-type>
+   </operation>   
+   <operation impact="INFO">
+      <description>Locate SOP Instance. Return a File object, if the instance
+      is locally available, or the hostname as String object if a file
+      of the instance is located on another host.</description>
+      <name>locateInstance</name>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.Object</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Locate SOP Instance. Return a Dataset object, if the instance
+      is locally available. The attributes of the dataset are updated with the attributes from database.</description>
+      <name>getDatasourceOfInstance</name>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>org.dcm4che.net.DataSource</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Free disk space by deleting old studies.
+      Deletes all older files on study level that fullfill the freeDiskSpacePolicy.
+      Returns the number of released studies.
+      </description>
+      <name>freeDiskSpace</name>
+      <return-type>void</return-type>
+   </operation>   
+   <operation impact="ACTION">
+      <description>Update value of attribute ExpectedDataVolumnePerDay at midnight,
+      if data volumne received during last 24 hours exceeds its current value.
+      </description>
+      <name>adjustExpectedDataVolumnePerDay</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>get file size of study stored on the given file system.
+      </description>
+      <name>showStudySize</name>
+      <parameter>
+        <description>Study pk</description>
+        <name>studyPk</name>
+        <type>java.lang.Long</type>
+      </parameter>
+      <parameter>
+        <description>File System pk</description>
+        <name>fileSystemPk</name>
+        <type>java.lang.Long</type>
+      </parameter>
+      <return-type>long</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Show total free available disk space on file systems
+        associated with this node (Retrieve AET), and configured for
+        storage (ONLINE, RW).
+      </description>
+      <name>showAvailableDiskSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>   
+   <operation impact="INFO">
+      <description>Used internally.
+      </description>
+      <name>listLocalOnlineRWFileSystems</name>
+      <return-type>[Lorg.dcm4chex.archive.ejb.interfaces.FileSystemDTO;</return-type>
+   </operation>
+</mbean>

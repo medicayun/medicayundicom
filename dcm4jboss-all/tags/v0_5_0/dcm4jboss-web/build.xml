@@ -1,0 +1,86 @@
+<project name="dcm4jboss-web" default="war">
+
+	<property file="build.properties"/>
+
+	<!-- Override with your JBoss dist location -->
+	<property name="jboss.dir" value="${user.home}/jboss-3.2.3" />
+	<property name="jboss.server.lib.dir" value="${jboss.dir}/server/default/lib"/>
+	<property name="log4j.jar" value="${jboss.server.lib.dir}/log4j.jar"/>
+	<property name="javax.servlet.jar" value="${jboss.server.lib.dir}/javax.servlet.jar"/>
+	<property name="j2ee.jar" value="${jboss.server.lib.dir}/jboss-j2ee.jar"/>
+
+	<!-- Override with your Maverick dist location -->
+	<property name="maverick.dir" value="../maverick" />
+	<property name="maverick.lib.dir" value="${maverick.dir}/lib"/>
+	<property name="maverick.dist.dir" value="${maverick.dir}/dist"/>
+	<property name="maverick.jar" value="${maverick.dist.dir}/maverick.jar"/>
+
+	<!-- Override with your Domify dist location -->
+	<property name="opt-domify.dir" value="../opt-domify" />
+	<property name="opt-domify.dist.dir" value="${opt-domify.dir}/dist"/>
+	<property name="opt-domify.lib.dir" value="${opt-domify.dir}/lib"/>
+
+	<!-- Override with your dcm4jboss-ejb working directory -->
+	<property name="dcm4jboss-ejb.dir" value="../dcm4jboss-ejb/target" />
+	<property name="dcm4jboss-ejb-client.jar" value="${dcm4jboss-ejb.dir}/common/lib/dcm4jboss-ejb-client.jar" />
+
+	<property name="target.dir" value="target"/>
+	<property name="file" value="${ant.project.name}.war"/>
+	<property name="product" value="${target.dir}/deploy/${file}"/>
+
+	<property name="javasrc.dir" value="src/java"/>
+	<property name="classes.dir" value="${target.dir}/classes"/>
+	<property name="web.dir" value="src/web"/>
+
+	<path id="master-classpath">
+		<pathelement location="${javax.servlet.jar}"/>
+		<pathelement location="${j2ee.jar}"/>
+		<pathelement location="${log4j.jar}"/>
+		<pathelement location="${maverick.jar}"/>
+		<pathelement location="${dcm4jboss-ejb-client.jar}"/>
+	</path>
+
+	<property name="debug" value="on"/>
+	<property name="deprecation" value="on"/>
+
+
+	<target name="clean">
+		<delete dir="${target.dir}"/>
+	</target>
+
+ 	<target name="classes">
+		<mkdir dir="${classes.dir}"/>
+		
+		<javac debug="${debug}" deprecation="${deprecation}" destdir="${classes.dir}" srcdir="${javasrc.dir}">
+			<classpath refid="master-classpath"/>
+		</javac>
+	</target>
+
+	<target name="war" depends="classes">
+		<mkdir dir="${target.dir}/deploy/"/>
+		<war warfile="${product}" webxml="${web.dir}/WEB-INF/web.xml">
+			<fileset dir="${web.dir}">
+				<exclude name="WEB-INF/web.xml" />
+			</fileset>
+			
+			<classes dir="${classes.dir}">
+				<include name="org/**/*.class" />
+			</classes>
+
+			<lib dir="${maverick.dist.dir}">
+				<include name="maverick.jar" />
+			</lib>
+			<lib dir="${maverick.lib.dir}">
+				<include name="commons-beanutils.jar" />
+				<include name="commons-collections.jar" />
+			</lib>
+			<lib dir="${opt-domify.lib.dir}">
+				<include name="domify.jar" />
+			</lib>
+			<lib dir="${opt-domify.dist.dir}">
+				<include name="opt-domify.jar" />
+			</lib>
+		</war>
+	</target>
+
+</project>

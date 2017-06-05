@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-exportmanager-service.xml 2166 2005-12-21 18:10:15Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="tiani.archive:service=Queue,name=ExportManager">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>
+   
+  <mbean code="org.dcm4chex.archive.tce.ExportManagerService" 
+	     name="tiani.archive:service=ExportManager"
+	     xmbean-dd="xmdesc/dcm4jboss-exportmanager-xmbean.xml">
+    <depends>tiani.archive:service=StoreScp</depends>
+    <depends>tiani.archive:service=Queue,name=ExportManager</depends>
+    <depends>jboss.mq:service=InvocationLayer,type=JVM</depends>
+  </mbean>
+</server>
+

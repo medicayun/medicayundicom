@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-xds-service.xml 3308 2007-05-06 23:35:51Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.xds.mbean.XDSService" 
+         name="dcm4chee.archive:service=XDSService"
+         xmbean-dd="xmdesc/dcm4chee-xds-xmbean.xml">
+    <depends optional-attribute-name="RidServiceName"
+      >dcm4chee.archive:service=RIDService</depends>
+  </mbean>
+</server>

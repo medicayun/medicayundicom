@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-purge-service.xml 1119 2004-05-21 09:50:27Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.PurgeFilesService" 
+	name="dcm4chex:service=PurgeFiles"
+	xmbean-dd="xmdesc/dcm4jboss-purge-xmbean.xml">
+  </mbean>
+
+  <mbean code="org.jboss.varia.scheduler.Scheduler" 
+	 name="dcm4chex:service=Scheduler,name=Scheduler of PurgeFiles"
+	 xmbean-dd="xmdesc/dcm4jboss-purge-scheduler-xmbean.xml">
+
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the PurgeFile EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/PurgeFile,service=EJB</depends>
+  </mbean>
+</server>
+
+

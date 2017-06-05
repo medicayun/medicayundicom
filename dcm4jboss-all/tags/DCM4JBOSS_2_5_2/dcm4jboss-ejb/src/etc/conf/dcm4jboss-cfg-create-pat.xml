@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dcm4jboss-cfg-create-pat SYSTEM "dcm4jboss-cfg-create-pat.dtd">
+<dcm4jboss-cfg-create-pat>
+    <generatePatID enable="true">
+        <pattern>PatId_</pattern>
+        <issuer>pacs</issuer>
+    </generatePatID>
+    <doubletPrevention enable="true"/>
+</dcm4jboss-cfg-create-pat>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-hl7adt-service.xml 1395 2005-01-10 01:14:12Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss-hl7.jar"/>
+  <mbean code="org.dcm4chex.archive.hl7.ADTService" 
+         name="tiani.archive:service=HL7Service,type=ADT"
+         xmbean-dd="xmdesc/dcm4jboss-hl7adt-xmbean.xml">
+    <depends>
+      tiani.archive:service=HL7Server
+    </depends>
+  </mbean>
+</server>

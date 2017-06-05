@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-mppsemulator-service.xml 2829 2006-10-03 09:52:50Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.mppsscu.MPPSEmulatorService" 
+         name="dcm4chee.archive:service=MPPSEmulator"
+         xmbean-dd="xmdesc/dcm4chee-mppsemulator-xmbean.xml">
+    <depends>dcm4chee.archive:service=MPPSScu</depends>
+	  <depends>dcm4chee.archive:service=Scheduler</depends>
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the MPPSEmulator EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/MPPSEmulator,service=EJB</depends>
+  </mbean>
+</server>

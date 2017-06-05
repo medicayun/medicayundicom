@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-purge-service.xml 1004 2004-02-21 22:32:43Z gunterze $ -->
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  Purge Service Configuration                                          -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+  <mbean code="org.dcm4chex.service.PurgeFilesService" 
+	name="dcm4chex:service=PurgeFiles">
+
+    <!-- Do NOT uncomment this line if the service is deployed
+    in the same jboss instance as the PurgeFile EJB. Otherwise
+    in VM calls to go over RMI!
+        
+    <attribute name="EjbProviderURL">jnp://localhost:1099</attribute>
+    -->
+
+    <!-- 
+    Specifies associated Retrieve AETs of files, which are write
+    accessable by the Purge service.
+    Typically, the Purge service is deployed together with a DICOM
+    Storage SCP Service and the RetrieveAETs of the Purge service
+    is equal with the value of the conform attribute of the DICOM
+    Storage SCP Service.
+    At least, one AET must be specified. Multiple values must be
+    separated by '\' characters. 
+	-->
+    <attribute name="RetrieveAETs">QR_SCP</attribute>
+
+  </mbean>
+
+  <mbean code="org.jboss.varia.scheduler.Scheduler" 
+	 name="dcm4chex:service=Scheduler,name=Scheduler of PurgeFiles">
+
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the PurgeFile EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/PurgeFile,service=EJB</depends>
+        
+    <!-- 
+    Value must match with name attribute of MoveScuService mbean (s.above)!
+	-->
+    <attribute name="SchedulableMBean">dcm4chex:service=PurgeFiles</attribute>
+
+    <!-- 
+    Specifies intervall in milliseconds for polling DB for unreferenced files.
+	-->
+    <attribute name="SchedulePeriod">60000</attribute>
+
+    <attribute name="StartAtStartup">true</attribute>
+    <attribute name="SchedulableMBeanMethod">run</attribute>
+    <attribute name="InitialStartDate">NOW</attribute>
+    <attribute name="InitialRepetitions">-1</attribute>
+  </mbean>
+
+</server>
+

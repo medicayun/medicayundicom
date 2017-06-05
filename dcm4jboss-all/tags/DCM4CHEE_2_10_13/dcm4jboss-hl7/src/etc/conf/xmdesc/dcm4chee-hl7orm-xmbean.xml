@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description><![CDATA[ORM HL7 Service. Create, update or delete entries of 
+   the Modality Worklist provided by [Modality Worklist SCP] according to 
+   received ORM^O01 messages. Generally, this service is used if the connected 
+   RIS cannot provide the modality worklist.]]>
+   </description>
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.hl7.ORMService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ORMService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getMessageTypes"
+      setMethod="setMessageTypes">
+      <description>Comma separated list of Message Types handled by this Service.
+      </description>
+      <name>MessageTypes</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ORM^O01" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getOrderControlOperationMap"
+      setMethod="setOrderControlOperationMap">
+      <description><![CDATA[Maps Order Control (Order Status) or - if no Order
+      Status is specified - Order Control (Result Status) in received ORM
+      to Operation to perform. This controls what happens to worklist items.
+      <p><b>Syntax:</b><br/>
+      map = entry+<br/>
+      entry = orderContol [ '(' orderStatus ')' ] ':' operation<br/>
+      operation = 'NW' (* create worklist item(s) *)<br/>
+          | 'XO' (* update worklist item(s) *)<br/>
+          | 'CA' (* remove worklist item(s) *)<br/>
+          | 'SC(' ('IP' | 'CM' | 'DC') ')' (* update status of worklist item(s) *)<br/>
+          | 'NOOP' (* no operation *)</p>
+      ]]>
+      </description>
+      <name>OrderControlOperationMap</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="
+         NW:NW
+         XO:XO
+         CA:CA
+         OC:CA
+         DC:SC(DC)
+         OD:SC(DC)
+         SC(IP):SC(IP)
+         SC(CM):SC(CM)
+         SC(DC):SC(DC)
+         SC(CA):CA
+         SC:NOOP
+         " />
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getDefaultStationName"
+      setMethod="setDefaultStationName">
+      <description>Scheduled Station Name in generated MWL item,
+          if there is no device configured for the scheduled protocol.
+      </description>
+      <name>DefaultStationName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="UNKOWN" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDefaultStationAET"
+      setMethod="setDefaultStationAET">
+      <description>Scheduled Station AET in generated MWL item,
+          if there is no device configured for the scheduled protocol.          
+      </description>
+      <name>DefaultStationAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="UNKOWN" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDefaultModality"
+      setMethod="setDefaultModality">
+      <description>Modality in generated MWL item, if the ORM message
+          does not contain modality information and if there is also no device
+          configured for the scheduled protocol.
+      </description>
+      <name>DefaultModality</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="OT" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStylesheetURL"
+      setMethod="setStylesheetURL">
+      <description>Stylesheet for HL7 ORM^O01 to DICOM MWL mapping.
+      </description>
+      <name>StylesheetURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:dcm4chee-hl7/orm2dcm.xsl" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDeviceServiceName"
+      setMethod="setDeviceServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DeviceServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=DeviceService" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getHL7ServerName"
+      setMethod="setHL7ServerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>HL7ServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=HL7Server" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
+    

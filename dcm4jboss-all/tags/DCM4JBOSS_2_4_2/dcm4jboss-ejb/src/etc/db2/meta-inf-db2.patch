@@ -1,0 +1,166 @@
+--- target/xdoclet/META-INF-hsql/jbosscmp-jdbc.xml	2005-05-26 00:16:25.850185193 +0200
++++ target/xdoclet/META-INF-db2/jbosscmp-jdbc.xml	2005-05-26 00:16:26.779064328 +0200
+@@ -3,8 +3,8 @@
+ 
+ <jbosscmp-jdbc>
+    <defaults>
+-     <datasource>java:/DefaultDS</datasource>
+-     <datasource-mapping>Hypersonic SQL</datasource-mapping>
++     <datasource>java:/PostgresDS</datasource>
++     <datasource-mapping>PostgreSQL 7.2</datasource-mapping>
+      <create-table>false</create-table>
+    </defaults>
+ 
+@@ -72,7 +72,7 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -129,7 +129,7 @@
+ 			</read-ahead>
+          </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -178,7 +178,7 @@
+ 			</read-ahead>
+          </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -370,7 +370,7 @@
+             <jboss-ql><![CDATA[SELECT MAX(i.availability) FROM Instance i WHERE i.series.hidden = FALSE AND i.series.study.pk = ?1]]></jboss-ql>
+          </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -539,7 +539,7 @@
+             <jboss-ql><![CDATA[SELECT MAX(i.availability) FROM Instance i WHERE i.series.pk = ?1]]></jboss-ql>
+          </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -612,7 +612,7 @@
+ 			</read-ahead>
+          </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -710,7 +710,7 @@
+ 			</read-ahead>
+          </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -742,7 +742,7 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -799,7 +799,7 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -826,7 +826,7 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -926,7 +926,7 @@
+ 			</read-ahead>
+          </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -953,7 +953,7 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -1013,7 +1013,7 @@
+ 			</read-ahead>
+          </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -1046,7 +1046,7 @@
+ 			<dynamic-ql/>
+          </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -1153,7 +1153,7 @@
+ 			<dynamic-ql/>
+          </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -1183,7 +1183,7 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -1220,7 +1220,7 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="postgresql-fetch-seq">
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->

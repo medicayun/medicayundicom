@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>MPPS Emulator. Use to emulate the generation of MPPS messages for the defined AE titles.</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.mppsscu.MPPSEmulatorService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MPPSEmulatorService</name>
+   </constructor>
+
+   <attribute access="read-write" getMethod="getStationAETsWithDelay" setMethod="setStationAETsWithDelay">
+      <description>Define the AE titles of the stations or modalities for which MPPS
+          messages shall be emulated. For each AE title, you must set a minimum delay time between the time the first object
+          of the last series is received and the generation of the MPPS message.
+          &lt;br&gt;Format: &lt;br&gt;&lt;i&gt;aeTitle&lt;/i&gt;:&lt;i&gt;delay&lt;/i&gt;&lt;br&gt;where&lt;br&gt;&lt;i&gt;aeTitle&lt;/i&gt; = the AE title of the station or modality for which you are emulating MPPS messages&lt;br&gt;&lt;i&gt;delay&lt;/i&gt; = the delay between the time the first object of the last series is received, and the generation of an MPPS message, in seconds (##s) or minutes (##m)&lt;br&gt;String multiple AE titles together by placing a colon between each &lt;i&gt;aeTitle&lt;/i&gt;:&lt;i&gt;delay&lt;/i&gt; pair; for example MOD_1:1m:MOD_2:50s</description>
+      <name>StationAETitlesWithDelay</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="MOD_NOMPPS:1m"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getPollInterval" setMethod="setPollInterval">
+      <description>Interval for polling for newly received series from
+      the stations or modalities you configured in the &lt;b&gt;StationAETitlesWithDelay&lt;/b&gt; attribute. The interval can be specified in
+      seconds (##s) or minutes (##m). NEVER = disable MPPS emulation.
+      </description>
+      <name>PollInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getCalledAET" setMethod="setCalledAET">
+      <description>AE title  of the MPPS SCP, to which the emulated MPPS messages shall be sent.
+      </description>
+      <name>CalledAETitle</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getMppsScuServiceName" setMethod="setMppsScuServiceName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>MppsScuServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=MPPSScu"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getMwlScuServiceName" setMethod="setMwlScuServiceName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>MwlScuServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=MWLScu"/>
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Emulate MPPS messages for newly received series from the stations
+          or modalities specified by the &lt;b&gt;StationAETitlesWithDelay&lt;/b&gt; attribute. Returns the number of
+          successfully created MPPS instances at the MPPS SCP that you specified with the &lt;b&gt;CalledAETitle&lt;/b&gt; property.
+      </description>
+      <name>emulateMPPS</name>
+      <return-type>int</return-type>
+   </operation>
+
+</mbean>

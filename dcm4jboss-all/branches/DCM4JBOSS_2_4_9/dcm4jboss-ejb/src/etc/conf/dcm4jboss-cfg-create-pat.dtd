@@ -1,0 +1,40 @@
+<?xml encoding="UTF-8"?>
+<!-- 
+This is the XML DTD for the dcm4jboss 'create patient config'.
+
+Example:
+1) Enables auto ID creation if patientID is missing.
+1a) Use pattern 'PatId_'  to format patientID
+1b) Set issuer of patientID to 'pacs'
+2) Enables DoubletPrevention. (use existing patient with same name and birthdate if patientID is missing)
+
+<dcm4jboss-cfg-create-pat>
+    <generatePatID enable="true">
+        <pattern>PatId:</pattern>
+        <issuer>pacs</issuer>
+    </generatePatID>
+    <doubletPrevention enable="true"/>
+</dcm4jboss-cfg-create-pat>
+
+-->
+<!ELEMENT dcm4jboss-cfg-create-pat (generatePatID,doubletPrevention)>
+<!ATTLIST dcm4jboss-cfg-create-pat
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT generatePatID (pattern,issuer)>
+<!ATTLIST generatePatID
+  xmlns CDATA #FIXED ''
+  enable NMTOKEN #REQUIRED>
+
+<!ELEMENT doubletPrevention EMPTY>
+<!ATTLIST doubletPrevention
+  xmlns CDATA #FIXED ''
+  enable NMTOKEN #REQUIRED>
+
+<!ELEMENT pattern (#PCDATA)>
+<!ATTLIST pattern
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT issuer (#PCDATA)>
+<!ATTLIST issuer
+  xmlns CDATA #FIXED ''>

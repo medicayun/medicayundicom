@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-hl7oru-service.xml 2247 2006-01-30 03:08:17Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss-hl7.jar"/>
+  <mbean code="org.dcm4chex.archive.hl7.ORUService" 
+         name="tiani.archive:service=HL7Service,type=ORU"
+         xmbean-dd="xmdesc/dcm4jboss-hl7oru-xmbean.xml">
+    <depends>
+      tiani.archive:service=HL7Server
+    </depends>
+    <depends>
+      tiani.archive:service=ExportManager
+    </depends>
+  </mbean>
+</server>

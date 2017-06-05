@@ -1,0 +1,101 @@
+--- target/xdoclet/META-INF-hsql/jbosscmp-jdbc.xml	2004-08-26 21:59:23.000000000 +0200
++++ target/xdoclet/META-INF-db2/jbosscmp-jdbc.xml	2004-08-26 22:04:30.000000000 +0200
+@@ -4,7 +4,7 @@
+ <jbosscmp-jdbc>
+    <defaults>
+      <datasource>java:/DefaultDS</datasource>
+-     <datasource-mapping>Hypersonic SQL</datasource-mapping>
++     <datasource-mapping>DB2</datasource-mapping>
+      <create-table>false</create-table>
+    </defaults>
+ 
+@@ -77,7 +77,8 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="pk-sql">
++         <attribute name="pk-sql">values nextval for mwl_item_pk_seq</attribute>
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -139,7 +140,8 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="pk-sql">
++         <attribute name="pk-sql">values nextval for instance_pk_seq</attribute>
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -189,7 +191,8 @@
+ 			</read-ahead>
+ 	     </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="pk-sql">
++		<attribute name="pk-sql">values nextval for ae_pk_seq</attribute>
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -236,7 +239,8 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="pk-sql">
++         <attribute name="pk-sql">values nextval for patient_pk_seq</attribute>
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -308,7 +312,8 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="pk-sql">
++         <attribute name="pk-sql">values nextval for study_pk_seq</attribute>
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -375,7 +380,8 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="pk-sql">
++         <attribute name="pk-sql">values nextval for series_pk_seq</attribute>
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -407,7 +413,8 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="pk-sql">
++         <attribute name="pk-sql">values nextval for mpps_pk_seq</attribute>
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -467,7 +474,8 @@
+ 			</read-ahead>
+ 	     </query>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="pk-sql">
++         <attribute name="pk-sql">values nextval for files_pk_seq</attribute>
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->
+@@ -504,7 +512,8 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="pk-sql">
++         <attribute name="pk-sql">values nextval for code_pk_seq</attribute>
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->

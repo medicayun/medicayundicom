@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-mppsscu-service.xml 3327 2007-05-09 13:49:53Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+    name="dcm4chee.archive:service=Queue,name=MPPSScu">
+    <depends optional-attribute-name="DestinationManager"
+      >jboss.mq:service=DestinationManager</depends>
+  </mbean>
+  <mbean code="org.dcm4chex.archive.dcm.mppsscu.MPPSScuService"
+    name="dcm4chee.archive:service=MPPSScu"
+    xmbean-dd="xmdesc/dcm4chee-mppsscu-xmbean.xml">
+    <depends optional-attribute-name="MppsScpServiceName"
+      >dcm4chee.archive:service=MPPSScp</depends>
+    <depends optional-attribute-name="TLSConfigName"
+      >dcm4chee.archive:service=TLSConfig</depends>
+    <depends optional-attribute-name="JMSServiceName"
+      >dcm4chee.archive:service=JMS</depends>
+    <depends>dcm4chee.archive:service=Queue,name=MPPSScu</depends>
+    <attribute name="QueueName">MPPSScu</attribute>
+    <!-- Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+    Use LOCAL if EJBs are deployed in same JBoss instance -->
+    <attribute name="EJBProviderURL">LOCAL</attribute>
+  </mbean>
+</server>

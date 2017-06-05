@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<!--
+	$Id: web.xml 943 2004-02-01 14:21:46Z gunterze $
+	$Source$
+-->
+
+<web-app>
+	<display-name>dcm4jboss Archive Console</display-name>
+
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<display-name>Maverick Dispatcher</display-name>
+		<servlet-class>org.infohazard.maverick.Dispatcher</servlet-class>
+
+		<!--
+			The default charset used to decode input parameters.  If unspecified,
+			the web container default is used.
+		-->
+		<!--
+		<init-param>
+			<param-name>defaultRequestCharset</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		-->
+		
+		<!--
+			The command which causes Maverick to reload the maverick.xml
+			config data and any cached/precompiled XSLT templates.  Commands
+			are still processed with the old data while the reloading is
+			in progress, so it isn't too big of a deal if your users call
+			this.  It wastes CPU resources, though, so you might want to
+			change the command to something more obscure.  If this param
+			is not defined, the reload command is disabled.
+		-->
+		<init-param>
+			<param-name>reloadCommand</param-name>
+			<param-value>reload</param-value>
+		</init-param>
+
+		<!--
+			This allows an extra query parameter to be added
+			to any request which halts the transformation process
+			after that number of steps, e.g. blah.m?maxTransforms=0
+		-->
+		<init-param>
+			<param-name>limitTransformsParam</param-name>
+			<param-value>maxTransforms</param-value>
+		</init-param>
+
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>*.m</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

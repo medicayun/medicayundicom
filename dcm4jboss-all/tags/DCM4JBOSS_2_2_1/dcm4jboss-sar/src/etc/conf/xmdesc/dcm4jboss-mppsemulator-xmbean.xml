@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>MPPS Emulator</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.mppsscu.MPPSEmulatorService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MPPSEmulatorService</name>
+   </constructor>
+
+   <attribute access="read-write"
+      getMethod="getStationAETsWithDelay"
+      setMethod="setStationAETsWithDelay">
+      <description>Define AETs of Stations/Modalities for which MPPS
+          messages shall be emulated. For each AET a minimal delay time 
+          in seconds (##s) or minutes (##m) between receive of the first object
+          of the last series and MPPS generation must be specified.
+          Format: AET1:delay1[:AET2:delay2][..]
+      </description>
+      <name>StationAETsWithDelay</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="MOD_NOMPPS:1m" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPollInterval"
+      setMethod="setPollInterval">
+      <description>Interval for polling for new received Series from
+      configured Stations/Modalities. The interval can be specified in
+      seconds (##s) or minutes (##m). NEVER = disable MPPS emulation.
+      </description>
+      <name>PollIntervall</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCalledAET"
+      setMethod="setCalledAET">
+      <description>AET of MPPS SCP, to which the emulated MPPS shall be sent.
+      </description>
+      <name>CalledAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMppsScuServiceName"
+      setMethod="setMppsScuServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>MppsScuServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=MPPSScu" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMwlScuServiceName"
+      setMethod="setMwlScuServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>MwlScuServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=MWLScu" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Emulate MPPSs for new received Series from Stations
+          specified by property StationAETsWithDelay. Returns number of
+          successful created MPPS instances at MPPS SCP specified by
+          property CalledAET.
+      </description>
+      <name>emulateMPPS</name>
+      <return-type>int</return-type>
+   </operation>
+
+</mbean>

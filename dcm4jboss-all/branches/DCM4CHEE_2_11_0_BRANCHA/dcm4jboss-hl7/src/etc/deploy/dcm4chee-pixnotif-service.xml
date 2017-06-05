@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-pixnotif-service.xml 3397 2007-06-21 05:58:05Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee-hl7.jar"/>
+  <mbean code="org.dcm4chex.archive.hl7.PIXUpdateNotificationService"
+    name="dcm4chee.archive:service=PIXUpdateNotification"
+    xmbean-dd="xmdesc/dcm4chee-pixnotif-xmbean.xml">
+    <depends optional-attribute-name="HL7ServerName"
+      >dcm4chee.archive:service=HL7Server</depends>
+  </mbean>
+</server>

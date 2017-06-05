@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>AE Configuration Service. Use this service to configure the various AE titles that communicate with the archive. Use the Echo Service to test these configurations.</description>
+
+   <descriptors>
+      <persistence persistPolicy="Never"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.AEService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>AEService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-only" getMethod="getAEs">
+      <description>Configured application entities.
+      Use the addAE and removeAE commands  below to add and remove AE configurations.</description>
+      <name>AEConfiguration</name>
+      <type>[Ljava.lang.String;</type>
+   </attribute>
+   <attribute access="read-write" getMethod="getAuditLoggerName" setMethod="setAuditLoggerName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=AuditLogger"/>
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   <operation impact="ACTION">
+     <description>Add AE configuration</description>
+     <name>addAETitle</name>
+     <parameter>
+       <description>PROTOCOL://AET@HOST:PORT</description>
+       <name>url</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <return-type>void</return-type>
+	</operation>
+   <operation impact="ACTION">
+     <description>Remove AE Configuration</description>
+     <name>removeAE</name>
+     <parameter>
+       <description>AET</description>
+       <name>aet</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <return-type>void</return-type>
+	</operation>
+   &defaultOperations;
+</mbean>
+

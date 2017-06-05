@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-mppsscp-service.xml 2017 2005-10-12 15:32:12Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.mppsscp.MPPSScpService" 
+         name="tiani.archive:service=MPPSScp"
+         xmbean-dd="xmdesc/dcm4jboss-mppsscp-xmbean.xml">
+    <depends>tiani.archive:service=DcmServer</depends>
+  </mbean>
+</server>

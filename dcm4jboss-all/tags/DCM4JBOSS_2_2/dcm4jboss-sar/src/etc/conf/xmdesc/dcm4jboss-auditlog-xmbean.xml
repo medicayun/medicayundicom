@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Audit Logger</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.AuditLoggerService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>AuditLoggerService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getActorName"
+      setMethod="setActorName">
+      <description>Actor Name in emited Audit Trail Messages.
+      </description>
+      <name>ActorName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSyslogHost"
+      setMethod="setSyslogHost">
+      <description>Hostname of Audit Record Repository.
+      </description>
+      <name>SyslogHost</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="localhost" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSyslogPort"
+      setMethod="setSyslogPort">
+      <description>UDP Port of Audit Record Repository.
+      </description>
+      <name>SyslogPort</name>
+      <type>int</type>
+      <descriptors>
+         <value value="4000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getFacility"
+      setMethod="setFacility">
+      <description>Syslog Facility. Enumerated values:
+      kern, user, mail, daemon, auth, syslog, lpr, news, ucp, cron, authpriv,
+      ftp, local0, local1, local2, local3, local4, local5, local6, local7 
+      </description>
+      <name>Facility</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="authpriv" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isStrictIHEYr4"
+      setMethod="setStrictIHEYr4">
+      <description>Limit message format to IHEYr4 XML schema.
+          Skip proprietary extensions. 
+      </description>
+      <name>StrictIHEYr4</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSupressLogForAETs"
+      setMethod="setSupressLogForAETs">
+      <description>Emission of Audit Logs for DICOM Storage, Query and Retrieve
+      will be supressed, if this list contains the AET of the initator of the
+      operation. Use '\' (backslash) as delimiter. "NONE" = Do not supress
+      Audit Trails according the initiator AET.
+      </description>
+      <name>SupressLogForAETs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogActorConfig"
+      setMethod="setLogActorConfig">
+      <description>Emit ActorConfig Audit Messages.
+      </description>
+      <name>LogActorConfig</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogPatientRecord"
+      setMethod="setLogPatientRecord">
+      <description>Emit PatientRecord Audit Messages.
+      </description>
+      <name>LogPatientRecord</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogProcedureRecord"
+      setMethod="setLogProcedureRecord">
+      <description>Emit LogProcedureRecord Audit Messages.
+      </description>
+      <name>LogProcedureRecord</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogStudyDeleted"
+      setMethod="setLogStudyDeleted">
+      <description>Emit LogStudyDeleted Audit Messages.
+      </description>
+      <name>LogStudyDeleted</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogActorStartStop"
+      setMethod="setLogActorStartStop">
+      <description>Emit ActorStartStop Audit Messages.
+      </description>
+      <name>LogActorStartStop</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogBeginStoringInstances"
+      setMethod="setLogBeginStoringInstances">
+      <description>Emit BeginStoringInstances Audit Messages.
+      </description>
+      <name>LogBeginStoringInstances</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogDicomQuery"
+      setMethod="setLogDicomQuery">
+      <description>Emit DicomQuery Audit Messages.
+      </description>
+      <name>LogDicomQuery</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogInstancesSent"
+      setMethod="setLogInstancesSent">
+      <description>Emit InstancesSent Audit Messages.
+      </description>
+      <name>LogInstancesSent</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogSecurityAlert"
+      setMethod="setLogSecurityAlert">
+      <description>Emit SecurityAlert Audit Messages.
+      </description>
+      <name>LogSecurityAlert</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogUserAuthenticated"
+      setMethod="setLogUserAuthenticated">
+      <description>Emit UserAuthenticated Audit Messages.
+      </description>
+      <name>LogUserAuthenticated</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogExport"
+      setMethod="setLogExport">
+      <description>Emit Export Audit Messages.
+      </description>
+      <name>LogExport</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="INFO">
+      <description>Used internally</description>
+      <name>getAuditLogger</name>
+      <return-type>org.dcm4che.auditlog.AuditLogger</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Used internally</description>
+      <name>logActorConfig</name>
+      <parameter>
+        <description>Description</description>
+        <name>desc</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Configuration Type</description>
+        <name>type</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Used internally</description>
+      <name>logStudyDeleted</name>
+      <parameter>
+        <description>Patient ID</description>
+        <name>patid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Patient Name</description>
+        <name>patname</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Study Instance UID</description>
+        <name>suid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Number of Deleted Instances</description>
+        <name>numInsts</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <parameter>
+        <description>Description</description>
+        <name>description</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Used internally</description>
+      <name>logPatientRecord</name>
+      <parameter>
+        <description>Object Action:  Create|Modify|Access|Delete</description>
+        <name>action</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Patient ID</description>
+        <name>patid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Patient Name</description>
+        <name>patname</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Description</description>
+        <name>description</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Used internally</description>
+      <name>logProcedureRecord</name>
+      <parameter>
+        <description>Object Action:  Create|Modify|Access|Delete</description>
+        <name>action</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Patient ID</description>
+        <name>patid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Patient Name</description>
+        <name>patname</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Placer Order Number</description>
+        <name>placerOrderNo</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Filler Order Number</description>
+        <name>fillerOrderNo</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Study Instance UID</description>
+        <name>suid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Accession Number</description>
+        <name>accNo</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>Description</description>
+        <name>description</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Used internally</description>
+      <name>logInstancesStored</name>
+      <parameter>
+        <name>node</name>
+        <type>org.dcm4che.auditlog.RemoteNode</type>
+      </parameter>
+      <parameter>
+        <name>action</name>
+        <type>org.dcm4che.auditlog.InstancesAction</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Used internally</description>
+      <name>logInstancesSent</name>
+      <parameter>
+        <name>node</name>
+        <type>org.dcm4che.auditlog.RemoteNode</type>
+      </parameter>
+      <parameter>
+        <name>action</name>
+        <type>org.dcm4che.auditlog.InstancesAction</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Used internally</description>
+      <name>logDicomQuery</name>
+      <parameter>
+        <name>keys</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <parameter>
+        <name>node</name>
+        <type>org.dcm4che.auditlog.RemoteNode</type>
+      </parameter>
+      <parameter>
+        <name>cuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Used internally</description>
+      <name>logSecurityAlert</name>
+      <parameter>
+        <name>alertType</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <name>socket</name>
+        <type>java.net.Socket</type>
+      </parameter>
+      <parameter>
+        <name>aet</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <name>description</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   
+</mbean>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-mwlscu-service.xml 1549 2005-02-22 10:04:51Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.mwlscu.MWLScuService" 
+         name="tiani.archive:service=MWLScu"
+         xmbean-dd="xmdesc/dcm4jboss-mwlscu-xmbean.xml">
+  </mbean>
+
+</server>

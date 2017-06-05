@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Device Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.DeviceService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>DeviceService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Import device mapping file.</description>
+      <name>importDeviceMapping</name>
+      <parameter>
+        <name>importURL</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>   
+   <operation impact="ACTION">
+      <description>Delete all device mapping. (deletes all devices and corresponding protocol codes!)</description>
+      <name>deleteMapping</name>
+      <return-type>java.lang.String</return-type>
+   </operation>   
+   <operation impact="ACTION">
+      <description>Deletes the named device</description>
+      <name>deleteDevice</name>
+      <parameter>
+      <description>Station name of the device</description>
+        <name>device</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.String</return-type>
+   </operation>   
+   <operation impact="ACTION">
+      <description>Get a list of devices for protocol</description>
+      <name>getDeviceList</name>
+      <parameter>
+        <name>protocol</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.util.Collection</return-type>
+   </operation>   
+   <operation impact="ACTION">
+      <description>Add Scheduled Station AET + Name + Modality to given SPS Items.</description>
+      <name>addScheduledStationInfo</name>
+      <parameter>
+        <name>ds</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>org.dcm4che.data.Dataset</return-type>
+   </operation>   
+   
+</mbean>
+    

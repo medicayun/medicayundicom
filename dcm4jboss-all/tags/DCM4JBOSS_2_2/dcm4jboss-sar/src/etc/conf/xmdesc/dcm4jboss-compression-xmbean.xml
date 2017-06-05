@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Compression Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.CompressionService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>CompressionService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   &defaultAttributes;
+
+   <attribute access="read-write"
+      getMethod="getTaskInterval"
+      setMethod="setTaskInterval">
+      <description>Interval in which DB is checked for images to compress.
+          Format: {time}!{start}-{end}
+          time: ##s (in seconds), ##m (in minutes), ##h (in hours).NEVER (= disable auto compression).
+          start and end is start and end hour (0-23) when no compression should be performed.
+      </description>
+      <name>DelayedCompressionInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getCompressionRules"
+      setMethod="setCompressionRules">
+      <description>Specifies how long compression shall be delayed for
+      particular Source AETs.
+      	Format: [{Source AETs}/{delay}]{codec},..
+      	{Source AETs}: AET seperated with '|'. e.g. AET1|AET2
+      	{delay}: compression delay (##d (in days), ##h (in hours) )
+      	{codec}: compression codec: JPLL, JLSL or J2KR
+      </description>
+      <name>CompressionRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="[CT_AET1|CT_AET2/10d]JLSL" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getLimitNumberOfFilesPerTask"
+      setMethod="setLimitNumberOfFilesPerTask">
+      <description>Max. number of files that are compressed in a single step.
+      </description>
+      <name>LimitNumberOfFilesPerTask</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1000" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="isVerifyCompression"
+      setMethod="setVerifyCompression">
+      <description>Enables/Disables verification of compressed file.
+      </description>
+      <name>VerifyCompression</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getMaxConcurrentCodec"
+      setMethod="setMaxConcurrentCodec">
+      <description>Maximal number of concurrent compression/decompression of images.
+      </description>
+      <name>MaxConcurrentCodec</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getFileSystemMgtName"
+      setMethod="setFileSystemMgtName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>FileSystemMgtName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=FileSystemMgt" />
+      </descriptors>
+   </attribute>
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Check for files to compress.</description>
+      <name>checkForFilesToCompress</name>
+      <return-type>void</return-type>
+   </operation>
+  
+</mbean>
+    

@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Media Creation Mgt. SCU</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.mcmscu.MCMScuService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MCMScuService</name>
+   </constructor>
+
+    <attribute access="read-write"
+      getMethod="getCallingAET"
+      setMethod="setCallingAET">
+      <description>The calling AET.
+      </description>
+      <name>CallingAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getRetrieveAET"
+      setMethod="setRetrieveAET">
+      <description>The retrieve AET (for move).
+      </description>
+      <name>RetrieveAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getMoveDestinationAET"
+      setMethod="setMoveDestinationAET">
+      <description>The move destination AET.
+      </description>
+      <name>MoveDestinationAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="CDRECORD" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getMcmScpAET"
+      setMethod="setMcmScpAET">
+      <description>The Media Creation Managment SCP AET.
+      </description>
+      <name>McmScpAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="CDRECORD" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getConcurrency"
+      setMethod="setConcurrency">
+      <description>Maximal number of concurrent invoked Media Creation Requests.
+      </description>
+      <name>Concurrency</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getFileSetIdPrefix"
+      setMethod="setFileSetIdPrefix">
+      <description>Prefix for FileSet ID.
+      </description>
+      <name>FileSetIdPrefix</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DISK_" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getNrOfCopies"
+      setMethod="setNrOfCopies">
+      <description>Number of media to create (with same content; allowed: 1-99).
+      </description>
+      <name>NrOfCopies</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1" />
+      </descriptors>
+   </attribute>
+ 
+    <attribute access="read-write"
+      getMethod="getMaxMediaUsage"
+      setMethod="setMaxMediaUsage">
+      <description>Maximal media usage for DICOM files. This values is usually
+      smaller than the real media size to keep space for index and optional html
+      files. 1MB = 1000000 Byte, 1GB = 1000MB
+      </description>
+      <name>MaxMediaUsage</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="600MB" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="getMinStudyAge"
+      setMethod="setMinStudyAge">
+      <description>The minimal duration before instances of studies are
+      scheduled for offline storage. Increasing the delay for scheduling
+      ensures that all instances of a study will be stored on a single media.
+      Format: ##h (in hours), ##d (in days), ##w (in weeks).
+      </description>
+      <name>MinStudyAge</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="2d" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="getMaxStudyAge"
+      setMethod="setMaxStudyAge">
+      <description>The maximal duration before studies are archived on
+      media. Only effective, if media creation is triggered automatically
+      by BurnMediaInterval != NEVER.
+      Format: ##h (in hours), ##d (in days), ##w (in weeks).
+      </description>
+      <name>MaxStudyAge</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="4w" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getScheduleMediaInterval"
+      setMethod="setScheduleMediaInterval">
+      <description>Interval in which studies received former than configured
+          Minimal Study Age are associated to media, scheduled for creation.
+          Format: ##m (in minutes), ##h (in hours), ##d (in days).
+          NEVER (= disable media scheduling).          
+      </description>
+      <name>ScheduleMediaInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getUpdateMediaStatusInterval"
+      setMethod="setUpdateMediaStatusInterval">
+      <description>Interval in which Media Creation Server is quered for status
+          of pending Media Creation Requests.
+          Format: ##s (in seconds), ##m (in minutes), ##h (in hours).
+          NEVER (= disable query of Media Creation Server).          
+      </description>
+      <name>UpdateMediaStatusInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getBurnMediaInterval"
+      setMethod="setBurnMediaInterval">
+      <description>Interval in which creation of media with studies
+          received former than configured Maximal Study Age is triggered
+          automatically. Format: ##h (in hours), ##d (in days), ##w (in weeks).
+          NEVER (= no automatical trigger of media creation).          
+      </description>
+      <name>BurnMediaInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAutomaticMediaCreation"
+      setMethod="setAutomaticMediaCreation">
+      <description>Enables/disables automatic media creation.
+      	If automatic media creation is disabled, a notification is send to the email list  
+      	defined in NotifyBurnMediaEmailTo.         
+      </description>
+      <name>AutomaticMediaCreation</name>
+      <type>boolean</type>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getNotifyBurnMediaEmailTo"
+      setMethod="setNotifyBurnMediaEmailTo">
+      <description>List of email address that should be notified seperated with ','
+      	if one ore more media are ready to burn.          
+      </description>
+      <name>NotifyBurnMediaEmailTo</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getNotifyBurnMediaEmailFrom"
+      setMethod="setNotifyBurnMediaEmailFrom">
+      <description>Email address that is used as from address in the notification mail.          
+      </description>
+      <name>NotifyBurnMediaEmailFrom</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getAcTimeout"
+      setMethod="setAcTimeout">
+      <description>A-ASSOCIATE AC timeout in ms. 0 = no timeout.
+      </description>
+      <name>AcTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10000" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getDimseTimeout"
+      setMethod="setDimseTimeout">
+      <description>DIMSE message timeout in ms. 0 = no timeout.
+      </description>
+      <name>DimseTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="600000" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getSoCloseDelay"
+      setMethod="setSoCloseDelay">
+      <description>Socket close delay in ms after A-RELEASE RSP.
+      </description>
+      <name>SoCloseDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="50" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getMaxPDUlen"
+      setMethod="setMaxPDUlen">
+      <description>Max. PDU size in bytes.
+      </description>
+      <name>MaxPDUlen</name>
+      <type>int</type>
+      <descriptors>
+         <value value="16352" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getPriority"
+      setMethod="setPriority">
+      <description>Priority for move and media creation request. 0=medium, 1=high, 2=low.
+      </description>
+      <name>Priority</name>
+      <type>int</type>
+      <descriptors>
+         <value value="0" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getIncludeNonDICOMObj"
+      setMethod="setIncludeNonDICOMObj">
+      <description>The type of none DICOM information/object that the SCP should include in the media.
+      Use NO if no additional information/objects should be included.
+      </description>
+      <name>IncludeNonDicomObj</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="MD5_SUMS" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="isUseInstanceInfo"
+      setMethod="setUseInstanceInfo">
+      <description>Specifies whether or not to extract label information from the instances.
+      </description>
+      <name>UseInstanceInfo</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getSendmailServiceName"
+      setMethod="setSendmailServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>SendmailServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=Sendmail" />
+      </descriptors>
+   </attribute>
+   
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+
+   <operation impact="ACTION">
+      <description>Check availability of Media Creation Managment SCP. Returns OK, MOVE_DEST_UNAVAIL or MCM_SCP_UNAVAIL.
+      </description>
+      <name>checkMcmScpAvail</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description>Schedule media with studies received former than MinStudyAge</description>
+      <name>scheduleMedia</name>
+      <return-type>int</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description>Update media status</description>
+      <name>updateMediaStatus</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description>Initiate creation of Media with studies received former than MaxStudyAge.
+      </description>
+      <name>burnMedia</name>
+      <return-type>int</return-type>
+   </operation>
+ 
+   <operation impact="ACTION">
+      <description>Delete Media.
+      </description>
+      <name>deleteMedia</name>
+      <parameter>
+        <description>Primary key of media</description>
+        <name>mediaPk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+    
+   <operation impact="INFO">
+      <description>Check if all instances of a medium are available as files.
+      </description>
+      <name>checkMediaInstances</name>
+      <parameter>
+        <description>Primary key of media</description>
+        <name>mediaPk</name>
+        <type>int</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   
+</mbean>

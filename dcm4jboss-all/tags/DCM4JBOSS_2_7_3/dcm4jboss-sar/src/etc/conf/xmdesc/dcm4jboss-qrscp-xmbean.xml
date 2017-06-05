@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>DICOM Query/Retrieve SCP. Provides the DICOM Query/Retrieve SCP.  Note that the value of the &lt;b&gt;MaxConcurrentCodec&lt;/b&gt; attribute in the Compression Service also effects the on-the-fly
+compression and decompression during the retrieve of images by the
+QueryRetrieveScp service.</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.qrscp.QueryRetrieveScpService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>QueryRetrieveScpService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getCalledAETs"
+      setMethod="setCalledAETs">
+      <description>Accepted called AE titles, separated by \(backslash).
+      </description>
+      <name>CalledAETitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DCM4JBOSS"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCallingAETs"
+      setMethod="setCallingAETs">
+      <description>Accepted calling AE titles, separated by \(backslash).
+      ANY = accept any. 
+      </description>
+      <name>CallingAEtitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ANY"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSendDecompressedToAETs"
+      setMethod="setSendDecompressedToAETs">
+      <description>Move Destination AE titles to which images are sent 
+      ALWAYS decompressed. Separate multiple values by \(backslash).
+      NONE = no AE titles match this criteria.
+      </description>
+      <name>SendDecompressedToAETitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSendNoPixelDataToAETs"
+      setMethod="setSendNoPixelDataToAETs">
+      <description>Move Destination AE titles to which images are sent 
+      without pixel data. Separate multiple values by \(backslash).
+      NONE = no AE titles match this criteria.
+      </description>
+      <name>SendNoPixelDataToAETitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getIgnoreUnsupportedSOPClassFailuresByAETs"
+      setMethod="setIgnoreUnsupportedSOPClassFailuresByAETs">
+      <description>Move Destination AE titles to which failures, 
+      caused by unsupported SOP Classes, in transmitting
+      objects shall NOT return a warning status "Sub-Operation fails" 
+      in the final Move Response to the Move SCU.
+      NONE =  no AE titles match this criteria.
+      </description>
+      <name>IgnoreUnsupportedSOPClassFailures</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getRequestStgCmtFromAETs"
+      setMethod="setRequestStgCmtFromAETs">
+      <description><![CDATA[Move Destination AE titles, from which Storage Commitment
+      for transmitted objects shall be requested.
+      <br>Format: 
+      <br><i>STORAGE_AET</i>:<i>STGCMT_AET</i>.
+      <br>The AE title of the Storage Commitment Service (<i>STGCMT_AET</i>)
+      can be omitted, if identical to the AE title of the 
+      Move Destination (<i>STORAGE_AET</i>). 
+      Separate multiple values with a \(backslash). 
+      NONE = No Move Destination from which Storage Commitment
+      will be requested.]]> 
+      </description>
+      <name>RequestStorageCommitFromAETitles</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="isAcceptPatientRootFind"
+      setMethod="setAcceptPatientRootFind">
+      <description>Support Patient Root Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptPatientRootFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptStudyRootFind"
+      setMethod="setAcceptStudyRootFind">
+      <description>Support Study Root Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptStudyRootFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptPatientStudyOnlyFind"
+      setMethod="setAcceptPatientStudyOnlyFind">
+      <description>Support Patient Study Only Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptPatientStudyOnlyFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptPatientRootMove"
+      setMethod="setAcceptPatientRootMove">
+      <description>Support Patient Root Query/Retrieve Information Model - MOVE SOP Class
+      </description>
+      <name>AcceptPatientRootMove</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptStudyRootMove"
+      setMethod="setAcceptStudyRootMove">
+      <description>Support Study Root Query/Retrieve Information Model - MOVE SOP Class
+      </description>
+      <name>AcceptStudyRootMove</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptPatientStudyOnlyMove"
+      setMethod="setAcceptPatientStudyOnlyMove">
+      <description>Support Patient Study Only Query/Retrieve Information Model - MOVE SOP Class
+      </description>
+      <name>AcceptPatientStudyOnlyMove</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptTianiPatientRootFind"
+      setMethod="setAcceptTianiPatientRootFind">
+      <description>Support Private Tiani Patient Root Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptTianiPatientRootFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptTianiStudyRootFind"
+      setMethod="setAcceptTianiStudyRootFind">
+      <description>Support Private Tiani Study Root Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptTianiStudyRootFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptTianiPatientStudyOnlyFind"
+      setMethod="setAcceptTianiPatientStudyOnlyFind">
+      <description>Support Private Tiani Patient Study Only Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptTianiPatientStudyOnlyFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptTianiBlockedPatientRootFind"
+      setMethod="setAcceptTianiBlockedPatientRootFind">
+      <description>Support Private Tiani Blocked Patient Root Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptTianiBlockedPatientRootFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptTianiBlockedStudyRootFind"
+      setMethod="setAcceptTianiBlockedStudyRootFind">
+      <description>Support Private Tiani Blocked Study Root Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptTianiBlockedStudyRootFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptTianiBlockedPatientStudyOnlyFind"
+      setMethod="setAcceptTianiBlockedPatientStudyOnlyFind">
+      <description>Support Private Tiani Blocked Patient Study Only Query/Retrieve Information Model - FIND SOP Class
+      </description>
+      <name>AcceptTianiBlockedPatientStudyOnlyFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptExplicitVRLE"
+      setMethod="setAcceptExplicitVRLE">
+      <description>Accept Explicit Value Representation Little Endian Transfer Syntax
+          for all provided Query/Response services.
+      </description>
+      <name>AcceptExplicitVRLE</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptDeflatedBlockedFind"
+      setMethod="setAcceptDeflatedBlockedFind">
+      <description>Accept Deflated Explicit Value Representation Little Endian
+         Transfer Syntax for Tiani Blocked FIND Services.
+      </description>
+      <name>AcceptDeflatedBlockedFind</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isSendPendingMoveRSP"
+      setMethod="setSendPendingMoveRSP">
+      <description>Return optional C-Move Response DICOM message with pending status.
+      </description>
+      <name>SendPendingMoveResponse</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isForwardAsMoveOriginator"
+      setMethod="setForwardAsMoveOriginator">
+      <description>Use the calling AE title of the requesting 
+      Move SCU instead of the called AE title when opening an 
+      association to another Move SCP to forward a Move Request.
+      </description>
+      <name>ForwardAsMoveOriginator</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isRecordStudyAccessTime"
+      setMethod="setRecordStudyAccessTime">
+      <description>Record last retrieve time of instances of a study. Should be enabled,
+      if delete functions of the File System Management Service are activated, to delete
+      the most infrequently accessed studies.      
+      </description>
+      <name>RecordStudyAccessTime</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxBlockedFindRSP"
+      setMethod="setMaxBlockedFindRSP">
+      <description>Maximum number of result records blocked in one 
+      Find Response from Tiani Blocked Find services.
+      </description>
+      <name>MaximumBlockedFindResponse</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1000"/>
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getMaxUIDsPerMoveRQ"
+      setMethod="setMaxUIDsPerMoveRQ">
+      <description>Maximum number of SOP Instance UIDs in forwarded Move Requests.
+      Larger Move Requests are split into smaller ones according to this constraint.
+      </description>
+      <name>MaximumUIDsPerMoveRequest</name>
+      <type>int</type>
+      <descriptors>
+         <value value="100"/>
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getMaxPDULength"
+      setMethod="setMaxPDULength">
+      <description>Maximum protocol data unit (PDU) package length for receiving PDUs.
+      Attention: This property should be set to equal values for all DICOM SCP
+      services with same called AE Title(s)! Otherwise it is non-deterministic,
+      which configured value is effective! 
+      </description>
+      <name>MaximumPDULength</name>
+      <type>int</type>
+      <descriptors>
+         <value value="16352"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxOpsInvoked"
+      setMethod="setMaxOpsInvoked">
+      <description>The maximum number of outstanding operations and/or
+      sub-operations it allows the Association-requester to invoke asynchronously.
+      A value of zero indicates an unlimited number of outstanding operations.
+      Attention: This property should be set to equal values for all DICOM SCP
+      services with same called AE Title(s)! Otherwise it is non-deterministic,
+      which configured value is effective! 
+      </description>
+      <name>MaximumOperationsInvoked</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxOpsPerformed"
+      setMethod="setMaxOpsPerformed">
+      <description>The maximum number of outstanding operations and/or
+      sub-operations it allows the Association-requester to perform asynchronously.
+      A value of zero indicates an unlimited number of outstanding operations.
+      Attention: This property should be set to equal values for all DICOM SCP
+      services with same called AE Title(s)! Otherwise it is non-deterministic,
+      which configured value is effective! 
+      </description>
+      <name>MaximumOperationsPerformed</name>
+      <type>int</type>
+      <descriptors>
+         <value value="1"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAcTimeout"
+      setMethod="setAcTimeout">
+      <description>A-Associate accept timeout in milliseconds. 0 = no timeout.
+      </description>
+      <name>AcceptTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10000"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDimseTimeout"
+      setMethod="setDimseTimeout">
+      <description>DIMSE message timeout in milliseconds. 0 = no timeout.
+      </description>
+      <name>DIMSETimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="60000"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSoCloseDelay"
+      setMethod="setSoCloseDelay">
+      <description>Socket close delay in milliseconds after an A-Release response.
+      </description>
+      <name>SocketCloseDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="50"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getBufferSize"
+      setMethod="setBufferSize">
+      <description>Size of byte buffer used for copying data from TCP channel to file.
+      </description>
+      <name>BufferSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="8192"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getQueryTransactionIsolationLevel"
+      setMethod="setQueryTransactionIsolationLevel">
+      <description>Transaction isolation level for queries. Values can be one of: 
+      DEFAULT|READ_UNCOMMITTED|READ_COMMITTED|REPEATABLE_READ|SERIALIZABLE
+      </description>
+      <name>QueryTransactionIsolationLevel</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DEFAULT"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRetrieveTransactionIsolationLevel"
+      setMethod="setRetrieveTransactionIsolationLevel">
+      <description>Transaction isolation level for retrieves. Values can be one of:
+          DEFAULT|READ_UNCOMMITTED|READ_COMMITTED|REPEATABLE_READ|SERIALIZABLE
+      </description>
+      <name>RetrieveTransactionIsolationLevel</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DEFAULT"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getEjbProviderURL"
+      setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EJBProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getFileSystemMgtName"
+      setMethod="setFileSystemMgtName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>FileSystemMgtName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=FileSystemMgt"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDcmServerName"
+      setMethod="setDcmServerName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>DcmServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=DcmServer"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getStgCmtScuScpName"
+      setMethod="setStgCmtScuScpName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>StgCmtScuScpName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=StgCmtScuScp"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getTLSConfigName"
+      setMethod="setTLSConfigName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>TLSConfigName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=TLSConfig"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAuditLoggerName"
+      setMethod="setAuditLoggerName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=AuditLogger"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAEServiceName"
+      setMethod="setAEServiceName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>AEServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=AE"/>
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Used internally</description>
+      <name>queueStgCmtOrder</name>
+      <parameter>
+        <name>calling</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <name>called</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <name>actionInfo</name>
+        <type>org.dcmche.data.Dataset</type>
+      </parameter>
+      <parameter>
+        <name>scpRole</name>
+        <type>boolean</type>
+      </parameter>
+       <return-type>void</return-type>
+   </operation>
+</mbean>
+

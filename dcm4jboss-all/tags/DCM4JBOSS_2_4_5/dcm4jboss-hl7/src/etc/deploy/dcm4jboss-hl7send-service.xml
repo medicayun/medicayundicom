@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-hl7send-service.xml 1762 2005-06-01 23:34:32Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss-hl7.jar"/>
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="tiani.archive:service=Queue,name=HL7Send">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>
+   
+  <mbean code="org.dcm4chex.archive.hl7.HL7SendService" 
+	     name="tiani.archive:service=HL7Send"
+	     xmbean-dd="xmdesc/dcm4jboss-hl7send-xmbean.xml">
+    <depends>
+      tiani.archive:service=HL7Server
+    </depends>
+    <depends>
+      tiani.archive:service=TLSConfig
+    </depends>
+    <depends>
+      tiani.archive:service=Queue,name=HL7Send
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+  </mbean>
+</server>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-wado-service.xml 2829 2006-10-03 09:52:50Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.wado.mbean.WADOService"
+    name="dcm4chee.archive:service=WADOService"
+    xmbean-dd="xmdesc/dcm4chee-wado-xmbean.xml">
+    <depends>dcm4chee.archive:service=Scheduler</depends>
+  </mbean>
+</server>

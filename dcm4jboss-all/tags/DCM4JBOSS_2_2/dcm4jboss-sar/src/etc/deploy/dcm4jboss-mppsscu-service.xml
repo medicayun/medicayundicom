@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-mppsscu-service.xml 1394 2005-01-10 01:13:02Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.mppsscu.MPPSScuService" 
+	     name="tiani.archive:service=MPPSScu"
+	     xmbean-dd="xmdesc/dcm4jboss-mppsscu-xmbean.xml">
+    <depends>
+      tiani.archive:service=MPPSScp
+    </depends>
+    <depends>
+      tiani.archive:service=Queue,name=MPPSScu
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+  </mbean>
+</server>
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-mcmscu-service.xml 2533 2006-06-20 17:26:32Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="dcm4chee.archive:service=Queue,name=MCMScu">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>  
+
+  <mbean code="org.dcm4chex.archive.dcm.mcmscu.MCMScuService" 
+         name="dcm4chee.archive:service=MCMScu"
+         xmbean-dd="xmdesc/dcm4chee-mcmscu-xmbean.xml">
+    <depends>
+      dcm4chee.archive:service=Queue,name=MCMScu
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the MediaComposer EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/MediaComposer,service=EJB</depends>
+    <depends>
+      dcm4chee.archive:service=Sendmail
+    </depends>
+  </mbean>
+
+</server>

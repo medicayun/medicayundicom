@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-mwlscp-service.xml 966 2004-02-11 21:30:15Z gunterze $ -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+<mbean code="org.dcm4chex.service.MWLFindScpService" 
+	name="dcm4chex:service=MWLFindScp,aet=MWL_SCP">
+
+    <depends optional-attribute-name="DcmServerName">
+    	dcm4chex:service=DcmServer,name=DCMSRV
+    </depends>
+    
+    <attribute name="DataSource">java:/DefaultDS</attribute>    
+    
+    <attribute name="CallingAETs">__any__</attribute>
+
+    <attribute name="TransferSyntaxes">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+</mbean>
+
+</server>
+

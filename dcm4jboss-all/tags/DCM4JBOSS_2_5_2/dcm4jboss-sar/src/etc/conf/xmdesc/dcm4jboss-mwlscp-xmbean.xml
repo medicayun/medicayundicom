@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>DICOM Modality Worklist SCP</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.mwlscp.MWLScpService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MWLScpService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write" getMethod="getCalledAETs" setMethod="setCalledAETs">
+      <description>Accepted called AE titles, separated by \ (backslash). 
+       
+      </description>
+      <name>CalledAETs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getCallingAETs" setMethod="setCallingAETs">
+      <description>Accepted calling AE titles, separated by \ (backslash).
+      ANY = accept any. 
+      </description>
+      <name>CallingAETs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ANY"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="isAcceptExplicitVRLE" setMethod="setAcceptExplicitVRLE">
+      <description>Accept DICOM objects encoded in Explicit Value Representation Little Endian Transfer Syntax.
+      </description>
+      <name>AcceptExplicitVRLE</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getOnMPPSReceived" setMethod="setOnMPPSReceived">
+      <description>Defines the behavior when MPPS messages that reference one or several worklist items
+      in its Scheduled Step Attributes Sequence are received by the
+      associated MPPS SCP. (Use the MPPSScp service to set the associated SCPs.) Possible values: NO_OP,
+      REMOVE_ITEM (remove the worklist item), UPDATE_STATUS (updated the status of the worklist item).
+      </description>
+      <name>OnMPPSReceived</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="UPDATE_STATUS"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getMaxPDULength" setMethod="setMaxPDULength">
+      <description>Maximum protocol data unit (PDU) package length for receiving PDUs, in bytes.
+      </description>
+      <name>MaximumPDULength</name>
+      <type>int</type>
+      <descriptors>
+         <value value="16352"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getEjbProviderURL" setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EjbProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getDcmServerName" setMethod="setDcmServerName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>DcmServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=DcmServer"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getMppsScpServiceName" setMethod="setMppsScpServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>MppsScpServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=MPPSScp"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getAuditLoggerName" setMethod="setAuditLoggerName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=AuditLogger"/>
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
+

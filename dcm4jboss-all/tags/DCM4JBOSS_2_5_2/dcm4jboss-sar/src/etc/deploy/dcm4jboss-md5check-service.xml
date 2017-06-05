@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-md5check-service.xml 1661 2005-03-30 16:11:17Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.MD5CheckService" 
+	name="tiani.archive:service=MD5CheckService"
+	xmbean-dd="xmdesc/dcm4jboss-md5check-xmbean.xml">
+
+  </mbean>
+
+</server>
+
+

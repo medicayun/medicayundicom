@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-storescp-service.xml 2710 2006-08-27 23:02:16Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.storescp.StoreScpService" 
+	     name="dcm4chee.archive:service=StoreScp"
+	     xmbean-dd="xmdesc/dcm4chee-storescp-xmbean.xml">
+    <depends>dcm4chee.archive:service=DcmServer</depends>
+    <depends>dcm4chee.archive:service=FileSystemMgt</depends>    
+    <depends>dcm4chee.archive:service=MWLScu</depends>
+  </mbean>
+</server>

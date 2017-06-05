@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Modality Work List SCU</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.mwlscu.MWLScuService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MWLScuService</name>
+   </constructor>
+
+    <attribute access="read-write"
+      getMethod="getCallingAET"
+      setMethod="setCallingAET">
+      <description>The calling AET.
+      </description>
+      <name>CallingAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="PACS_TIANI" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getCalledAET"
+      setMethod="setCalledAET">
+      <description>The modality work list AET (for find). Use "LOCAL",
+      if DICOM MWL is provided by the archive and can be accessed
+      directly from the database. 
+      </description>
+      <name>CalledAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-only" getMethod="isLocal">
+      <description>true if CalledAET = "LOCAL".
+      </description>
+      <name>Local</name>
+      <type>boolean</type>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getAcTimeout"
+      setMethod="setAcTimeout">
+      <description>A-ASSOCIATE AC timeout in ms. 0 = no timeout.
+      </description>
+      <name>AcTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10000" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getDimseTimeout"
+      setMethod="setDimseTimeout">
+      <description>DIMSE message timeout in ms. 0 = no timeout.
+      </description>
+      <name>DimseTimeout</name>
+      <type>int</type>
+      <descriptors>
+         <value value="60000" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getSoCloseDelay"
+      setMethod="setSoCloseDelay">
+      <description>Socket close delay in ms after A-RELEASE RSP.
+      </description>
+      <name>SoCloseDelay</name>
+      <type>int</type>
+      <descriptors>
+         <value value="50" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getMaxPDUlen"
+      setMethod="setMaxPDUlen">
+      <description>Max. PDU size in bytes.
+      </description>
+      <name>MaxPDUlen</name>
+      <type>int</type>
+      <descriptors>
+         <value value="16352" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getPriority"
+      setMethod="setPriority">
+      <description>Priority for CFIND request. 0=medium, 1=high, 2=low.
+      </description>
+      <name>Priority</name>
+      <type>int</type>
+      <descriptors>
+         <value value="0" />
+      </descriptors>
+   </attribute>
+
+   <!-- Operations -->
+   &defaultOperations;
+
+   <operation impact="ACTION">
+      <description>Get List of MWL entries.
+      </description>
+      <name>findMWLEntries</name>
+      <parameter>
+        <description>Dataset for CFIND</description>
+        <name>searchDS</name>
+        <type>org.dcm4che.data.Dataset</type>
+      </parameter>
+      <return-type>java.util.List</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description>Delete an MWL entry.
+      </description>
+      <name>deleteMWLEntry</name>
+      <parameter>
+        <description>ID of MWL entry (Scheduled Procedure Step ID)</description>
+        <name>spsID</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+ 
+</mbean>

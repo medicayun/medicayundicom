@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-stymgtscu-service.xml 1775 2005-06-06 08:44:21Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="tiani.archive:service=Queue,name=StudyMgtScu">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>  
+
+  <mbean code="org.dcm4chex.archive.dcm.stymgt.StudyMgtScuService" 
+	     name="tiani.archive:service=StudyMgtScu"
+	     xmbean-dd="xmdesc/dcm4jboss-stymgtscu-xmbean.xml">
+    <depends>
+      tiani.archive:service=StudyMgtScp
+    </depends>
+    <depends>
+      tiani.archive:service=Queue,name=StudyMgtScu
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+  </mbean>
+</server>
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-studyinfo-service.xml 1841 2005-07-12 15:16:22Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.StudyInfoService" 
+         name="tiani.archive:service=StudyInfoService"
+         xmbean-dd="xmdesc/dcm4jboss-studyinfo-xmbean.xml">
+  </mbean>
+</server>

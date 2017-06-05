@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-routeonpps-service.xml 3033 2006-12-22 10:03:19Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+
+  <mbean code="org.dcm4chex.archive.dcm.movescu.RouteOnPPSService" 
+	     name="dcm4chee.archive:service=RouteOnPPS"
+	     xmbean-dd="xmdesc/dcm4chee-routeonpps-xmbean.xml">
+    <depends>dcm4chee.archive:service=GPWLScp</depends>
+    <depends>dcm4chee.archive:service=MoveScu</depends>
+  </mbean>
+</server>
+

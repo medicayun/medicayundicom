@@ -1,0 +1,188 @@
+CREATE TABLE ae (
+	pk          	IDENTITY PRIMARY KEY,
+	aet          	VARCHAR(256) NOT NULL,
+	hostname     	VARCHAR(256) NOT NULL,
+	port			INTEGER NOT NULL,
+	cipher_suites  	VARCHAR(256)
+);
+CREATE UNIQUE INDEX aet ON ae(aet);
+
+CREATE TABLE code (
+	pk          	IDENTITY PRIMARY KEY,
+	code_value     	VARCHAR(256) NOT NULL,
+	code_designator	VARCHAR(256) NOT NULL,
+	code_version   	VARCHAR(256),
+	code_meaning   	VARCHAR(256)
+);
+CREATE INDEX code_value ON code(code_value,code_designator);
+
+CREATE TABLE patient (
+	pk          	IDENTITY PRIMARY KEY,
+	merge_fk		INTEGER,
+	pat_id         	VARCHAR(256),
+	pat_id_issuer  	VARCHAR(256),
+	pat_name    	VARCHAR_IGNORECASE(256),
+	pat_birthdate  	DATE,
+	pat_sex		  	VARCHAR(256),
+	pat_attrs		VARBINARY,
+FOREIGN KEY (merge_fk) REFERENCES patient(pk)
+);
+CREATE INDEX pat_merge_fk ON patient(merge_fk);
+CREATE INDEX pat_id ON patient(pat_id, pat_id_issuer);
+CREATE INDEX pat_name ON patient(pat_name);
+CREATE INDEX pat_birthdate ON patient(pat_birthdate);
+CREATE INDEX pat_sex ON patient(pat_sex);
+
+CREATE TABLE study (
+	pk              IDENTITY PRIMARY KEY,
+	patient_fk      INTEGER,
+	study_iuid      VARCHAR(256) NOT NULL,
+	study_id        VARCHAR(256),
+	study_datetime	TIMESTAMP,
+	accession_no	VARCHAR(256),
+	ref_physician   VARCHAR_IGNORECASE(256),
+	mods_in_study	VARCHAR(256),
+	num_series		INTEGER,
+	num_instances	INTEGER,
+	retrieve_aets	VARCHAR(256),
+	availability	INTEGER,
+	study_attrs		VARBINARY,
+FOREIGN KEY (patient_fk) REFERENCES patient(pk)
+);
+CREATE INDEX patient_fk ON study(patient_fk);
+CREATE UNIQUE INDEX study_iuid ON study(study_iuid);
+CREATE INDEX study_id ON study(study_id);
+CREATE INDEX study_datetime ON study(study_datetime);
+CREATE INDEX accession_no ON study(accession_no);
+CREATE INDEX ref_physician ON study(ref_physician);
+
+CREATE TABLE mpps (
+	pk          	IDENTITY PRIMARY KEY,
+	patient_fk      INTEGER,
+	drcode_fk		INTEGER,
+	mpps_iuid		VARCHAR(256) NOT NULL,
+	mpps_status		INTEGER,
+	mpps_attrs		VARBINARY,
+FOREIGN KEY (patient_fk) REFERENCES patient(pk),
+FOREIGN KEY (drcode_fk) REFERENCES code(pk)
+);
+CREATE UNIQUE INDEX mpps_iuid ON mpps (mpps_iuid);
+CREATE INDEX mpps_patient_fk ON study(patient_fk);
+
+CREATE TABLE series (
+	pk              IDENTITY PRIMARY KEY,
+	study_fk		INTEGER,
+	mpps_fk			INTEGER,
+	series_iuid     VARCHAR(256) NOT NULL,
+	series_no		VARCHAR(256),
+	modality		VARCHAR(256),
+	pps_start		TIMESTAMP,
+	pps_iuid		VARCHAR(256),
+	num_instances	INTEGER,
+	retrieve_aets	VARCHAR(256),
+	availability	INTEGER,
+	hidden			BIT,
+	series_attrs	VARBINARY,
+FOREIGN KEY (study_fk) REFERENCES study(pk),
+FOREIGN KEY (mpps_fk) REFERENCES mpps(pk)
+);
+CREATE INDEX study_fk ON series(study_fk);
+CREATE INDEX series_mpps_fk ON series(mpps_fk);
+CREATE UNIQUE INDEX series_iuid ON series(series_iuid);
+CREATE INDEX series_no ON series(series_no);
+CREATE INDEX modality ON series(modality);
+CREATE INDEX series_pps_start ON series(pps_start);
+CREATE INDEX series_pps_iuid ON series (pps_iuid);
+
+CREATE TABLE instance (
+	pk              IDENTITY PRIMARY KEY,
+	series_fk		INTEGER,
+	srcode_fk		INTEGER,
+	sop_iuid		VARCHAR(256) NOT NULL,
+	sop_cuid		VARCHAR(256) NOT NULL,
+	inst_no			VARCHAR(256),
+	sr_complete		VARCHAR(256),
+	sr_verified		VARCHAR(256),
+	retrieve_aets	VARCHAR(256),
+	availability	INTEGER,
+	commitment		BIT,
+	inst_attrs		VARBINARY,
+FOREIGN KEY (series_fk) REFERENCES series(pk),
+FOREIGN KEY (srcode_fk) REFERENCES code(pk)
+);
+CREATE INDEX series_fk ON instance(series_fk);
+CREATE UNIQUE INDEX sop_iuid ON instance(sop_iuid);
+CREATE INDEX sop_cuid ON instance(sop_cuid);
+CREATE INDEX inst_no ON instance(inst_no);
+CREATE INDEX sr_complete ON instance(sr_complete);
+CREATE INDEX sr_verified ON instance(sr_verified);
+
+CREATE TABLE files (
+	pk              IDENTITY PRIMARY KEY,
+	instance_fk     INTEGER,
+	retrieve_aets	VARCHAR(256) NOT NULL,
+	dirpath			VARCHAR(256) NOT NULL,
+	filepath		VARCHAR(256) NOT NULL,
+	file_tsuid      VARCHAR(256) NOT NULL,
+	file_md5        VARCHAR(256),
+	file_size       INTEGER,
+FOREIGN KEY (instance_fk)	REFERENCES instance(pk)
+);
+CREATE INDEX instance_fk ON files(instance_fk);
+
+CREATE TABLE mwl_item (
+	pk          	IDENTITY PRIMARY KEY,
+	sps_id			VARCHAR(256) NOT NULL,
+	start_datetime	TIMESTAMP NOT NULL,
+	station_aet     VARCHAR(256) NOT NULL,
+	modality	    VARCHAR(256) NOT NULL,
+	perf_physician  VARCHAR_IGNORECASE(256),
+	req_proc_id    	VARCHAR(256) NOT NULL,
+	accession_no	VARCHAR(256),
+	pat_id         	VARCHAR(256) NOT NULL,
+	pat_name    	VARCHAR_IGNORECASE(256) NOT NULL,
+	item_attrs		VARBINARY
+);
+CREATE UNIQUE INDEX mwl_sps_id ON mwl_item(sps_id);
+CREATE INDEX mwl_start_time ON mwl_item(start_datetime);
+CREATE INDEX mwl_station_aet ON mwl_item(station_aet);
+CREATE INDEX mwl_modality ON mwl_item(modality);
+CREATE INDEX mwl_perf_physician ON mwl_item(perf_physician);
+CREATE INDEX mwl_req_proc_id ON mwl_item(req_proc_id);
+CREATE INDEX mwl_accession_no ON mwl_item(accession_no);
+CREATE INDEX mwl_pat_id ON mwl_item(pat_id);
+CREATE INDEX mwl_pat_name ON mwl_item(pat_name);
+
+CREATE TABLE audit_record(
+	pk 				INTEGER NOT NULL IDENTITY PRIMARY KEY,
+	msg_type 		VARCHAR(256),
+	host_name 		VARCHAR_IGNORECASE(256),
+	time_stamp 		TIMESTAMP,
+	aet 			VARCHAR(256),
+	user_name 		VARCHAR(256),
+	patient_name	VARCHAR_IGNORECASE(256),
+	patient_id 		VARCHAR(256),
+	xml_data 		VARCHAR(64000)
+);
+CREATE INDEX arr_msg_type ON audit_record(msg_type);
+CREATE INDEX arr_host_name ON audit_record(host_name);
+CREATE INDEX arr_time_stamp ON audit_record(time_stamp);
+CREATE INDEX arr_aet ON audit_record(aet);
+CREATE INDEX arr_user_name ON audit_record(user_name);
+CREATE INDEX arr_patient_name ON audit_record(patient_name);
+CREATE INDEX arr_patient_id ON audit_record(patient_id);
+
+CREATE TABLE users(
+	user_id		VARCHAR(256) PRIMARY KEY,
+	passwd 		VARCHAR(256)
+);
+CREATE TABLE roles(
+	user_id		VARCHAR(256),
+	roles	 	VARCHAR(256),
+FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+CREATE INDEX user_id ON roles(user_id);
+INSERT INTO users VALUES('admin','admin');
+INSERT INTO roles VALUES('admin','JBossAdmin');
+INSERT INTO roles VALUES('admin','WebAdmin');
+INSERT INTO roles VALUES('admin','arr-user');

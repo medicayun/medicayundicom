@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-fsmgt-service.xml 1164 2004-09-19 22:26:37Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.FileSystemMgtService" 
+	name="dcm4chex:service=FileSystemMgt"
+	xmbean-dd="xmdesc/dcm4jboss-fsmgt-xmbean.xml">
+  </mbean>
+
+  <mbean code="org.jboss.varia.scheduler.Scheduler" 
+	 name="dcm4chex:service=Scheduler,name=Scheduler of PurgeFiles"
+	 xmbean-dd="xmdesc/dcm4jboss-purge-scheduler-xmbean.xml">
+
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the PurgeFile EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/FileSystemMgt,service=EJB</depends>
+  </mbean>
+</server>
+
+

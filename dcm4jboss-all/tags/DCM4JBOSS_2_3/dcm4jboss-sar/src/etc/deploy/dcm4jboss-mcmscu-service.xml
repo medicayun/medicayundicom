@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-mcmscu-service.xml 1684 2005-04-13 12:30:42Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.mcmscu.MCMScuService" 
+         name="tiani.archive:service=MCMScu"
+         xmbean-dd="xmdesc/dcm4jboss-mcmscu-xmbean.xml">
+    <depends>
+      tiani.archive:service=Queue,name=MCMScu
+    </depends>
+    <depends>
+      jboss.mq:service=InvocationLayer,type=JVM
+    </depends>
+    <!-- To avoid NameNotBoundExceptions during server startup. MUST be
+	removed, if the service is NOT deployed in the same jboss instance
+	as the MediaComposer EJB!
+	-->
+    <depends>jboss.j2ee:jndiName=ejb/MediaComposer,service=EJB</depends>
+    <depends>
+      tiani.archive:service=Sendmail
+    </depends>
+  </mbean>
+
+</server>

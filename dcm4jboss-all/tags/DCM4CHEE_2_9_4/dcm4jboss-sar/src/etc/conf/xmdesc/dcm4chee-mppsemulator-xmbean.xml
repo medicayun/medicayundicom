@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>MPPS Emulator. Use to emulate the generation of MPPS messages for the defined AE titles.</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.mppsscu.MPPSEmulatorService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MPPSEmulatorService</name>
+   </constructor>
+
+   <attribute access="read-write" 
+     getMethod="getEmulateMPPSforModalities" 
+     setMethod="setEmulateMPPSforModalities">
+      <description><![CDATA[Define the AE titles of modalities for which MPPS
+        messages shall be emulated. Multiple AE titles are separated by new line.
+        For each AE title you must also specify a minimum delay time between 
+        the time of the first object of a series is received and the generation
+        of the MPPS message, concerning all images received in series of the
+        same study at this moment. You also have to specify if the Study
+        Instance UID or the Accession Number in the received objects is used
+        to query matching modality worklist entries. 
+        <br>Format: <i>aeTitle</i>[<i>delay</i>]->MWL[StudyInstanceUID]
+        <br>     or <i>aeTitle</i>[<i>delay</i>]->MWL[AccessionNumber]
+        <br><i>delay</i> can be specified in seconds (##s) or minutes (##m).
+        <br>Sample: MOD_WO_MPPS[3m]->MWL[StudyInstanceUID]]]></description>
+      <name>EmulateMPPSforModalities</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="MOD_WO_MPPS[3m]->MWL[StudyInstanceUID]]"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getPollInterval" setMethod="setPollInterval">
+      <description><![CDATA[Interval for polling for newly received series from
+          modalities you configured in the <b>EmulateMPPSforModalities</b> attribute.
+          The interval can be specified in seconds (##s) or minutes (##m). 
+          NEVER = disable MPPS emulation.]]>
+      </description>
+      <name>PollInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NEVER"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getCalledAET" setMethod="setCalledAET">
+      <description>AE title  of the MPPS SCP, to which the emulated MPPS messages shall be sent.
+      </description>
+      <name>CalledAETitle</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="DCM4CHEE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getMppsScuServiceName" setMethod="setMppsScuServiceName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>MppsScuServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=MPPSScu"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getMwlScuServiceName" setMethod="setMwlScuServiceName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>MwlScuServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=MWLScu"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getHl7SendServiceName"
+      setMethod="setHl7SendServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>Hl7SendServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=HL7Send"/>
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description><![CDATA[Emulate MPPS messages for newly received series from the stations
+          or modalities specified by the <b>StationAETitlesWithDelay</b> attribute. Returns the number of
+          successfully created MPPS instances at the MPPS SCP that you specified with the <b>CalledAETitle</b> property.]]>
+      </description>
+      <name>emulateMPPS</name>
+      <return-type>int</return-type>
+   </operation>
+
+</mbean>

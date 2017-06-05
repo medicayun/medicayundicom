@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-stymgtscp-service.xml 1775 2005-06-06 08:44:21Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.stymgt.StudyMgtScpService" 
+         name="tiani.archive:service=StudyMgtScp"
+         xmbean-dd="xmdesc/dcm4jboss-stymgtscp-xmbean.xml">
+    <depends>
+      tiani.archive:service=DcmServer
+    </depends>
+  </mbean>
+</server>

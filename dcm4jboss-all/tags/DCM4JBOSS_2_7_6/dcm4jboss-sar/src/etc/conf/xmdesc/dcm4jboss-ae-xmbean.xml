@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description><![CDATA[AE Configuration Service.
+   Used to list/add/remove AE configuration entities - alternatively to more convenient
+   AE Management Page of the <a href='http://localhost:8080/dcm4jboss-web/'>
+   Administration Web Application</a>.
+   Used/Required by various DICOM services (Query/Retrieve SCP, Storage Commitment SCU/SCP,
+   DICOM Hanging Protocol SCP) to 'guess' the port number of DICOM peer Application Entities,
+   if no AE configuration entry for a given AE Title matches.
+   ]]></description>
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.AEService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>AEService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-only" getMethod="getAEs">
+      <description>Configured application entities.&lt;br&gt;
+      Use the addAE and removeAE commands  below to add and remove AE configurations.</description>
+      <name>AEConfiguration</name>
+      <type>java.lang.String</type>
+   </attribute>
+   <attribute access="read-write" getMethod="getAuditLoggerName" setMethod="setAuditLoggerName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=AuditLogger"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getEchoServiceName" setMethod="setEchoServiceName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>EchoServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=ECHOService"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getPortNumbers" setMethod="setPortNumbers">
+      <description>Port numbers for AE auto configuration.&lt;br&gt;
+      			   The method getAE(title, hostname) use this list to find a DICOM service hosted by hostname.&lt;br&gt;
+      			   'NONE' will disable auto AE configuration!
+      </description>
+      <name>PortNumbers</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="104,11112"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="isDontSaveIP" setMethod="setDontSaveIP">
+      <description> This flag is used by auto AE configuration, if no hostname is available.&lt;br&gt;
+      				Set this flag to false if you explicitly allow the saving of ip address.&lt;br&gt;
+      				This should be only necessary if your network have static ip address and no name service active!&lt;br&gt;
+      				Avoid this option if you use DHCP!
+      </description>
+      <name>DontSaveIP</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true"/>
+      </descriptors>
+   </attribute>
+   
+   &defaultAttributes;
+
+   <!-- Operations -->
+   <operation impact="INFO">
+     <description>Get list of AE Configurations</description>
+     <name>listAEs</name>
+     <return-type>java.util.List</return-type>
+   </operation>
+   <operation impact="ACTION">
+     <description>Get AE Configuration</description>
+     <name>getAE</name>
+     <parameter>
+       <description>AE Title</description>
+       <name>title</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <return-type>org.dcm4chex.archive.ejb.jdbc.AEData</return-type>
+	</operation>
+    <operation impact="ACTION">
+     <description>Get AE Configuration</description>
+     <name>getAE</name>
+     <parameter>
+       <description>AE Title</description>
+       <name>title</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <parameter>
+       <description>Hostname or ip</description>
+       <name>host</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <return-type>org.dcm4chex.archive.ejb.jdbc.AEData</return-type>
+	</operation>
+    <operation impact="ACTION">
+     <description>Get AE Configuration</description>
+     <name>getAE</name>
+     <parameter>
+       <description>AE Title</description>
+       <name>title</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <parameter>
+       <description>InetAddress</description>
+       <name>addr</name>
+       <type>java.net.InetAddress</type>
+     </parameter>
+     <return-type>org.dcm4chex.archive.ejb.jdbc.AEData</return-type>
+	</operation>
+   
+   <operation impact="ACTION">
+     <description>Add AE configuration</description>
+     <name>addAE</name>
+     <parameter>
+       <description>AE Title</description>
+       <name>aet</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <parameter>
+       <description>Hostname or ip</description>
+       <name>host</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <parameter>
+       <description>Port number</description>
+       <name>port</name>
+       <type>int</type>
+     </parameter>
+     <parameter>
+       <description>Cipher (seperated with ',')</description>
+       <name>cipher</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <return-type>void</return-type>
+	</operation>
+   <operation impact="ACTION">
+     <description>Remove AE Configuration</description>
+     <name>removeAE</name>
+     <parameter>
+       <description>AET</description>
+       <name>aet</name>
+       <type>java.lang.String</type>
+     </parameter>
+     <return-type>void</return-type>
+	</operation>
+   &defaultOperations;
+</mbean>
+

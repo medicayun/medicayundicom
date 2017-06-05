@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-mppsscp-service.xml 1036 2004-03-10 19:28:43Z gunterze $ -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss.jar"/>
+
+<mbean code="org.dcm4chex.service.MPPSScpService" 
+	name="dcm4chex:service=MPPSScp,aet=MPPS_SCP">
+
+    <depends optional-attribute-name="DcmServerName">
+    	dcm4chex:service=DcmServer,name=DCMSRV
+    </depends>
+    
+    <attribute name="DataSource">java:/DefaultDS</attribute>    
+    
+    <attribute name="CallingAETs">__any__</attribute>
+
+    <attribute name="TransferSyntaxes">ExplicitVRLittleEndian,ImplicitVRLittleEndian</attribute>
+
+	<!--
+	Specifies time-out in ms for receiving the A-ASSOCIATE-AC PDU after
+	transmission of the A-ASSOCIATE-RQ to open an association
+	to the MPPS SCP specified by attribute ForwardAET for forwarding
+	the received N-CREATE/N-SET MPPS messages.
+	-->
+    <attribute name="AcTimeout">5000</attribute>
+
+    <attribute name="ForwardAET"></attribute>
+</mbean>
+
+</server>
+

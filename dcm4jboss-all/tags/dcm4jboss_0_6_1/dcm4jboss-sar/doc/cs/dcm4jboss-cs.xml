@@ -1,0 +1,3020 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+<article status="draft">
+  <title>Dcm4che Release 1.4</title>
+
+  <subtitle>DICOM Conformance Statement</subtitle>
+
+  <articleinfo>
+    <corpauthor><ulink url="http://www.tiani.com">TIANI MEDGRAPH
+    AG</ulink></corpauthor>
+
+    <pubdate>? March 2004</pubdate>
+  </articleinfo>
+
+  <abstract>
+    <title>Overview</title>
+
+    <para>Dcm4che is a system that provides services for safe storage and
+    retrieve of DICOM evidence object such Images, Key Image Notes,
+    Presentation States, Structured Reports and others.</para>
+
+    <para>Dcm4che supports the following IHE Integration Profiles:</para>
+
+    <para>- Access to Radiology Information</para>
+
+    <para>- Consistent Presentation of Images</para>
+
+    <para>- Evidence Documents</para>
+
+    <para>- Key Image Note</para>
+
+    <para>- Patient Information Reconciliation</para>
+
+    <para>- Simple Image and Numeric Report</para>
+
+    <para>- Scheduled Workflow</para>
+
+    <para>- Basic Security</para>
+
+    <para></para>
+
+    <para>Dcm4che supports the following network services:<table>
+        <title>NETWORK SERVICES</title>
+
+        <tgroup align="left" cols="3">
+          <colspec colname="c1" />
+
+          <colspec align="center" colname="c2" colwidth="60" />
+
+          <colspec align="center" colname="c3" colwidth="60" />
+
+          <spanspec nameend="c3" namest="c1" spanname="c1-3" />
+
+          <thead>
+            <row>
+              <entry>Networking SOP Classes</entry>
+
+              <entry>User of Service (SCU)</entry>
+
+              <entry>Provider of Service (SCP)</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry spanname="c1-3"><emphasis>Transfer</emphasis></entry>
+            </row>
+
+            <row>
+              <entry>US Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>US Multi-frame Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Computed Radiography Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Digital X-Ray Image Storage - For Presentation</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Digital X-Ray Image Storage - For Processing</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Digital Mammography X-Ray Image Storage - For
+              Presentation</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Digital Mammography X-Ray Image Storage - For
+              Preocessing</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Digital Intra-oral X-Ray Image Storage - For
+              Presentation</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Digital Intra-oral X-Ray Image Storage - For
+              Processing</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>CT Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>MR Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Secondary Capture Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>X-Ray Angiographic Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>X-Ray Radiofluoroscopic Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Nuclear Medicine Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>VL Endoscopic Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>VL Microscopic Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>VL Slide-Coordinates Microscopic Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>VL Photographic Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Positron Emission Tomography Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>RT Image Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Grayscale Softcopy Presentation State Storage</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Basic Text SR</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Enhanced SR</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Comprehensive SR</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Key Object Selection Document</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Storage Commitment Push Model</entry>
+
+              <entry>No</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry spanname="c1-3"><emphasis>Workflow
+              Management</emphasis></entry>
+            </row>
+
+            <row>
+              <entry>Modality Worklist - FIND</entry>
+
+              <entry>No</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Modality Performed Procedure Step</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry
+              spanname="c1-3"><emphasis>Query/Retrieve</emphasis></entry>
+            </row>
+
+            <row>
+              <entry>Study Root Q/R - FIND</entry>
+
+              <entry>No</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry>Study Root Q/R - MOVE</entry>
+
+              <entry>No</entry>
+
+              <entry>Yes</entry>
+            </row>
+
+            <row>
+              <entry spanname="c1-3"><emphasis>Connectivity
+              Verification</emphasis></entry>
+            </row>
+
+            <row>
+              <entry>Verification</entry>
+
+              <entry>Yes</entry>
+
+              <entry>Yes</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table></para>
+
+    <para>NOTE: Relational Queries are not supported either as an SCU or
+    SCP.</para>
+  </abstract>
+
+  <section>
+    <title>Introduction</title>
+
+    <section>
+      <title>Revision History</title>
+
+      <para><revhistory>
+          <revision>
+            <revnumber>0.1</revnumber>
+
+            <date>19 Feb 2004</date>
+
+            <authorinitials>uc</authorinitials>
+
+            <revremark>Initial draft</revremark>
+          </revision>
+        </revhistory></para>
+
+      <para><revhistory>
+          <revision>
+            <revnumber>0.2</revnumber>
+
+            <date>02 Mar 2004</date>
+
+            <authorinitials>uc</authorinitials>
+
+            <revremark>Initial draft</revremark>
+          </revision>
+        </revhistory></para>
+    </section>
+
+    <section>
+      <title>Audience</title>
+
+      <para>This document is intended for hospital staff, health system
+      integrators, software designers or implementers. It is assumed that the
+      reader has a working understanding of DICOM.</para>
+    </section>
+
+    <section>
+      <title>Remarks</title>
+
+      <para>DICOM, by itself, does not guarantee interoperability. However,
+      the Conformance Statement facilitates a first-level validation for
+      interoperability between different applications supporting the same
+      DICOM functionality.</para>
+
+      <para>This Conformance Statement is not intended to replace validation
+      with other DICOM equipment to ensure proper exchange of information
+      intended.</para>
+
+      <para>The scope of this Conformance Statement is to facilitate
+      communication with TIANI and other vendors' medical equipment. The
+      Conformance Statement should be read and understood in conjunction with
+      the DICOM Standard [DICOM]. However, by itself it is not guaranteed to
+      ensure the desired interoperability and successful interconnectivity
+      with existing DICOM systems.</para>
+
+      <para>The user should be aware of the following important issues:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>The comparison of different conformance statements is the
+          first step towards assessing interconnectivity between TIANI and
+          non-TIANI equipment.</para>
+        </listitem>
+
+        <listitem>
+          <para>Test procedures should be defined to validate the desired
+          level of connectivity.</para>
+        </listitem>
+
+        <listitem>
+          <para>The DICOM standard will evolve to meet the users' future
+          requirements. TIANI is actively involved in developing the standard
+          further and therefore reserves the right to make changes to its
+          products or to discontinue its delivery.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Definitions, Terms and Abbreviations</title>
+
+      <para>Definitions, terms and abbreviations used in this document are
+      defined within the different parts of the DICOM standard.</para>
+
+      <para>Abbreviations and terms are as follows:<variablelist>
+          <varlistentry>
+            <term>AE</term>
+
+            <listitem>
+              <para>Application Entity</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>AET</term>
+
+            <listitem>
+              <para>AE Title</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>DICOM</term>
+
+            <listitem>
+              <para>Digital Imaging and Communications in Medicine</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>DIMSE</term>
+
+            <listitem>
+              <para>DICOM Message Service Element</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>GSDF</term>
+
+            <listitem>
+              <para>Grayscale Standard Display Function</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>HIS/RIS</term>
+
+            <listitem>
+              <para>Hospital Information System / Radiology Information
+              System.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>IHE</term>
+
+            <listitem>
+              <para>Integrating the Healthcare Enterprise</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>IHE-TF</term>
+
+            <listitem>
+              <para>Integrating the Healthcare Enterprise Technical
+              Framework</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>IOD</term>
+
+            <listitem>
+              <para>Information Object Definition</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>ISO</term>
+
+            <listitem>
+              <para>International Standard Organization</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>PDU</term>
+
+            <listitem>
+              <para>DICOM Protocol Data Unit</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>LUT</term>
+
+            <listitem>
+              <para>Look-up Table</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>P-LUT</term>
+
+            <listitem>
+              <para>Presentation Look-up Table</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>SCP</term>
+
+            <listitem>
+              <para>Service Class Provider</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>SCU</term>
+
+            <listitem>
+              <para>Service Class User</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>SOP</term>
+
+            <listitem>
+              <para>DICOM Service-Object Pair</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>TCP/IP</term>
+
+            <listitem>
+              <para>Transmission Control Protocol/Internet Protocol</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>TLS</term>
+
+            <listitem>
+              <para>Transport Layer Security</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>UID</term>
+
+            <listitem>
+              <para>Unique Identifier</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>VR</term>
+
+            <listitem>
+              <para>Value Representation</para>
+            </listitem>
+          </varlistentry>
+        </variablelist></para>
+    </section>
+
+    <section>
+      <title>References</title>
+
+      <para><variablelist>
+          <varlistentry>
+            <term>[DICOM]</term>
+
+            <listitem>
+              <para>Digital Imaging and Communications in Medicine (DICOM),
+              NEMA PS 3.1- 3.16, 2001</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>[IHE-TF]</term>
+
+            <listitem>
+              <para>Integrating the Healthcare Enterprise Technical Framework,
+              HIMSS/RSNA, Revision 5.4, 2002</para>
+            </listitem>
+          </varlistentry>
+        </variablelist></para>
+    </section>
+  </section>
+
+  <section>
+    <title>Networking</title>
+
+    <section>
+      <title>Implementation Model</title>
+
+      <section>
+        <title>Application Data Flow</title>
+
+        <para>dcm4che is logically divided in three different DICOM
+        Application Entities: Storage Server, Query/Retrieve Server and MPPS
+        Manager.</para>
+
+        <para>The Application Entities detailed in the Application Data Flow
+        Diagram are all Java Enterprise Application and are designed to run in
+        a J2EE compliant container (i.e. JBoss) on any Java Virtual Machine
+        1.4 capable Operating System.</para>
+
+        <para><figure>
+            <title>Application Data Flow Diagram</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="../img/jPrint.gif" />
+              </imageobject>
+            </mediaobject>
+          </figure></para>
+
+        <para>The Storage Server AE implements the DICOM Storage Service
+        Class, the Verification Service Class and the DICOM Storage Commitment
+        Service as SCU and as SCP</para>
+
+        <para>The Query/Retrieve Server AE implements Query/Retrieve
+        Services.</para>
+
+        <para>The MPPS manager AE implements the DICOM Modality Performed
+        Procedure Step Service.</para>
+      </section>
+
+      <section>
+        <title>Functional Definition of AEs</title>
+
+        <section>
+          <title>Functional Definition of dcm4che Storage Server Application
+          Entity</title>
+
+          <para>dcm4che Storage Server Application Entity waits for another
+          application to connect at the presentation address configured for
+          its Application Entity Title. When another application connects, the
+          STORAGE-SCP AE expects it to be a DICOM application. The STORAGE-SCP
+          AE will accept Associations with Presentation Contexts for
+          SOPClasses of the Verification, Storage, and Storage Commitment
+          Service Classes. Any images received on such Presentation Contexts
+          will be added to the Image Repository.</para>
+        </section>
+
+        <section>
+          <title>Functional Definition of dcm4che Query/Retrieve Server
+          Application Entity</title>
+
+          <para>dcm4che Query/Retrieve Server Application Entity</para>
+        </section>
+
+        <section>
+          <title>Functional Definition of dcm4che MPPS Manager Application
+          Entity</title>
+
+          <para>dcm4che DICOM MPPS Manager Application Entity</para>
+        </section>
+      </section>
+
+      <section id="s-sequencing">
+        <title>Sequencing of Real-World Activities</title>
+
+        <para></para>
+      </section>
+    </section>
+
+    <section>
+      <title>AE Specifications</title>
+
+      <section>
+        <title>dcm4che DICOM Server Application Entity Specification</title>
+
+        <section>
+          <title>SOP Classes</title>
+
+          <para>dcm4che DICOM Server Application Entity provides Standard
+          Conformance to the following SOP Classes:</para>
+
+          <table>
+            <title>SOP Classes for dcm4che DICOM Server AE</title>
+
+            <tgroup align="left" cols="4">
+              <colspec align="left" colname="c1" />
+
+              <colspec align="left" colname="c2" colwidth="120" />
+
+              <colspec align="center" colname="c3" colwidth="25" />
+
+              <colspec align="center" colname="c4" colwidth="25" />
+
+              <thead>
+                <row>
+                  <entry>SOP Class Name</entry>
+
+                  <entry>SOP Class UID</entry>
+
+                  <entry>SCU</entry>
+
+                  <entry>SCP</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry>Verification SOP Class</entry>
+
+                  <entry>1.2.840.10008.1.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Storage Commitment Push Model SOP Class</entry>
+
+                  <entry>1.2.840.10008.1.20.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Computed Radiography Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Digital X-Ray Image Storage - For
+                  Presentation</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.1.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Digital X-Ray Image Storage - For Processing</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.1.1.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Digital Mammography X-Ray Image Storage - For
+                  Presentation</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.1.2</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Digital Mammography X-Ray Image Storage - For
+                  Processing</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.1.2.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Digital Intra-oral X-Ray Image Storage - For
+                  Presentation</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.1.3</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Digital Intra-oral X-Ray Image Storage - For
+                  Processing</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.1.3.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>CT Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.2</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Ultrasound Multi-frame Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.3.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>MR Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.4</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Ultrasound Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.6.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Secondary Capture Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.7</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>X-Ray Angiographic Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.12.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>X-Ray Radiofluoroscopic Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.12.2</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Nuclear Medicine Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.20</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>VL Endoscopic Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.77.1.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>VL Microscopic Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.77.1.2</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>VL Slide-Coordinates Microscopic Image
+                  Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.77.1.3</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>VL Photographic Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.77.1.4</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Positron Emission Tomography Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.128</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>RT Image Storage</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.481.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Grayscale Softcopy Presentation State Storage SOP
+                  Class</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.11.1</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Basic Text SR</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.88.11</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Enhanced SR</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.88.22</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Comprehensive SR</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.88.33</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+
+                <row>
+                  <entry>Key Object Selection Document</entry>
+
+                  <entry>1.2.840.10008.5.1.4.1.1.88.59</entry>
+
+                  <entry>No</entry>
+
+                  <entry>Yes</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+        </section>
+
+        <section>
+          <title>Association Establishment Policy</title>
+
+          <section>
+            <title>General</title>
+
+            <para>The dcm4che DICOM Server AE can both accept and propose
+            Association Requests. The dcm4che DICOM Server AE will accept
+            Association Requests for the Verification, Storage, and Storage
+            Commitment Push Model Services. It will propose Associations only
+            for the Storage Commitment Push Model Service.</para>
+
+            <para>The DICOM standard application context name for DICOM 3.0 is
+            always accepted and proposed:</para>
+
+            <table>
+              <title>DICOM application context name for dcm4che DICOM Server
+              AE</title>
+
+              <tgroup align="left" cols="2">
+                <tbody>
+                  <row>
+                    <entry>Application Context Name</entry>
+
+                    <entry>1.2.840.10008.3.1.1.1</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
+          </section>
+
+          <section>
+            <title>Number of Associations</title>
+
+            <para>dcm4che DICOM Server can support multiple simultaneous
+            Associations requested by peer AEs. Default is 10. This value can
+            be configured through the attribute "MaxClients" in the
+            Application Server configuration file (i.e. jboss-service.xml for
+            JBoss application seerver).</para>
+
+            <table>
+              <title>Number of Associations accepted for dcm4che DICOM Server
+              AE</title>
+
+              <tgroup align="left" cols="2">
+                <tbody>
+                  <row>
+                    <entry>Maximum number of simultaneous Associations</entry>
+
+                    <entry>10 (Configurable)</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
+          </section>
+
+          <section>
+            <title>Asynchronous Nature</title>
+
+            <para>dcm4che DICOM Server does not support asynchronous
+            communication. Multiple outstanding transactions are not
+            supported. It allows up to one invoked and one performed operation
+            on an Association (it is synchronous).Asynchronous mode of
+            operation is not supported.</para>
+
+            <table>
+              <title>Asynchronous Nature as SCP for dcm4che DICOM Server
+              AE</title>
+
+              <tgroup align="left" cols="2">
+                <tbody>
+                  <row>
+                    <entry>Maximum number of outstanding asynchronous
+                    transactions</entry>
+
+                    <entry>1 (Not Configurable)</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
+          </section>
+
+          <section>
+            <title>Implementation Identifying Information</title>
+
+            <para>The implementation information for this Application Entity
+            is:</para>
+
+            <table>
+              <title>DICOM Implementation Class and Version for dcm4che DICOM
+              Server AE</title>
+
+              <tgroup align="left" cols="2">
+                <tbody>
+                  <row>
+                    <entry>Implementation Class UID</entry>
+
+                    <entry>1.2.40.0.13.1.1</entry>
+                  </row>
+
+                  <row>
+                    <entry>Implementation Version Name</entry>
+
+                    <entry>dcm4che-1.4</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table>
+          </section>
+        </section>
+
+        <section>
+          <title>Association Initiation Policy</title>
+
+          <section>
+            <title>Activity - Send Storage Commitment Notification over new
+            Association</title>
+
+            <section>
+              <title>Description and Sequencing of Activities</title>
+
+              <para>An Association Request is sent to the peer AE that sent
+              the Storage Commitment Push Model request and upon successful
+              negotiation of the required Presentation Context the outstanding
+              N-EVENT-REPORT is sent.</para>
+
+              <section>
+                <title>Proposed Presentation Contexts</title>
+
+                <para>dcm4che DICOM Server will propose Presentation Contexts
+                as shown in the following table:<table>
+                    <title>Proposed Presentation Contexts by the dcm4che DICOM
+                    Server AE</title>
+
+                    <tgroup align="left" cols="6">
+                      <colspec colname="c1" />
+
+                      <colspec colname="c2" colwidth="110" />
+
+                      <colspec colname="c3" colwidth="60" />
+
+                      <colspec colname="c4" colwidth="90" />
+
+                      <colspec align="center" colname="c5" colwidth="30" />
+
+                      <colspec align="center" colname="c6" colwidth="30" />
+
+                      <spanspec align="center" nameend="c2" namest="c1"
+                                spanname="s12" />
+
+                      <spanspec align="center" nameend="c4" namest="c3"
+                                spanname="s34" />
+
+                      <thead>
+                        <row valign="middle">
+                          <entry spanname="s12">Abstract Syntax</entry>
+
+                          <entry spanname="s34">Transfer Syntax</entry>
+
+                          <entry morerows="1">Role</entry>
+
+                          <entry morerows="1">Ext. Neg.</entry>
+                        </row>
+
+                        <row>
+                          <entry>Name</entry>
+
+                          <entry>UID</entry>
+
+                          <entry>Name List</entry>
+
+                          <entry>UID List</entry>
+                        </row>
+                      </thead>
+
+                      <tbody>
+                        <row>
+                          <entry>Verification</entry>
+
+                          <entry>1.2.840.10008.1.1</entry>
+
+                          <entry>Implicit VR Little Endian</entry>
+
+                          <entry>1.2.840.10008.1.2</entry>
+
+                          <entry>SCU</entry>
+
+                          <entry>None</entry>
+                        </row>
+
+                        <row>
+                          <entry>Storage Commitment Push Model</entry>
+
+                          <entry>1.2.840.10008.1.20.1.1.1</entry>
+
+                          <entry>Implicit VR Little Endian</entry>
+
+                          <entry>1.2.840.10008.1.2</entry>
+
+                          <entry>SCP</entry>
+
+                          <entry>None</entry>
+                        </row>
+                      </tbody>
+                    </tgroup>
+                  </table></para>
+
+                <section id="s-sop-spec-conf">
+                  <title>SOP Specific Conformance</title>
+
+                  <section>
+                    <title>Specific Conformance for Verification SOP
+                    Class</title>
+
+                    <para>Standard conformance is provided to the DICOM
+                    Verification Service Class as an SCU. The Verification
+                    Service as an SCU is actually only supported as a
+                    diagnostic service tool for network communication issues.
+                    It can be used to test whether Associations can actually
+                    be opened with a peer AE that is issuing Storage
+                    Commitment Push Model requests (i.e. to test whether the
+                    indicated TCP/IP port and AE Title for sending
+                    N-EVENT-REPORT Requests to the peer AE are truly
+                    functional).</para>
+                  </section>
+
+                  <section id="s-gray-meta-sop">
+                    <title>Specific Conformance for Storage Commitment SOP
+                    Classes</title>
+
+                    <para>The associated Activity with the Storage Commitment
+                    Push Model service is the communication by the dcm4che
+                    DICOM Server AE to peer AEs that it has committed to
+                    permanently store Composite SOP Instances that have been
+                    sent to it.</para>
+
+                    <para>It thus allows peer AEs to determine whether the
+                    dcm4che DICOM Server has taken responsibility for the
+                    archiving of specific SOP Instances so that they can be
+                    flushed from the peer AE system.</para>
+                  </section>
+                </section>
+              </section>
+            </section>
+          </section>
+        </section>
+
+        <section>
+          <title>Association Acceptance Policy</title>
+
+          <section>
+            <title>Activity - Receive Images and Storage Commitment
+            Requests</title>
+
+            <section>
+              <title>Description and Sequencing of Activities</title>
+
+              <para>A remote peer DICOM Application Entity, acting as an
+              Storage SCU, establishes an association with dcm4che DICOM
+              Server that accepts these Associations for the purpose of
+              receiving supported SOP Class Instances and Storage Committment
+              requests.</para>
+
+              <para>In the default configuration any Calling and Called AET
+              will be accepted. But the Called AET does not correspond to the
+              actual Storage Server AET, only a Presentation Context for the
+              Verification SOP Class will be accepted and the SCU can only
+              verify the DICOM Association, but cannot invoke any other
+              related DICOM service.</para>
+
+              <para>When an association has been established the Sequencing of
+              Real-World Activities is as described in <xref
+              linkend="s-sequencing" />.</para>
+
+              <para>Association requests can be rejected with the following
+              status codes and reasons:</para>
+
+              <table>
+                <title>Association Rejection Reasons</title>
+
+                <tgroup align="left" cols="4">
+                  <colspec colwidth="60" />
+
+                  <colspec colwidth="60" />
+
+                  <colspec colwidth="60" />
+
+                  <thead>
+                    <row>
+                      <entry>Result</entry>
+
+                      <entry>Source</entry>
+
+                      <entry>Reason</entry>
+
+                      <entry>Description</entry>
+                    </row>
+                  </thead>
+
+                  <tbody>
+                    <row>
+                      <entry>rejected transient</entry>
+
+                      <entry>provider</entry>
+
+                      <entry>local-limit exceeded</entry>
+
+                      <entry>The (configurable) maximum number of simultaneous
+                      associations has been reached. An association request
+                      with the same parameters may succeed at a later
+                      time.</entry>
+                    </row>
+
+                    <row>
+                      <entry>rejected permanent</entry>
+
+                      <entry>user</entry>
+
+                      <entry>app. context name not supported</entry>
+
+                      <entry>Incorrect application context name</entry>
+                    </row>
+                  </tbody>
+                </tgroup>
+              </table>
+            </section>
+
+            <section>
+              <title>Accepted Presentation Contexts</title>
+
+              <para>The accepted Presentation Contexts depends on the
+              configuration for the paper printer associated with the Called
+              AET in the association Request:</para>
+
+              <table>
+                <title>Accepted Presentation Contexts for dcm4che DICOM Server
+                AE</title>
+
+                <tgroup align="left" cols="6">
+                  <colspec colname="c1" />
+
+                  <colspec colname="c2" colwidth="110" />
+
+                  <colspec colname="c3" colwidth="60" />
+
+                  <colspec colname="c4" colwidth="90" />
+
+                  <colspec align="center" colname="c5" colwidth="30" />
+
+                  <colspec align="center" colname="c6" colwidth="30" />
+
+                  <spanspec align="center" nameend="c2" namest="c1"
+                            spanname="s12" />
+
+                  <spanspec align="center" nameend="c4" namest="c3"
+                            spanname="s34" />
+
+                  <thead>
+                    <row valign="middle">
+                      <entry spanname="s12">Abstract Syntax</entry>
+
+                      <entry spanname="s34">Transfer Syntax</entry>
+
+                      <entry morerows="1">Role</entry>
+
+                      <entry morerows="1">Ext. Neg.</entry>
+                    </row>
+
+                    <row>
+                      <entry>Name</entry>
+
+                      <entry>UID</entry>
+
+                      <entry>Name List</entry>
+
+                      <entry>UID List</entry>
+                    </row>
+                  </thead>
+
+                  <tbody>
+                    <row>
+                      <entry>Verification</entry>
+
+                      <entry>1.2.840.10008.1.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Computed Radiography Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Digital X-Ray Image Storage - For
+                      Presentation</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.1.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Digital X-Ray Image Storage - For
+                      Processing</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.1.1.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Digital Mammography X-Ray Image Storage - For
+                      Presentation</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.1.2</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Digital Mammography X-Ray Image Storage - For
+                      Processing</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.1.2.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Digital Intra-oral X-Ray Image Storage - For
+                      Presentation</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.1.3</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Digital Intra-oral X-Ray Image Storage - For
+                      Processing</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.1.3.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>CT Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.2</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Ultrasound Multi-frame Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.3.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>MR Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.4</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Ultrasound Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.6.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Secondary Capture Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.7</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>X-Ray Angiographic Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.12.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>X-Ray Radiofluoroscopic Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.12.2</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Nuclear Medicine Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.20</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>VL Endoscopic Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.77.1.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>VL Microscopic Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.77.1.2</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>VL Slide-Coordinates Microscopic Image
+                      Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.77.1.3</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>VL Photographic Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.77.1.4</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Positron Emission Tomography Image
+                      Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.128</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>RT Image Storage</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.481.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Grayscale Softcopy Presentation State Storage SOP
+                      Class</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.11.1</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Basic Text SR</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.88.11</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Enhanced SR</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.88.22</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Comprehensive SR</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.88.33</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+
+                    <row>
+                      <entry>Key Object Selection Document</entry>
+
+                      <entry>1.2.840.10008.5.1.4.1.1.88.59</entry>
+
+                      <entry>Implicit VR Little Endian</entry>
+
+                      <entry>1.2.840.10008.1.2</entry>
+
+                      <entry>SCP</entry>
+
+                      <entry>None</entry>
+                    </row>
+                  </tbody>
+                </tgroup>
+              </table>
+
+              <para>If the Called AET is not corresponding to the actual
+              Storage Server AET, it only will be accepted the Presentation
+              Context for the Verification SOP Class.</para>
+            </section>
+
+            <section id="s-sop-spec-conf">
+              <title>SOP Specific Conformance</title>
+
+              <section>
+                <title>Specific Conformance for Verification SOP Class</title>
+
+                <para>dcm4che Storage Server provides standard conformance to
+                the DICOM Verification Service Class as a SCP. The status code
+                for the C-ECHO is described in the following table:</para>
+
+                <table>
+                  <title>C-Echo Response Status Handling Behavior</title>
+
+                  <tgroup align="left" cols="4">
+                    <colspec colwidth="40" />
+
+                    <colspec colwidth="100" />
+
+                    <colspec colwidth="40" />
+
+                    <thead>
+                      <row valign="middle">
+                        <entry>Service Status</entry>
+
+                        <entry>Further Meaning</entry>
+
+                        <entry>Error Code</entry>
+
+                        <entry>Behavior</entry>
+                      </row>
+                    </thead>
+
+                    <tbody>
+                      <row>
+                        <entry>Success</entry>
+
+                        <entry>Success</entry>
+
+                        <entry>0000</entry>
+
+                        <entry>The C-ECHO request is accepted</entry>
+                      </row>
+                    </tbody>
+                  </tgroup>
+                </table>
+              </section>
+
+              <section id="s-gray-meta-sop">
+                <title>Specific Conformance for Storage SOP Classes</title>
+
+                <para>The associated Activity with the Storage service is the
+                storage of medical DICOM data received over the network on a
+                designated storage repository. The dcm4che Storage Server AE
+                will return a failure status if it is unable to store the
+                received instance(s).</para>
+
+                <para>The dcm4che Storage Server AE does not have any
+                dependencies on the number of Associations used to send images
+                to it. Images belonging to more than one Study or Series can
+                be sent over a single or multiple Associations. Images
+                belonging to a single Study or Series can also be sent over
+                different Associations. There is no limit on either the number
+                of SOP Instances or the maximum amount of total SOP Instance
+                data that can be transferred over a single Association.</para>
+
+                <para>The dcm4che Storage Server AE is configured to retain
+                the original DICOM data in DICOM Part 10 compliant file
+                format. The dcm4che Storage Server AE is Level 2 (Full)
+                conformant as a Storage SCP. In addition, all Private and SOP
+                Class Extended Elements are maintained in the DICOM format
+                files. In addition to saving all Elements in files, a subset
+                of the Elements are stored in the dcm4che Query/Retrieve
+                Server database to support query and retrieval requests and
+                also allow updating of Patient, Study, and Series information
+                by user input, or demographic and Study related
+                messages.</para>
+
+                <para>The Behavior for handling duplicate SOP Instances
+                ??TOVERIFY</para>
+
+                <para>For the purposes of image display the system supports
+                the following photometric interpretations: MONOCHROME1,
+                MONOCHROME2, RGB, PALETTE COLOR, YBR FULL 422, and YBR
+                FULL..??TOVERIFY</para>
+
+                <para>The average throughput performance has been determined
+                to be between 2 and 6 Mega Bytes per second on a 100 Megabit
+                Ethernet network. Actual performance will depend greatly on
+                the performance of the CSTORE SCU, the number of simultaneous
+                active Associations, and the underlying network performance.
+                ??TOVERIFY</para>
+
+                <section>
+                  <title>Storage Server AE C-STORE Response</title>
+
+                  <para><table>
+                      <title>dcm4che Storage Server C-STORE Response
+                      Status</title>
+
+                      <tgroup align="left" cols="4">
+                        <colspec colwidth="40" />
+
+                        <colspec colwidth="80" />
+
+                        <colspec colwidth="40" />
+
+                        <thead>
+                          <row valign="middle">
+                            <entry>Service Status</entry>
+
+                            <entry>Further Meaning</entry>
+
+                            <entry>Error Code</entry>
+
+                            <entry>Behavior</entry>
+                          </row>
+                        </thead>
+
+                        <tbody>
+                          <row>
+                            <entry>Success</entry>
+
+                            <entry>Success</entry>
+
+                            <entry>0000H</entry>
+
+                            <entry>The Composite SOP Instance was successfully
+                            received, verified, and stored in the system
+                            repository.</entry>
+                          </row>
+
+                          <row>
+                            <entry>Warning</entry>
+
+                            <entry>?? TO BE FILLED</entry>
+
+                            <entry></entry>
+
+                            <entry></entry>
+                          </row>
+                        </tbody>
+                      </tgroup>
+                    </table></para>
+                </section>
+
+                <section>
+                  <title>Storage Server AE Storage Service Communication
+                  Failure Reasons</title>
+
+                  <para><table>
+                      <title>dcm4che Storage Server Service Communication
+                      Failure Reasons</title>
+
+                      <tgroup align="left" cols="2">
+                        <colspec colwidth="50%" />
+
+                        <colspec colwidth="50%" />
+
+                        <thead>
+                          <row valign="middle">
+                            <entry>Exception</entry>
+
+                            <entry>Reason</entry>
+                          </row>
+                        </thead>
+
+                        <tbody>
+                          <row>
+                            <entry>Timeout expiry for an expected DICOM Message
+                            Request (DIMSE level timeout). I.e. The STORAGE-SCP
+                            AE is waiting for the next C-STORE Request on an
+                            open Association but the timer expires.</entry>
+
+                            <entry>The Association is aborted by issuing a DICOM
+                            A-ABORT. Error message is output to the Service Log.
+                            If some Composite SOP Instances have already been
+                            successfully received then they are maintained in
+                            the database. They are not automatically discarded
+                            because of a later failure.</entry>
+                          </row>
+
+                          <row>
+                            <entry>Timeout expiry for an expected DICOM PDU or
+                            TCP/IP packet (Low-level timeout). I.e. The
+                            STORAGE-SCP AE is waiting for the next C-STORE Data
+                            Set PDU but the timer expires. </entry>
+
+                            <entry>The Association is aborted by issuing a DICOM
+                            A-ABORT. Error message is output to the Service Log.
+                            If a C-STORE Data Set has not been fully received
+                            then the data already received is discarded. If some
+                            Composite SOP Instances have already been
+                            successfully received over the Association then they
+                            are maintained in the database.</entry>
+                          </row>
+
+                          <row>
+                            <entry>Association aborted by the SCU or the network
+                            layers indicate communication loss (i.e. low-level
+                            TCP/IP socket closure) </entry>
+
+                            <entry>Error message is output to the Service Log.
+                            If some Composite SOP Instances have already been
+                            successfully received then they are maintained in
+                            the database. They are not automatically discarded
+                            because of a later failure.</entry>
+                          </row>
+                        </tbody>
+                      </tgroup>
+                    </table></para>
+                </section>
+
+                <section id="s-GSIB">
+                  <title>Specific Conformance for for Storage Commitment SOP
+                  Class</title>
+
+                  <para>The associated Activity with the Storage Commitment
+                  Push Model service is the communication by the dcm4che
+                  Storage Server AE to peer AEs that it has committed to
+                  permanently store Composite SOP Instances that have been
+                  sent to it. It thus allows peer AEs to determine whether the
+                  dcm4che Query/Retrieve Server has taken responsibility for
+                  the archiving of specific SOP Instances so that they can be
+                  flushed from the peer AE system.</para>
+
+                  <para>The dcm4che Storage Server AE takes the list of
+                  Composite SOP Instance UIDs specified in a Storage
+                  Commitment Push Model N-ACTION Request and checks if they
+                  are present in the dcm4che query/retrieve Server repository.
+                  As long as the Composite SOP Instance UIDs are present in
+                  the database, the dcm4che Storage Server AE will consider
+                  those Composite SOP Instance UIDs to be successfully
+                  archived. The dcm4che Storage Server AE does not require the
+                  Composite SOP Instances to actually be successfully written
+                  to archive media in order to commit to responsibility for
+                  maintaining these SOP Instances.</para>
+
+                  <para>Once the dcm4che Storage Server AE has checked for the
+                  existence of the specified Composite SOP Instances, it will
+                  then attempt to send the Notification request
+                  (N-EVENT-REPORT-RQ). The dcm4che Storage Server AE will
+                  request a new Association with the peer AE that made the
+                  original N-ACTION Request. </para>
+
+                  <para>The dcm4che Storage Server AE will not cache Storage
+                  Commitment Push Model N-ACTION Requests that specify
+                  Composite SOP Instances that have not yet been transferred
+                  to the dcm4che Query/Retrieve Server. If a peer AE sends a
+                  Storage Commitment Push Model N-ACTION Request before the
+                  specified Composite SOP Instances are later sent over the
+                  same Association, the dcm4che Storage Server AE will not
+                  commit to responsibility for such SOP Instances.</para>
+
+                  <para>The dcm4che Storage Server AE does not support the
+                  optional Storage Media File-Set ID &amp; UID attributes in
+                  the N-ACTION.</para>
+
+                  <para>The dcm4che Storage Server AE will support Storage
+                  Commitment Push Model requests for SOP Instances of any of
+                  the Storage SOP Classes that are also supported by the
+                  dcm4che Storage Server AE::</para>
+
+                  <table>
+                    <title>Supported Referenced SOP Classes In Storage
+                    Commitment Push Model N-ACTION Requests</title>
+
+                    <tgroup align="left" cols="1">
+                      <colspec align="left" colname="c1" />
+
+                      <thead>
+                        <row>
+                          <entry>Supported Referenced SOP Classes</entry>
+                        </row>
+                      </thead>
+
+                      <tbody>
+                        <row>
+                          <entry>Storage Commitment Push Model SOP
+                          Class</entry>
+                        </row>
+
+                        <row>
+                          <entry>Computed Radiography Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>Digital X-Ray Image Storage - For
+                          Presentation</entry>
+                        </row>
+
+                        <row>
+                          <entry>Digital X-Ray Image Storage - For
+                          Processing</entry>
+                        </row>
+
+                        <row>
+                          <entry>Digital Mammography X-Ray Image Storage - For
+                          Presentation</entry>
+                        </row>
+
+                        <row>
+                          <entry>Digital Mammography X-Ray Image Storage - For
+                          Processing</entry>
+                        </row>
+
+                        <row>
+                          <entry>Digital Intra-oral X-Ray Image Storage - For
+                          Presentation</entry>
+                        </row>
+
+                        <row>
+                          <entry>Digital Intra-oral X-Ray Image Storage - For
+                          Processing</entry>
+                        </row>
+
+                        <row>
+                          <entry>CT Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>Ultrasound Multi-frame Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>MR Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>Ultrasound Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>Secondary Capture Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>X-Ray Angiographic Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>X-Ray Radiofluoroscopic Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>Nuclear Medicine Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>VL Endoscopic Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>VL Microscopic Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>VL Slide-Coordinates Microscopic Image
+                          Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>VL Photographic Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>Positron Emission Tomography Image
+                          Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>RT Image Storage</entry>
+                        </row>
+
+                        <row>
+                          <entry>Grayscale Softcopy Presentation State Storage
+                          SOP Class</entry>
+                        </row>
+
+                        <row>
+                          <entry>Basic Text SR</entry>
+                        </row>
+
+                        <row>
+                          <entry>Enhanced SR</entry>
+                        </row>
+
+                        <row>
+                          <entry>Comprehensive SR</entry>
+                        </row>
+
+                        <row>
+                          <entry>Key Object Selection Document</entry>
+                        </row>
+                      </tbody>
+                    </tgroup>
+                  </table>
+
+                  <para>The dcm4che Storage Server AE will return the
+                  following Status Code values in N-ACTION Responses:</para>
+
+                  <table>
+                    <title>dcm4che Storage Server N-ACTION Response
+                    Status</title>
+
+                    <tgroup align="left" cols="4">
+                      <colspec colwidth="40" />
+
+                      <colspec colwidth="80" />
+
+                      <colspec colwidth="40" />
+
+                      <thead>
+                        <row valign="middle">
+                          <entry>Service Status</entry>
+
+                          <entry>Further Meaning</entry>
+
+                          <entry>Error Code</entry>
+
+                          <entry>Behavior</entry>
+                        </row>
+                      </thead>
+
+                      <tbody>
+                        <row>
+                          <entry>Success</entry>
+
+                          <entry>Success</entry>
+
+                          <entry>0000</entry>
+
+                          <entry>The SCP has successfully received the Storage
+                          Commitment Push Model N-ACTION Request and can
+                          process the commitment request for the indicated SOP
+                          Instances.</entry>
+                        </row>
+
+                        <row>
+                          <entry>Error</entry>
+
+                          <entry>Processing Failure</entry>
+
+                          <entry>0110</entry>
+
+                          <entry>Indicates that the Storage Commitment Push
+                          Model N-ACTION Request cannot be parsed or fully
+                          processed due to a database or system
+                          failure.</entry>
+                        </row>
+
+                        <row>
+                          <entry>Error</entry>
+
+                          <entry>Missing Attribute</entry>
+
+                          <entry>0120</entry>
+
+                          <entry>Indicates that the Storage Commitment Push
+                          Model N-ACTION Request cannot be processed because a
+                          required attribute is missing from the N-ACTION
+                          Request Data Set.</entry>
+                        </row>
+
+                        <row>
+                          <entry>Error</entry>
+
+                          <entry>Missing Attribute Value</entry>
+
+                          <entry>0121</entry>
+
+                          <entry>Indicates that the Storage Commitment Push
+                          Model N-ACTION Request cannot be processed because a
+                          Type 1 attribute in the N-ACTION Request Data Set
+                          does not specify a value.</entry>
+                        </row>
+                      </tbody>
+                    </tgroup>
+                  </table>
+
+                  <para>The dcm4che Storage Server AE will exhibit the
+                  following Behavior according to the Status Code value
+                  returned in an N-EVENT-REPORT Response from a destination
+                  Storage Commitment Push Model SCU:</para>
+
+                  <table>
+                    <title>dcm4che Storage Server N-EVENT Report Response
+                    Status Handling Behaviour</title>
+
+                    <tgroup align="left" cols="4">
+                      <colspec colwidth="40" />
+
+                      <colspec colwidth="80" />
+
+                      <colspec colwidth="40" />
+
+                      <thead>
+                        <row valign="middle">
+                          <entry>Service Status</entry>
+
+                          <entry>Further Meaning</entry>
+
+                          <entry>Error Code</entry>
+
+                          <entry>Behavior</entry>
+                        </row>
+                      </thead>
+
+                      <tbody>
+                        <row>
+                          <entry>Success</entry>
+
+                          <entry>Success</entry>
+
+                          <entry>0000</entry>
+
+                          <entry>The SCU has successfully received the Storage
+                          Commitment Push Model N-EVENT-REPORT Request.
+                          Success indication message is output to the Service
+                          Logs.</entry>
+                        </row>
+
+                        <row>
+                          <entry>Warning</entry>
+
+                          <entry>Attribute List Error</entry>
+
+                          <entry>0107</entry>
+
+                          <entry>Transmission of Storage Commitment Push Model
+                          N-EVENTREPORT Request is considered successful.
+                          Warning indication message is output to the Service
+                          Logs.</entry>
+                        </row>
+
+                        <row>
+                          <entry>*</entry>
+
+                          <entry>*</entry>
+
+                          <entry>Any Other Code</entry>
+
+                          <entry>This is treated as a permanent Failure. Error
+                          indication message is output to the Service
+                          Logs.</entry>
+                        </row>
+                      </tbody>
+                    </tgroup>
+                  </table>
+
+                  <para>The next table report the dcm4che Storage Server
+                  behaviour in case of communication failure:</para>
+
+                  <table>
+                    <title>dcm4che Storage Server AE Storage Commitment Push
+                    Model Communication Failure Behaviour</title>
+
+                    <tgroup align="left" cols="2">
+                      <colspec colwidth="50%" />
+
+                      <thead>
+                        <row valign="middle">
+                          <entry>Exception</entry>
+
+                          <entry>Behavior</entry>
+                        </row>
+                      </thead>
+
+                      <tbody>
+                        <row>
+                          <entry>Timeout expiry for an expected DICOM Message
+                          Request (DIMSE level timeout). I.e. The STORAGE-SCP
+                          AE is waiting for the next N-ACTION Request on an
+                          open Association but the timer expires.</entry>
+
+                          <entry>The Association is aborted by issuing a DICOM
+                          A-ABORT. If some Composite SOP Instances have been
+                          successfully received over the same Association via
+                          the Storage Service then they are maintained in the
+                          database. They are not automatically discarded
+                          because of a later Storage Commitment messaging
+                          failure. Any previously received Storage Commitment
+                          Push Model NACTION Requests will still be fully
+                          processed. Error indication message is output to the
+                          Service Logs. No message is posted to the User
+                          Interface.</entry>
+                        </row>
+
+                        <row>
+                          <entry>Timeout expiry for an expected DICOM PDU or
+                          TCP/IP packet (Low-level timeout). </entry>
+
+                          <entry>The Association is aborted by issuing a DICOM
+                          A-ABORT. If some Composite SOP Instances have been
+                          successfully received over the same Association via
+                          the Storage Service then they are maintained in the
+                          database. They are not automatically discarded
+                          because of a later Storage Commitment messaging
+                          failure. Any previously received Storage Commitment
+                          Push Model NACTION Requests will still be fully
+                          processed. Error indication message is output to the
+                          Service Logs. No message is posted to the User
+                          Interface.</entry>
+                        </row>
+
+                        <row>
+                          <entry>Association A-ABORTed by the SCU or the
+                          network layers indicate communication loss (i.e.
+                          low-level TCP/IP socket closure).</entry>
+
+                          <entry>The TCP/IP socket is closed. If some
+                          Composite SOP Instances have been successfully
+                          received over the same Association via the Storage
+                          Service then they are maintained in the database.
+                          They are not automatically discarded because of a
+                          later Storage Commitment messaging failure. Any
+                          previously received Storage Commitment Push Model
+                          NACTION Requests will still be fully processed.
+                          Error indication message is output to the Service
+                          Logs. No message is posted to the User
+                          Interface.</entry>
+                        </row>
+                      </tbody>
+                    </tgroup>
+                  </table>
+                </section>
+              </section>
+            </section>
+          </section>
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <title>Physical Network Interfaces</title>
+
+      <section>
+        <title>Supported Communication Stacks</title>
+
+        <para>DICOM Upper Layer over TCP/IP is supported.</para>
+
+        <section>
+          <title>TCP/IP Stack</title>
+
+          <para>dcm4che inherits their TCP/IP stack from the installed Java
+          Runtime Environment.</para>
+        </section>
+      </section>
+
+      <section>
+        <title>Physical Network Interface</title>
+
+        <para>dcm4che is indifferent to the physical medium over which TCP/IP
+        executes; it inherits this from the Java Runtime Environment.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Configuration</title>
+
+      <section>
+        <title>AE Title/Presentation Address Mapping</title>
+
+        <section>
+          <title>Local AE Titles</title>
+
+          <para>The mapping from AE Title to TCP/IP addresses and ports is
+          configurable through web interface.<table>
+              <title>AE Title Configuration Table</title>
+
+              <tgroup align="left" cols="3">
+                <colspec colwidth="100" />
+
+                <colspec colwidth="100" />
+
+                <colspec colwidth="100" />
+
+                <thead>
+                  <row>
+                    <entry>Application Entity</entry>
+
+                    <entry>Default AE Title</entry>
+
+                    <entry>Default TCP/IP Port</entry>
+                  </row>
+                </thead>
+
+                <tbody>
+                  <row>
+                    <entry>dcm4che Storage Server</entry>
+
+                    <entry>STORE_SCP</entry>
+
+                    <entry>2351</entry>
+                  </row>
+
+                  <row>
+                    <entry>dcm4che Query/Retrieve Server</entry>
+
+                    <entry>QR_SCP</entry>
+
+                    <entry>2351</entry>
+                  </row>
+
+                  <row>
+                    <entry>dcm4che MPPS Manager</entry>
+
+                    <entry>MPPS_MGR</entry>
+
+                    <entry>2351</entry>
+                  </row>
+                </tbody>
+              </tgroup>
+            </table></para>
+        </section>
+
+        <section>
+          <title>Remote AE Title</title>
+
+          <para>In the default configuration, Association Requests with any
+          Calling AET will be accepted.</para>
+        </section>
+      </section>
+
+      <section>
+        <title>Parameters</title>
+
+        <para>The following table shows the dcm4che configuration parameters
+        relevant to DICOM communication. Refer to the dcm4che Service Manual
+        for details on general configuration capabilities.</para>
+
+        <para><table>
+            <title>Configuration Parameter Table</title>
+
+            <tgroup align="left" cols="3">
+              <colspec align="left" colname="c1" />
+
+              <colspec align="center" colname="c2" colwidth="70" />
+
+              <colspec colname="c3" colwidth="100" />
+
+              <spanspec align="center" nameend="c3" namest="c1"
+                        spanname="c1-c3" />
+
+              <thead>
+                <row valign="middle">
+                  <entry>Parameter</entry>
+
+                  <entry>Configurable (Yes/No)</entry>
+
+                  <entry>Default Value</entry>
+                </row>
+              </thead>
+
+              <tbody>
+                <row>
+                  <entry spanname="c1-c3">General Parameters</entry>
+                </row>
+
+                <row>
+                  <entry>Time-out waiting for acceptance or rejection Response
+                  to an Association Open Request.</entry>
+
+                  <entry>No</entry>
+
+                  <entry>No Time-out</entry>
+                </row>
+
+                <row>
+                  <entry>Maximum PDU size the AE can receive</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>16352</entry>
+                </row>
+
+                <row>
+                  <entry>Maximum PDU size the AE can send</entry>
+
+                  <entry>No</entry>
+
+                  <entry>65535</entry>
+                </row>
+
+                <row>
+                  <entry>Number of simultaneous Associations by Service and/or
+                  SOP Class</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>5</entry>
+                </row>
+
+                <row>
+                  <entry>Listening Port</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>2351</entry>
+                </row>
+
+                <row>
+                  <entry>Support for the Basic TLS Secure Transport Connection
+                  Profile</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>off</entry>
+                </row>
+
+                <row>
+                  <entry>Accepted Called AETs</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>STORE_SCP, QR_SCP, MPPS_MGR</entry>
+                </row>
+
+                <row>
+                  <entry>Accepted Calling AETs</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>Any</entry>
+                </row>
+
+                <row>
+                  <entry>Storage Directory Path Prefix</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>\var\dcm4che\archive</entry>
+                </row>
+
+                <row>
+                  <entry>Create and Update DICOMDIR in Storage
+                  Directories</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>On</entry>
+                </row>
+
+                <row>
+                  <entry>Spooling of received MPPS messages</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>On</entry>
+                </row>
+
+                <row>
+                  <entry>MPPS Spool Directory</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>On</entry>
+                </row>
+
+                <row>
+                  <entry>Generation of JPEG icons for received images</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>On</entry>
+                </row>
+
+                <row>
+                  <entry>Icon Storage Directory Path Prefix</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>\var\dcm4che\icon</entry>
+                </row>
+
+                <row>
+                  <entry>Max. Icon Height</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>128</entry>
+                </row>
+
+                <row>
+                  <entry>Max. Icon Widtht</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>128</entry>
+                </row>
+
+                <row>
+                  <entry>Retrieve DICOM Objects as received (=Deactivates
+                  update of Patient Information from database)</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>Off</entry>
+                </row>
+
+                <row>
+                  <entry>DICOM over TLS</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>Off</entry>
+                </row>
+
+                <row>
+                  <entry>Require Client Authentification</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>-</entry>
+                </row>
+
+                <row>
+                  <entry>Accepted TLS Ciphers</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>-</entry>
+                </row>
+
+                <row>
+                  <entry>Storage Server Host</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>localhost</entry>
+                </row>
+
+                <row>
+                  <entry>Storage Server Port</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>2351</entry>
+                </row>
+
+                <row>
+                  <entry>Query/Retrieve Server Host</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>localhost</entry>
+                </row>
+
+                <row>
+                  <entry>Query/Retrieve Server Port</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>2351</entry>
+                </row>
+
+                <row>
+                  <entry>MPPS Manager Host</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>localhost</entry>
+                </row>
+
+                <row>
+                  <entry>MPPS Manager Port</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>2351</entry>
+                </row>
+
+                <row>
+                  <entry>MPPS Spool Directory</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>\var\dcm4che\spool</entry>
+                </row>
+
+                <row>
+                  <entry>MPPS Poll Intervall</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>10 s</entry>
+                </row>
+
+                <row>
+                  <entry>MPPS Poll Connection Retry Intervall</entry>
+
+                  <entry>Yes</entry>
+
+                  <entry>100 s</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table></para>
+      </section>
+    </section>
+  </section>
+
+  <section>
+    <title>Media Interchange</title>
+
+    <para>dm4che does not support Media Storage.</para>
+  </section>
+
+  <section>
+    <title>Support of Extended Character Sets</title>
+
+    <para>dm4che supports ISO_IR 100 (ISO 8859-1 Latin 1) as an extended
+    character set.</para>
+  </section>
+
+  <section>
+    <title>Security</title>
+
+    <section>
+      <title>Security Profiles</title>
+
+      <para>dcm4che supports secure DICOM communication in conformance with
+      the Basic TLS Secure Transport Connection Profile. At default
+      configuration, the TLS option is deactivated.</para>
+    </section>
+
+    <section>
+      <title>Association Level Security</title>
+
+      <para>dcm4che can be configured to accept Association Requests from only
+      a limited list of Calling AE Titles and to check that the Association
+      requester specifies the correct Called AE Title.</para>
+
+      <para>In the default configuration, Association requests with any
+      Calling AET and any Called AET will be accepted. However, if the Called
+      AET is not correspondent to any of the actual DICOM server AETs, only
+      acceptance of the Presentation Context for Verification SOP Class will
+      be returned in the Association Acceptance Response (A-ASSOCIATE
+      AC).</para>
+    </section>
+
+    <section>
+      <title>Application Level Security</title>
+
+      <para>dcm4che web module can be configured to require user
+      authentication in order to access to the user interface functionalities.
+      Different level of user authorization and profiling can also be
+      specified through the web module configuration file(s). </para>
+    </section>
+  </section>
+
+  <section>
+    <title>Annexes</title>
+
+    <section>
+      <title>Created IOD Instances</title>
+
+      <para>TO BE DONE</para>
+
+      <para></para>
+    </section>
+  </section>
+
+  <section>
+    <title>Appendix A. Implementation Statements of IHE Integration
+    Profiles</title>
+
+    <para><phrase> dcm4che has implemented the following DICOM service classes
+    and HL7 messages:</phrase></para>
+
+    <itemizedlist>
+      <listitem>
+        <para>DICOM XY Image Storage SCU+SCP</para>
+      </listitem>
+
+      <listitem>
+        <para>DICOM Grayscale Softcopy Presentation State Storage
+        SCU+SCP</para>
+      </listitem>
+
+      <listitem>
+        <para>DICOM Key Object Selection Document SCU+SCP</para>
+      </listitem>
+
+      <listitem>
+        <para>DICOM Basic Text SR Storage SCU+SCP</para>
+      </listitem>
+
+      <listitem>
+        <para>DICOM Enhanced SR Storage SCU+SCP</para>
+      </listitem>
+
+      <listitem>
+        <para>DICOM Comprehensive SR Storage SCU+SCP</para>
+      </listitem>
+
+      <listitem>
+        <para>DICOM Storage Commitment Push Model SOP Class SCP</para>
+      </listitem>
+
+      <listitem>
+        <para>DICOM Modality Performed Procedure Step SOP Class SCU+SCP</para>
+      </listitem>
+
+      <listitem>
+        <para>DICOM Study Root Query/Retrieve Information Model - FIND
+        SCP</para>
+      </listitem>
+
+      <listitem>
+        <para>DICOM Study Root Query/Retrieve Information Model - MOVE
+        SCP</para>
+      </listitem>
+
+      <listitem>
+        <para>HL7 ADT^A02 (Patient Transfer) message receive</para>
+      </listitem>
+
+      <listitem>
+        <para>HL7 ADT^A03 (Patient Discharge) message receive</para>
+      </listitem>
+
+      <listitem>
+        <para>HL7 ADT^A06 (Change an Outpatient to an Inpatient) message
+        receive</para>
+      </listitem>
+
+      <listitem>
+        <para>HL7 ADT^A07 (Change an Inpatient to an Outpatient) message
+        receive</para>
+      </listitem>
+
+      <listitem>
+        <para>HL7 ADT^A08 (Update Patient Information) message receive</para>
+      </listitem>
+
+      <listitem>
+        <para>HL7 ADT^A40 (Merge Patient Internal ID) message receive</para>
+      </listitem>
+
+      <listitem>
+        <para>HL7 ADT^A12 (Cancel Patient Transfer) message receive</para>
+      </listitem>
+
+      <listitem>
+        <para>HL7 ADT^A13 (Cancel Patient Discharge) message receive</para>
+      </listitem>
+
+      <listitem>
+        <para>HL7 ORM (Procedure Scheduled) message receive</para>
+      </listitem>
+
+      <listitem>
+        <para>HL7 ORM (Procedure Updated) message receive </para>
+      </listitem>
+    </itemizedlist>
+
+    <para>according to the following IHE Integration Profiles:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Scheduled Workflow Integration Profile</para>
+      </listitem>
+
+      <listitem>
+        <para>Patient Information Reconciliation Integration Profile</para>
+      </listitem>
+
+      <listitem>
+        <para>Consistent Presentation of Images Integration Profile</para>
+      </listitem>
+
+      <listitem>
+        <para>Access to Radiology Information Integration Profile</para>
+      </listitem>
+
+      <listitem>
+        <para>Key Image Note Integration Profile</para>
+      </listitem>
+
+      <listitem>
+        <para>Simple Image and Numeric Report Integration Profile </para>
+      </listitem>
+
+      <listitem>
+        <para>Basic Security Intergration Profile</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>and supports the following IHE Actors:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Image Manager/Image Archive</para>
+      </listitem>
+
+      <listitem>
+        <para>Performed Procedure Step Manager</para>
+      </listitem>
+
+      <listitem>
+        <para>Report Repository </para>
+      </listitem>
+
+      <listitem>
+        <para>Secure Node</para>
+      </listitem>
+    </itemizedlist>
+
+    <para><phrase> </phrase></para>
+  </section>
+</article>

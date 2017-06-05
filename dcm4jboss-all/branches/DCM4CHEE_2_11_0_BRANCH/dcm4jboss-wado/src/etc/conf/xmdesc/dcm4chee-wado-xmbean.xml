@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description><![CDATA[<b>WADO Service</b><br/>
+		Provides a Web Enabled DICOM Server to allow <b>W</b>eb <b>A</b>ccess for <b>D</b>ICOM persistent <b>O</b>bjects.<br/>
+		Supported mime-types are <tt>application/dicom</tt> and <tt>image/jpeg</tt>.<br>
+		Supported Optional request parameter: <i>rows, column, frameNumber, transferSyntax</i> and <i>contentType</i>.
+		<p>
+		<dl> 
+			<dt>particular features:</dt>
+			<dd>This implementation use relational query support.<br>
+				Therefore the request parameter <i>studyUID</i> and <i>seriesUID</i> may be empty. 
+				(it is NOT allowed to omit these parameters due to WADO specification)</dd>
+			<dd>Redirect: If this WADO service handles a request for an object that is external retrievable,
+				a client- or server side redirect can be initiated (see <tt>useClientRedirect</tt>).</dd>
+		</dl>
+		</p>
+		]]> </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.wado.mbean.WADOService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>WADOService</name>
+   </constructor>
+
+   <attribute access="read-write"
+      getMethod="getImageQuality"
+      setMethod="setImageQuality">
+      <description>The default quality of JPEG images to be returned within
+      the range 1 to 100, 100 being the best quality.
+      </description>
+      <name>ImageQuality</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="75" />
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getCacheRoot"
+      setMethod="setCacheRoot">
+      <description>Root directory where jpegs are stored for caching.
+      </description>
+      <name>CacheRoot</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="wadocache" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDirectoryTree"
+      setMethod="setDirectoryTree">
+      <description><![CDATA[This list specify the directory structure (depth and limit of subdirs per dir) of this cache.<br>
+      					NONE : no limitation (File: &lt;StudyIUID&gt;/&lt;SeriesIUID&gt;/&lt;instanceIUID&gt).<br>
+      					The number of primes specify the directory depth, the prime value specify the max. number 
+      					of subdirectories of the corresponding directory.<br/>
+      					e.g.: 337/331/317: use three subdirectories with max 337, 331 and 317 subdirectories.
+      					(max. 35,360,399 (337*331*317) directories)<br>
+      					You can use ComputeDirectoryStructure to compute this list with cacheSize, fileSize and subdir limit!
+      				]]>
+      </description>
+      <name>DirectoryTree</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="337/331/317" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getDeleterThresholds"
+      setMethod="setDeleterThresholds">
+      <description><![CDATA[Defines thresholds dependent on hour of day, for deleting the most
+        infrequently accessed images. Format: HOUR:##MB or HOUR:##GB,
+        multiple thresholds with different (start) hour separated by ';'.]]>
+      </description>
+      <name>DeleterThresholds</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="23:50MB"/>
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="getPreferredFreeSpace"
+      setMethod="setPreferredFreeSpace">
+      <description>Preferred free disk space (MB = 1000000 Bytes, GB = 1000MB).
+      </description>
+      <name>PreferredFreeSpace</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="10MB" />
+      </descriptors>
+    </attribute>
+
+   <attribute access="read-write"
+      getMethod="getFreeDiskSpaceInterval"
+      setMethod="setFreeDiskSpaceInterval">
+      <description>Interval in which the available disk space is checked and, if necessary,
+      	  the cache is cleaned.
+          Format: ##m (in minutes), ##h (in hours), ##d (in days).
+          NEVER (= disable cache deletion).          
+      </description>
+      <name>FreeDiskSpaceInterval</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="10m" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="isClientRedirect"
+      setMethod="setClientRedirect">
+      <description>Enables client side redirection if requested DICOM object is no locally available.
+      If client side redirect is disabled, the server side redirect is enabled!
+      </description>
+      <name>useClientRedirect</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="isRedirectCaching"
+      setMethod="setRedirectCaching">
+      <description>Enables caching for server side redirect! has no effect if client side redirect is enabled!
+      </description>
+      <name>useRedirectCaching</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isUseTransferSyntaxOfFileAsDefault"
+      setMethod="setUseTransferSyntaxOfFileAsDefault">
+      <description>Set the handling of missing transfersyntax parameter if content type is application/dicom.
+      			If enabled, the default transfer syntax is chosen from the file.(NOT WADO conform!)
+      			If disabled, the default transfer syntax is explicit VR little endian (as defined in part 18). 
+      </description>
+      <name>UseTransferSyntaxOfFileAsDefault</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write"
+      getMethod="getHtmlXslURL"
+      setMethod="setHtmlXslURL">
+      <description>URL to XSLT stylesheet to render DICOM SR to HTML (Use NONE to disable this transformation) .          
+      </description>
+      <name>HtmlXslURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:xsl/sr_html.xsl" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getXHtmlXslURL"
+      setMethod="setXHtmlXslURL">
+      <description>URL to XSLT stylesheet to render DICOM SR to XHTML (Use NONE to disable this transformation) .          
+      </description>
+      <name>XHtmlXslURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:xsl/sr_html.xsl" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getXmlXslURL"
+      setMethod="setXmlXslURL">
+      <description>URL to XSLT stylesheet to render DICOM SR to XML (Use NONE to disable this transformation) .          
+      </description>
+      <name>XmlXslURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:xsl/sr_xml_style.xsl" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDicomXslURL"
+      setMethod="setDicomXslURL">
+      <description>URL to XSLT stylesheet to render DICOM to HTML (Use NONE to disable this transformation) .          
+      </description>
+      <name>DicomXslURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:xsl/dicom_html.xsl" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getContentTypeDicomXML"
+      setMethod="setContentTypeDicomXML">
+      <description>Response Content type (mime type) of request with application/dicom+xml.
+      		Use NONE to disable application/dicom+xml requests.          
+      </description>
+      <name>ContentTypeDicomXML</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="text/html" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="getTextSopCuids"
+      setMethod="setTextSopCuids">
+      <description>List of SOP Class UIDs that are used to find Text (SR) documents (seperated with semicolon or newline).
+      Use either the SOP Class UID or the symbolic name! Use an empty value to reset this list.
+      </description>
+      <name>TextSopCuids</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="" />
+      </descriptors>
+    </attribute>
+
+    <attribute access="read-write"
+      getMethod="isExtendedWADOAllowed"
+      setMethod="setExtendedWADOAllowed">
+      <description>Enable/disable extended WADO support (requestType=WADOext). 
+      </description>
+      <name>ExtendedWADOAllowed</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getExtendedWADORequestType"
+      setMethod="setExtendedWADORequestType">
+      <description>requestType value to use extended WADO service.
+      		          
+      </description>
+      <name>ExtendedWADORequestType</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="WADOext" />
+      </descriptors>
+   </attribute>
+   
+    <attribute access="read-write"
+      getMethod="getDisabledAuditLogHosts"
+      setMethod="setDisabledAuditLogHosts">
+      <description>List of Host where audit log is disabled. 
+      				Use NONE or ALL to enable/disable audit log for all WADO requests.
+      </description>
+      <name>DisabledAuditLogHosts</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+    <attribute access="read-write"
+      getMethod="isDisableDNS"
+      setMethod="setDisableDNS">
+      <description>Disable/enable Hostname Lookup (DNS) for Audit Log. 
+      </description>
+      <name>DisableHostLookup</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+    <attribute access="read-write"
+      getMethod="getTimerID"
+      setMethod="setTimerID">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>TimerID</name>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute access="read-write"
+      getMethod="getFileSystemMgtName"
+      setMethod="setFileSystemMgtName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>FileSystemMgtName</name>
+      <type>javax.management.ObjectName</type>
+   </attribute>
+    <attribute access="read-write"
+      getMethod="getAuditLoggerName"
+      setMethod="setAuditLoggerName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSchedulerServiceName"
+      setMethod="setSchedulerServiceName">
+      <description>Used internally. Do NOT modify.
+      </description>
+      <name>SchedulerServiceName</name>
+      <type>javax.management.ObjectName</type>
+   </attribute>  
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="INFO">
+      <description>Show free disk space</description>
+      <name>showFreeSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Show free disk space</description>
+      <name>showMinFreeSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Clear Cache</description>
+      <name>clearCache</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Free Disk Space.
+      Delete old files from cache to free disk space.
+      </description>
+      <name>freeDiskSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description>Get WADO response object</description>
+      <name>getWADOObject</name>
+      <parameter>
+        <description>Value object of the request.</description>
+        <name>reqVO</name>
+        <type>org.dcm4chex.wado.common.WADORequestObject</type>
+      </parameter>
+      <return-type>org.dcm4chex.wado.common.WADOResponseObject</return-type>
+   </operation>
+  
+   <operation impact="ACTION">
+      <description>Clear Template Cache</description>
+      <name>clearTemplateCache</name>
+      <return-type>void</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Configure the directory structure of this cache.<br/>
+      			The directory depth: log(cacheSize/fileSize)/log(maxSubDirPerDir)<br/>
+      			The limitation(s) are specified with primes. 
+      			(Starting with the greatest prime smaller than maxSubDirPerDir).<br>
+      			e.g.: maxSubDirPerDir = 300 ; depth = 3: 293, 277, 263 
+      		]]> </description>
+      <name>computeDirectoryStructure</name>
+      <parameter>
+        <description>Cache size in Bytes.</description>
+        <name>cacheSize</name>
+        <type>long</type>
+      </parameter>
+      <parameter>
+        <description>File size in Bytes.</description>
+        <name>fileSize</name>
+        <type>long</type>
+      </parameter>
+      <parameter>
+        <description>Max. number of Subdirectories per Dir.</description>
+        <name>maxSubDirPerDir</name>
+        <type>int</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   
+</mbean>

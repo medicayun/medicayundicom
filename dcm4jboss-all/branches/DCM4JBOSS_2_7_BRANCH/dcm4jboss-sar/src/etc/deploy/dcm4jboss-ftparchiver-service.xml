@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-ftparchiver-service.xml 2232 2006-01-18 16:02:08Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="tiani.archive:service=Queue,name=FTPArchiver">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>
+   
+  <mbean code="org.dcm4chex.archive.hsm.FTPArchiverService" 
+	     name="tiani.archive:service=FTPArchiver"
+	     xmbean-dd="xmdesc/dcm4jboss-ftparchiver-xmbean.xml">
+    <depends>tiani.archive:service=StoreScp</depends>
+    <depends>tiani.archive:service=Queue,name=FTPArchiver</depends>
+    <depends>jboss.mq:service=InvocationLayer,type=JVM</depends>
+  </mbean>
+</server>
+

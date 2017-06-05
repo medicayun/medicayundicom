@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-consistency-service.xml 3310 2007-05-06 23:42:06Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.ConsistenceCheckService"
+    name="dcm4chee.archive:service=ConsistencyService"
+    xmbean-dd="xmdesc/dcm4chee-consistency-xmbean.xml">
+    <depends optional-attribute-name="SchedulerServiceName"
+     >dcm4chee.archive:service=Scheduler</depends>
+  </mbean>
+</server>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-studyreconciliation-service.xml 2829 2006-10-03 09:52:50Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.StudyReconciliationService"
+    name="dcm4chee.archive:service=StudyReconciliation"
+    xmbean-dd="xmdesc/dcm4chee-studyreconciliation-xmbean.xml">
+    <depends>dcm4chee.archive:service=Scheduler</depends>
+    <depends>dcm4chee.archive:service=TLSConfig</depends>
+    <depends>jboss.j2ee:jndiName=ejb/StudyReconciliation,service=EJB</depends>
+  </mbean>
+</server>

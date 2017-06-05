@@ -1,0 +1,32 @@
+#javac options
+javac.debug=on
+javac.deprecation=off
+javac.optimize=on
+javac.source=1.5
+javac.target=1.5
+
+#Override with your dcm4che-1.4.x dist location
+dcm4che14.home=${user.home}/dcm4che14/build/dcm4che-1.4.32
+
+#Override with your dcm4chee-ejb working directory
+dcm4chee-ejb.home=../dcm4jboss-ejb
+
+#Override with your JBoss dist location
+jboss.home=${user.home}/jboss-4.2.3.GA
+
+#Override with your FOP dist location
+fop.home=${user.home}/fop-1.1
+
+#Override with your JSch dist location
+jsch.home=${user.home}/jsch-0.1.54
+
+#Override with your jCIFS dist location
+jcifs.home=${user.home}/jcifs-1.3.18
+
+#Override with your Castor dist location
+castor.home=${user.home}/castor-1.3.1
+
+#Override with your aws dist location
+aws.home=${user.home}/lib/aws-java-sdk-1.11.134
+
+

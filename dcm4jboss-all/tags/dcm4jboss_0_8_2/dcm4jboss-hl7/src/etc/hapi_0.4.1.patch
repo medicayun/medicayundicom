@@ -1,0 +1,174 @@
+diff -cr ca/uhn/hl7v2/llp/MinLLPReader.java ca/uhn/hl7v2/llp/MinLLPReader.java
+*** ca/uhn/hl7v2/llp/MinLLPReader.java	Tue Apr 30 18:15:14 2002
+--- ca/uhn/hl7v2/llp/MinLLPReader.java	Tue Apr  6 21:36:31 2004
+***************
+*** 9,15 ****
+  The Original Code is "MinLLPReader.java".  Description: 
+  "Title:        HL7Reader
+    Description:  A buffered reader specifically designed for use in reading
+!                 HL7 ASCII strings" 
+  
+  The Initial Developer of the Original Code is University Health Network. Copyright (C) 
+  2001.  All Rights Reserved. 
+--- 9,15 ----
+  The Original Code is "MinLLPReader.java".  Description: 
+  "Title:        HL7Reader
+    Description:  A buffered reader specifically designed for use in reading
+!                 HL7 ISO-8859-1 strings" 
+  
+  The Initial Developer of the Original Code is University Health Network. Copyright (C) 
+  2001.  All Rights Reserved. 
+***************
+*** 35,41 ****
+  /**
+   * Title:        HL7Reader
+   * Description:  A buffered reader specifically designed for use in reading
+!  *               HL7 ASCII strings. This class assumes that the minimal lower
+   *               layer protocol is being used.
+   * Copyright:    Copyright (c) 2001
+   * Company:      University Health Network
+--- 35,41 ----
+  /**
+   * Title:        HL7Reader
+   * Description:  A buffered reader specifically designed for use in reading
+!  *               HL7 ISO-8859-1 strings. This class assumes that the minimal lower
+   *               layer protocol is being used.
+   * Copyright:    Copyright (c) 2001
+   * Company:      University Health Network
+***************
+*** 62,68 ****
+      }
+      
+      /** Creates a MinLLPReader which reads from the given InputStream. The stream
+!         is assumed to be an ASCII bit stream.
+      */
+      public MinLLPReader(InputStream in) throws IOException
+      {
+--- 62,68 ----
+      }
+      
+      /** Creates a MinLLPReader which reads from the given InputStream. The stream
+!         is assumed to be an ISO-8859-1 bit stream.
+      */
+      public MinLLPReader(InputStream in) throws IOException
+      {
+***************
+*** 75,81 ****
+       */
+      public synchronized void setInputStream(InputStream in) throws IOException 
+      {
+!         myReader = new BufferedReader(new InputStreamReader(in, "ASCII"));
+      }
+  
+      /** Calls the same method in the underlying BufferedReader. */
+--- 75,81 ----
+       */
+      public synchronized void setInputStream(InputStream in) throws IOException 
+      {
+!         myReader = new BufferedReader(new InputStreamReader(in, "ISO-8859-1"));
+      }
+  
+      /** Calls the same method in the underlying BufferedReader. */
+diff -cr ca/uhn/hl7v2/llp/MinLLPWriter.java ca/uhn/hl7v2/llp/MinLLPWriter.java
+*** ca/uhn/hl7v2/llp/MinLLPWriter.java	Tue Jan 29 11:41:22 2002
+--- ca/uhn/hl7v2/llp/MinLLPWriter.java	Tue Apr  6 21:36:31 2004
+***************
+*** 70,76 ****
+       */
+      public synchronized void setOutputStream(OutputStream out) throws IOException  
+      {
+!         myWriter = new BufferedWriter(new OutputStreamWriter(out, "ASCII"));
+      }
+  
+      /** 
+--- 70,76 ----
+       */
+      public synchronized void setOutputStream(OutputStream out) throws IOException  
+      {
+!         myWriter = new BufferedWriter(new OutputStreamWriter(out, "ISO-8859-1"));
+      }
+  
+      /** 
+diff -cr ca/uhn/hl7v2/model/primitive/CommonTN.java ca/uhn/hl7v2/model/primitive/CommonTN.java
+*** ca/uhn/hl7v2/model/primitive/CommonTN.java	Tue Feb 17 10:40:54 2004
+--- ca/uhn/hl7v2/model/primitive/CommonTN.java	Tue Apr  6 21:36:31 2004
+***************
+*** 116,122 ****
+                  //trim leading and trailing spaces from the input value
+                  value = value.trim();
+                  //Do a length check on the value - must be a min of 8 chars
+!                 if (value.length() < 8) {
+                      String msg =
+                          "The length of the TN datatype value does not conform to an allowable"
+                              + " format. Format should conform to [NNN] [(999)]999-9999[X99999][B99999][C any text]";
+--- 116,123 ----
+                  //trim leading and trailing spaces from the input value
+                  value = value.trim();
+                  //Do a length check on the value - must be a min of 8 chars
+! //                if (value.length() < 8) {
+!                 if (value.length() < 4) {
+                      String msg =
+                          "The length of the TN datatype value does not conform to an allowable"
+                              + " format. Format should conform to [NNN] [(999)]999-9999[X99999][B99999][C any text]";
+***************
+*** 172,177 ****
+--- 173,179 ----
+                      throw e;
+                  }
+  
++ /*
+                  //phone number
+                  int hyphen = value.indexOf("-");
+                  if (hyphen == -1) {
+***************
+*** 218,224 ****
+  						throw e;                    	
+                      }                    
+                  } //end else
+! 
+                  //area code
+                  areaStart = value.indexOf("(");
+                  areaEnd = value.indexOf(")");
+--- 220,226 ----
+  						throw e;                    	
+                      }                    
+                  } //end else
+! */
+                  //area code
+                  areaStart = value.indexOf("(");
+                  areaEnd = value.indexOf(")");
+***************
+*** 262,267 ****
+--- 264,275 ----
+                      throw e;
+                  }
+  
++                 // unchecked phone number
++                 numberStart = areaEnd + 1;
++                 numberEnd = extStart != -1 ? extStart
++                 	: bprStart != -1 ? bprStart
++                 	: cmntStart != -1 ? cmntStart : value.length();
++ 
+                  //We now have all of the start and end postions of the different components
+                  //We can now extract these component values and validate them
+                  if (countryStart != -1) {
+diff -cr ca/uhn/hl7v2/parser/Parser.java ca/uhn/hl7v2/parser/Parser.java
+*** ca/uhn/hl7v2/parser/Parser.java	Thu Feb  5 11:59:18 2004
+--- ca/uhn/hl7v2/parser/Parser.java	Tue Apr  6 21:36:31 2004
+***************
+*** 412,418 ****
+          Map map = new HashMap();
+          for (int i = 0; i < versions.length; i++) {
+              String resource = "ca/uhn/hl7v2/parser/eventmap/" + versions[i] + ".properties";
+!             InputStream in = Parser.class.getClassLoader().getSystemResourceAsStream(resource);
+              
+              Properties structures = null;
+              if (in != null) {            
+--- 412,418 ----
+          Map map = new HashMap();
+          for (int i = 0; i < versions.length; i++) {
+              String resource = "ca/uhn/hl7v2/parser/eventmap/" + versions[i] + ".properties";
+!             InputStream in = Parser.class.getClassLoader().getResourceAsStream(resource);
+              
+              Properties structures = null;
+              if (in != null) {            

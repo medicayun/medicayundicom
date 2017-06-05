@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-mppsscu-service.xml 2852 2006-10-13 09:39:45Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="dcm4chee.archive:service=Queue,name=MPPSScu">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>  
+
+  <mbean code="org.dcm4chex.archive.dcm.mppsscu.MPPSScuService" 
+	     name="dcm4chee.archive:service=MPPSScu"
+	     xmbean-dd="xmdesc/dcm4chee-mppsscu-xmbean.xml">
+    <depends>dcm4chee.archive:service=MPPSScp</depends>
+    <depends>dcm4chee.archive:service=TLSConfig</depends>
+    <depends>dcm4chee.archive:service=Queue,name=MPPSScu</depends>
+    <depends>dcm4chee.archive:service=JMS</depends>
+  </mbean>
+</server>
+

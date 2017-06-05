@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>File System Management Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.FileSystemMgtService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>FileSystemMgtService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getDirectoryPathList"
+      setMethod="setDirectoryPathList">
+      <description>List directories/mount points on this DICOM Node.
+      Use ';' on Windows and ':' on Unix-like platforms to separate
+      multiple directory path names. Relative path names are
+      resolved relative to INSTALL_DIR/server/pacs/. '*'-suffix marks current 
+      Storage Directory used for storage of new received DICOM Instances by the
+      Storage SCP on this DICOM Node.      
+      </description>
+      <name>DirectoryPathList</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="archive*" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getRetrieveAET"
+      setMethod="setRetrieveAET">
+      <description>Retrieve AET associated with this DICOM Node. 
+      </description>
+      <name>RetrieveAET</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="QR_SCP" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getHighWaterMark"
+      setMethod="setHighWaterMark">
+      <description>High Water Mark in MB(=1000000 Bytes).
+      Storage Directory switches to next entry in DirectoryPathList,
+      if amount of available disk space falls below this value.      
+      </description>
+      <name>HighWaterMark</name>
+      <type>int</type>
+      <descriptors>
+         <value value="50" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMountFailedCheckFile"
+      setMethod="setMountFailedCheckFile">
+      <description>Existence of specified file signals failed mount.
+      </description>
+      <name>MountFailedCheckFile</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NO_MOUNT" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isMakeStorageDirectory"
+      setMethod="setMakeStorageDirectory">
+      <description>Make Storage Directory if no one already exists.
+      </description>
+      <name>MakeStorageDirectory</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getEjbProviderURL"
+      setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EjbProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="INFO">
+      <description>Determines if the specified File System is
+      accessable on this DICOM Node</description>
+      <name>isLocalFileSystem</name>
+      <parameter>
+        <description>Directory Path</description>
+        <name>DirPath</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Show Available Disk Space on Local File Systems</description>
+      <name>showAvailableDiskSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Select Storage File System with Available Disk Space 
+      &gt; High Water Mark</description>
+      <name>selectStorageFileSystem</name>
+      <return-type>org.dcm4chex.archive.mbean.FileSystemInfo</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Purge unreferenced Files</description>
+      <name>purgeFiles</name>
+      <return-type>void</return-type>
+   </operation>   
+   <operation impact="INFO">
+      <description>Locate SOP Instance. Return a File object, if the instance
+      is locally available, or the hostname as String object if a file
+      of the instance is located on another host.</description>
+      <name>locateInstance</name>
+      <parameter>
+        <description>SOP Instance UID</description>
+        <name>iuid</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.lang.Object</return-type>
+   </operation>
+</mbean>

@@ -1,0 +1,95 @@
+diff -ur ca/uhn/hl7v2/llp/MinLLPReader.java ../hapi/ca/uhn/hl7v2/llp/MinLLPReader.java
+--- ca/uhn/hl7v2/llp/MinLLPReader.java	2004-05-11 14:39:06.000000000 +0200
++++ ../hapi/ca/uhn/hl7v2/llp/MinLLPReader.java	2004-07-30 10:40:34.000000000 +0200
+@@ -9,7 +9,7 @@
+ The Original Code is "MinLLPReader.java".  Description: 
+ "Title:        HL7Reader
+   Description:  A buffered reader specifically designed for use in reading
+-                HL7 ASCII strings" 
++                HL7 ISO-8859-1 strings" 
+ 
+ The Initial Developer of the Original Code is University Health Network. Copyright (C) 
+ 2001.  All Rights Reserved. 
+@@ -35,7 +35,7 @@
+ /**
+  * Title:        HL7Reader
+  * Description:  A buffered reader specifically designed for use in reading
+- *               HL7 ASCII strings. This class assumes that the minimal lower
++ *               HL7 ISO-8859-1 strings. This class assumes that the minimal lower
+  *               layer protocol is being used.
+  * Copyright:    Copyright (c) 2001
+  * Company:      University Health Network
+@@ -62,7 +62,7 @@
+     }
+     
+     /** Creates a MinLLPReader which reads from the given InputStream. The stream
+-        is assumed to be an ASCII bit stream.
++        is assumed to be an ISO-8859-1 bit stream.
+     */
+     public MinLLPReader(InputStream in) throws IOException
+     {
+@@ -75,7 +75,7 @@
+      */
+     public synchronized void setInputStream(InputStream in) throws IOException 
+     {
+-        myReader = new BufferedReader(new InputStreamReader(in, "ASCII"));
++        myReader = new BufferedReader(new InputStreamReader(in, "ISO-8859-1"));
+     }
+ 
+     /** Calls the same method in the underlying BufferedReader. */
+diff -ur ca/uhn/hl7v2/llp/MinLLPWriter.java ../hapi/ca/uhn/hl7v2/llp/MinLLPWriter.java
+--- ca/uhn/hl7v2/llp/MinLLPWriter.java	2004-05-24 13:30:02.000000000 +0200
++++ ../hapi/ca/uhn/hl7v2/llp/MinLLPWriter.java	2004-07-30 10:41:40.000000000 +0200
+@@ -70,7 +70,7 @@
+      */
+     public synchronized void setOutputStream(OutputStream out) throws IOException  
+     {
+-        myWriter = new BufferedWriter(new OutputStreamWriter(out, "ASCII"));
++        myWriter = new BufferedWriter(new OutputStreamWriter(out, "ISO-8859-1"));
+     }
+ 
+     /** 
+diff -ur ca/uhn/hl7v2/model/primitive/CommonTN.java ../hapi/ca/uhn/hl7v2/model/primitive/CommonTN.java
+--- ca/uhn/hl7v2/model/primitive/CommonTN.java	2004-05-08 19:13:48.000000000 +0200
++++ ../hapi/ca/uhn/hl7v2/model/primitive/CommonTN.java	2004-07-30 10:49:50.000000000 +0200
+@@ -144,7 +144,8 @@
+                 //trim leading and trailing spaces from the input value
+                 value = value.trim();
+                 //Do a length check on the value - must be a min of 8 chars
+-                if (value.length() < 8) {
++//                if (value.length() < 8) {
++                if (value.length() < 4) {
+                     String msg =
+                         "The length of the TN datatype value does not conform to an allowable"
+                             + " format. Format should conform to [NNN] [(999)]999-9999[X99999][B99999][C any text]";
+@@ -199,7 +200,7 @@
+                     DataTypeException e = new DataTypeException(msg);
+                     throw e;
+                 }
+-
++/*
+                 //phone number
+                 
+                 int hyphen = value.indexOf("-");
+@@ -249,7 +250,7 @@
+ 						throw e;                    	
+                     }                    
+                 } //end else
+-
++*/
+                 //area code
+                 areaStart = value.indexOf("(");
+                 areaEnd = value.indexOf(")");
+@@ -293,6 +294,12 @@
+                     throw e;
+                 }
+ 
++                // unchecked phone number
++                numberStart = areaEnd + 1;
++                numberEnd = extStart != -1 ? extStart
++                	: bprStart != -1 ? bprStart
++                	: cmntStart != -1 ? cmntStart : value.length();
++                
+                 //We now have all of the start and end postions of the different components
+                 //We can now extract these component values and validate them
+                 if (countryStart != -1) {

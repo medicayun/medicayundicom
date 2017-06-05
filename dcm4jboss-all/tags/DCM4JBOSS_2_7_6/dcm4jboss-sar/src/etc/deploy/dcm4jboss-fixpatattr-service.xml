@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-fixpatattr-service.xml 1931 2005-08-30 15:09:49Z javawilli $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.FixPatientAttributesService" 
+	name="tiani.archive:service=FixPatientAttributesService"
+	xmbean-dd="xmdesc/dcm4jboss-fixpatattr-xmbean.xml">
+  </mbean>
+</server>
+
+

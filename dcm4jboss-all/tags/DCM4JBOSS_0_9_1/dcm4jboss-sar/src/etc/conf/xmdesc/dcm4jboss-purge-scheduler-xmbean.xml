@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Scheduler for File Purge Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4jboss-purge-scheduler.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.jboss.varia.scheduler.Scheduler</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>Scheduler</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getSchedulePeriod"
+      setMethod="setSchedulePeriod">
+      <description>Intervall in ms the DB is checked for unreferenced File records.
+      </description>
+      <name>SchedulePeriod</name>
+      <type>long</type>
+      <descriptors>
+         <value value="60000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSchedulableMBean"
+      setMethod="setSchedulableMBean">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>SchedulableMBean</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="dcm4chex:service=FileSystemMgt" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSchedulableMBeanMethod"
+      setMethod="setSchedulableMBeanMethod">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>SchedulableMBeanMethod</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="purgeFiles" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isStartAtStartup"
+      setMethod="setStartAtStartup">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>StartAtStartup</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getInitialStartDate"
+      setMethod="setInitialStartDate">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>InitialStartDate</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NOW" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getInitialRepetitions"
+      setMethod="setInitialRepetitions">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>InitialRepetitions</name>
+      <type>long</type>
+      <descriptors>
+         <value value="-1" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+   
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>

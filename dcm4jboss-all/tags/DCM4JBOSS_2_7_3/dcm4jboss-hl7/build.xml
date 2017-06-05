@@ -1,0 +1,79 @@
+<project name="dcm4jboss-hl7" default="jar">
+	<property file="build.properties"/>
+	
+	<property name="version" value="2.7.3"/>
+	<property name="javac.debug" value="on"/>
+	
+	<!-- Override with your dcm4che14 dist location -->
+	<property name="dcm4che.home" value="../dcm4che14/build"/>		
+	<property name="dcm4che.jar" value="${dcm4che.home}/lib/dcm4che.jar"/>		
+
+	<!-- Override with your dcm4jboss-ejb dist location -->
+	<property name="dcm4jboss-ejb.home" value="../dcm4jboss-ejb"/>		
+	<property name="dcm4jboss-ejb.target" value="${dcm4jboss-ejb.home}/target"/>		
+
+	<!-- Override with your dcm4jboss-sar dist location -->
+	<property name="dcm4jboss-sar.home" value="../dcm4jboss-sar" />
+	<property name="dcm4jboss.jar" value="${dcm4jboss-sar.home}/target/lib/dcm4jboss.jar" />
+	
+    <!-- Override with your JBoss/Web server bundle dist location -->
+	<property name="jboss.home" value="${user.home}/jboss-4.0.3SP1"/>
+	<property name="jboss.lib" value="${jboss.home}/lib"/>
+	<property name="jboss.server.lib" value="${jboss.home}/server/default/lib"/>
+
+	<property name="src.java" value="${basedir}/src/java"/>
+	
+	<property name="target" value="${basedir}/target"/>
+	<property name="target.classes" value="${target}/classes"/>
+	<property name="target.lib" value="${target}/lib"/>
+	
+	<path id="class.path">
+		<pathelement location="${dcm4che.jar}"/>
+		<pathelement location="${dcm4jboss.jar}"/>
+		<pathelement location="${dcm4jboss-ejb.target}/common/lib/dcm4jboss-ejb-client.jar"/>
+		<pathelement location="${dcm4jboss-ejb.target}/hsql/lib/dcm4jboss-jdbc-hsql.jar"/>
+		<fileset dir="${jboss.lib}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${jboss.server.lib}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+    <target name="init">
+    	<tstamp>
+            <format property="TODAY" pattern="yyyy-MM-dd"/>
+        </tstamp>
+    </target>
+
+   	<target name="compile" depends="init">
+        <mkdir dir="${target.classes}"/>
+		<javac
+        	destdir="${target.classes}"
+			debug="${javac.debug}"
+         	deprecation="off"
+         	optimize="on"
+         	classpathref="class.path"
+      	>
+         	<src path="${src.java}"/>
+         	<include name="org/dcm4chex/**"/>
+      	</javac>
+   	</target>
+
+   	<target name="jar" depends="compile">
+        <mkdir dir="${target.lib}"/>
+        <jar jarfile="${target.lib}/dcm4jboss-hl7.jar">
+        	<manifest>
+				<attribute name="Implementation-Title" value="dcm4jboss-hl7"/>
+				<attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+				<attribute name="Implementation-Vendor" value="Tiani Medgraph AG"/>
+        	</manifest>
+        	<fileset dir="${target.classes}"/>
+        </jar>
+    </target>
+
+  <target name="clean">
+    <delete dir="${target}"/>
+  </target>
+
+</project>

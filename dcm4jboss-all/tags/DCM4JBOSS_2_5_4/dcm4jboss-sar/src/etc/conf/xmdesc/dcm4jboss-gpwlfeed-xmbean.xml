@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>GPWL Feed Service. Used to add entries to the General Purpose Worklist, triggered by received MPPS N-Set messages.
+   </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager"/>
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.gpwlscp.GPWLFeedService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>GPWLFeedService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write" getMethod="getEjbProviderURL" setMethod="setEjbProviderURL">
+      <description>Identifies JNDI (e.g: jnp://hostname:1099) with EJBs.
+      "LOCAL", if EJBs are deployed in same JBoss instance.
+      </description>
+      <name>EjbProviderURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="LOCAL"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getMppsScpServiceName" setMethod="setMppsScpServiceName">
+      <description>Used internally. Do not modify.
+      </description>
+      <name>MppsScpServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=MPPSScp"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getTemplateURL" setMethod="setTemplateURL">
+      <description>URL to the directory of worklist entry templates.
+      </description>
+      <name>TemplateURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="gpwl"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getTemplates" setMethod="setTemplates">
+      <description>List of templates for worklist entries.
+      </description>
+      <name>TemplateList</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="P1.ERL_MESA.xml^Interpretation,P102.ERL_MESA.xml^CT 3D reconstruction"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getHumanPerformer" setMethod="setHumanPerformer">
+      <description>List of human performers for a worklist entry.
+      </description>
+      <name>HumanPerformerList</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="doc1^PACS_TIANI^Dr. Allis,doc2^HUGO^Dr. Suse"/>
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+    <operation impact="ACTION">
+      <description>Add a new general purpose worklist entry.
+      </description>
+      <name>addWorklistItem</name>
+      <parameter>
+        <description>study pk</description>
+        <name>studyPk</name>
+        <type>java.lang.Integer</type>
+      </parameter>
+      <parameter>
+        <description>name of template file</description>
+        <name>templateFile</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>human performer</description>
+        <name>humanPerformer</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>scheduled date</description>
+        <name>scheduleDate</name>
+        <type>java.lang.Long</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+
+   &defaultOperations;
+   
+</mbean>

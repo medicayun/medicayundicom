@@ -1,0 +1,35 @@
+<!--
+$Id: ejb-timer-service.xml 2774 2006-09-21 12:33:25Z gunterze $
+-->
+<server>
+   <!-- ==================================================================== -->
+   <!-- J2EE Timer Service                                                   -->
+   <!-- ==================================================================== -->
+
+   <!-- An EJB Timer Service that is Tx aware -->
+   <mbean code="org.jboss.ejb.txtimer.EJBTimerServiceImpl"
+     name="jboss.ejb:service=EJBTimerService">
+     <attribute name="RetryPolicy">jboss.ejb:service=EJBTimerService,retryPolicy=fixedDelay</attribute>
+     <attribute name="PersistencePolicy">jboss.ejb:service=EJBTimerService,persistencePolicy=database</attribute>
+     <attribute name="TimerIdGeneratorClassName">org.jboss.ejb.txtimer.BigIntegerTimerIdGenerator</attribute>
+     <attribute name="TimedObjectInvokerClassName">org.jboss.ejb.txtimer.TimedObjectInvokerImpl</attribute>
+   </mbean>
+
+   <!-- A retry policy that uses a fixed interval in milli seconds -->
+   <mbean code="org.jboss.ejb.txtimer.FixedDelayRetryPolicy" name="jboss.ejb:service=EJBTimerService,retryPolicy=fixedDelay">
+     <attribute name="Delay">100</attribute>
+   </mbean>
+
+   <!-- A persistence policy that does not persist the timer
+   <mbean code="org.jboss.ejb.txtimer.NoopPersistencePolicy" name="jboss.ejb:service=EJBTimerService,persistencePolicy=noop"/>
+   -->
+
+   <!-- A persistence policy that persistes timers to a database -->
+   <mbean code="org.jboss.ejb.txtimer.DatabasePersistencePolicy" name="jboss.ejb:service=EJBTimerService,persistencePolicy=database">
+     <!-- DataSource JNDI name -->
+     <depends optional-attribute-name="DataSource">jboss.jca:service=DataSourceBinding,name=MySqlDS</depends>
+     <!-- The plugin that handles database persistence -->
+     <attribute name="DatabasePersistencePlugin">org.jboss.ejb.txtimer.GeneralPurposeDatabasePersistencePlugin</attribute>
+   </mbean>
+   
+</server>

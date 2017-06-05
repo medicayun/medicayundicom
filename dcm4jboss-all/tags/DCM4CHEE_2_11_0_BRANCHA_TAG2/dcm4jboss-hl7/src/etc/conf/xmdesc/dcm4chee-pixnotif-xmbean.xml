@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description><![CDATA[<b>PIX Update Notification Service</b>. Updates
+   Other Patient IDs associated to Patient records on receive of ADT^A31 
+   Update Person Information messages from a PIX Manager according 
+   Transaction ITI-10 of the 
+   <a href="http://www.ihe.net/Technical_Framework/index.cfm#IT"
+   >IHE IT Infrastructure Technical Framework</a>.]]>
+   </description>
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.hl7.PIXUpdateNotificationService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>PIXUpdateNotificationService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getMessageTypes"
+      setMethod="setMessageTypes">
+      <description><![CDATA[Comma separated list of Message Types handled by
+        this service. IHE IT Infrastructure Technical Framework specifies use
+        of ADT^A31 for PIX Update Notification. <b>Attention:</b> Other services
+        - inparticular the ADT Service - must not be configured for processing
+        also messages of that type(s)!]]>
+      </description>
+      <name>MessageTypes</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ADT^A31" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getIssuersOfOnlyOtherPatientIDs"
+      setMethod="setIssuersOfOnlyOtherPatientIDs">
+      <description><![CDATA[Comma separated list of Issuers/Authorities,
+      which only qualifies Other Patient IDs - and NOT primary Patient IDs.
+      Patient IDs in PIX Update Notifications with such Issuer/Authority will
+      NOT cause to create a new Patient Record, in the case that there is no 
+      Patient Record with such primary Patient ID]]>
+      </description>
+      <name>IssuersOfOnlyOtherPatientIDs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="SSN" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getHL7ServerName"
+      setMethod="setHL7ServerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>HL7ServerName</name>
+      <type>javax.management.ObjectName</type>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
+    

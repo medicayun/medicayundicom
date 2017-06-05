@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>TLS Configuration</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.mbean.TLSConfigService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>TLSConfigService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getKeyStoreURL"
+      setMethod="setKeyStoreURL">
+      <description>URL of key store containing key used in SSL handshake,
+         when running in TLS mode.
+      </description>
+      <name>KeyStoreURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:mesa_test_sys_1.p12" />
+      </descriptors>
+   </attribute>
+   <attribute access="write-only"
+      setMethod="setKeyStorePassword">
+      <description>The password for access to key store,
+      specified by attribute KeyStoreURL.
+      </description>
+      <name>KeyStorePassword</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="passwd" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getTrustStoreURL"
+      setMethod="setTrustStoreURL">
+      <description>URL of trust store containing accepted certificates,
+         when running in TLS mode.
+      </description>
+      <name>TrustStoreURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:mesa_cacerts.jks" />
+      </descriptors>
+   </attribute>
+   <attribute access="write-only"
+      setMethod="setTrustStorePassword">
+      <description>The password for access to trust store,
+      specified by attribute TrustStoreURL.
+      </description>
+      <name>TrustStorePassword</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="passwd" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAuditLoggerName"
+      setMethod="setAuditLoggerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>AuditLoggerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=AuditLogger" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="INFO">
+      <description>Used internally</description>
+      <name>handshakeFailedListener</name>
+      <return-type>org.dcm4che.util.HandshakeFailedListener</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Used internally</description>
+      <name>serverSocketFactory</name>
+      <parameter>
+        <name>cipherSuites</name>
+        <type>[Ljava.lang.String;</type>
+      </parameter>
+      <return-type>javax.net.ServerSocketFactory</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Used internally</description>
+      <name>socketFactory</name>
+      <parameter>
+        <name>cipherSuites</name>
+        <type>[Ljava.lang.String;</type>
+      </parameter>
+      <return-type>javax.net.SocketFactory</return-type>
+   </operation>
+   
+</mbean>
+    

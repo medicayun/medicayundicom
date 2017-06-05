@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+<!-- $Id: dcm4jboss-hl7apps-service.xml 1038 2004-03-10 21:28:19Z gunterze $ -->
+
+<server>
+
+<classpath codebase="lib" archives="dcm4jboss-hl7.jar"/>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7AcceptService" 
+	name="dcm4chex:service=HL7Accept,type=ADT,event=A02">
+
+    <depends optional-attribute-name="HL7ServerName">
+    	dcm4chex:service=HL7Server,name=HL7SRV
+    </depends>
+    
+</mbean>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7AcceptService" 
+	name="dcm4chex:service=HL7Accept,type=ADT,event=A03">
+
+    <depends optional-attribute-name="HL7ServerName">
+    	dcm4chex:service=HL7Server,name=HL7SRV
+    </depends>
+    
+</mbean>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7AcceptService" 
+	name="dcm4chex:service=HL7Accept,type=ADT,event=A06">
+
+    <depends optional-attribute-name="HL7ServerName">
+    	dcm4chex:service=HL7Server,name=HL7SRV
+    </depends>
+    
+</mbean>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7AcceptService" 
+	name="dcm4chex:service=HL7Accept,type=ADT,event=A07">
+
+    <depends optional-attribute-name="HL7ServerName">
+    	dcm4chex:service=HL7Server,name=HL7SRV
+    </depends>
+    
+</mbean>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7UpdatePatientInfoService" 
+	name="dcm4chex:service=HL7UpdatePatientInfo,type=ADT,event=A08">
+
+    <depends optional-attribute-name="HL7ServerName">
+    	dcm4chex:service=HL7Server,name=HL7SRV
+    </depends>
+    
+</mbean>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7AcceptService" 
+	name="dcm4chex:service=HL7Accept,type=ADT,event=A12">
+
+    <depends optional-attribute-name="HL7ServerName">
+    	dcm4chex:service=HL7Server,name=HL7SRV
+    </depends>
+    
+</mbean>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7AcceptService" 
+	name="dcm4chex:service=HL7Accept,type=ADT,event=A13">
+
+    <depends optional-attribute-name="HL7ServerName">
+    	dcm4chex:service=HL7Server,name=HL7SRV
+    </depends>
+    
+</mbean>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7MergePatientService" 
+	name="dcm4chex:service=HL7MergePatient,type=ADT,event=A40">
+
+    <depends optional-attribute-name="HL7ServerName">
+    	dcm4chex:service=HL7Server,name=HL7SRV
+    </depends>
+    
+</mbean>
+
+<mbean code="org.dcm4chex.archive.hl7.HL7AcceptService" 
+	name="dcm4chex:service=HL7Accept,type=ORM,event=O01">
+
+    <depends optional-attribute-name="HL7ServerName">
+    	dcm4chex:service=HL7Server,name=HL7SRV
+    </depends>
+    
+</mbean>
+
+</server>
+

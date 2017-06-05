@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-dcmsrv-service.xml 1394 2005-01-10 01:13:02Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.DcmServerService" 
+         name="tiani.archive:service=DcmServer"
+         xmbean-dd="xmdesc/dcm4jboss-dcmsrv-xmbean.xml">
+    <depends>
+      tiani.archive:service=TLSConfig
+    </depends>
+    <depends>
+      tiani.archive:service=AuditLogger
+    </depends>
+  </mbean>
+</server>

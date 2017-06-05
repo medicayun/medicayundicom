@@ -1,0 +1,2 @@
+#Override with your JBoss dist location
+jboss.home=${user.home}/jboss-4.0.4.GA

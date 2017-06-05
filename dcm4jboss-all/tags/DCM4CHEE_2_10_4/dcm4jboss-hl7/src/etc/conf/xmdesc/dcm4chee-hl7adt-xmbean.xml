@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>ADT HL7 Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.hl7.ADTService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ADTService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getMessageTypes"
+      setMethod="setMessageTypes">
+      <description>Comma separated list of Message Types handled by this Service.
+      </description>
+      <name>MessageTypes</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ADT^A01,ADT^A04,ADT^A05,ADT^A08,ADT^A10,ADT^A23,ADT^A34,ADT^A40" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPidStylesheetURL"
+      setMethod="setPidStylesheetURL">
+      <description>Stylesheet for HL7 PID to DICOM Patient Module mapping.
+      </description>
+      <name>PidStylesheetURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:dcm4chee-hl7/pid2dcm.xsl" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMrgStylesheetURL"
+      setMethod="setMrgStylesheetURL">
+      <description>Stylesheet for HL7 MRG to DICOM Patient Module mapping.
+      </description>
+      <name>MrgStylesheetURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="resource:dcm4chee-hl7/mrg2dcm.xsl" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isIgnoreDeleteErrors"
+      setMethod="setIgnoreDeleteErrors">
+      <description>Ignore errors processing ADT^A23 messages (delete patient).
+      </description>
+      <name>IgnoreDeleteErrors</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getHL7ServerName"
+      setMethod="setHL7ServerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>HL7ServerName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=HL7Server" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
+    

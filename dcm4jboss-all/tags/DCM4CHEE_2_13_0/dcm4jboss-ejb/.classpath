@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry path="test/java" kind="src"/>
+	<classpathentry path="target/xdoclet/java" kind="src"/>
+	<classpathentry path="src/java" kind="src"/>
+	<classpathentry path="src/resources" kind="src"/>
+	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
+	<classpathentry path="/dcm4che14" kind="src"/>
+	<classpathentry sourcepath="/JBOSS_SRC/jmx/src/main" path="JBOSS_HOME/server/default/lib/jboss-j2ee.jar" exported="true" kind="var"/>
+	<classpathentry path="JBOSS_HOME/lib/concurrent.jar" kind="var"/>
+	<classpathentry path="CACTUS_HOME/lib/cactus-1.7.2.jar" kind="var"/>
+	<classpathentry path="CACTUS_HOME/lib/junit-3.8.1.jar" kind="var"/>
+	<classpathentry path="JBOSS_HOME/server/default/lib/jboss-common-jdbc-wrapper.jar" kind="var"/>
+	<classpathentry path="target/classes" kind="output"/>
+</classpath>

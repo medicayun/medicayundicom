@@ -1,0 +1,8 @@
+#Override with your XDoclet dist location
+xdoclet.home=${user.home}/xdoclet-1.2
+
+#Override with your JBoss dist location
+jboss.home=${user.home}/jboss-3.2.3		
+
+#Override with your dcm4jboss-ejb working directory
+dcm4jboss-ejb.home=../dcm4jboss-ejb

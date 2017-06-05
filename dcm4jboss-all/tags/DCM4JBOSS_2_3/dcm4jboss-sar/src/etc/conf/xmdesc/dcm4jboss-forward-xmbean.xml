@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Forward Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.archive.dcm.movescu.ForwardService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ForwardService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getForwardingRules"
+      setMethod="setForwardingRules">
+      <description>List of forwarding rules.
+      Format:=['['CONDITION[,..]']'](AET['!'INTERVAL][,..]|'NONE')
+      CONDITION:=(calling|called)[!]=AET['|'..]
+      INTERVAL:=FROM'-'TO
+      </description>
+      <name>ForwardingRules</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="[calling=SAMPLE_SCU1|SAMPLE_SCU2]SAMPLE_SCP3,SAMPLE_SCP4!8-16;NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getForwardModifiedToAETs"
+      setMethod="setForwardModifiedToAETs">
+      <description>Comma separated list of AETs, to which objects modified
+          by using the web application are (re-)forwarded. "NONE" = no forwarding
+          of modified objects.
+      </description>
+      <name>ForwardModifiedToAETs</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getForwardPriority"
+      setMethod="setForwardPriority">
+      <description>Forwarding Priority. 0=medium, 1=high, 2=low.
+      </description>
+      <name>ForwardPriority</name>
+      <type>int</type>
+      <descriptors>
+         <value value="0" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxSOPInstanceUIDsPerMoveRQ"
+      setMethod="setMaxSOPInstanceUIDsPerMoveRQ">
+      <description>Maximal number of SOP Instance UIDs per MOVE RQ.
+      </description>
+      <name>MaxSOPInstanceUIDsPerMoveRQ</name>
+      <type>int</type>
+      <descriptors>
+         <value value="100" />
+      </descriptors>
+   </attribute>   
+   <attribute access="read-write"
+      getMethod="getStoreScpServiceName"
+      setMethod="setStoreScpServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>StoreScpServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=StoreScp" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getEditContentServiceName"
+      setMethod="setEditContentServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>EditContentServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="tiani.archive:service=ContentEditService" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
+

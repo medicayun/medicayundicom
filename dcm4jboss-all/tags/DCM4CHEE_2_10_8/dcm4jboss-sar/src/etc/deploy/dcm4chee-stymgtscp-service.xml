@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-stymgtscp-service.xml 2853 2006-10-13 11:59:11Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.stymgt.StudyMgtScpService"
+    name="dcm4chee.archive:service=StudyMgtScp"
+    xmbean-dd="xmdesc/dcm4chee-stymgtscp-xmbean.xml">
+    <depends>dcm4chee.archive:service=AuditLogger</depends>
+    <depends>dcm4chee.archive:service=DcmServer</depends>
+  </mbean>
+</server>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="JBOSS_HOME/server/default/lib/servlet-api.jar"/>
+	<classpathentry kind="var" path="JBOSS_HOME/lib/jboss-system.jar" sourcepath="/JBOSS_SRC/system/src/main"/>
+	<classpathentry kind="var" path="JBOSS_HOME/lib/jboss-common.jar" sourcepath="/JBOSS_SRC/common/src/main"/>
+	<classpathentry kind="var" path="JBOSS_HOME/lib/jboss-jmx.jar" sourcepath="/JBOSS_SRC/jmx/src/main"/>
+	<classpathentry kind="var" path="JBOSS_HOME/server/default/lib/log4j.jar"/>
+	<classpathentry kind="var" path="JBOSS_HOME/server/default/lib/mail.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dcm4che14"/>
+	<classpathentry kind="var" path="JBOSS_HOME/server/default/lib/jboss-saaj.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

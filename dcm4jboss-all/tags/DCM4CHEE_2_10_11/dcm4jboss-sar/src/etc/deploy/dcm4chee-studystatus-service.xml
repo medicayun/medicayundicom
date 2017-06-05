@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4chee-studystatus-service.xml 2533 2006-06-20 17:26:32Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4chee.jar"/>
+
+  <mbean code="org.dcm4chex.archive.mbean.StudyStatusService" 
+	     name="dcm4chee.archive:service=StudyStatus"
+	     xmbean-dd="xmdesc/dcm4chee-studystatus-xmbean.xml">
+    <depends>
+      dcm4chee.archive:service=GPWLScp
+    </depends>
+  </mbean>
+</server>
+

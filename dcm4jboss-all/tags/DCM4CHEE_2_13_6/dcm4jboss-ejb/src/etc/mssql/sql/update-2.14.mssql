@@ -1,0 +1,4 @@
+-- Update DB from dcm4chee-2.13.x to dcm4chee-2.14.x
+
+DROP INDEX patient.pat_id;
+CREATE INDEX pat_id ON patient(pat_id, pat_id_issuer);

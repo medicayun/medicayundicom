@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-hl7srv-service.xml 1395 2005-01-10 01:14:12Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss-hl7.jar"/>
+  <mbean code="org.dcm4chex.archive.hl7.HL7ServerService" 
+         name="tiani.archive:service=HL7Server"
+         xmbean-dd="xmdesc/dcm4jboss-hl7srv-xmbean.xml">
+    <depends>
+      tiani.archive:service=TLSConfig
+    </depends>
+    <depends>
+      tiani.archive:service=AuditLogger
+    </depends>
+  </mbean>
+</server>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-compression-service.xml 1623 2005-03-17 01:44:07Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.mbean.CompressionService" 
+	name="tiani.archive:service=CompressionService"
+	xmbean-dd="xmdesc/dcm4jboss-compression-xmbean.xml">
+
+    <depends>
+    	tiani.archive:service=FileSystemMgt
+    </depends>    
+  </mbean>
+
+</server>
+
+

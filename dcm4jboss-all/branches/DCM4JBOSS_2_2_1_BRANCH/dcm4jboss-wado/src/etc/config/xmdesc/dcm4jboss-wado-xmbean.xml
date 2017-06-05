@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>WADO Service</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.wado.mbean.WADOService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>WADOService</name>
+   </constructor>
+
+   <attribute access="read-write"
+      getMethod="getCacheRoot"
+      setMethod="setCacheRoot">
+      <description>Root directory where jpegs are stored for caching.
+      </description>
+      <name>CacheRoot</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="wadocache" />
+      </descriptors>
+   </attribute>
+ 
+    <attribute access="read-write"
+      getMethod="getMinFreeSpace"
+      setMethod="setMinFreeSpace">
+      <description>Min space that must be available on cache drive in MByte (1.000.000 Bytes).
+      </description>
+      <name>MinFreeSpace</name>
+      <type>int</type>
+      <descriptors>
+         <value value="5" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="getPreferredFreeSpace"
+      setMethod="setPreferredFreeSpace">
+      <description>Preferred free disk space in MByte (1.000.000 Bytes).
+      </description>
+      <name>PreferredFreeSpace</name>
+      <type>int</type>
+      <descriptors>
+         <value value="10" />
+      </descriptors>
+    </attribute>
+
+    <attribute access="read-write"
+      getMethod="isClientRedirect"
+      setMethod="setClientRedirect">
+      <description>Enables client side redirection if requested DICOM object is no locally available.
+      If client side redirect is disabled, the server side redirect is enabled!
+      </description>
+      <name>useClientRedirect</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+
+    <attribute access="read-write"
+      getMethod="isRedirectCaching"
+      setMethod="setRedirectCaching">
+      <description>Enables caching for server side redirect! has no effect if client side redirect is enabled!
+      </description>
+      <name>useRedirectCaching</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   
+    <attribute access="read-write"
+      getMethod="getFileSystemMgtName"
+      setMethod="setFileSystemMgtName">
+      <description>For internal use. Don't change!
+      </description>
+      <name>FileSystemMgtName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="tiani.archive:service=FileSystemMgt" />
+      </descriptors>
+   </attribute>
+
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="INFO">
+      <description>Show free disk space</description>
+      <name>getFreeSpace</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Clear Cache</description>
+      <name>clearCache</name>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Clean Cache</description>
+      <name>cleanCache</name>
+      <return-type>void</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Get WADO response object</description>
+      <name>getWADOObject</name>
+      <parameter>
+        <description>Value object of the request.</description>
+        <name>reqVO</name>
+        <type>org.dcm4chex.wado.common.WADORequestObject</type>
+      </parameter>
+      <return-type>org.dcm4chex.wado.common.WADOResponseObject</return-type>
+   </operation>
+   
+</mbean>

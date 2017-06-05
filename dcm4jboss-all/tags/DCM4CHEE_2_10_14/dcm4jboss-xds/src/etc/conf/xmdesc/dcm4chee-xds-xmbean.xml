@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description><![CDATA[<b>XDS Service</b><br/>
+		Provides a Cross-enterprise Document Sharing Service for Document Repository actor.<br/>.
+		]]> </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"/>
+      <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.xds.mbean.XDSService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>XDSService</name>
+   </constructor>
+
+   <attribute access="read-write" getMethod="getXDSRegistryURI" setMethod="setXDSRegistryURI">
+      <description>XDS Registry URI.
+      </description>
+      <name>XDSRegistryURI</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="http://hcxw2k1.nist.gov:8080/xdsServices2/registry/soap/portals/yr3a/registry"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getXDSQueryURI" setMethod="setXDSQueryURI">
+      <description>XDS Query URI.
+      </description>
+      <name>XDSQueryURI</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="http://hcxw2k1.nist.gov:8080/xdsServices2/registry/soap/portals/query"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isForceSQLQuery"
+      setMethod="setForceSQLQuery">
+      <description>Force 'older' SQL Query! (Default is Stored Query).
+      </description>
+      <name>ForceSQLQuery</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getProxyHost" setMethod="setProxyHost">
+      <description>Proxy host if http access use http proxy. NONE = no proxy.
+      </description>
+      <name>ProxyHost</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getProxyPort" setMethod="setProxyPort">
+      <description>Proxy port if http access use http proxy.
+      </description>
+      <name>ProxyPort</name>
+      <type>int</type>
+      <descriptors>
+         <value value="3128"/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getKeystoreURL"
+      setMethod="setKeystoreURL">
+      <description>URL of keystore containing certificate to identify this Document Source,
+         when running in TLS mode.
+      </description>
+      <name>KeystoreURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="conf/identity.p12" />
+      </descriptors>
+   </attribute>
+   <attribute access="write-only"
+      setMethod="setKeystorePassword">
+      <description>The password for access to keystore,
+      specified by attribute TrustStoreURL.
+      </description>
+      <name>KeystorePassword</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="secret" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getTrustStoreURL"
+      setMethod="setTrustStoreURL">
+      <description>URL of trust store containing accepted certificates,
+         when running in TLS mode.
+      </description>
+      <name>TrustStoreURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="conf/cacerts.jks" />
+      </descriptors>
+   </attribute>
+   <attribute access="write-only"
+      setMethod="setTrustStorePassword">
+      <description>The password for access to trust store,
+      specified by attribute TrustStoreURL.
+      </description>
+      <name>TrustStorePassword</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="secret" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getAllowedUrlHost"
+      setMethod="setAllowedUrlHost">
+      <description>URL Hostname for HTTPS Hostname checking. CERT (from Certificate (standard)), 
+      		* (no Check), hostname (only this URL Hostname).
+      </description>
+      <name>AllowedUrlHost</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="CERT" />
+      </descriptors>
+   </attribute>
+ 
+   <attribute access="read-write" getMethod="getRetrieveURI" setMethod="setRetrieveURI">
+      <description>Base URL to build Retrieve URL for a document.
+      </description>
+      <name>RetrieveURI</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="http://127.0.0.1:8080/IHERetrieveDocument?RT=DOCUMENT&amp;UID="/>
+      </descriptors>
+   </attribute>
+   <attribute access="read-write" getMethod="getContentTypeURIpart" setMethod="setContentTypeURIpart">
+      <description>Part of Retrieve URL to submit contentType (NONE to omit contentType).
+      </description>
+      <name>ContentTypeURIpart</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="&amp;PCT="/>
+      </descriptors>
+   </attribute>
+
+   
+   <attribute access="read-write"
+      getMethod="isReassignDocumentUID"
+      setMethod="setReassignDocumentUID">
+      <description>Enable reassignment of document unique id's.
+      </description>
+      <name>ReassignDocumentUID</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isReassignSubmissionUID"
+      setMethod="setReassignSubmissionUID">
+      <description>Enable reassignment of SubmissionSet unique id's.
+      </description>
+      <name>ReassignSubmissionUID</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isShortContentTypeEnabled"
+      setMethod="setShortContentTypeEnabled">
+      <description>Enable/Disable the option to use short content type (pdf=application/pdf ; xml=text/xml ; dcm=application/dicom).
+      		This option may be necessary because of the URI restriction of xml registry! (LongName=128 chars).
+      </description>
+      <name>ShortContentTypeEnabled</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getFilteredSlots"
+      setMethod="setFilteredSlots">
+      <description><![CDATA[List of Slots that should be removed from metadata before send to registry.<br/>
+      		Such filtering may be necessary if registry does not support certain slots 
+      		(e.g. does not support XDS-I 'authorRoleDisplayName' slot).<br/>
+      		Use NONE to disable slot filtering.
+      		]]>
+      </description>
+      <name>FilteredSlots</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getTestPatient"
+      setMethod="setTestPatient">
+      <description>Patient ID for NIST-Test or NONE.
+      </description>
+      <name>TestPatient</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="NONE" />
+      </descriptors>
+   </attribute>
+      <attribute access="read-write"
+      getMethod="isLogSOAPMessage"
+      setMethod="setLogSOAPMessage">
+      <description>Enable logging of SOAP message (send and receive).
+      </description>
+      <name>LogSOAPMessage</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   
+   <attribute access="read-write"
+      getMethod="getFetchNewPatIDURL"
+      setMethod="setFetchNewPatIDURL">
+      <description>URL to fetch new Patient ID for NIST Test.
+      </description>
+      <name>FetchNewPatIDURL</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="http://hcxw2k1.nist.gov:8080/xdsServices2/xds/patientId/allocate.jsp?Allocate=Allocate" />
+      </descriptors>
+   </attribute>
+
+   <attribute access="read-write" getMethod="getRidServiceName" setMethod="setRidServiceName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>RidServiceName</name>
+      <type>javax.management.ObjectName</type>
+      <descriptors>
+         <value value="dcm4chee.archive:service=RIDService"/>
+      </descriptors>
+   </attribute>
+
+   <!-- Operations -->
+   &defaultOperations;
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform the document export with given SOAP message.<br/>
+      			1) Store attachments<br/>
+      			2) Enhance metadata with size and SHA1 checksum
+      			3) Register documents at configured XDS Registry URI.<br/> 
+      		]]> </description>
+      <name>exportDocument</name>
+      <parameter>
+        <description>Cache size in Bytes.</description>
+        <name>cacheSize</name>
+        <type>javax.xml.soap.SOAPMessage</type>
+      </parameter>
+      <return-type>org.dcm4chex.xds.common.XDSResponseObject</return-type>
+   </operation>
+
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform a simple test by sending a SOAP message to the configured registry.<br/>
+      			The SOAP message is build with a SOAPBody stored in the given file.<br/>
+      		]]> </description>
+      <name>soapRegistryTest</name>
+      <parameter>
+        <description>XML File containing SOAP Body.</description>
+        <name>xmlFile</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform a simple test by sending a SOAP message to the configured (query)registry.<br/>
+      			The SOAP message is build with a SOAPBody stored in the given file.<br/>
+      		]]> </description>
+      <name>soapQueryTest</name>
+      <parameter>
+        <description>XML File containing SOAP Body.</description>
+        <name>xmlFile</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform a simple test by sending a SOAP message to the URI.<br/>
+      			The SOAP message is build with a SOAPBody stored in the given file.<br/>
+      		]]> </description>
+      <name>soapRegistryTest</name>
+      <parameter>
+        <description>XML File containing SOAP Body.</description>
+        <name>xmlFile</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+        <description>URI of the receiver</description>
+        <name>uri</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform a SQL based registry query.<br/>
+      		]]> </description>
+      <name>sqlQuery</name>
+      <parameter>
+        <description>SQL String.</description>
+        <name>sql</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.util.List</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform a SQL based registry query.<br/>
+      		]]> </description>
+      <name>findDocuments</name>
+      <parameter>
+        <description>Patient ID.</description>
+        <name>patId</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform a SQL based registry query.<br/>
+      		]]> </description>
+      <name>findDocuments</name>
+      <parameter>
+        <description>Patient ID.</description>
+        <name>patId</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.util.List</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform a SQL based registry query.<br/>
+      		]]> </description>
+      <name>getDocuments</name>
+      <parameter>
+        <description>Document UUIDs separated with '|'.</description>
+        <name>uuids</name>
+        <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.util.List</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description><![CDATA[ Perform a SQL based registry query.<br/>
+      		]]> </description>
+      <name>getDocuments</name>
+      <parameter>
+        <description>Document UUIDs.</description>
+        <name>uuids</name>
+        <type>[Ljava.lang.String;</type>
+      </parameter>
+      <return-type>java.util.List</return-type>
+   </operation>
+   
+   <operation impact="ACTION">
+      <description><![CDATA[ Fetch a new PatientID for NIST Test.<br/>
+      		]]> </description>
+      <name>fetchNewPatientIDfromNIST</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   
+</mbean>

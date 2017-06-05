@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC "-//JBoss//DTD JBOSS XMBEAN 1.1//EN" "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+  <description>Amazon Cloud based HSM Module for File Copy Service.</description>
+
+  <descriptors>
+    <persistence persistPolicy="OnUpdate" />
+    <persistence-manager value="org.jboss.mx.persistence.DelegatingPersistenceManager" />
+  </descriptors>
+
+  <class>org.dcm4chex.archive.hsm.module.cloud.CloudHSMModule</class>
+
+  <constructor>
+    <description>The default constructor</description>
+    <name>CloudHSMModule</name>
+  </constructor>
+
+  <!-- Attributes -->
+  <attribute access="read-write" getMethod="getEndPoint" setMethod="setEndPoint">
+    <description>
+        <![CDATA[The Endpoint of S3 webservice. DEFAULT means default Amazon endpoint.]]>
+    </description>
+    <name>EndPoint</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="DEFAULT" />
+    </descriptors>
+  </attribute>
+
+  <attribute access="read-write" getMethod="getBucketName" setMethod="setBucketName">
+    <description>
+        <![CDATA[The Amazon S3 bucket that files will be stored to.]]>
+    </description>
+    <name>BucketName</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="" />
+    </descriptors>
+  </attribute>
+  
+  <attribute access="read-write" getMethod="getAccessKey" setMethod="setAccessKey">
+    <description><![CDATA[Your Amazon AWS access key that will be used to access your content.
+       ]]>
+    </description>
+    <name>AccessKey</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="" />
+    </descriptors>
+  </attribute>
+  
+  <attribute access="write-only" getMethod="getSecretKey" setMethod="setSecretKey">
+    <description><![CDATA[Your Amazon AWS secret key that will be used to authorize your transactions.
+       ]]>
+    </description>
+    <name>SecretKey</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="secret" />
+    </descriptors>
+  </attribute>
+  
+  <attribute access="read-write" getMethod="getConnectionTimeout" setMethod="setConnectionTimeout">
+    <description><![CDATA[Connection timeout in ms.
+       ]]>
+    </description>
+    <name>ConnectionTimeout</name>
+    <type>int</type>
+    <descriptors>
+      <value value="10000" />
+    </descriptors>
+  </attribute>
+  
+  <attribute access="read-write" getMethod="getReadTimeout" setMethod="setReadTimeout">
+    <description><![CDATA[Read timeout in ms.
+       ]]>
+    </description>
+    <name>ReadTimeout</name>
+    <type>int</type>
+    <descriptors>
+      <value value="90000" />
+    </descriptors>
+  </attribute>
+  
+  <attribute access="read-write" getMethod="getOutgoingDir" setMethod="setOutgoingDir">
+    <description><![CDATA[Directory from which files/tarballs shall be copied
+      by external <b>CopyCommand</b>. A relative path name is resolved
+      relative to <i>archive-install-directory</i>/server/default/.]]>
+    </description>
+    <name>OutgoingDirectory</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="tar-outgoing" />
+    </descriptors>
+  </attribute>
+  
+  <attribute access="read-write" getMethod="getIncomingDir" setMethod="setIncomingDir">
+    <description><![CDATA[Directory in which files/tarballs shall be retrieved
+      by external <b>FetchCommand</b>. A relative path name is resolved
+      relative to <i>archive-install-directory</i>/server/default/.
+      Not effective if FetchCommand=<code>NONE<code>]]>
+    </description>
+    <name>IncomingDirectory</name>
+    <type>java.lang.String</type>
+    <descriptors>
+      <value value="tar-incoming" />
+    </descriptors>
+  </attribute>
+
+  <attribute access="read-write" getMethod="getFileCopyServiceName"
+    setMethod="setFileCopyServiceName">
+    <description>Used internally. Do NOT modify.
+      </description>
+    <name>FileCopyServiceName</name>
+    <type>javax.management.ObjectName</type>
+  </attribute>
+
+  &defaultAttributes;
+
+  <!-- Operations -->
+  &defaultOperations;
+
+  <operation impact="ACTION">
+    <description><![CDATA[Prepare File for storage to HSM. Return File Object that is used in FileCopy Service.<br/>
+      ]]></description>
+    <name>prepareHSMFile</name>
+    <parameter>
+      <description>File system ID</description>
+      <name>fsID</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <parameter>
+      <description>File path relative to file system (fsID)</description>
+      <name>filePath</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <return-type>java.io.File</return-type>
+  </operation>
+  <operation impact="ACTION">
+    <description>Store given File to HSM. Return filename (fileID)</description>
+    <name>storeHSMFile</name>
+    <parameter>
+      <description>File to store in HSM</description>
+      <name>file</name>
+      <type>java.io.File</type>
+    </parameter>
+    <parameter>
+      <description>File system ID</description>
+      <name>fsID</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <parameter>
+      <description>File path relative to file system (fsID)</description>
+      <name>filePath</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <return-type>java.lang.String</return-type>
+  </operation>
+  <operation impact="ACTION">
+    <description>Called if FileCopy failed.</description>
+    <name>failedHSMFile</name>
+    <parameter>
+      <description>File to store in HSM</description>
+      <name>file</name>
+      <type>java.io.File</type>
+    </parameter>
+    <parameter>
+      <description>File system ID</description>
+      <name>fsID</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <parameter>
+      <description>File path relative to file system (fsID)</description>
+      <name>filePath</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <return-type>void</return-type>
+  </operation>
+
+  <operation impact="ACTION">
+    <description>Fetch a File from HSM.</description>
+    <name>fetchHSMFile</name>
+    <parameter>
+      <description>File system ID</description>
+      <name>fsID</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <parameter>
+      <description>File path relative to file system (fsID)</description>
+      <name>filePath</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <return-type>java.io.File</return-type>
+  </operation>
+  <operation impact="ACTION">
+    <description>Called from TarRetriever to finish Fetch of a File from HSM.
+      (Cleanup temporary resources)</description>
+    <name>fetchHSMFileFinished</name>
+    <parameter>
+      <description>File system ID</description>
+      <name>fsID</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <parameter>
+      <description>File path relative to file system (fsID)</description>
+      <name>filePath</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <parameter>
+      <description>File object (returned from fetchHSMFile)</description>
+      <name>file</name>
+      <type>java.io.File</type>
+    </parameter>
+    <return-type>void</return-type>
+  </operation>
+
+  <operation impact="ACTION">
+    <description>Query status of file in HSM.</description>
+    <name>queryStatus</name>
+    <parameter>
+      <description>File system ID</description>
+      <name>fsID</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <parameter>
+      <description>File path relative to file system (fsID)</description>
+      <name>filePath</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <parameter>
+      <description>User info associated with the file system</description>
+      <name>userInfo</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <return-type>java.lang.Integer</return-type>
+  </operation>
+
+  <operation impact="INFO">
+    <description>List Buckets</description>
+    <name>listBuckets</name>
+    <return-type>java.lang.String</return-type>
+  </operation>
+  <operation impact="INFO">
+    <description>Create new Bucket</description>
+    <name>createBucket</name>
+    <parameter>
+      <name>name</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <return-type>void</return-type>
+  </operation>
+
+  <operation impact="INFO">
+    <description>Show Rules with expiration info for configured bucket.</description>
+    <name>showExpirationRules</name>
+    <return-type>java.lang.String</return-type>
+  </operation>
+  <operation impact="INFO">
+    <description>Add a new expiration rule to configured bucket.</description>
+    <name>addExpirationRule</name>
+    <parameter>
+      <name>id</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <parameter>
+      <name>prefix</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <parameter>
+      <name>expirationInDays</name>
+      <type>int</type>
+    </parameter>
+    <return-type>java.lang.String</return-type>
+  </operation>
+  <operation impact="INFO">
+    <description>Remove Rule with given id from configured bucket.</description>
+    <name>removeExpirationRule</name>
+    <parameter>
+      <name>id</name>
+      <type>java.lang.String</type>
+    </parameter>
+    <return-type>boolean</return-type>
+  </operation>
+  <operation impact="INFO">
+    <description>Remove BucketLifecycleConfiguration from configured bucket. Warning: All expiration rules will be removed!</description>
+    <name>removeBucketLifecycleConfiguration</name>
+    <return-type>boolean</return-type>
+  </operation>
+
+</mbean>
+

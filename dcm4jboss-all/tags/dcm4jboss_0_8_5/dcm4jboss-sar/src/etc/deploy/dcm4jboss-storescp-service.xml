@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-storescp-service.xml 1156 2004-08-27 16:22:47Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss.jar"/>
+  <mbean code="org.dcm4chex.archive.dcm.storescp.StoreScpService" 
+	     name="dcm4chex:service=StoreScp"
+	     xmbean-dd="xmdesc/dcm4jboss-storescp-xmbean.xml">
+    <depends>
+      dcm4chex:service=DcmServer
+    </depends>
+  </mbean>
+</server>
