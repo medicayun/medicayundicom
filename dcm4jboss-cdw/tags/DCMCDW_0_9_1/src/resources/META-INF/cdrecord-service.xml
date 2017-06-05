@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!-- $Id: cdrecord-service.xml 4167 2004-08-15 23:15:37Z gunterze $ -->
+
+<!DOCTYPE server PUBLIC
+   "-//JBoss//DTD MBean Service 3.2//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss-service_3_2.dtd"
+>
+
+<server>
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="dcmcdw:service=Queue,name=CDRecord">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>  
+
+   <mbean code="org.dcm4chex.cdw.cdrecord.CDRecordService"
+      name="dcmcdw:service=MediaWriter,name=CDRecord"
+      xmbean-dd="xmdesc/dcmcdw-cdrecord-xmbean.xml">
+      <depends>
+      	dcmcdw:service=Queue,name=CDRecord
+      </depends>
+      <depends>
+        jboss.mq:service=InvocationLayer,type=JVM
+      </depends>
+      <depends>
+        dcmcdw:service=LabelPrint
+      </depends>
+   </mbean>
+</server>

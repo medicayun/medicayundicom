@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- $Id: dcmcdw-labelprint-xmbean.xml 4167 2004-08-15 23:15:37Z gunterze $ -->
+
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>DICOM Storage SCP</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="LabelPrintService.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.cdw.mbean.LabelPrintService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>LabelPrintService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getPrinterName"
+      setMethod="setPrinterName">
+      <description>Specifies Printer to use. '*' = unspecified.
+      </description>
+      <name>PrinterName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="*" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getChromaticity"
+      setMethod="setChromaticity">
+      <description>Specifies monochrome or color printing. 
+      '*' = unspecified. listSupportedChromaticity returns possible values.
+      </description>
+      <name>Chromaticity</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="*" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMedia"
+      setMethod="setMedia">
+      <description>Specifies the medium on which to print. 
+      '*' = unspecified. listSupportedMedia returns possible values.
+      </description>
+      <name>Media</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="*" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPrintQuality"
+      setMethod="setPrintQuality">
+      <description>Specifies specifies the print quality. 
+      '*' = unspecified. listSupportedPrintQuality returns possible values.
+      </description>
+      <name>PrintQuality</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="*" />
+      </descriptors>
+   </attribute>
+   &defaultAttributes;
+   
+   <!-- Operations -->
+   <operation impact="INFO">
+      <description>List available Printers</description>
+      <name>listAvailablePrinters</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>List Supported Doc Flavors 
+      of Printer specified by PrinterName</description>
+      <name>listSupportedDocFlavors</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>List Supported Values of Chromaticity
+      of Printer specified by PrinterName</description>
+      <name>listSupportedChromaticity</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>List Supported Values of Media
+      of Printer specified by PrinterName</description>
+      <name>listSupportedMedia</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>List Supported Values of Print Quality
+      of Printer specified by PrinterName</description>
+      <name>listPrintQuality</name>
+      <return-type>java.lang.String</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Print Label</description>
+      <name>print</name>
+      <parameter>
+         <description>Media Creation Request</description>
+         <name>MediaCreationRequest</name>
+         <type>org.dcm4chex.cdw.common.MediaCreationRequest</type>
+      </parameter>
+   </operation>
+   &defaultOperations;
+</mbean>

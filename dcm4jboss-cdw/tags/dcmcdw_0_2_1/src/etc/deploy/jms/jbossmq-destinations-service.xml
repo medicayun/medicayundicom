@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- $Id: jbossmq-destinations-service.xml 4128 2004-06-28 00:25:30Z gunterze $ -->
+
+<server>
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="dcmcdw:service=Queue,name=MediaComposer">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>  
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="dcmcdw:service=Queue,name=MakeIsoImage">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>  
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="dcmcdw:service=Queue,name=MediaWriter">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>  
+
+</server>

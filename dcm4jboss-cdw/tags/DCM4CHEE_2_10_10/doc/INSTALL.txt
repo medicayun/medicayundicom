@@ -1,0 +1,222 @@
+Install Instructions for DICOM CD Writer dcm4chee-cdw:
+===============================================
+
+System Requirements:
+
+    CPU: 400 MHz
+    RAM: 128 MB (256 MB recommended)
+    Hard Disk Space: > 2 x Media capacity + 50MB
+    ATAPI CD/DVD Recorder supported by cdrtool/cdrecord
+    OS: any operating system with a JVM 
+    JDK 1.4.2+
+
+
+Prerequisites:
+
+  + JDK 1.4.2+ (JRE is not sufficient!), free available at
+    http://java.sun.com/j2se/1.4.2/. (dcm4chee-cdw should also run with JDK 1.5,
+    but it was mainly tested with JDK 1.4.2_06).
+    It is recommended to define an environment variable JAVA_HOME pointing
+    to the JDK directory and to append $JAVA_HOME/bin - or %JAVA_HOME%\bin -
+    to your PATH.
+    
+  + JBoss Application Server 3.2.6+, free available at http://www.jboss.org.
+  
+  + Joerg Schilling's cdrtools including mkisofs and cdrecord
+    [http://freshmeat.net/projects/cdrecord]. Precompiled binaries for Windows,
+    including the necessary cygwin.dll are (e.g) available at
+    http://www.geoshock.com/cdrtools.
+    If cdrecord fails to detect the CD drive on Windows, try Nero ASPI Library
+    (wnaspi32.dll) by Ahead Software AG (free download from nero.com) instead
+    your system default ASPI driver.
+    On Unix/Linux, you have to take care, that the user as which JBoss is
+    running has the permission to execute cdrecord.
+    It is also recommended to add the directory containing mkisofs[.exe] and
+    cdrecord[.exe] to your PATH.
+    
+  + For Label printing on Windows Printer without Postscript support
+    dcm4chee-cdw needs (e.g.) Acrobat Reader (free download from adobe.com).
+    
+
+Installation:
+
+ 1. Unzip the ZIP archive into the server sub-directory of your JBoss
+    installation
+    
+ 2. Open a console and change the working directory to default/bin of
+    the extracted file set and run:
+    
+    [Windows]    install
+    [Unix/Linux] ./install.sh
+    
+    to copy necessary files from the JBoss installation into this file set.
+    
+ 4. Change the working directory to the bin directory of the JBoss
+    installation and start the JBoss Application Server with default
+    server configuration:
+    
+    [Windows]    run
+    [Unix/Linux] ./run.sh
+    
+    Check the console output, if any ERROR log message occurs during start up.
+    After the message 
+
+    23:44:46,857 INFO  [Server] JBoss (MX MicroKernel) [3.2.6 (build: CVSTag=JBoss_3_2_6 date=200410140106)] Started in 1m:41s:180ms
+    
+    the start up is completed.
+    
+ 5. Open the JBoss Administration Console http://localhost:8080/jmx-console with
+    any Web Browser. Scroll down to section "dcm4chee.cdw" and follow the link
+    of the section title to only show entires for dcm4chee-cdw specific services:
+ 
+    * name=CDRecord,service=MediaWriter
+    * name=CDRecord,service=Queue
+    * name=MakeIsoImage,service=Queue
+    * name=MediaComposer,service=Queue
+    * name=NeroCmd,service=MediaWriter
+    * name=NeroCmd,service=Queue
+    * service=DcmServer
+    * service=LabelPrint
+    * service=MakeIsoImage
+    * service=MediaComposer
+    * service=MediaCreationMgtSCP
+    * service=SpoolDir
+    * service=SpoolDirScheduler
+    * service=StoreSCP
+ 
+ 6. Follow the link to the Media Writer Service for usage of cdrecord
+    (->"name=CDRecord,service=MediaWriter") and adjust the value of attribute:
+    
+    Device="0,0,0"
+    
+    to the SCSI address (Syntax: scsibus,target,lun) of the CD/DVD-Recorder on
+    your system. If cdrecord is not on your PATH you have also configure its
+    absolute path as value of attribute
+    
+    Executable="cdrecord"
+    
+    . - In that case you may also have to configure an absolute path for
+    invoking mkisofs by the MakeIsoImage service (->"service=MakeIsoImage").
+    
+    Test if the CDRecord service can control your CD Drive by invoking operation
+    
+    eject()
+    
+    from its configuration page.
+    
+ 7. For usage of Acrobat Reader as external print utility for label print on
+    Windows Printer you have to adjust the command path in batch file
+    
+    default/bin/acroread.bat
+    
+    and set Label Print Service (->"service=LabelPrint") attribute 
+    
+    UseExternalPrintUtility=true.
+    
+    Label creation and printing is deactivated by default configuration.
+    To activate it, you have to modify attribute
+    
+    LableFileFormat=NO
+    
+    of the Media Composer Service (->"service=MediaComposer") and set the
+    CDRecord service attribute
+    
+    PrintLabel=true
+    
+    .
+    
+     
+
+    
+Test dcm4chee-cdw using dcmsnd.jar and mcmscu.jar command line utilities:
+
+ 1. Open a (second) console and change the working directory to default/bin of
+    the extracted file set.
+    
+ 2. Run
+    
+    java -jar dcmsnd.jar dicom://CDRECORD@localhost:10104 FILE|DIRECTORY...
+    
+    to send DICOM objects - specified by FILE or DIRECTORY - to the server,
+    using DICOM Storage Services.
+    
+ 3. Run      
+ 
+    java -jar mcmscu.jar -ca --create=IncludeNonDICOMObjects:FOR_PHYSICIAN \
+                         dicom://CDRECORD@localhost:10104 FILE|DIRECTORY...
+    
+    to create a Media Creation Request refering the transmitted DICOM objects 
+    and requesting the generation of web content
+    (IncludeNonDICOMObjects:FOR_PHYSICIAN), and immediately inititate (-a)
+    the Media Creation at the server.
+    
+    In the server console you should see logging messages documenting the
+    process of the Media Creation:
+    
+    01:39:45,167 INFO  [MediaComposerService] Start Composing media for MCRQ
+    01:40:20,361 INFO  [MediaComposerService] Start Creating HTML content for MCRQ
+    01:40:29,364 INFO  [MediaComposerService] Finished Creating HTML content for MCRQ
+    01:40:31,092 INFO  [MediaComposerService] Finished Composing media for MCRQ
+    01:40:31,093 INFO  [MediaComposerService] Schedule Creating ISO image for MCRQ
+    01:40:31,204 INFO  [MakeIsoImageService] Start Creating ISO 9660 image for MCRQ
+    01:40:34,885 INFO  [MakeIsoImageService] Schedule Creating Media for MCRQ
+    01:40:34,952 INFO  [CDRecordService] Start Creating Media for MCRQ
+    01:40:52,067 INFO  [CDRecordService] Burning MCRQ
+    01:41:29,777 INFO  [CDRecordService] Burned MCRQ
+    01:41:39,790 INFO  [CDRecordService] Finished Creating Media for MCRQ
+
+ 4. Run
+
+    java -jar mcmscu.jar --help
+    
+    and look into configuration file mcmscu.cfg for other available options.
+    
+
+How to modify the layout of generated INDEX.HTM, Web Content and/or Media Label?    
+ 
+    dcm4chee-cdw creates INDEX.HTM, HTML pages and Media Label by applying
+    XSL stylesheets, located at default/conf/xsl/, to a XMLized version
+    of the DICOM directory (DICOMDIR) content. So you can change the layout
+    by modifying the XSL stylesheets.
+    
+    Setting Media Composer Service (->"service=MediaComposer") attribute
+    
+    LogXml=true
+    
+    causes dcm4chee-cdw to dump the DICOMDIR xml version into
+        
+    default/log/dicomdir.xml .
+    
+    Then the XSLT transformation can be applied manually:
+    
+    To generate INDEX.HTM in the disk root directory (assuming 
+    default/bin as working directory) run:
+    
+    [Windows]    xalan -IN ..\log\dicomdir.xml -XSL ..\conf\xsl\index.xsl 
+                    -OUT INDEX.HTM
+    [Unix/Linux] ./xalan.sh -IN ../log/dicomdir.xml -XSL ../conf/xsl/index.xsl 
+                    -OUT INDEX.HTM
+    
+    To generate the the Web Presentation run:
+    
+    [Windows]    xalan -IN ..\log\dicomdir.xml -XSL ..\conf\xsl\web.xsl 
+                    -OUT INDEX.HTM
+    [Unix/Linux] ./xalan.sh -IN ../log/dicomdir.xml -XSL ../conf/xsl/web.xsl 
+                    -OUT INDEX.HTM
+                    
+    To generate the Disk Label, using Apaches FOP:
+    
+    [Windows]    fop -xml ../log/dicomdir.xml -xsl ../conf/xsl/label.xsl
+                    -pdf label.pdf
+    [Unix/Linux] ./fop.sh -xml ../log/dicomdir.xml -xsl ../conf/xsl/label.xsl
+                    -pdf label.pdf
+
+
+Hopefully, these briefly instructions are sufficent to start exploring
+the abilities of dcm4che/dcm4chee-cdw yourself. - Contributions to the
+documention of dcm4chee-cdw are highly appreciated.
+
+Have Fun,
+
+gunter zeilinger    gunter.zeilinger@tiani.com
+Tiani Medgraph AG   http://www.tiani.com

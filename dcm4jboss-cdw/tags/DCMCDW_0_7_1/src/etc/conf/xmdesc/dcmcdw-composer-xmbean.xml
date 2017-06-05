@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- $Id: dcmcdw-composer-xmbean.xml 4167 2004-08-15 23:15:37Z gunterze $ -->
+
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Media Composer
+   </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="MediaComposer.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.cdw.mbean.MediaComposer</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MediaComposer</name>
+   </constructor>
+
+   <!-- Attributes -->
+	&defaultAttributes;
+   <attribute access="read-write"
+      getMethod="getSpoolDirName"
+      setMethod="setSpoolDirName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>SpoolDirName</name>
+      <type>javax.management.ObjectName</type>      
+      <descriptors>
+         <value value="dcmcdw:service=SpoolDir" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isKeepSpoolFiles"
+      setMethod="setKeepSpoolFiles">
+      <description>Keep spool files (for debugging) in failure case.
+      </description>
+      <name>KeepSpoolFiles</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMediaCapacity"
+      setMethod="setMediaCapacity">
+      <description>Media Capacity. Format: ##.#GB|##.#MB. 
+      </description>
+      <name>MediaCapacity</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="700MB" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getFileSetDescriptorFile"
+      setMethod="setFileSetDescriptorFile">
+      <description>File-set Descriptor File (a "README" file).
+      "NO"= no File-set Descriptor File.
+      </description>
+      <name>FileSetDescriptorFilename</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="NO" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCharsetOfFileSetDescriptorFile"
+      setMethod="setCharsetOfFileSetDescriptorFile">
+      <description>Character set used in the File-set Descriptor File.
+      </description>
+      <name>CharsetOfFileSetDescriptorFile</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="ISO_IR 100" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isCreateIcon"
+      setMethod="setCreateIcon">
+      <description>Creates an icon to include in DICOMDIR for image instances
+      for which no icon is provided in the Media Creation Request.
+      </description>
+      <name>CreateIcon</name>
+      <type>boolean</type>      
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getIconWidth"
+      setMethod="setIconWidth">
+      <description>Maximal Width of generated icons.
+      </description>
+      <name>IconWidth</name>
+      <type>int</type>      
+      <descriptors>
+         <value value="64" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getIconHeight"
+      setMethod="setIconHeight">
+      <description>Maximal Height of generated icons.
+      </description>
+      <name>IconHeight</name>
+      <type>int</type>      
+      <descriptors>
+         <value value="64" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getJpegWidth"
+      setMethod="setJpegWidth">
+      <description>Maximal Width of generated JPEG images for web representation.
+      </description>
+      <name>JpegWidth</name>
+      <type>int</type>      
+      <descriptors>
+         <value value="512" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getJpegHeight"
+      setMethod="setJpegHeight">
+      <description>Maximal Height of generated JPEG images for web representation.
+      </description>
+      <name>JpegHeight</name>
+      <type>int</type>      
+      <descriptors>
+         <value value="512" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getCreateLabel"
+      setMethod="setCreateLabel">
+      <description>Controls creation of Media Label file.
+      Enumerated Values: NO|PS|PDF.
+      </description>
+      <name>CreateLabel</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="NO" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isMakeIsoImage"
+      setMethod="setMakeIsoImage">
+      <description>Activates creation of ISO 9660 image file before the
+      media creation request is processed by the Media Writer Service.
+      </description>
+      <name>MakeIsoImage</name>
+      <type>boolean</type>      
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogXml"
+      setMethod="setLogXml">
+      <description>Log XML representation of DICOMDIR to 
+      server/dcmcdw/log/dicomdir.xml. 
+      </description>
+      <name>LogXml</name>
+      <type>boolean</type>      
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- $Id: dcmcdw-mcmscp-xmbean.xml 4164 2004-07-22 13:26:59Z gunterze $ -->
+
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>DICOM Media Creation Management SCP</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="MediaCreationMgtScpService.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.cdw.mbean.MediaCreationMgtScpService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MediaCreationMgtScpService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   &defaultAttributes;
+   <attribute access="read-write"
+      getMethod="getDcmServerName"
+      setMethod="setDcmServerName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>DcmServerName</name>
+      <type>javax.management.ObjectName</type>      
+      <descriptors>
+         <value value="dcmcdw:service=DcmServer" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getSpoolDirName"
+      setMethod="setSpoolDirName">
+      <description>Used internally - do NOT modify.
+      </description>
+      <name>SpoolDirName</name>
+      <type>javax.management.ObjectName</type>      
+      <descriptors>
+         <value value="dcmcdw:service=SpoolDir" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isKeepSpoolFiles"
+      setMethod="setKeepSpoolFiles">
+      <description>Keep spool files (for debugging) in failure case.
+      </description>
+      <name>KeepSpoolFiles</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAcceptExplicitVRLE"
+      setMethod="setAcceptExplicitVRLE">
+      <description>Accept DICOM objects encoded in Explicit Value Representation Little Endian Transfer Syntax.
+      </description>
+      <name>AcceptExplicitVRLE</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDefaultMediaApplicationProfile"
+      setMethod="setDefaultMediaApplicationProfile">
+      <description>Description not yet written.
+      </description>
+      <name>DefaultMediaApplicationProfile</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="STD-GEN-CD" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDefaultRequestPriority"
+      setMethod="setDefaultRequestPriority">
+      <description>Description not yet written.
+      </description>
+      <name>DefaultRequestPriority</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="LOW" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxNumberOfCopies"
+      setMethod="setMaxNumberOfCopies">
+      <description>Description not yet written.
+      </description>
+      <name>MaxNumberOfCopies</name>
+      <type>int</type>      
+      <descriptors>
+         <value value="10" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isDefaultLabelUsingInformationExtractedFromInstances"
+      setMethod="setDefaultLabelUsingInformationExtractedFromInstances">
+      <description>Description not yet written.
+      </description>
+      <name>DefaultLabelUsingInformationExtractedFromInstances</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDefaultLabelText"
+      setMethod="setDefaultLabelText">
+      <description>Description not yet written.
+      </description>
+      <name>DefaultLabelText</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDefaultLabelStyleSelection"
+      setMethod="setDefaultLabelStyleSelection">
+      <description>Description not yet written.
+      </description>
+      <name>DefaultLabelStyleSelection</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isDefaultAllowMediaSplitting"
+      setMethod="setDefaultAllowMediaSplitting">
+      <description>Description not yet written.
+      </description>
+      <name>DefaultAllowMediaSplitting</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isMediaSplittingSupported"
+      setMethod="setMediaSplittingSupported">
+      <description>Description not yet written.
+      </description>
+      <name>MediaSplittingSupported</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isDefaultAllowLossyCompression"
+      setMethod="setDefaultAllowLossyCompression">
+      <description>Description not yet written.
+      </description>
+      <name>DefaultAllowLossyCompression</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDefaultIncludeNonDICOMObjects"
+      setMethod="setDefaultIncludeNonDICOMObjects">
+      <description>Description not yet written.
+      </description>
+      <name>DefaultIncludeNonDICOMObjects</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="NO" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isDefaultIncludeDisplayApplication"
+      setMethod="setDefaultIncludeDisplayApplication">
+      <description>Description not yet written.
+      </description>
+      <name>DefaultIncludeDisplayApplication</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isDefaultPreserveInstances"
+      setMethod="setDefaultPreserveInstances">
+      <description>Description not yet written.
+      </description>
+      <name>DefaultPreserveInstances</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAllowCancelAlreadyCreating"
+      setMethod="setAllowCancelAlreadyCreating">
+      <description>Description not yet written.
+      </description>
+      <name>AllowCancelAlreadyCreating</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>

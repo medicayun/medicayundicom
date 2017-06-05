@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!-- $Id: nerocmd-service.xml 4183 2004-09-20 22:09:37Z gunterze $ -->
+
+<!DOCTYPE server PUBLIC
+   "-//JBoss//DTD MBean Service 3.2//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss-service_3_2.dtd"
+>
+
+<server>
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="dcmcdw:service=Queue,name=NeroCmd">
+     <depends optional-attribute-name="DestinationManager">
+     	jboss.mq:service=DestinationManager
+     </depends>
+  </mbean>  
+
+   <mbean code="org.dcm4chex.cdw.nerocmd.NeroCmdService"
+      name="dcmcdw:service=MediaWriter,name=NeroCmd"
+      xmbean-dd="xmdesc/dcmcdw-nerocmd-xmbean.xml">
+      <depends>
+      	dcmcdw:service=Queue,name=NeroCmd
+      </depends>
+      <depends>
+        jboss.mq:service=InvocationLayer,type=JVM
+      </depends>
+      <depends>
+        dcmcdw:service=LabelPrint
+      </depends>
+   </mbean>
+</server>

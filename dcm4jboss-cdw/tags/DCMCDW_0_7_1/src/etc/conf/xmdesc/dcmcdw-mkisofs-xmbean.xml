@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- $Id: dcmcdw-mkisofs-xmbean.xml 4170 2004-08-18 14:44:03Z gunterze $ -->
+
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Make Iso Image
+   </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="MakeIsoImage.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.cdw.mbean.MakeIsoImage</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>MakeIsoImage</name>
+   </constructor>
+
+   <!-- Attributes -->
+   &defaultAttributes;
+   <attribute access="read-write"
+      getMethod="isKeepSpoolFiles"
+      setMethod="setKeepSpoolFiles">
+      <description>Keep spool files (for debugging) in failure case.
+      </description>
+      <name>KeepSpoolFiles</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getIsoLevel"
+      setMethod="setIsoLevel">
+      <description>ISO 9660 conformance level (1..3) or 4 for ISO9660 version 2.
+      </description>
+      <name>IsoLevel</name>
+      <type>int</type>      
+      <descriptors>
+         <value value="1" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isRockRidge"
+      setMethod="setRockRidge">
+      <description>Generate rationalized Rock Ridge directory information.
+      Seems necessary to preserve uppercase of file and directory names.
+      </description>
+      <name>RockRidge</name>
+      <type>boolean</type>      
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isJoliet"
+      setMethod="setJoliet">
+      <description>Generate Joliet directory information.
+      </description>
+      <name>Joliet</name>
+      <type>boolean</type>      
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isUdf"
+      setMethod="setUdf">
+      <description>Generate UDF file system.
+      </description>
+      <name>Udf</name>
+      <type>boolean</type>      
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isVolsetInfoEnabled"
+      setMethod="setVolsetInfoEnabled">
+      <description>Set Volumne set ID, size and sequence number.
+      </description>
+      <name>VolsetInfoEnabled</name>
+      <type>boolean</type>      
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isPadding"
+      setMethod="setPadding">
+      <description>Pad output to a multiple of 32k.
+      </description>
+      <name>Padding</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isSortEnabled"
+      setMethod="setSortEnabled">
+      <description>Sort file content locations according to rules in
+      server/dcmcdw/conf/mkisofs.sort.
+      </description>
+      <name>SortEnabled</name>
+      <type>boolean</type>      
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogEnabled"
+      setMethod="setLogEnabled">
+      <description>Log to server/dcmcdw/log/mkisofs.log.
+      </description>
+      <name>LogEnabled</name>
+      <type>boolean</type>      
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>

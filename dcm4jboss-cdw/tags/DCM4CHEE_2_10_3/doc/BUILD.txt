@@ -1,0 +1,70 @@
+Build Instructions for DICOM CD Writer dcm4chee-cdw:
+=============================================
+
+In order to build dcm4chee-cdw you have to download and install:
+- Ant 1.6.x (from http://ant.apache.org)
+- JUnit 3.8.x (from http://junit.org)
+- JBoss 3.2.6 (from http://jboss.org)
+- FOP 0.20.5 (from http://xml.apache.org/fop/)
+
+Create an environment variable pointing to the Ant home directory (ANT_HOME)
+and add the $ANT_HOME/bin directory to your PATH.
+
+Copy junit.jar from the JUnit package into $ANT_HOME/lib/.
+
+You also need a distribution of dcm4che DICOM core library - download the
+binary disrtribution or build dcm4che from the source - before
+you can build dcm4chee-cdw.
+
+At first time, connecting to the project CVS repository, you have to login by
+
+>cvs -d:pserver:anonymous@cvs.dcm4che.sourceforge.net:/cvsroot/dcm4che login
+CVS password:<enter>
+
+Download the source of the dcm4che core library by
+
+>cvs -z3 -d:pserver:anonymous@cvs.dcm4che.sourceforge.net:/cvsroot/dcm4che
+  checkout dcm4che14 
+
+and build the library jar, by running
+
+>ant jar
+
+with the dcm4che14 distribution directory as working directory.
+
+The source of the dcm4chee-cdw package is available in module dcm4jboss-cdw
+in the dcm4che project CVS repository:
+
+>cvs -z3 -d:pserver:anonymous@cvs.dcm4che.sourceforge.net:/cvsroot/dcm4che
+  checkout dcm4jboss-cdw
+
+The default build script (build.xml) assumes following locations of
+components required for building dcm4chee-cdw:
+
+<!-- Override with your dcm4che dist location -->
+<property name="dcm4che.home" value="../dcm4che14/build/dcm4che-1.1.4"/>
+
+<!-- Override with your JBoss/Web server bundle dist location -->
+<property name="jboss.home" value="${user.home}/jboss-3.2.6"/>		
+
+<!-- Override with your FOP dist location -->
+<property name="fop.home" value="${user.home}/fop-0.20.5"/>
+
+Instead of modifying the build script directly, you may adjust these values
+to your build environment by renaming file build.properties.default to
+build.properties and modify the values in it.
+
+After that, invoking
+
+>ant dist
+
+with the dcm4chee-cdw distribution directory as working directory builds:
+
+target/dcm4chee-cdw-VERSION.zip:
+Binary distribution without needed JBoss Components
+
+target/dcm4chee-cdw-standalone-VERSION.zip:
+Binary distribution included JBoss Application Server
+
+target/dcm4chee-cdw-src-VERSION.zip:
+Source distribution.

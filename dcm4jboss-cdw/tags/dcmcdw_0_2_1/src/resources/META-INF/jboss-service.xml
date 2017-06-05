@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!-- $Id: jboss-service.xml 4128 2004-06-28 00:25:30Z gunterze $ -->
+
+<!DOCTYPE server PUBLIC
+   "-//JBoss//DTD MBean Service 3.2//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss-service_3_2.dtd"
+>
+
+<server>
+   <mbean code="org.dcm4chex.cdw.mbean.SpoolDirService"
+      name="dcmcdw:service=SpoolDir"
+      xmbean-dd="xmdesc/dcmcdw-spooldir-xmbean.xml">
+   </mbean>
+
+   <mbean code="org.jboss.varia.scheduler.Scheduler" 
+	  name="dcmcdw:service=SpoolDirScheduler"
+      xmbean-dd="xmdesc/dcmcdw-spooldir-scheduler-xmbean.xml">
+      <depends>
+         dcmcdw:service=SpoolDir
+      </depends>
+   </mbean>
+   
+   <mbean code="org.dcm4chex.cdw.mbean.DcmServerService"
+      name="dcmcdw:service=DcmServer"
+      xmbean-dd="xmdesc/dcmcdw-dcmsrv-xmbean.xml">
+   </mbean>
+   
+   <mbean code="org.dcm4chex.cdw.mbean.StoreScpService"
+      name="dcmcdw:service=StoreSCP"
+      xmbean-dd="xmdesc/dcmcdw-storescp-xmbean.xml">
+      <depends>
+         dcmcdw:service=DcmServer
+      </depends>
+      <depends>
+         dcmcdw:service=SpoolDir
+      </depends>
+   </mbean>
+   
+   <mbean code="org.dcm4chex.cdw.mbean.MediaCreationMgtScpService"
+      name="dcmcdw:service=MediaCreationMgtSCP"
+      xmbean-dd="xmdesc/dcmcdw-mcmscp-xmbean.xml">
+      <depends>
+         dcmcdw:service=DcmServer
+      </depends>
+      <depends>
+         dcmcdw:service=SpoolDir
+      </depends>
+      <depends>
+      	dcmcdw:service=MediaComposer
+      </depends>
+   </mbean>
+   
+   <mbean code="org.dcm4chex.cdw.mbean.MediaComposerService"
+      name="dcmcdw:service=MediaComposer"
+      xmbean-dd="xmdesc/dcmcdw-composer-xmbean.xml">
+      <depends>
+         dcmcdw:service=SpoolDir
+      </depends>
+      <depends>
+      	dcmcdw:service=Queue,name=MakeIsoImage
+      </depends>
+      <depends>
+      	dcmcdw:service=Queue,name=MediaWriter
+      </depends>
+      <depends>
+      	dcmcdw:service=Queue,name=MediaComposer
+      </depends>
+      <depends>
+        jboss.mq:service=InvocationLayer,type=JVM
+      </depends>
+   </mbean>
+
+   <mbean code="org.dcm4chex.cdw.mbean.MakeIsoImageService"
+      name="dcmcdw:service=MakeIsoImage"
+      xmbean-dd="xmdesc/dcmcdw-mkisofs-xmbean.xml">
+      <depends>
+      	dcmcdw:service=Queue,name=MakeIsoImage
+      </depends>
+      <depends>
+      	dcmcdw:service=Queue,name=MediaWriter
+      </depends>
+      <depends>
+        jboss.mq:service=InvocationLayer,type=JVM
+      </depends>
+   </mbean>
+</server>

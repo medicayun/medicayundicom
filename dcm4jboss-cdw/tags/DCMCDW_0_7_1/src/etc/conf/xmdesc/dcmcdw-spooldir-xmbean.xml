@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- $Id: dcmcdw-spooldir-xmbean.xml 4137 2004-07-04 23:59:22Z gunterze $ -->
+
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Spool Directory</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="SpoolDirService.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.cdw.mbean.SpoolDirService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>SpoolDirService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   &defaultAttributes;
+   <attribute access="read-write"
+      getMethod="getDirectoryPath"
+      setMethod="setDirectoryPath">
+      <description>Spool Directory Path Name. Relative path names will be
+      resolved against directory $DCMCDW_HOME/server/dcmcdw/."
+      </description>
+      <name>DirectoryPath</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="spool" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPurgeMediaCreationRequestsAfter"
+      setMethod="setPurgeMediaCreationRequestsAfter">
+      <description>Persistence duration for Media Creation Requests
+      in days (##d), hours (##h) or minutes (##m). 0 = Infinite Persistenz.
+      </description>
+      <name>PurgeMediaCreationRequestsAfter</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="1d" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPurgePreservedInstancesAfter"
+      setMethod="setPurgePreservedInstancesAfter">
+      <description>Persistence duration for preserved Instances
+      in days (##d), hours (##h) or minutes (##m). 0 = Infinite Persistenz.
+      </description>
+      <name>PurgePreservedInstancesAfter</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="1d" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPurgeTemporaryFilesAfter"
+      setMethod="setPurgeTemporaryFilesAfter">
+      <description>Persistence duration of residual temporary Files
+      in days (##d), hours (##h) or minutes (##m). 0 = Infinite Persistenz.
+      </description>
+      <name>PurgeTemporaryFilesAfter</name>
+      <type>java.lang.String</type>      
+      <descriptors>
+         <value value="1h" />
+      </descriptors>
+   </attribute>
+   
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="INFO">
+      <description>Get Instance File</description>
+      <name>getInstanceFile</name>
+      <parameter>
+         <description>SOP Instance UID</description>
+         <name>iuid</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.io.File</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Get Media Creation Request File</description>
+      <name>getMediaCreationRequestFile</name>
+      <parameter>
+         <description>SOP Instance UID</description>
+         <name>iuid</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.io.File</return-type>
+   </operation>
+   <operation impact="INFO">
+      <description>Get Media File-Set Root Directory</description>
+      <name>getMediaFilesetRootDir</name>
+      <parameter>
+         <description>Storage Media File-Set UID</description>
+         <name>iuid</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <return-type>java.io.File</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Purge Expired Media Creation Requests, Preserved Instances
+      and Residual Temporary Files</description>
+      <name>purge</name>
+   </operation>
+   <operation impact="ACTION">
+      <description>Purge Expired Media Creation Requests</description>
+      <name>purgeExpiredMediaCreationRequests</name>
+   </operation>
+   <operation impact="ACTION">
+      <description>Purge Expired Preserved Instances</description>
+      <name>purgeExpiredPreservedInstances</name>
+   </operation>
+   <operation impact="ACTION">
+      <description>Purge Residual Temporary Files</description>
+      <name>purgeResidualTemporaryFiles</name>
+   </operation>
+
+</mbean>

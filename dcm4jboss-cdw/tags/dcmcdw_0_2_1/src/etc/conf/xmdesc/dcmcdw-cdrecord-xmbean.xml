@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- $Id: dcmcdw-cdrecord-xmbean.xml 4142 2004-07-08 21:40:43Z gunterze $ -->
+
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Media Writer Service for using cdrecord
+   [http://freshmeat.net/projects/cdrecord/]
+   </description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="CDRecordService.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.cdw.cdrecord.CDRecordService</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>CDRecordService</name>
+   </constructor>
+
+   <!-- Attributes -->
+   &defaultAttributes;
+   <attribute access="read-write"
+      getMethod="isKeepSpoolFiles"
+      setMethod="setKeepSpoolFiles">
+      <description>Keep spool files (for debugging).
+      </description>
+      <name>KeepSpoolFiles</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getDevice"
+      setMethod="setDevice">
+      <description>SCSI address of the CD/DVD-Recorder.
+      Syntax: scsibus,target,lun or target,lun.
+      Run cdrecord -scanbus to list SCSI addresses of all
+      SCSI devices on all SCSI busses.
+      </description>
+      <name>Device</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="0,0" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getWriteSpeed"
+      setMethod="setWriteSpeed">
+      <description>Speed factor of the writing process.
+      </description>
+      <name>WriteSpeed</name>
+      <type>int</type>
+      <descriptors>
+         <value value="24" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getWriteMode"
+      setMethod="setWriteMode">
+      <description>Write Mode: (tao|dao|sao|raw|raw96r|raw96p|raw16).
+      Run cdrecord -help for description.
+      </description>
+      <name>WriteMode</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="tao" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getTrackType"
+      setMethod="setTrackType">
+      <description>Track Type: (data|mode2|xa|xa1|xa2|xamix).
+      Run cdrecord -help for description.
+      </description>
+      <name>TrackType</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="data" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isMultiSession"
+      setMethod="setMultiSession">
+      <description>Generate a TOC that allows multi session.
+      </description>
+      <name>MultiSession</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isAppendEnabled"
+      setMethod="setAppendEnabled">
+      <description>Allow to append already exisiting session.
+      </description>
+      <name>AppendEnabled</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isPadding"
+      setMethod="setPadding">
+      <description>Pad data track with 15 zeroed sectors.
+      </description>
+      <name>Padding</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isSimulate"
+      setMethod="setSimulate">
+      <description>Only simulate write process (laser is turned off).
+      </description>
+      <name>Simulate</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="false" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isEject"
+      setMethod="setEject">
+      <description>Eject disk after write process.
+      </description>
+      <name>Eject</name>
+      <type>boolean</type>
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="isLogEnabled"
+      setMethod="setLogEnabled">
+      <description>Log to server/dcmcdw/log/cdrecord.log.
+      </description>
+      <name>LogEnabled</name>
+      <type>boolean</type>      
+      <descriptors>
+         <value value="true" />
+      </descriptors>
+   </attribute>
+   
+   <!-- Operations -->
+   &defaultOperations;
+   <operation impact="ACTION">
+      <description>Check Drive</description>
+      <name>checkDrive</name>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Check Disk</description>
+      <name>checkDisk</name>
+      <return-type>boolean</return-type>
+   </operation>
+   <operation impact="ACTION">
+      <description>Query Media Content</description>
+      <name>hasTOC</name>
+      <return-type>boolean</return-type>
+   </operation>
+</mbean>

@@ -1,0 +1,206 @@
+<project default="dist">
+
+    <!-- Allow override from local properties file -->
+    <property file="build.properties" />
+
+    <property name="version" value="0.9.2"/>
+    <property name="dist.name" value="dcmcdw-${version}"/>
+
+    <!-- Override with your JBoss server bundle dist location -->
+    <property name="jboss.home" value="${user.home}/jboss-3.2.5"/>
+
+    <!-- Override with your FOP dist location -->
+    <property name="fop.home" value="${user.home}/fop-0.20.5"/>
+
+    <!-- Override with your dcm4che dist location -->
+	<property name="dcm4che.home" value="../dcm4che14/build/dcm4che-1.1.2"/>
+	<property name="dcm4che.jar" value="${dcm4che.home}/lib/dcm4che.jar"/>	
+
+    <property name="src.dir" value="${basedir}/src/java"/>
+    <property name="src.resources" value="${basedir}/src/resources"/>
+    <property name="src.etc" value="${basedir}/src/etc"/>
+    <property name="lib.dir" value="${basedir}/lib"/>
+    <property name="build.dir" value="${basedir}/target"/>
+    <property name="build.classes.dir" value="${build.dir}/classes"/>
+    <property name="dist.dir" value="${build.dir}/${dist.name}"/>
+
+    <path id="build.path">
+        <pathelement location="${dcm4che.home}/lib/dcm4che.jar"/>
+        <pathelement location="${fop.home}/build/fop.jar"/>
+    	<pathelement location="${fop.home}/lib/avalon-framework-cvs-20020806.jar"/>
+        <pathelement location="${jboss.home}/lib/jboss-common.jar"/>
+        <pathelement location="${jboss.home}/lib/jboss-system.jar"/>
+        <pathelement location="${jboss.home}/lib/jboss-jmx.jar"/>
+        <pathelement location="${jboss.home}/server/default/lib/log4j.jar"/>
+        <pathelement location="${jboss.home}/server/default/lib/jboss-j2ee.jar"/>
+        <pathelement location="${build.classes.dir}"/>
+    </path>
+
+    <target name="compile">
+      <mkdir dir="${build.classes.dir}"/>
+      <javac srcdir="${src.dir}"
+           destdir="${build.classes.dir}"
+           classpathref="build.path"
+           debug="on"
+           deprecation="on"
+           optimize="off">
+           <include name="org/dcm4chex/**" />
+      </javac>
+    </target>
+
+   <target name="jar" depends="compile">
+      <mkdir dir="${dist.dir}/lib"/>
+      <jar destfile="${dist.dir}/lib/dcm4jboss-cdw.jar">
+         <fileset dir="${build.classes.dir}"
+            includes="org/dcm4chex/cdw/common/**"
+         />
+      </jar>
+   </target>
+   
+   <target name="sar" depends="compile">
+      <mkdir dir="${dist.dir}/deploy"/>
+      <zip destfile="${dist.dir}/deploy/dcm4jboss-cdw.sar">
+         <fileset dir="${src.resources}"
+            includes="META-INF/jboss-service.xml"
+         />
+         <fileset dir="${build.classes.dir}"
+            includes="org/dcm4chex/cdw/mbean/**"
+         />
+      </zip>
+      <zip destfile="${dist.dir}/deploy/dcm4jboss-cdrecord.sar">
+         <zipfileset dir="${src.resources}"
+            fullpath="META-INF/jboss-service.xml"
+            includes="META-INF/cdrecord-service.xml"
+         />
+         <fileset dir="${build.classes.dir}"
+            includes="org/dcm4chex/cdw/cdrecord/**"
+         />
+      </zip>
+    <zip destfile="${dist.dir}/deploy/dcm4jboss-nerocmd.sar">
+       <zipfileset dir="${src.resources}"
+          fullpath="META-INF/jboss-service.xml"
+          includes="META-INF/nerocmd-service.xml"
+       />
+       <fileset dir="${build.classes.dir}"
+          includes="org/dcm4chex/cdw/nerocmd/**"
+       />
+    </zip>
+   </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <!-- =================================================================== -->
+   	<!-- Pack distributions                                                  -->
+   	<!-- =================================================================== -->
+
+   	<target name="dist" depends="jar,sar">
+   		<mkdir dir="target/${dist.name}/bin"/>
+   		<fixcrlf srcdir="${src.etc}/bin" destdir="target/${dist.name}/bin"
+   		    eol="crlf"
+       		includes="*.bat"
+   		/>
+   		<fixcrlf srcdir="${src.etc}/bin" destdir="target/${dist.name}/bin"
+       		eol="lf" 
+       		eof="remove"
+       		includes="*.sh,*.conf"
+   		/>
+   		<property name="dist.standalone" value="${dist.name}"/>
+   		<zip destfile="${build.dir}/${dist.standalone}.zip">
+			<zipfileset dir="target/${dist.name}" prefix="${dist.standalone}">
+				<include name="bin/acroread.bat"/>
+				<include name="bin/init_redhat.sh"/>
+				<include name="bin/install_service.bat"/>
+				<include name="bin/fop.sh"/>
+				<include name="bin/fop.bat"/>
+				<include name="bin/run.conf"/>
+				<include name="bin/xalan.sh"/>
+				<include name="bin/xalan.bat"/>
+   			</zipfileset>	
+			<zipfileset dir="${src.etc}" prefix="${dist.standalone}">
+				<include name="bin/fopcfg.xml"/>
+			</zipfileset>
+			<zipfileset dir="target/${dist.name}" prefix="${dist.standalone}/server/dcmcdw">
+				<include name="deploy/*"/>
+				<include name="lib/*"/>
+   			</zipfileset>	
+			<zipfileset dir="${dcm4che.home}" prefix="${dist.standalone}/server/dcmcdw">
+				<include name="lib/dcm4che.jar"/>
+				<include name="samples/getopt.jar"/>
+				<include name="samples/log4j.properties"/>
+				<include name="samples/dcmsnd.jar"/>
+				<include name="samples/dcmsnd.cfg"/>
+				<include name="samples/mcmscu.jar"/>
+				<include name="samples/mcmscu.cfg"/>
+				<include name="samples/dcm2xml.jar"/>
+   			</zipfileset>	
+			<zipfileset dir="${src.etc}" prefix="${dist.standalone}/server/dcmcdw">
+				<include name="conf/**"/>
+				<include name="data/**"/>
+				<include name="deploy/**"/>
+			</zipfileset>
+			<zipfileset dir="${basedir}" prefix="${dist.standalone}">
+				<include name="bin/*"/>
+			</zipfileset>
+			<zipfileset dir="${jboss.home}" prefix="${dist.standalone}">
+				<include name="bin/run.bat"/>
+				<include name="bin/run.sh"/>
+				<include name="bin/run.jar"/>
+				<include name="bin/shutdown.jar"/>
+				<include name="bin/shutdown.bat"/>
+				<include name="bin/shutdown.sh"/>
+				<include name="client/jbossall-client.jar"/>
+				<include name="lib/*"/>
+			</zipfileset>
+			<zipfileset dir="${jboss.home}/server/default" prefix="${dist.standalone}/server/dcmcdw">
+				<include name="deploy/hsqldb-ds.xml"/>
+				<include name="deploy/jboss-jca.sar"/>
+				<include name="deploy/jboss-local-jdbc.rar"/>
+				<include name="deploy/jbossweb-tomcat50.sar/**"/>
+				<include name="deploy/jms/hsqldb-jdbc2-service.xml"/>
+				<include name="deploy/jms/jvm-il-service.xml"/>
+        		<include name="deploy/jmx-invoker-adaptor-server.sar/**"/>
+				<include name="deploy/jmx-console.war/**"/>
+				<exclude name="deploy/jmx-console.war/inspectMBean.jsp"/>
+				<exclude name="deploy/jmx-console.war/WEB-INF/web.xml"/>
+				<exclude name="deploy/jmx-console.war/WEB-INF/jboss-web.xml"/>
+				<include name="deploy/transaction-service.xml"/>
+				<include name="conf/jbossmq-state.xml"/>
+				<include name="conf/jndi.properties"/>
+				<include name="conf/login-config.xml"/>
+				<include name="conf/server.policy"/>
+				<include name="conf/web.xml"/>
+				<include name="conf/xmdesc/*"/>
+				<include name="conf/xsl/*"/>
+				<include name="lib/autonumber-plugin.jar"/>
+				<include name="lib/bcel.jar"/>
+				<include name="lib/hsqldb.jar"/>
+				<include name="lib/hsqldb-plugin.jar"/>
+				<include name="lib/javax.servlet.jar"/>
+				<include name="lib/jboss-common-jdbc-wrapper.jar"/>
+				<include name="lib/jboss-j2ee.jar"/>
+				<include name="lib/jboss-jaas.jar"/>
+				<include name="lib/jboss.jar"/>
+				<include name="lib/jboss-management.jar"/>
+				<include name="lib/jbossmq.jar"/>
+				<include name="lib/jbosssx.jar"/>
+				<include name="lib/jboss-transaction.jar"/>
+				<include name="lib/jmx-adaptor-plugin.jar"/>
+				<include name="lib/jnpserver.jar"/>
+				<include name="lib/jpl-pattern.jar"/>
+				<include name="lib/jpl-util.jar"/>
+				<include name="lib/jts.jar"/>
+				<include name="lib/log4j.jar"/>
+				<include name="lib/scheduler-plugin.jar"/>				
+			</zipfileset>
+			<zipfileset dir="${fop.home}/build" prefix="${dist.standalone}/server/dcmcdw/lib">
+				<include name="fop.jar"/>				
+			</zipfileset>
+			<zipfileset dir="${fop.home}" prefix="${dist.standalone}/server/dcmcdw">
+				<include name="lib/avalon-framework-cvs-20020806.jar"/>				
+				<include name="lib/batik.jar"/>				
+			</zipfileset>
+   		</zip>
+    </target>
+</project>

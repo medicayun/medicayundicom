@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ===================================================================== -->
+<!--  JBoss Server Configuration                                           -->
+<!-- ===================================================================== -->
+
+<server>
+
+   <!-- Load all jars from the JBOSS_DIST/server/<config>/lib directory. This
+     can be restricted to specific jars by specifying them in the archives
+     attribute.
+    -->
+   <classpath codebase="${jboss.server.lib.url:lib}" archives="*"/>
+
+   <!-- ==================================================================== -->
+   <!-- XMBean Persistence                                                   -->
+   <!-- ==================================================================== -->   
+   <mbean code="org.jboss.system.pm.AttributePersistenceService"
+      name="jboss:service=AttributePersistenceService"
+      xmbean-dd="resource:xmdesc/AttributePersistenceService-xmbean.xml">
+      <!-- the AttributePersistenceService is persistent, itself -->
+           
+      <!--
+      <attribute name="AttributePersistenceManagerClass">org.jboss.system.pm.XMLAttributePersistenceManager</attribute>
+      <attribute name="AttributePersistenceManagerConfig">
+         <data-directory>data/xmbean-attrs</data-directory>
+      </attribute>      
+      <attribute name="ApmDestroyOnServiceStop">false</attribute>
+      <attribute name="VersionTag"></attribute>
+      -->
+   </mbean>
+
+   <!-- A Thread pool service -->
+   <mbean code="org.jboss.util.threadpool.BasicThreadPool"
+      name="jboss.system:service=ThreadPool">
+      <attribute name="Name">JBoss System Threads</attribute>
+      <attribute name="ThreadGroupName">System Threads</attribute>
+      <!-- How long a thread will live without any tasks in MS -->
+      <attribute name="KeepAliveTime">60000</attribute>
+      <!-- The max number of threads in the pool -->
+      <attribute name="MaximumPoolSize">10</attribute>
+      <!-- The max number of tasks before the queue is full -->
+      <attribute name="MaximumQueueSize">1000</attribute>
+      <!-- The behavior of the pool when a task is added and the queue is full.
+      abort - a RuntimeException is thrown
+      run - the calling thread executes the task
+      wait - the calling thread blocks until the queue has room
+      discard - the task is silently discarded without being run
+      discardOldest - check to see if a task is about to complete and enque
+         the new task if possible, else run the task in the calling thread
+      -->
+      <attribute name="BlockingMode">run</attribute>
+   </mbean>
+
+   <!-- ==================================================================== -->
+   <!-- Log4j Initialization                                                 -->
+   <!-- ==================================================================== -->
+
+   <mbean code="org.jboss.logging.Log4jService"
+      name="jboss.system:type=Log4jService,service=Logging"
+	  xmbean-dd="resource:xmdesc/Log4jService-xmbean.xml">
+      <attribute name="ConfigurationURL">resource:log4j.xml</attribute>
+      <!-- Set the org.apache.log4j.helpers.LogLog.setQuiteMode. As of log4j1.2.8
+      this needs to be set to avoid a possible deadlock on exception at the
+      appender level. See bug#696819.
+      -->
+      <attribute name="Log4jQuietMode">true</attribute>
+      <!-- How frequently in seconds the ConfigurationURL is checked for changes -->
+      <attribute name="RefreshPeriod">60</attribute>
+   </mbean>
+
+
+   <!-- ==================================================================== -->
+   <!-- Monitoring and Management                                            -->
+   <!-- ==================================================================== -->
+
+   <!-- Uncomment to enable JMX monitoring of the bean cache
+   <mbean code="org.jboss.monitor.BeanCacheMonitor"
+          name="jboss.monitor:name=BeanCacheMonitor"/>
+   -->
+
+   <!-- Uncomment to enable JMX monitoring of the entity bean locking
+   <mbean code="org.jboss.monitor.EntityLockMonitor"
+          name="jboss.monitor:name=EntityLockMonitor"/>
+   -->
+
+   <!-- ==================================================================== -->
+   <!-- Deployment Scanning                                                  -->
+   <!-- ==================================================================== -->
+
+   <!-- An mbean for hot deployment/undeployment of archives.
+   -->
+   <mbean code="org.jboss.deployment.scanner.URLDeploymentScanner"
+      name="jboss.deployment:type=DeploymentScanner,flavor=URL">
+
+      <!-- Uncomment (and comment/remove version below) to enable usage of the
+        DeploymentCache
+      <depends optional-attribute-name="Deployer">jboss.deployment:type=DeploymentCache</depends>
+      -->
+      <depends optional-attribute-name="Deployer">jboss.system:service=MainDeployer</depends>
+
+      <!-- The URLComparator can be used to specify a deployment ordering
+           for deployments found in a scanned directory.  The class specified
+           must be an implementation of java.util.Comparator, it must be able
+           to compare two URL objects, and it must have a no-arg constructor.
+           Two deployment comparators are shipped with JBoss:
+             - org.jboss.deployment.DeploymentSorter
+               Sorts by file extension, as follows:
+                 "sar", "service.xml", "rar", "jar", "war", "wsr", "ear", "zip",
+                 "*"
+             - org.jboss.deployment.scanner.PrefixDeploymentSorter
+               If the name portion of the url begins with 1 or more digits, those
+               digits are converted to an int (ignoring leading zeroes), and
+               files are deployed in that order.  Files that do not start with
+               any digits will be deployed first, and they will be sorted by
+               extension as above with DeploymentSorter.
+      -->
+      <attribute name="URLComparator">org.jboss.deployment.DeploymentSorter</attribute>
+      <!--
+      <attribute name="URLComparator">org.jboss.deployment.scanner.PrefixDeploymentSorter</attribute>
+      -->
+
+      <!-- The FilterInstance specifies a URLLister.URLFilter for scanned
+           directories. This DeploymentFilter is initialized with the given
+           prefixes, suffixes and matches that define which URLs should be
+           ignored.
+      -->
+      <attribute name="FilterInstance"
+         attributeClass="org.jboss.deployment.scanner.DeploymentFilter"
+         serialDataType="javaBean">
+         <!-- Files starting with theses strings are ignored -->
+         <property name="prefixes">#,%,\,,.,_$</property>
+         <!-- Files ending with theses strings are ignored -->
+         <property name="suffixes">#,$,%,~,\,v,.BAK,.bak,.old,.orig,.tmp,.rej,.sh</property>
+         <!-- Files matching with theses strings are ignored -->
+         <property name="matches">.make.state,.nse_depinfo,CVS,CVS.admin,RCS,RCSLOG,SCCS,TAGS,core,tags</property>
+      </attribute>
+
+      <!-- Frequency in milliseconds to rescan the URLs for changes -->
+      <attribute name="ScanPeriod">5000</attribute>
+      <!-- A flag to disable the scans -->
+      <attribute name="ScanEnabled">true</attribute>
+
+      <!-- URLs are comma separated and resolve relative to the server home URL
+         unless the given path is absolute. If the URL ends in "/" it is
+         considered a collection and scanned, otherwise it is simply deployed;
+         this follows RFC2518 convention and allows discrimination between
+         collections and directories that are simply unpacked archives.
+
+         URLs may be local (file:) or remote (http:). Scanning is supported
+         for remote URLs but unpacked deployment units are not.
+
+         Example URLs:
+            deploy/
+                 scans ${jboss.server.url}/deploy/, which is local or remote
+                 depending on the URL used to boot the server
+            ${jboss.server.home}/deploy/
+                 scans ${jboss.server.home}/deploy, which is always local
+            file:/var/opt/myapp.ear
+                 deploy myapp.ear from a local location
+            file:/var/opt/apps/
+                 scans the specified directory
+            http://www.test.com/netboot/myapp.ear
+                 deploys myapp.ear from a remote location
+            http://www.test.com/netboot/apps/
+                 scans the specified WebDAV location
+       -->
+      <attribute name="URLs">
+         deploy/
+      </attribute>
+
+      <!-- Indicates if the scanner should recursively scan directories that
+      contain no "." in their names. This can be used to group applications
+      and services that must be deployed and that have the same
+      logical function in the same directory i.e.
+        deploy/JMX/
+        deploy/JMS/
+        ...
+      -->
+      <attribute name="RecursiveSearch">True</attribute>
+
+   </mbean>
+
+</server>
