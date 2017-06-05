@@ -1,0 +1,18 @@
+CREATE TABLE audit_record_old(
+	pk 				INTEGER NOT NULL IDENTITY PRIMARY KEY,
+	msg_type 		VARCHAR(256),
+	host_name 		VARCHAR_IGNORECASE(256),
+	time_stamp 		TIMESTAMP,
+	aet 			VARCHAR(256),
+	user_name 		VARCHAR(256),
+	patient_name	VARCHAR_IGNORECASE(256),
+	patient_id 		VARCHAR(256),
+	xml_data 		VARCHAR(64000)
+);
+CREATE INDEX arr_msg_type ON audit_record_old(msg_type);
+CREATE INDEX arr_host_name ON audit_record_old(host_name);
+CREATE INDEX arr_time_stamp ON audit_record_old(time_stamp);
+CREATE INDEX arr_aet ON audit_record_old(aet);
+CREATE INDEX arr_user_name ON audit_record_old(user_name);
+CREATE INDEX arr_patient_name ON audit_record_old(patient_name);
+CREATE INDEX arr_patient_id ON audit_record_old(patient_id);

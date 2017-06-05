@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Audit Record Repository</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4chee-arr.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.arr.mbean.ARRServer</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ARRServer</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getActorName"
+      setMethod="setActorName">
+      <description>Actor Name.
+      </description>
+      <name>ActorName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ARR" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPort"
+      setMethod="setPort">
+      <description>UDP listening port.
+      </description>
+      <name>Port</name>
+      <type>int</type>
+      <descriptors>
+         <value value="4000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxClients"
+      setMethod="setMaxClients">
+      <description>Maximal number of simultaneously connected clients.
+      </description>
+      <name>MaxClients</name>
+      <type>int</type>
+      <descriptors>
+         <value value="100" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-only"
+      getMethod="getNumClients">
+      <description>Current number of connected clients.
+      </description>
+      <name>NumClients</name>
+      <type>int</type>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxIdleThreads"
+      setMethod="setMaxIdleThreads">
+      <description>Maximal number of idle threads.
+      </description>
+      <name>MaxIdleThreads</name>
+      <type>int</type>
+      <descriptors>
+         <value value="5" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-only"
+      getMethod="getNumIdleThreads">
+      <description>Current number of idle threads.
+      </description>
+      <name>NumIdleThread</name>
+      <type>int</type>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
+    

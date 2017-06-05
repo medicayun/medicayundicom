@@ -1,0 +1,8 @@
+#Override with your dcm4che dist location
+dcm4che.home=../dcm4che14/build
+
+#Override with your XDoclet dist location
+xdoclet.home=${user.home}/xdoclet-1.2.2
+
+#Override with your JBoss dist location
+jboss.home=${user.home}/jboss-3.2.6

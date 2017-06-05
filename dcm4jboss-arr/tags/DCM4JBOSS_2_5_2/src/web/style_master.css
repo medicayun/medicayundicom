@@ -1,0 +1,36 @@
+BODY {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	background-color : White;
+	background-image : url(images/bg.gif);
+}
+
+H1{  
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 25px; 
+	font-weight: bold; 
+	color: #999999}
+H2 {
+	 font-family: Verdana, Arial, Helvetica, sans-serif; 
+	 font-size: 20px; 
+	 font-weight: bold; 
+	 color: #000000
+}
+H3 {
+	 font-family: Verdana, Arial, Helvetica, sans-serif; 
+	 font-size: 17px; 
+	 font-weight: bold; 
+	 color: #000000
+}
+TH {
+	background-color : #999999;
+	color: #ffffff;
+	 font-weight: bold; 
+}.bg_table {
+	background-color : #DEB887;
+}
+}.bg_cell{
+	background-color : #ffffff;
+}
+
+

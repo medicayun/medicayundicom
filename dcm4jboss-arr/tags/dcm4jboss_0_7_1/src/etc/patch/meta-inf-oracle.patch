@@ -1,0 +1,37 @@
+*** target/meta-inf-hsql/jbosscmp-jdbc.xml	Wed Mar 24 17:13:21 2004
+--- target/meta-inf-oracle/jbosscmp-jdbc.xml	Wed Mar 24 17:13:22 2004
+***************
+*** 4,10 ****
+  <jbosscmp-jdbc>
+     <defaults>
+       <datasource>java:/DefaultDS</datasource>
+!      <datasource-mapping>Hypersonic SQL</datasource-mapping>
+       <create-table>false</create-table>
+     </defaults>
+  
+--- 4,10 ----
+  <jbosscmp-jdbc>
+     <defaults>
+       <datasource>java:/DefaultDS</datasource>
+!      <datasource-mapping>Oracle9i</datasource-mapping>
+       <create-table>false</create-table>
+     </defaults>
+  
+***************
+*** 67,73 ****
+  
+          </cmp-field>
+  
+! 	<entity-command name="hsqldb-fetch-key">
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->
+--- 67,74 ----
+  
+          </cmp-field>
+  
+! 	<entity-command name="oracle-table-sequence" class="org.jboss.ejb.plugins.cmp.jdbc.keygen.JDBCOracleCreateCommand">
+! 	     <attribute name="sequence">audit_record_pk_seq</attribute>
+  	</entity-command>
+  <!-- jboss 3.2 features -->
+  <!-- optimistic locking does not express the exclusions needed -->

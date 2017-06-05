@@ -1,0 +1,153 @@
+/* ARR style sheet */
+body
+{
+	
+}
+
+a
+{
+	text-decoration: none;
+}
+
+h1
+{
+	font-size: 18pt;
+}
+
+.event
+{
+	color: green; font-weight: bold;
+}
+.event-alert
+{
+	color: red; font-weight: bold;
+}
+.event-important
+{
+	color: #DDDD00; font-weight: bold;
+}
+
+/* Generic table */
+table td
+{
+  vertical-align: top;
+}
+/* pager table */
+table.pager
+{
+  width: 100%;
+  border: thin blue ridge;
+}
+table.pager tr
+{
+  background-color: #EEEEFF;
+}
+table.pager td
+{
+  width: 50%;
+}
+/* query table */
+table.query
+{
+  /*position: fixed;
+  top: 25%;*/
+  border: thin black solid;
+}
+table.query tr.head
+{
+	background-color: #CCCCCC;
+}
+table.query td input.text
+{
+	text-align: left;
+}
+/* ARR table (used in list and view) */
+table.c1
+{
+	border: thin #FDFDDF ridge;
+	font-family: "arial";
+}
+table.c1 tr.head
+{
+	background-color: #CCCCCC;
+}
+table.c1 tr.head td
+{
+	color: black;
+	font-weight: bold;
+}
+table.c1 tr
+{
+    font-size: 14pt;
+}
+table.c1 tr.row0
+{
+    background-color: #FDFDDF;
+}
+table.c1 tr.row1
+{
+    background-color: #F0F0FD;
+}
+/* DICOM ds table */
+table.dcmds
+{
+	border: thin #FDFDDF ridge;
+	font-family: "arial";
+}
+table.dcmds tr.head
+{
+	font-size: 14pt;
+	background-color: #CCCCCC;
+}
+table.dcmds tr
+{
+    font-size: 10pt;
+}
+table.dcmds tr.row0
+{
+    background-color: #FDFDDF;
+}
+table.dcmds tr.row1
+{
+    background-color: #F0F0FD;
+}
+
+/* query button */
+.query-submit
+{
+  width: 100%;
+  font-size: 16pt;
+	background-color: #CCCCCC;
+  border: thin black solid;
+}
+
+.hostname { color: black; }
+.time { color: black; }
+.id
+{
+	color: #F5700F;
+	font-family: "courier";
+}
+.num
+{
+	color: gray;
+	font-family: "courier';
+}
+.ip
+{
+	color: #70950F;
+	font-family: "courier";
+}
+
+div.level
+{
+	border: thin #A0A0A0 solid;
+	/* padding inside div */
+	padding: 2px;
+	padding-left: 12px;
+	padding-right: 12px;
+	/* outside margin padding for lines of text above and below div */
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+

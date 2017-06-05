@@ -1,0 +1,19 @@
+CREATE SEQUENCE audit_record_pk_seq;
+CREATE TABLE audit_record(
+	pk 				NUMBER PRIMARY KEY,
+	msg_type 		VARCHAR2(255),
+	host_name 		VARCHAR2(255),
+	time_stamp 		TIMESTAMP,
+	aet 			VARCHAR2(255),
+	user_name 		VARCHAR2(255),
+	patient_name	VARCHAR2(255),
+	patient_id 		VARCHAR2(255),
+	xml_data 		CLOB
+);
+CREATE INDEX arr_msg_type ON audit_record(msg_type);
+CREATE INDEX arr_host_name ON audit_record(UPPER(host_name_up));
+CREATE INDEX arr_time_stamp ON audit_record(time_stamp);
+CREATE INDEX arr_aet ON audit_record(aet);
+CREATE INDEX arr_user_name ON audit_record(user_name);
+CREATE INDEX arr_patient_name ON audit_record(UPPER(patient_name));
+CREATE INDEX arr_patient_id ON audit_record(patient_id);

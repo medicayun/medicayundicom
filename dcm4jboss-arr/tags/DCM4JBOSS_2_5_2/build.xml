@@ -1,0 +1,348 @@
+<project default="all" name="dcm4jboss-arr">
+
+	<!-- Allow user to adjust build properties without
+	modifying this build script.
+	--> 
+	<property file="build.properties"/>
+
+	<property name="version" value="2.4.10"/>
+	<property name="javac.debug" value="on"/>	
+	<property name="javac.deprecation" value="off"/>	
+	<property name="javac.optimize" value="off"/>	
+
+    <!-- Override with your dcm4che dist location -->
+	<property name="dcm4che.home" value="../dcm4che14/build"/>		
+	<property name="dcm4che.jar" value="${dcm4che.home}/lib/dcm4che.jar"/>		
+
+    <!-- Override with your XDoclet bundle dist location -->
+	<property name="xdoclet.home" value="${user.home}/xdoclet-1.2.3"/>
+	<property name="xdoclet.lib" value="${xdoclet.home}/lib"/>
+	<property name="xdoclet.force" value="off"/>	
+	<property name="xdoclet.verbose" value="off"/>	
+
+    <!-- Override with your JBoss/Web server bundle dist location -->
+	<property name="jboss.home" value="${user.home}/jboss-4.0.2"/>		
+	<property name="servlet-api.jar" value="${jboss.server.lib.dir}/javax.servlet.jar"/>
+
+	<path id="class.path">
+		<pathelement location="${dcm4che.jar}"/>
+		<fileset dir="${jboss.home}/lib">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${jboss.home}/server/default/lib">
+			<include name="*.jar"/>
+		</fileset>
+		<pathelement location="${servlet-api.jar}"/>
+	</path>
+	
+	<path id="xdoclet.path">
+		<path refid="class.path"/>
+		<fileset dir="${xdoclet.home}/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+    <target name="ejbdoclet">
+        <taskdef
+            name="ejbdoclet"
+            classname="xdoclet.modules.ejb.EjbDocletTask"
+            classpathref="xdoclet.path"
+            />
+        <ejbdoclet
+            destdir="${basedir}/target/java"
+            excludedtags="@version,@author,@todo,@since"
+            addedtags="@xdoclet-generated at ${TODAY},@copyright The XDoclet Team,@author XDoclet,@version ${version}"
+            ejbspec="2.0"
+            force="${xdoclet.force}"
+            verbose="${xdoclet.verbose}"
+            >
+
+            <fileset dir="${basedir}/src/java">
+                <include name="**/ejb/*/*Bean.java"/>
+            </fileset>
+
+            <remoteinterface/>
+            <localinterface/>
+            <homeinterface/>
+            <localhomeinterface/>
+
+            <!--dataobject/-->
+            <!--valueobject/-->
+
+            <!--entitypk/-->
+
+            <entitycmp/>
+            <!--entitybmp/-->
+            <session/>
+
+            <!--dao>
+                <packageSubstitution packages="ejb" substituteWith="dao"/>
+            </dao-->
+
+            <!--utilobject cacheHomes="true" includeGUID="false"/-->
+
+            <deploymentdescriptor
+                destdir="${basedir}/target/meta-inf-hsql"
+                validatexml="true"
+                description="dcm4jboss arr EJBs"
+                >
+                <!--configParam name="clientjar" value="blah.jar"/-->
+            </deploymentdescriptor>
+
+
+            <jboss
+                version="3.2"
+                unauthenticatedPrincipal="nobody"
+                xmlencoding="UTF-8"
+                destdir="${basedir}/target/meta-inf-hsql"
+                validatexml="true"
+                datasource="java:/DefaultDS"
+                typeMapping="Hypersonic SQL"                  
+                createTable="false"                  
+                />
+            
+        </ejbdoclet>
+    </target>
+
+   <target name="meta-inf-psql" unless="meta-inf-psql.notRequired">
+    	<copy todir="${basedir}/target/meta-inf-psql">
+    		<fileset dir="${basedir}/target/meta-inf-hsql"/>
+    	</copy>
+    	<replace dir="${basedir}/target/meta-inf-psql">
+  			<replacefilter
+  				token="DefaultDS"
+  				value="PostgresDS"/>
+  			<replacefilter
+  				token="Hypersonic SQL"
+  				value="PostgreSQL 7.2"/>
+  			<replacefilter
+  				token="hsqldb-fetch-key"
+  				value="postgresql-fetch-seq"/>
+		</replace>
+    </target>
+
+   <target name="meta-inf-mysql" unless="meta-inf-mysql.notRequired">
+    	<copy todir="${basedir}/target/meta-inf-mysql">
+    		<fileset dir="${basedir}/target/meta-inf-hsql"/>
+    	</copy>
+    	<replace dir="${basedir}/target/meta-inf-mysql">
+  			<replacefilter
+  				token="DefaultDS"
+  				value="MySqlDS"/>
+  			<replacefilter
+  				token="Hypersonic SQL"
+  				value="mySQL"/>
+  			<replacefilter
+  				token="hsqldb-fetch-key"
+  				value="mysql-get-generated-keys"/>
+		</replace>
+    </target>
+
+    <target name="meta-inf-oracle" unless="meta-inf-oracle.notRequired">
+    	<copy todir="${basedir}/target/meta-inf-oracle">
+    		<fileset dir="${basedir}/target/meta-inf-hsql"/>
+    	</copy>
+    	<patch
+    		patchfile="${basedir}/src/etc/patch/meta-inf-oracle.patch"
+    		originalfile="${basedir}/target/meta-inf-oracle/jbosscmp-jdbc.xml"
+    	/>
+    	<replace dir="${basedir}/target/meta-inf-oracle" excludes="jbosscmp-jdbc.xml">
+  			<replacefilter
+  				token="DefaultDS"
+  				value="OracleDS"/>
+  			<replacefilter
+  				token="Hypersonic SQL"
+  				value="Oracle9i"/>
+		</replace>
+    </target>
+
+    <target name="meta-inf-db2" unless="meta-inf-db2.notRequired">
+    	<copy todir="${basedir}/target/meta-inf-db2">
+    		<fileset dir="${basedir}/target/meta-inf-hsql"/>
+    	</copy>
+    	<patch
+    		patchfile="${basedir}/src/etc/patch/meta-inf-db2.patch"
+    		originalfile="${basedir}/target/meta-inf-db2/jbosscmp-jdbc.xml"
+    	/>
+    	<replace dir="${basedir}/target/meta-inf-db2" excludes="jbosscmp-jdbc.xml">
+  			<replacefilter
+  				token="DefaultDS"
+  				value="DB2DS"/>
+  			<replacefilter
+  				token="Hypersonic SQL"
+  				value="DB2"/>
+		</replace>
+    </target>
+    
+
+   <target name="webdoclet">
+        <taskdef
+            name="webdoclet"
+            classname="xdoclet.modules.web.WebDocletTask"
+            classpathref="xdoclet.path"
+        />
+        
+        <webdoclet
+            destdir="${basedir}/target/java"
+            mergedir="${basedir}/src/etc/merge"
+            excludedtags="@version,@author,@todo"
+            force="${xdoclet.force}"
+            verbose="${xdoclet.verbose}"
+            >
+            
+            <fileset dir="${basedir}/src/java">
+                <include name="**/web/*Servlet.java"/>
+            </fileset>
+            
+            <deploymentdescriptor servletspec="2.3"
+            	destdir="${basedir}/target/web-inf"
+            	distributable="false"
+            >
+	            <welcomefile file="/index.jsp"/>
+            </deploymentdescriptor>
+            
+            <jbosswebxml destdir="${basedir}/target/web-inf"
+                securitydomain="java:/jaas/dcm4jboss-arr" />
+        
+        </webdoclet>
+    </target>
+	
+
+	<target name="compile" depends="ejbdoclet,webdoclet">
+		<mkdir dir="${basedir}/target/classes"/>
+		<javac
+        	destdir="${basedir}/target/classes"
+			debug="${javac.debug}"
+         	deprecation="${javac.deprecation}"
+         	optimize="${javac.optimize}"
+         	classpathref="class.path"
+      	>
+         	<src path="${basedir}/src/java"/>
+        	<src path="${basedir}/target/java"/>
+      	</javac>
+	</target>
+
+    <target name="jar" depends="hsql-jar,psql-jar,mysql-jar,oracle-jar,db2-jar,common-jar"/>
+    <target name="hsql-jar" depends="compile" unless="hsql.nobuild">
+    	<antcall target="ejb-jar">
+    		<param name="db.name" value="hsql"/>
+    	</antcall>
+    </target>
+
+    <target name="psql-jar" depends="compile" unless="psql.nobuild">
+    	<uptodate property="meta-inf-psql.notRequired"
+    		srcfile="${basedir}/target/meta-inf-hsql/jbosscmp-jdbc.xml"
+    		targetfile="${basedir}/target/meta-inf-psql/jbosscmp-jdbc.xml"
+    	/>
+    	<antcall target="meta-inf-psql"/> 
+    	<antcall target="ejb-jar">
+    		<param name="db.name" value="psql"/>
+    	</antcall>
+    </target>
+
+     <target name="mysql-jar" depends="compile" unless="mysql.nobuild">
+    	<uptodate property="meta-inf-mysql.notRequired"
+    		srcfile="${basedir}/target/meta-inf-hsql/jbosscmp-jdbc.xml"
+    		targetfile="${basedir}/target/meta-inf-mysql/jbosscmp-jdbc.xml"
+    	/>
+    	<antcall target="meta-inf-mysql"/> 
+    	<antcall target="ejb-jar">
+    		<param name="db.name" value="mysql"/>
+    	</antcall>
+    </target>
+
+    <target name="db2-jar" depends="compile" unless="db2.nobuild">
+    	<uptodate property="meta-inf-db2.notRequired"
+    		srcfile="${basedir}/target/meta-inf-hsql/jbosscmp-jdbc.xml"
+    		targetfile="${basedir}/target/meta-inf-db2/jbosscmp-jdbc.xml"
+    	/>
+    	<antcall target="meta-inf-db2"/>
+    	<antcall target="ejb-jar">
+    		<param name="db.name" value="db2"/>
+    	</antcall>
+    </target>
+
+    <target name="oracle-jar" depends="compile" unless="oracle.nobuild">
+    	<uptodate property="meta-inf-oracle.notRequired"
+    		srcfile="${basedir}/target/meta-inf-hsql/jbosscmp-jdbc.xml"
+    		targetfile="${basedir}/target/meta-inf-oracle/jbosscmp-jdbc.xml"
+    	/>
+    	<antcall target="meta-inf-oracle"/>
+    	<antcall target="ejb-jar">
+    		<param name="db.name" value="oracle"/>
+    	</antcall>
+    </target>
+
+    <target name="ejb-jar">
+		<mkdir dir="${basedir}/target/${db.name}/deploy"/>
+        <jar jarfile="${basedir}/target/${db.name}/deploy/dcm4jboss-arr-ejb.jar">
+        	<metainf dir="${basedir}/target/meta-inf-${db.name}"/>
+        	<manifest>
+				<attribute name="Implementation-Title" value="dcm4jboss-arr-ejb"/>
+				<attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+				<attribute name="Implementation-Vendor" value="Tiani Medgraph AG"/>
+        	</manifest>
+        	<fileset dir="${basedir}/target/classes">
+                <include name="org/dcm4chex/arr/ejb/**" />
+                <exclude name="org/dcm4chex/arr/ejb/session/*Local*" />
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="common-jar" depends="compile">
+	<mkdir dir="${basedir}/target/common/lib"/>
+        <jar jarfile="${basedir}/target/common/lib/dcm4jboss-arr-ejb-client.jar">
+        	<manifest>
+				<attribute name="Implementation-Title" value="dcm4jboss-arr"/>
+				<attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+				<attribute name="Implementation-Vendor" value="Tiani Medgraph AG"/>
+        	</manifest>
+        	<fileset dir="${basedir}/target/classes">
+                <include name="org/dcm4chex/arr/ejb/session/*Local*" />
+            </fileset>
+        </jar>
+        <jar jarfile="${basedir}/target/common/lib/dcm4jboss-arr.jar">
+        	<manifest>
+				<attribute name="Implementation-Title" value="dcm4jboss-arr"/>
+				<attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+				<attribute name="Implementation-Vendor" value="Tiani Medgraph AG"/>
+        	</manifest>
+        	<fileset dir="${basedir}/target/classes">
+                <include name="**/mbean/**" />
+            </fileset>
+        </jar>
+        <jar jarfile="${basedir}/target/common/lib/dcm4jboss-arr-login.jar">
+        	<manifest>
+				<attribute name="Implementation-Title" value="dcm4jboss-arr-login"/>
+				<attribute name="Implementation-Version" value="${version} ${TODAY}"/> 
+				<attribute name="Implementation-Vendor" value="Tiani Medgraph AG"/>
+        	</manifest>
+        	<fileset dir="${basedir}/target/classes">
+                <include name="**/security/**" />
+            </fileset>
+        </jar>
+    </target>
+
+	<target name="war" depends="compile">
+		<mkdir dir="${basedir}/target/common/deploy"/>
+        <war
+            warfile="${basedir}/target/common/deploy/dcm4jboss-arr.war"
+            webxml="${basedir}/target/web-inf/web.xml"
+        >
+            <webinf dir="${basedir}/target/web-inf" includes="jboss-web.xml"/>
+            <webinf dir="${basedir}/src/resources" includes="xslt/*.xsl"/>
+            <classes dir="${basedir}/target/classes">
+                <include name="**/web/**"/>
+            </classes>
+            <fileset dir="${basedir}/src/web" includes="*.jsp,*.css,images/*.jpg,images/*.gif,js/*.js"/>
+        </war>
+
+	</target>
+
+	<target name="all" depends="jar,war"/>
+
+   	<target name="clean">
+     	<delete dir="${basedir}/target"/>
+   	</target>
+
+</project>

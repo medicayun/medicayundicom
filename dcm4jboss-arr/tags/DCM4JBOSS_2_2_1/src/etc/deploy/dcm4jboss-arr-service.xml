@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: dcm4jboss-arr-service.xml 4396 2005-01-10 01:14:55Z gunterze $ -->
+<server>
+  <classpath codebase="lib" archives="dcm4jboss-arr.jar"/>
+  <mbean code="org.dcm4chex.arr.mbean.ARRServer" 
+         name="tiani.audit:service=AuditRecordRepository"
+         xmbean-dd="xmdesc/dcm4jboss-arr-xmbean.xml">
+    <depends>jboss.j2ee:service=EJB,jndiName=ejb/AuditRecord</depends>
+    <depends>jboss.j2ee:service=EJB,jndiName=ejb/StoreAuditRecord</depends>
+  </mbean>
+</server>

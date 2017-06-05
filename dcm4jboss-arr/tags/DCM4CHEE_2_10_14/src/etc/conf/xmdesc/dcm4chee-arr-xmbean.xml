@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<mbean>
+   <description>Audit Record Repository</description>
+
+   <descriptors>
+      <persistence persistPolicy="OnUpdate"
+         persistPeriod="10"
+         persistLocation="${jboss.server.data.dir}"
+         persistName="dcm4chee-arr.ser"/>
+      <persistence-manager value="org.jboss.mx.persistence.ObjectStreamPersistenceManager" />
+   </descriptors>
+
+   <class>org.dcm4chex.arr.mbean.ARRServer</class>
+
+   <constructor>
+      <description>The default constructor</description>
+      <name>ARRServer</name>
+   </constructor>
+
+   <!-- Attributes -->
+   <attribute access="read-write"
+      getMethod="getActorName"
+      setMethod="setActorName">
+      <description>Actor Name.
+      </description>
+      <name>ActorName</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="ARR" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getPort"
+      setMethod="setPort">
+      <description>UDP listening port.
+      </description>
+      <name>Port</name>
+      <type>int</type>
+      <descriptors>
+         <value value="4000" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getLocalAddress"
+      setMethod="setLocalAddress">
+      <description>Bound UDP socket to the specified local address. 
+      If the IP address is 0.0.0.0, the socket will be bound to the wildcard
+      address, an IP address chosen by the kernel.
+      </description>
+      <name>LocalAddress</name>
+      <type>java.lang.String</type>
+      <descriptors>
+         <value value="0.0.0.0" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getMaxPacketSize"
+      setMethod="setMaxPacketSize">
+      <description>Maximal UDP Packet size. Larger messages will be truncated.
+      </description>
+      <name>MaxPacketSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="65507" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-write"
+      getMethod="getReceiveBufferSize"
+      setMethod="setReceiveBufferSize">
+      <description>UDP receive buffer size. Increasing the receive buffer may
+      allow the network implementation to buffer multiple packets when packets 
+      arrive faster than are being processed.
+      </description>
+      <name>ReceiveBufferSize</name>
+      <type>int</type>
+      <descriptors>
+         <value value="0" />
+      </descriptors>
+   </attribute>
+   <attribute access="read-only"
+      getMethod="isRunning">
+      <description>Indicates if UDP Server is listening.
+      </description>
+      <name>Running</name>
+      <type>boolean</type>
+   </attribute>
+   <attribute access="read-only"
+      getMethod="getLastStartedAt">
+      <description>Date/Time when the server was started.
+      </description>
+      <name>LastStartedAt</name>
+      <type>java.util.Date</type>
+   </attribute>
+   <attribute access="read-only"
+      getMethod="getLastStoppedAt">
+      <description>Date/Time when the server was stopped.
+      </description>
+      <name>LastStoppedAt</name>
+      <type>java.util.Date</type>
+   </attribute>
+   &defaultAttributes;
+
+   <!-- Operations -->
+   &defaultOperations;
+</mbean>
+    

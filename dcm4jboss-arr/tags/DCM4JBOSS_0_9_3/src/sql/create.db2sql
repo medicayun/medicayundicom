@@ -1,0 +1,29 @@
+CONNECT TO tiani;
+SET CURRENT SCHEMA TIANI;
+
+CREATE SEQUENCE audit_record_pk_seq;
+CREATE TABLE audit_record(
+	pk          	INTEGER PRIMARY KEY NOT NULL,
+	msg_type 		VARCHAR(254),
+	host_name 		VARCHAR(254),
+	host_name_up    GENERATED ALWAYS AS (UPPER(host_name)),	
+	time_stamp 		TIMESTAMP,
+	aet 			VARCHAR(254),
+	user_name 		VARCHAR(254),
+	patient_name	VARCHAR(254),
+	patient_name_up GENERATED ALWAYS AS (UPPER(patient_name)),	
+	patient_id 		VARCHAR(254),
+	xml_data 		CLOB(64000)
+);
+CREATE INDEX arr_msg_type ON audit_record(msg_type);
+CREATE INDEX arr_host_name ON audit_record(host_name_up);
+CREATE INDEX arr_time_stamp ON audit_record(time_stamp);
+CREATE INDEX arr_aet ON audit_record(aet);
+CREATE INDEX arr_user_name ON audit_record(user_name);
+CREATE INDEX arr_patient_name ON audit_record(patient_name_up);
+CREATE INDEX arr_patient_id ON audit_record(patient_id);
+
+GRANT ALL PRIVILEGES ON TABLE audit_record TO USER tiani;
+GRANT USAGE ON SEQUENCE audit_record_pk_seq TO USER tiani;
+
+TERMINATE;

@@ -1,0 +1,18 @@
+CREATE TABLE audit_record(
+	pk 				INTEGER AUTO_INCREMENT PRIMARY KEY,
+	msg_type 		VARCHAR(250) BINARY,
+	host_name 		VARCHAR(250) BINARY,
+	time_stamp 		DATETIME,
+	aet 			VARCHAR(250) BINARY,
+	user_name 		VARCHAR(250) BINARY,
+	patient_name	VARCHAR(250) BINARY,
+	patient_id 		VARCHAR(250) BINARY,
+	xml_data 		TEXT
+);
+CREATE INDEX arr_msg_type ON audit_record(msg_type);
+CREATE INDEX arr_host_name ON audit_record(host_name);
+CREATE INDEX arr_time_stamp ON audit_record(time_stamp);
+CREATE INDEX arr_aet ON audit_record(aet);
+CREATE INDEX arr_user_name ON audit_record(user_name);
+CREATE INDEX arr_patient_name ON audit_record(patient_name);
+CREATE INDEX arr_patient_id ON audit_record(patient_id);

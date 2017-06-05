@@ -1,0 +1,23 @@
+--- target/meta-inf-hsql/jbosscmp-jdbc.xml	2004-10-18 02:13:56.000000000 +0200
++++ target/meta-inf-oracle/jbosscmp-jdbc.xml	2004-10-18 02:13:58.000000000 +0200
+@@ -3,8 +3,8 @@
+ 
+ <jbosscmp-jdbc>
+    <defaults>
+-     <datasource>java:/DefaultDS</datasource>
+-     <datasource-mapping>Hypersonic SQL</datasource-mapping>
++     <datasource>java:/OracleDS</datasource>
++     <datasource-mapping>Oracle9i</datasource-mapping>
+      <create-table>false</create-table>
+    </defaults>
+ 
+@@ -68,7 +68,8 @@
+ 
+         </cmp-field>
+ 
+-	<entity-command name="hsqldb-fetch-key">
++	<entity-command name="oracle-table-sequence" class="org.jboss.ejb.plugins.cmp.jdbc.keygen.JDBCOracleCreateCommand">
++	     <attribute name="sequence">audit_record_pk_seq</attribute>
+ 	</entity-command>
+ <!-- jboss 3.2 features -->
+ <!-- optimistic locking does not express the exclusions needed -->

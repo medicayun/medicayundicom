@@ -1,0 +1,1 @@
+<jsp:forward page="arr-list.do" />

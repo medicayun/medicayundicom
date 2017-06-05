@@ -1,0 +1,25 @@
+<!-- A security constraint that restricts access to the auditrep servlet
+to users with the role JBossAdmin. -->
+<security-constraint>
+	<web-resource-collection>
+		<web-resource-name>AuditRep</web-resource-name>
+    	<description>description</description>
+    	<url-pattern>/*</url-pattern>
+    	<http-method>GET</http-method>
+    	<http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+    	<role-name>arr-user</role-name>
+	</auth-constraint>
+</security-constraint>
+
+<!-- login conf -->
+<login-config>
+	<auth-method>BASIC</auth-method>
+  	<realm-name>Audit Record Repository</realm-name>
+</login-config>
+
+<!-- security role -->
+<security-role>
+	<role-name>arr-user</role-name>
+</security-role>
